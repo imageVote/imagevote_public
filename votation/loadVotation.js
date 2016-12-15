@@ -115,7 +115,7 @@ function loadImage(data, keyId) {
             saveDefaultValues(user.vt);
 
             console.log(obj);
-            fillTable("#votationBox", obj);
+            new fillTable("#votationBox", obj);
 
             //buttons
             showVotation(obj.users);
@@ -185,7 +185,7 @@ LoadVotation_parseUserVotes = function(data, divQuery, callback) {
         $("#votation").prepend(ownerDiv);
     }
 
-    fillTable(divQuery, obj);
+    new fillTable(divQuery, obj);
     callback(obj);
 };
 
