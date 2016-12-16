@@ -447,4 +447,9 @@ function browser() {
         M.splice(1, 1, tem[1]);
     return M[0].toLowerCase();
 }
-;
+
+//http://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript
+function is_touch_device() {
+  return 'ontouchstart' in window        // works on most browsers 
+      || navigator.maxTouchPoints;       // works on IE10/11 and Surface
+};

@@ -168,6 +168,7 @@ a:hover{
 }
 #creator{
     display: block;
+    margin-bottom: 20px;
 }
 
 #users table{
@@ -246,10 +247,9 @@ input{
     max-width: 100% !important;
 }
 
-#creator .options{
+#creator table{
     width: 100%;
     border-collapse: collapse;
-    text-align: center;
 }
 /*#creator > *{
     margin: 3px 0;
@@ -384,11 +384,18 @@ input{
     /*margin-top: 10px;*/
 }
 
-.votation table .option{
+.option{
     /*overflow: hidden;*/
     /*padding-left: 5px;*/
     /*this breaks word only if only 1 large word like 'aaa+bbb+ccc'*/
     word-break: break-word;
+}
+
+.option table {
+    -webkit-transition: all 300ms;
+    -moz-transition: all 300ms;
+    -o-transition: all 300ms;
+    transition: all 300ms;
 }
 
 .votation table .result{
@@ -818,7 +825,10 @@ html:not(.withoutHeader) .pollsView{
 }
 
 .full_screen{
+    position: absolute !important;
     z-index: 1;
+    /*    opacity: 1 !important;
+        padding: 0 !important;*/
 }
 
 body > .option > *{
@@ -829,5 +839,6 @@ body > .option > *{
 }
 
 .option_text{
-    font-size: 6vw;
+    margin: 0 5px;
 }
+

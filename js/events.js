@@ -9,7 +9,7 @@
 //}
 
 // Only Chrome & Opera pass the error object.
-window.onerror = function(msg, url, line, col, err) {
+window.onerror = function (msg, url, line, col, err) {
     var extra = !col ? '' : '\ncolumn: ' + col;
     extra += !err ? '' : '\nerror: ' + err;
     var errorMmessage = "; Error: " + msg + "\nurl: " + url + "\nline: " + line + extra + "; ";
@@ -20,7 +20,7 @@ window.onerror = function(msg, url, line, col, err) {
     error(errorMmessage, arguments.callee.caller);
 };
 // Only Chrome & Opera have an error attribute on the event.
-window.addEventListener("error", function(e) {
+window.addEventListener("error", function (e) {
     console.log(e.error.message, "from", e.error.stack);
 });
 
@@ -94,7 +94,7 @@ function loadHash(hash) {
 
     } else {
         //keep complete url for assets
-        if( location.hash == hash){
+        if (location.hash == hash) {
             location.reload();
             return;
         }
@@ -143,10 +143,10 @@ function hashChanged(hash) {
     }
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     window.lastKeyAsk = 0;
-    $("#create").click(function() {
+    $("#create").click(function () {
         console.log("CREATE");
         $("#errorLog").html("");
 
@@ -167,14 +167,14 @@ $(document).ready(function() {
     });
 
     //first time app
-    $("#firstOk").click(function() {
+    $("#firstOk").click(function () {
         if (Device) {
             Device.firstTimeOk();
         } else {
             loadHash("home");
         }
     });
-    $("#firstCreate").click(function() {
+    $("#firstCreate").click(function () {
         loadHash("home");
     });
     //
@@ -185,7 +185,7 @@ $(document).ready(function() {
     $("#options").attr("rows", rows);
     var maxRows = $("#options").attr('rows');
     var rowsOverflow = false;
-    $("#options").keydown(function(e) {
+    $("#options").keydown(function (e) {
 
         if (rowsOverflow) {
             var len = $(this).val().split("\n").length;
@@ -206,7 +206,7 @@ $(document).ready(function() {
 
     });
 
-    $('#question').keydown(function(e) {
+    $('#question').keydown(function (e) {
         var lines = $(this).attr("rows");
         var newLines = $(this).val().split("\n").length;
         if (e.keyCode == 13 && newLines >= lines) {
@@ -215,7 +215,7 @@ $(document).ready(function() {
     });
 
     var storedHeight;
-    $("#showPolls").on("tap", function(e) {
+    $("#showPolls").on("tap", function (e) {
         var _this = $(this);
         e.preventDefault();
 
@@ -225,7 +225,7 @@ $(document).ready(function() {
             _this.text(lang["showYourPolls"]);
 
             $("#stored").css("height", $("#stored").css("height"));
-            setTimeout(function() {
+            setTimeout(function () {
                 $("#stored").css("height", 0);
             }, 1);
             return;
@@ -240,18 +240,18 @@ $(document).ready(function() {
         }
 
         //if to show
-        setTimeout(function() {
+        setTimeout(function () {
             $("#stored").css("height", storedHeight + "px");
         }, 1);
 
-        setTimeout(function() {
+        setTimeout(function () {
             _this.text(lang["hidePolls"]);
             _this.addClass("hide");
             $("#stored").css("height", "auto");
         }, 300);
     });
 
-    $("#toPolls").click(function() {
+    $("#toPolls").click(function () {
 //        if ($("#polls").length) {
 //            $("#body").addClass("pollsView");
 //            $("#voteHeader").hide();
@@ -270,34 +270,36 @@ $(document).ready(function() {
         loadHash("polls");
     });
 
-    $("#newPoll").click(function() {
+    $("#newPoll").click(function () {
 //        newPollView();
         loadHash("home");
     });
 
-    $(document).on("swiperight", function(e) {
-        newPollView();
+    if (is_touch_device()) {
+        $(document).on("swiperight", function (e) {
+            newPollView();
 
-    }).on("swipeleft", function() {
-        if (!$("#p_menu").hasClass("p_show") && !$("#body").hasClass("swiping")) {
-            pollsView();
-        }
-    });
+        }).on("swipeleft", function () {
+            if (!$("#p_menu").hasClass("p_show") && !$("#body").hasClass("swiping")) {
+                pollsView();
+            }
+        });
+    }
 
-    newPollView = function() {
+    newPollView = function () {
         if ($("#body").hasClass("pollsView")) {
             $("#body").removeClass("pollsView");
             $("#pollsHeader").hide();
             $("#voteHeader").show();
 
             $("#body").addClass("swiping");
-            setTimeout(function() {
+            setTimeout(function () {
                 $("#body").removeClass("swiping");
             }, 1);
         }
     };
 
-    pollsView = function() {
+    pollsView = function () {
         $("#body").addClass("pollsView");
 
         $("#voteHeader").hide();
@@ -308,7 +310,7 @@ $(document).ready(function() {
             $("#loading").hide();
 
         } else {
-            $("#pollsPage").load("~polls/polls.html", function(response, status, xhr) {
+            $("#pollsPage").load("~polls/polls.html", function (response, status, xhr) {
                 $("#loading").hide();
 
                 if (status == "error") {
