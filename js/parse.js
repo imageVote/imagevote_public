@@ -19,7 +19,7 @@ function getUserArray(user) {
     //like name on private polls    
     //needs to be defined in defaultStyle because is array type stored (not by attr)
     var style = screenPoll.style;
-    if (style.extraValues) {
+    if (style && style.extraValues) {
         for (var i = 0; i < style.extraValues.length; i++) {
             var key = style.extraValues[i];
             if (user[key]) {

@@ -8,28 +8,30 @@ function showVotation(users) {
     $("#votation").show();
 
     var style = screenPoll.style;
-    for (var i = 0; i < style.extraValues.length; i++) {
-        if ("nm" == style.extraValues[i]) {
-            var nameIndex = 2 + i;
-            var someName = false;
+    if (style && style.extraValues) {
+        for (var i = 0; i < style.extraValues.length; i++) {
+            if ("nm" == style.extraValues[i]) {
+                var nameIndex = 2 + i;
+                var someName = false;
 
-            if (users) {
-                for (var id in users) {
-                    var user = users[id];
-                    if (user[nameIndex] && (user[1] || 0 === user[1])) {
-                        console.log("some name exists: " + user[nameIndex] + " , " + user[1]);
-                        someName = true;
-                        break;
+                if (users) {
+                    for (var id in users) {
+                        var user = users[id];
+                        if (user[nameIndex] && (user[1] || 0 === user[1])) {
+                            console.log("some name exists: " + user[nameIndex] + " , " + user[1]);
+                            someName = true;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if (!someName) {
-                console.log("any 'nm' in obj.users - disable button");
-                $('#usersButton').addClass("disabled");
+                if (!someName) {
+                    console.log("any 'nm' in obj.users - disable button");
+                    $('#usersButton').addClass("disabled");
+                }
+                //break 'nm' value search
+                break;
             }
-            //break 'nm' value search
-            break;
         }
     }
 
@@ -75,8 +77,8 @@ function saveToShare() {
 function checkShareEnvirontment() {
     //ANDROID BROWSER CASE (or TWITTER APP!)
     if (window.isAndroid && !window.Device) {
-        var intentUrl = "intent://click-to-vote.at/#Intent;";
-        detectAndroidIntent(intentUrl, function(intentLoads) {
+        var intentUrl = "intent://" + window.appPath + "/#Intent;";
+        detectAndroidIntent(intentUrl, function (intentLoads) {
             console.log("intentLoads: " + intentLoads);
             window.preventSendEvents = true;
 
@@ -98,23 +100,23 @@ function checkShareEnvirontment() {
                 //not detects any intent (not installed app)
             } else {
                 var link = "https://play.google.com/store/apps/details?id=at.clicktovote";
-                $("#send").one("click", function() {
+                $("#send").one("click", function () {
                     window.open(link, "_blank");
                 });
                 var err = notice(transl("notInApp"));
-                err.click(function() {
+                err.click(function () {
                     window.open(link, "_blank");
                 });
 
             }
 
             //return all to normality
-            $("#send").one("click", function() {
+            $("#send").one("click", function () {
                 //prevent any send click
-                setTimeout(function() {
+                setTimeout(function () {
                     window.preventSendEvents = false;
 
-                    $(".intentLink").each(function() {
+                    $(".intentLink").each(function () {
                         $(this).find(" > *:eq(0)").unwrap();
                     });
                 }, 500);
@@ -166,10 +168,10 @@ function askUserName() {
     }
 
     //on public change
-    $(document).on("public", function() {
+    $(document).on("public", function () {
         no_requiredName();
     });
-    $(document).on("private", function() {
+    $(document).on("private", function () {
         requiredName();
     });
 }
@@ -178,7 +180,7 @@ function requiredName() {
     $("#userNameContainer").removeClass("hideHeight");
     $("#send").off(".requiredName"); //clean
 
-    $("#send").on("click.requiredName", function(e) {
+    $("#send").on("click.requiredName", function (e) {
         var votes = screenPoll.obj.users[userId][1];
         if (!$("#userNamePoll").val()
                 && (votes || 0 === votes)) {
@@ -194,7 +196,7 @@ function no_requiredName() {
 ///////////////////////////////////////////////////////////////////////////////
 //PRIVATE FUNCTIONS
 
-VotationInterface_addButtons = function() {
+VotationInterface_addButtons = function () {
     var buttonsHTML = "<div id='defaultButtons'>"
             + "<button id='send' class='share'><em></em><span>" + transl("Share") + "</span></button>"
             + "<button id='cancel'>" + transl("Cancel") + "</button>"
@@ -211,10 +213,10 @@ VotationInterface_addButtons = function() {
     checkShareEnvirontment();
 };
 
-VotationInterface_buttonsEvents = function() {
+VotationInterface_buttonsEvents = function () {
 //    checkShareEnvirontment();
 
-    $("#send").click(function(e) {
+    $("#send").click(function (e) {
         if (window.preventSendEvents) {
             return;
         }
@@ -229,10 +231,13 @@ VotationInterface_buttonsEvents = function() {
         //IF SAVE and/or SHARE
         //prevent sav and share if premium cose not key con be loaded!
         if ($("#send").hasClass("saveAndShare")) {
+            if (!obj.users) {
+                obj.users = [];
+            }
             //save user on screenPoll 'obj' (1st time)
             obj.users[window.userId] = getUserArray(window.user);
 
-            VotationInterface_saveButton("create", obj, function(done) {
+            VotationInterface_saveButton("create", obj, function (done) {
                 if (false === done) {
                     $(".absoluteLoading").remove();
                     return;
@@ -241,14 +246,14 @@ VotationInterface_buttonsEvents = function() {
                 localStorage.setItem("unusedKey", "");
                 //not save anymore
                 //$("#send").attr("class", "share");
-                VotationInterface_shareButton(function() {
+                VotationInterface_shareButton(function () {
                     $(".absoluteLoading").remove();
                 });
             });
 
         } else if (!$("#send").hasClass("share")) { //class is save
             $("#send").attr("disabled", "disabled");
-            VotationInterface_saveButton("update", obj, function(done) {
+            VotationInterface_saveButton("update", obj, function (done) {
                 $(".absoluteLoading").remove();
                 if (false !== done) {
                     saveToShare();
@@ -256,13 +261,13 @@ VotationInterface_buttonsEvents = function() {
             });
 
         } else { //share
-            VotationInterface_shareButton(function() {
+            VotationInterface_shareButton(function () {
                 $(".absoluteLoading").remove();
             });
         }
     });
 
-    $("#cancel").click(function() {
+    $("#cancel").click(function () {
         if (window.isTranslucent) {
             if (window.Device) {
                 console.log("closing.. window.isTranslucent: " + window.isTranslucent);
@@ -296,7 +301,7 @@ VotationInterface_buttonsEvents = function() {
     });
 
     //voters users
-    $("#usersButton").click(function() {
+    $("#usersButton").click(function () {
         var obj = screenPoll.obj;
         var users = obj.users;
         $("#users .list").html("");
@@ -315,7 +320,7 @@ VotationInterface_buttonsEvents = function() {
         for (var id in users) {
             arrUsers.push(users[id]);
         }
-        arrUsers.sort(function(a, b) {
+        arrUsers.sort(function (a, b) {
             return a[nameIndex].localeCompare(b[nameIndex]);
         });
 
@@ -375,15 +380,15 @@ VotationInterface_buttonsEvents = function() {
     });
 };
 
-VotationInterface_notSave = function() {
-    console.log("VotationInterface_notSave");
+VotationInterface_notSave = function (why) {
+    console.log("VotationInterface_notSave: " + why);
     $("#send").removeAttr("disabled");
 };
 
 var sharingPoll = false;
 var _ajaxKeyWaiting = 0;
 //not pass obj for function. this is a Device function.
-VotationInterface_shareButton = function(callback) {
+VotationInterface_shareButton = function (callback) {
     var _args = arguments;
 
     if (!sharingPoll) {
@@ -404,7 +409,7 @@ VotationInterface_shareButton = function(callback) {
         }
         _ajaxKeyWaiting++;
 
-        setTimeout(function() {
+        setTimeout(function () {
             console.log("waiting ajax key..");
             VotationInterface_shareButton.apply(this, _args);
         }, 700);
@@ -441,7 +446,7 @@ VotationInterface_shareButton = function(callback) {
 
         var width = null;
         var list = null;
-        getCanvasImage(divQuery, screenPoll.obj, keyId, width, list, function(image) {
+        getCanvasImage(divQuery, screenPoll.obj, keyId, width, list, function (image) {
             imgData = image;
             if (window.Device) {
                 Device.share(imgData, keyId);
@@ -485,7 +490,7 @@ function listCookies() {
 }
 
 var savingPoll = false;
-VotationInterface_saveButton = function(action, obj, callback) {
+VotationInterface_saveButton = function (action, obj, callback) {
     var _args = arguments;
 
     console.log("VotationInterface_shareButton screenPoll");
@@ -493,7 +498,7 @@ VotationInterface_saveButton = function(action, obj, callback) {
 
     if (!screenPoll.public) {
         //name is mandatory for prevent troll's confusion votes, and disagree results
-        var inputName = $("#userNamePoll").val();
+        var inputName = $("#userNamePoll").val() || localStorage.getItem("userName");
         var votes = null;
         if (obj.users[userId]) {
             votes = obj.users[userId][1];
@@ -510,12 +515,13 @@ VotationInterface_saveButton = function(action, obj, callback) {
             } else {
                 user.from = browser();
             }
-            localStorage.setItem("userName", inputName);
+            saveUserName(inputName);
 
         } else {
             console.log("votes: " + votes);
+            $("body").append(askName_html());
             $("#userNamePoll").focus();
-            VotationInterface_notSave();
+            VotationInterface_notSave(1);
             callback(false);
             return;
         }
@@ -523,7 +529,7 @@ VotationInterface_saveButton = function(action, obj, callback) {
         if (!screenPoll.key) {
             if (checkConnection()) {
                 console.log("no key yet");
-                setTimeout(function() {
+                setTimeout(function () {
                     VotationInterface_saveButton.apply(this, _args);
                 }, 500);
                 return;
@@ -547,7 +553,7 @@ VotationInterface_saveButton = function(action, obj, callback) {
     if (window.Device && screenPoll.key && "-" != screenPoll.key[0]) { //not private key        
         //if create poll
         if (!window.publicId) {
-            VotationInterface_notSave();
+            VotationInterface_notSave(2);
             if (window.loadingPublicKey) {
                 flash(transl("loadingPublicKey"));
                 return;
@@ -575,8 +581,8 @@ VotationInterface_saveButton = function(action, obj, callback) {
     //wait callback only if creating poll 4 check that works
     var saveCallback = "";
     if ($("#send").hasClass("saveAndShare")) {
-        saveCallback = function() {
-            VotationInterface_shareButton(function() {
+        saveCallback = function () {
+            VotationInterface_shareButton(function () {
                 $(".absoluteLoading").remove();
             });
         };
@@ -650,3 +656,7 @@ VotationInterface_saveButton = function(action, obj, callback) {
     //$(".absoluteLoading").remove();
     savingPoll = false;
 };
+
+function saveUserName(name) {
+    localStorage.setItem("userName", name);
+}

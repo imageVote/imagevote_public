@@ -10,7 +10,7 @@ function saveAjax(action, json, callback) {
     }
 
     $.ajax({
-        url: "../imageVote/update.php",
+        url: window.urlPath + "/core/update.php",
         method: "POST",
         cache: false,
         data: {

@@ -1,7 +1,4 @@
 
-var appPath = "click-to-vote.at";
-var keysPath = "http://keys." + appPath + "/";
-
 var alternative = {
 //    keysPath: "dl.dropboxusercontent.com/u/70345137/key/"
 };
@@ -25,7 +22,7 @@ function myIP() {
     console.log("myIp");
 
     $.ajax({
-        url: "../imageVote/getIP.php"
+        url: window.urlPath + "/core/getIP.php"
     }).success(function (ipData) {
         console.log(ipData);
 
@@ -234,7 +231,7 @@ function getCountryArray(callback) {
     }
 
     //add organizations
-    $.getJSON("../imageVote/orgs.json", function (orgs) {
+    $.getJSON(window.urlPath + "/core/orgs.json", function (orgs) {
         for (var org in orgs) {
             var list = orgs[org];
             for (var ISO in list) {
@@ -447,4 +444,9 @@ function browser() {
         M.splice(1, 1, tem[1]);
     return M[0].toLowerCase();
 }
-;
+
+//http://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript
+function is_touch_device() {
+  return 'ontouchstart' in window        // works on most browsers 
+      || navigator.maxTouchPoints;       // works on IE10/11 and Surface
+};

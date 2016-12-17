@@ -35,7 +35,7 @@ function requestPollByKey(key) {
                 return;
             }
 
-            LoadVotation_parseUserVotes(data, "#votationBox", function(obj) {
+            LoadVotation_parseUserVotes(data, "#votation .votationBox", function(obj) {
                 console.log("obj =");
                 console.log(obj);
 
@@ -115,7 +115,7 @@ function loadImage(data, keyId) {
             saveDefaultValues(user.vt);
 
             console.log(obj);
-            fillTable("#votationBox", obj);
+            new fillTable("#votation .votationBox", obj);
 
             //buttons
             showVotation(obj.users);
@@ -159,7 +159,7 @@ LoadVotation_parseUserVotes = function(data, divQuery, callback) {
     saveDefaultValues(user.vt);
 
     $("#votationOwner").remove();
-    if (obj.style.owner) {
+    if (obj.style && obj.style.owner) {
         var ownerDiv = $("<div id='votationOwner'><span class='by'>by: </span></div>");
         var text = obj.style.owner;
         text = decode_uri(text);
@@ -185,7 +185,7 @@ LoadVotation_parseUserVotes = function(data, divQuery, callback) {
         $("#votation").prepend(ownerDiv);
     }
 
-    fillTable(divQuery, obj);
+    new fillTable(divQuery, obj);
     callback(obj);
 };
 
@@ -196,7 +196,7 @@ LoadVotation_getUser = function(obj) {
     }
     var userObj = {id: user[0], vt: user[1]};
     //add extra values
-    if (obj.style.extraValues) {
+    if (obj.style && obj.style.extraValues) {
         for (var i = 0; i < obj.style.extraValues.length; i++) {
             var key = obj.style.extraValues[i];
             userObj[key] = user[2 + i];
@@ -206,5 +206,5 @@ LoadVotation_getUser = function(obj) {
 };
 
 function disableVotation() {
-    $("#votationBox").addClass("unClickable");
+    $("#votation .votationBox").addClass("unClickable");
 }

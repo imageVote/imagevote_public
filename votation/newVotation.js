@@ -11,7 +11,7 @@ function newKeyConnectionError() {
 function newPoll() {
     console.log("newPoll");
     //if worng hash call
-    if (!$("#options").val() || !window.fromCreateFunction) {        
+    if (!$("#options").val() || !window.fromCreateFunction) {
         newPollView()
         return;
     }
@@ -82,7 +82,7 @@ function newPoll() {
         screenPoll.obj.style.owner = userName;
     }
 
-    fillTable("#votationBox", screenPoll.obj); //table
+    new fillTable("#votation .votationBox", screenPoll.obj); //table
     showVotation(screenPoll.obj.users);
     $("#send").attr("class", "saveAndShare");
     $("#usersButton").hide(); //not let show users on create
@@ -133,7 +133,7 @@ function newPoll() {
 //        });
 //    }
 
-    $("#votationBox").after(options);
+    $("#votation .votationBox").after(options);
 
     //OPTIONS EVENTS
     if (screenPoll.obj.options.length > 1) {
@@ -146,8 +146,8 @@ function newPoll() {
                 screenPoll.obj.style.multipleChoice = 1;
 
             } else {
-                if ($("#votationBox input:checked").length > 1) {
-                    $("#votationBox tr").each(function () {
+                if ($("#votation .votationBox input:checked").length > 1) {
+                    $("#votation .votationBox tr").each(function () {
                         var option = $(this).attr("class").split("_")[1];
                         console.log(option);
                         unSelectOption(option);
@@ -167,8 +167,8 @@ function newPoll() {
                 screenPoll.obj.style.onlyDevice = 1;
 
             } else {
-                if ($("#votationBox input:checked").length > 1) {
-                    $("#votationBox tr").each(function () {
+                if ($("#votation .votationBox input:checked").length > 1) {
+                    $("#votation .votationBox tr").each(function () {
                         var option = $(this).attr("class").split("_")[1];
                         console.log(option);
                         unSelectOption(option);
@@ -201,7 +201,7 @@ NewVotation_newKeyAjax = function (id) {
         beforeSend: function (jqXHR, settings) {
             xhr = jqXHR;  // To get the ajax XmlHttpRequest 
         },
-        url: "http://click-to-vote.at/update.php",
+        url: window.urlPath + "/core/update.php",
         method: "POST",
         cache: false,
         data: {
