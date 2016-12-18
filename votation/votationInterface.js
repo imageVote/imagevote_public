@@ -49,6 +49,9 @@ function backVotation() {
 // VOTATION EVENTS
 
 function saveDefaultValues(votes) {
+    if(!votes){
+        votes = [];
+    }
     originalVotes = votes.toString();
 
     originalPublic = $("#p_makePublic input").is(':checked');
@@ -505,6 +508,9 @@ VotationInterface_saveButton = function (action, obj, callback) {
         }
 
         if (inputName) {
+            if(!window.user){
+                window.user = {};
+            }
             user.nm = inputName;
             if (window.Device) {
                 if (window.isAndroid) {

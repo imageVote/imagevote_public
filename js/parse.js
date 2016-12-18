@@ -15,6 +15,10 @@ var defaultStyle = {
 //ON CREATE ONLY!
 function getUserArray(user) {
     console.log("user: " + JSON.stringify(user));
+    if(!user){
+        return [];
+    }
+    
     var arr = [user.id, user.vt];
     //like name on private polls    
     //needs to be defined in defaultStyle because is array type stored (not by attr)
