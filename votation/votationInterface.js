@@ -449,8 +449,11 @@ VotationInterface_shareButton = function (callback) {
 
         var width = null;
         var list = null;
-        getCanvasImage(divQuery, screenPoll.obj, keyId, width, list, function (image) {
-            imgData = image;
+        getCanvasImage(divQuery, screenPoll.obj, keyId, width, list, function (imgData) {
+            if(!imgData){
+                error("!imgData on getCanvasImage");
+                return;
+            }
             if (window.Device) {
                 Device.share(imgData, keyId);
 

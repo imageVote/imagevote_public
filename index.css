@@ -175,7 +175,7 @@ a:hover{
 }
 #creator{
     display: block;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 #users table{
@@ -823,9 +823,9 @@ html:not(.withoutHeader) .pollsView{
 
 .wrapper{
     overflow-x: hidden;
-    position: absolute;
+    /*position: absolute;*/
     /*top: 70px;*/
-    top: 60px;
+    top: 50px;
     /*top: 0;*/
     bottom: 0;
     width: 100%;
@@ -846,6 +846,7 @@ body > .option > *{
 }
 
 .option_text{
+    font-family: "LeagueGothic";
     margin: 0 5px;
     outline: none;
 }
