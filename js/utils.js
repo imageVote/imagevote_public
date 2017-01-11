@@ -485,3 +485,4 @@ function enableScroll() {
     window.ontouchmove = null;
     document.onkeydown = null;
 }
+
