@@ -266,8 +266,8 @@ $(document).ready(function () {
 //        console.log("to polls click");
 //        loadHash("polls");
 
-//        pollsView();
-        loadHash("polls");
+        pollsView();
+//        loadHash("polls");
     });
 
     $("#newPoll").click(function () {

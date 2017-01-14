@@ -504,7 +504,7 @@ input{
 .clickable{
     cursor: pointer;
     min-height: 50px;
-    
+
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -831,6 +831,7 @@ html:not(.withoutHeader) .pollsView{
     top: 0;
     bottom: 0;
     width: 100%;
+    pointer-events: none;
 }
 
 .full_screen{
