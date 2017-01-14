@@ -78,7 +78,7 @@ function parseData(value) {
         arr = JSON.parse(value += "]");
     } catch (e) {
         console.log(e + " on " + value);
-        error("e_votationWithErrors", true);
+        //error("e_votationWithErrors", true);
         return false;
     }
 
@@ -194,7 +194,7 @@ function sortOptions(obj) {
     }
 
     //server pre calculated
-    if (usrs[1] && "done" == usrs[1]["calc"]) {
+    if (usrs && usrs[1] && "done" == usrs[1]["calc"]) {
         for (var i = 0; i < optionsResult.length; i++) {
             var res = usrs[1][i];
             if (!res) {

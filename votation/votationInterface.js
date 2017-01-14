@@ -49,7 +49,7 @@ function backVotation() {
 // VOTATION EVENTS
 
 function saveDefaultValues(votes) {
-    if(!votes){
+    if (!votes) {
         votes = [];
     }
     originalVotes = votes.toString();
@@ -450,7 +450,7 @@ VotationInterface_shareButton = function (callback) {
         var width = null;
         var list = null;
         getCanvasImage(divQuery, screenPoll.obj, keyId, width, list, function (imgData) {
-            if(!imgData){
+            if (!imgData) {
                 error("!imgData on getCanvasImage");
                 return;
             }
@@ -511,7 +511,7 @@ VotationInterface_saveButton = function (action, obj, callback) {
         }
 
         if (inputName) {
-            if(!window.user){
+            if (!window.user) {
                 window.user = {};
             }
             user.nm = inputName;
@@ -537,10 +537,17 @@ VotationInterface_saveButton = function (action, obj, callback) {
 
         if (!screenPoll.key) {
             if (checkConnection()) {
+                if (window.key_waiting > 10) {
+                    $(".absoluteLoading").remove();
+                    flash("server connection is taking too long");
+                }
+
                 console.log("no key yet");
                 setTimeout(function () {
                     VotationInterface_saveButton.apply(this, _args);
                 }, 500);
+
+                window.key_waiting ? window.key_waiting++ : window.key_waiting = 0;
                 return;
             }
             //stop
