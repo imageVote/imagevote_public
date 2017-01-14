@@ -32,7 +32,7 @@ function loadStoredPolls() {
 
         //console.log(localStorage[storedKey])
         var arrayTimeData = JSON.parse(localStorage[storedKey]);
-        stored.append("<div id='stored_" + keyId + "' class='votation'>");
+        stored.append("<div class='votation' id='stored_" + keyId + "'>");
 
         var obj = parseData(arrayTimeData[1]);
         console.log(obj);
