@@ -300,16 +300,20 @@ input{
 }
 
 #stored > .list > div{
-    margin-top: 5px;
+    /*margin-top: 5px;*/
     position: relative;
-    max-height: 145px;
+    /*max-height: 145px;*/
     margin-bottom: 10px;
 
-    overflow: hidden;
+    /*overflow: hidden;*/
     -webkit-transition: height 300ms;
     -moz-transition: height 300ms;
     -o-transition: height 300ms;
     transition: height 300ms;
+
+    width: 46%;
+    display: inline-block;
+    margin: 2%;
 }
 
 #stored .right{
@@ -504,7 +508,7 @@ input{
 
 .clickable{
     cursor: pointer;
-    min-height: 50px;
+    /*min-height: 50px;*/
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;

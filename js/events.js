@@ -271,8 +271,8 @@ $(document).ready(function () {
     });
 
     $("#newPoll").click(function () {
-//        newPollView();
-        loadHash("home");
+        newPollView();
+//        loadHash("home");
     });
 
     if (is_touch_device()) {
