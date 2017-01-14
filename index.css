@@ -314,7 +314,7 @@ input{
 
     width: 46%;
     display: inline-block;
-    margin: 2%;
+    margin: 1% 2%;
 }
 
 #stored .right{
@@ -831,7 +831,6 @@ html:not(.withoutHeader) .pollsView{
 }
 
 .wrapper{
-    overflow-x: hidden;
     position: absolute;
     /*top: 70px;*/
     top: 50px;
