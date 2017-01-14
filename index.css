@@ -342,6 +342,7 @@ input{
 }
 #stored .error{
     color: maroon;
+    color: yellow;
     font-weight: normal;
 }
 /*#stored .votation{
