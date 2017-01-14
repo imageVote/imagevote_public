@@ -59,6 +59,7 @@ html.translucent{
     bottom: 0;
     left: 0;
     right: 0;
+    pointer-events: auto;
 }
 .withoutHeader #body{
     margin-top: 0;
