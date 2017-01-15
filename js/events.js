@@ -129,7 +129,7 @@ function hashChanged(hash) {
 
     } else { //and home
         //else wrong/old hashes
-        loadHash("home");
+//        loadHash("home");
 
         //headers
         $("html").removeClass("withoutHeader");
@@ -286,7 +286,7 @@ $(document).ready(function () {
         });
     }
 
-    newPollView = function () {
+    var newPollView = function () {
         if ($("#body").hasClass("pollsView")) {
             $("#body").removeClass("pollsView");
             $("#pollsHeader").hide();
@@ -299,7 +299,7 @@ $(document).ready(function () {
         }
     };
 
-    pollsView = function () {
+    var pollsView = function () {
         $("#body").addClass("pollsView");
 
         $("#voteHeader").hide();
