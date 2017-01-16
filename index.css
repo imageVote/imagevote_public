@@ -316,6 +316,9 @@ input{
     display: inline-block;
     margin: 1% 2%;
 }
+#stored .options{
+    pointer-events: none;
+}
 
 #stored .right{
     position: absolute;
