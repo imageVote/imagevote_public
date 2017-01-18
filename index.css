@@ -33,6 +33,11 @@ body{
     /*background-position: 50%;*/
 }
 
+/*prevent android screen drag*/
+html, body, .wrapper{
+    width: 100%;
+    overflow: hidden;
+}
 
 html.Device{
     /*background: none !important;*/
@@ -136,7 +141,7 @@ html.translucent{
     position: relative;
 }
 #mainPageContainer{
-    /*width: 100%;*/
+    width: 100%;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -839,7 +844,6 @@ html:not(.withoutHeader) .pollsView{
     top: 50px;
     top: 0;
     bottom: 0;
-    width: 100%;
     pointer-events: none;
 }
 
