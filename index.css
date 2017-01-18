@@ -245,7 +245,8 @@ input{
 }
 #image{
     /*prevent hides and "canvas already exists"*/
-    display: block !important;    
+    /*display: block !important;*/   
+    
     position: relative;
     margin-bottom: 15px;
 }
