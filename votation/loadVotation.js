@@ -9,7 +9,7 @@ function requestPollByKey(key) {
 
     if (window.Device) {
         //return on dataIsReady
-        console.log("KEY = " + key);
+        console.log("Device.loadKeyData(" + key + ")");
         Device.loadKeyData(key);
 
     } else {
@@ -18,7 +18,7 @@ function requestPollByKey(key) {
             url = keysPath + "get.php?url=public/" + urlParts.countryPath + screenPoll.realKey + "&";
         }
 
-        loadAjaxKey(url, function(data) {
+        loadAjaxKey(url, function (data) {
             console.log("DATA!!");
             console.log(data);
 
@@ -35,15 +35,15 @@ function requestPollByKey(key) {
                 return;
             }
 
-            LoadVotation_parseUserVotes(data, "#votation .votationBox", function(obj) {
+            LoadVotation_parseUserVotes(data, "#votation .votationBox", function (obj) {
                 console.log("obj =");
                 console.log(obj);
 
                 if (!obj) {
                     pollsView();
-                    setTimeout(function(){
+                    setTimeout(function () {
                         location.hash = "";
-                    },400);
+                    }, 400);
                 }
 
                 //TODO: or iphone on future
@@ -63,13 +63,6 @@ function requestPollByKey(key) {
                 }
 
                 checkCountry(key);
-
-                //url hash callback
-                if (window.hashCallback) {
-                    console.log("hash = " + location.hash);
-                    window.hashCallback();
-                    window.hashCallback = null;
-                }
             });
         });
     }
@@ -79,17 +72,11 @@ function requestPollByKey(key) {
 //device 
 function dataIsReady(keyId) {
     loadImage(window.Device.getKeyData(keyId), keyId);
-
-    //url hash callback
-    if (window.hashCallback) {
-        console.log("window.hashCallback() on dataIsReady()");
-        window.hashCallback();
-    }
 }
 
 //device
 function loadImage(data, keyId) {
-    console.log("load image");
+    console.log("load image key: " + keyId);
     loadedPoll = true;
     $("#errorLog").html("");
 
@@ -131,12 +118,12 @@ function loadImage(data, keyId) {
 // PRIVATE FUNCTIONS
 
 //parse ajax by userId
-LoadVotation_parseUserVotes = function(data, divQuery, callback) {
+LoadVotation_parseUserVotes = function (data, divQuery, callback) {
     var _args = arguments;
     //wait userId request
     if (!userId) {
         console.log("waiting for userId..");
-        setTimeout(function() {
+        setTimeout(function () {
             LoadVotation_parseUserVotes.apply(this, _args);
         }, 700);
         return;
@@ -189,7 +176,7 @@ LoadVotation_parseUserVotes = function(data, divQuery, callback) {
     callback(obj);
 };
 
-LoadVotation_getUser = function(obj) {
+LoadVotation_getUser = function (obj) {
     var user = obj.users[userId];
     if (!user) {
         throw "user = " + JSON.stringify(user);

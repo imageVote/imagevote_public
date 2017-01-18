@@ -139,9 +139,49 @@ function hashChanged(hash) {
         $("#mainPage > div").hide();
         $("#creator").show();
 
+        $("#buttons").show();
+        $("#showPolls").show();
+
         newPollView();
     }
 }
+
+function newPollView() {
+    if ($("#body").hasClass("pollsView")) {
+        $("#body").removeClass("pollsView");
+        $("#pollsHeader").hide();
+        $("#voteHeader").show();
+
+        $("#body").addClass("swiping");
+        setTimeout(function () {
+            $("#body").removeClass("swiping");
+        }, 1);
+    }
+}
+;
+
+function pollsView() {
+    $("#body").addClass("pollsView");
+
+    $("#voteHeader").hide();
+    $("#pollsHeader").show();
+
+    //re-load
+    if ($("#polls").length) {
+        $("#loading").hide();
+
+    } else {
+        $("#pollsPage").load("~polls/polls.html", function (response, status, xhr) {
+            $("#loading").hide();
+
+            if (status == "error") {
+                flash(lang["notLoadingPolls"]);
+                return;
+            }
+        });
+    }
+}
+;
 
 $(document).ready(function () {
 
@@ -285,40 +325,5 @@ $(document).ready(function () {
             }
         });
     }
-
-    var newPollView = function () {
-        if ($("#body").hasClass("pollsView")) {
-            $("#body").removeClass("pollsView");
-            $("#pollsHeader").hide();
-            $("#voteHeader").show();
-
-            $("#body").addClass("swiping");
-            setTimeout(function () {
-                $("#body").removeClass("swiping");
-            }, 1);
-        }
-    };
-
-    var pollsView = function () {
-        $("#body").addClass("pollsView");
-
-        $("#voteHeader").hide();
-        $("#pollsHeader").show();
-
-        //re-load
-        if ($("#polls").length) {
-            $("#loading").hide();
-
-        } else {
-            $("#pollsPage").load("~polls/polls.html", function (response, status, xhr) {
-                $("#loading").hide();
-
-                if (status == "error") {
-                    flash(lang["notLoadingPolls"]);
-                    return;
-                }
-            });
-        }
-    };
 
 });
