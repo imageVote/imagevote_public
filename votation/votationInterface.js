@@ -455,11 +455,13 @@ VotationInterface_shareButton = function (callback) {
                 return;
             }
             if (window.Device) {
+                $(divQuery).hide();
                 Device.share(imgData, keyId);
 
             } else {
+                $(divQuery).show();
                 //VotationInterface_saveImageLocally(keyId, imgData);
-
+                
                 callback(true);
                 sharingPoll = false;
             }
