@@ -35,8 +35,9 @@ body{
 
 /*prevent android screen drag*/
 html, body, .wrapper{
+/*html, body{*/
     width: 100%;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 html.Device{
@@ -840,11 +841,12 @@ html:not(.withoutHeader) .pollsView{
 
 .wrapper{
     position: absolute;
+    width: 100%;
     /*top: 70px;*/
-    top: 50px;
+    /*top: 50px;*/
     top: 0;
     bottom: 0;
-    pointer-events: none;
+    /*pointer-events: none;*/
 }
 
 .full_screen{
