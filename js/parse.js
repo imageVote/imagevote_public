@@ -15,10 +15,10 @@ var defaultStyle = {
 //ON CREATE ONLY!
 function getUserArray(user) {
     console.log("user: " + JSON.stringify(user));
-    if (!user) {
+    if(!user){
         return [];
     }
-
+    
     var arr = [user.id, user.vt];
     //like name on private polls    
     //needs to be defined in defaultStyle because is array type stored (not by attr)
@@ -176,7 +176,7 @@ function hidePollEvent(query, reducedHeight) {
     }, 1);
 }
 
-function parseOptions(obj) {
+function sortOptions(obj) {
     var usrs = obj.users;
     var opts = obj.options;
 
@@ -233,17 +233,12 @@ function parseOptions(obj) {
 
     //SORT
     //if (optionsResult.length > 2) { //more than 2 options // WHY? (how to bold highter option?)
-    //optionsResult = sortOptions(optionsResult);
-    //}
-    //console.log(optionsResult)
-    return optionsResult;
-}
-
-function sortOptions(optionsResult) {
     optionsResult.sort(function (a, b) {
         //if not value difference, sort by original creator position! 
         return b[2] - a[2] || a[0] - b[0];
     });
+    //}
+    //console.log(optionsResult)
     return optionsResult;
 }
 
