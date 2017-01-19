@@ -102,7 +102,7 @@ function loadImage(data, keyId) {
             saveDefaultValues(user.vt);
 
             console.log(obj);
-            new fillTable("#votation .votationBox", obj);
+            window.loadedTable = new fillTable("#votation .votationBox", obj);
 
             //buttons
             showVotation(obj.users);
@@ -172,7 +172,7 @@ LoadVotation_parseUserVotes = function (data, divQuery, callback) {
         $("#votation").prepend(ownerDiv);
     }
 
-    new fillTable(divQuery, obj);
+    window.loadedTable = new fillTable(divQuery, obj);
     callback(obj);
 };
 
