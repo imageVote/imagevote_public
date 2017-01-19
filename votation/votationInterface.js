@@ -505,9 +505,7 @@ function listCookies() {
 var savingPoll = false;
 VotationInterface_saveButton = function (action, obj, callback) {
     var _args = arguments;
-
     console.log("VotationInterface_shareButton screenPoll");
-    //console.log(JSON.stringify(screenPoll.obj.users));
 
     if (!screenPoll.public) {
         //name is mandatory for prevent troll's confusion votes, and disagree results
@@ -564,9 +562,12 @@ VotationInterface_saveButton = function (action, obj, callback) {
     }
 
     if (!savingPoll) {
-        $(".absoluteLoading").remove();
         //loading class for group and work with all loadings on page
-        $("body").append("<img from='VotationInterface_saveButton !savingPoll' class='loading absoluteLoading' src='~img/loader.gif'/>");
+        if ($(".absoluteLoading").length) {
+            $(".absoluteLoading").attr("from", 'VotationInterface_saveButton !savingPoll');
+        } else {
+            $("body").append("<img from='VotationInterface_saveButton !savingPoll' class='loading absoluteLoading' src='~img/loader.gif'/>");
+        }
         savingPoll = true;
     }
 
