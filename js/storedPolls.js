@@ -43,7 +43,7 @@ function loadStoredPolls() {
             continue;
         }
 
-        window.filledTable = new fillTable("#stored_" + keyId, obj, {removable: true});
+        window.storedTable = new fillTable("#stored_" + keyId, obj, {removable: true});
         StoredPolls._events(keyId); //swipe
         //LOAD NOW FROM INTERNET
         StoredPolls._loadWebPoll(keyId);
@@ -78,7 +78,7 @@ function storedPolls_init() {
             localStorage.setItem("key_" + keyId, JSON.stringify([time, data]));
             var obj = parseData(data);
 
-            window.filledTable = new fillTable("#stored_" + keyId, obj, {removable: true});
+            window.storedTable = new fillTable("#stored_" + keyId, obj, {removable: true});
             StoredPolls._events(keyId);
             $("#stored_" + keyId + " .loader").hide();
 
