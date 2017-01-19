@@ -176,7 +176,7 @@ function hidePollEvent(query, reducedHeight) {
     }, 1);
 }
 
-function parseOptions(obj) {
+function parseOptions(obj) { 
     var usrs = obj.users;
     var opts = obj.options;
 
