@@ -407,7 +407,9 @@ VotationInterface_shareButton = function (callback) {
         if (_ajaxKeyWaiting > 10) {
             _ajaxKeyWaiting = 0;
             error("missingAjaxKey");
-            callback(false);
+            if (callback) {
+                callback(false);
+            }
             return;
         }
         _ajaxKeyWaiting++;
@@ -438,7 +440,9 @@ VotationInterface_shareButton = function (callback) {
             //VotationInterface_saveImageLocally(keyId, imgData);
 
             $(".absoluteLoading").remove();
-            callback(true);
+            if (callback) {
+                callback(true);
+            }
             sharingPoll = false;
         }
 
@@ -461,8 +465,9 @@ VotationInterface_shareButton = function (callback) {
             } else {
                 $(divQuery).show();
                 //VotationInterface_saveImageLocally(keyId, imgData);
-                
-                callback(true);
+                if (callback) {
+                    callback(true);
+                }
                 sharingPoll = false;
             }
         });
