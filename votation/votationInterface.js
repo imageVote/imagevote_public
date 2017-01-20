@@ -463,7 +463,7 @@ VotationInterface_shareButton = function (callback) {
                 Device.share(imgData, keyId);
 
             } else {
-                $(divQuery).show();
+                div.show();
                 //VotationInterface_saveImageLocally(keyId, imgData);
                 if (callback) {
                     callback(true);
