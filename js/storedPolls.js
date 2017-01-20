@@ -32,24 +32,25 @@ function loadStoredPolls() {
 
         //console.log(localStorage[storedKey])
         var arrayTimeData = JSON.parse(localStorage[storedKey]);
-        var div = $("<div class='votation' id='stored_" + keyId + "'>");
+        var query = "stored_" + keyId;
+        var div = $("<div class='votation' id='" + query + "'>");
         stored.append(div);
 
         var obj = parseData(arrayTimeData[1]);
         console.log(obj);
         //remove wrong parse        
         if (!obj) {
-            $("#stored_" + keyId + " .loader").text(lang["error"]);
+            $(query + " .loader").text(lang["error"]);
             localStorage.removeItem(storedKey);
             continue;
         }
 
-        window.storedTable = new fillTable("#stored_" + keyId, obj, {removable: true});
+        window.storedTable = new fillTable(query, obj, {removable: true});
         StoredPolls._events(keyId); //swipe
         //LOAD NOW FROM INTERNET
         StoredPolls._loadWebPoll(keyId);
 
-        fontSize(div);
+        fontSize(query);
     }
 }
 
@@ -64,11 +65,12 @@ function storedPolls_init() {
 
         var cache = true;
         loadAjaxKey(realPath + realKey + "?", function (data) {
-            var div = $("#stored_" + keyId);
+            var query = "#stored_" + keyId;
             $("#stored_" + keyId + " .loader").hide();
-            
+
             if (!data) {
-                console.log("error retrieving data");                
+                console.log("error retrieving data");
+                var div = $(query);
                 div.off(".poll");
                 div.removeClass("clickable");
                 div.off("click");
@@ -82,11 +84,11 @@ function storedPolls_init() {
             localStorage.setItem("key_" + keyId, JSON.stringify([time, data]));
             var obj = parseData(data);
 
-            window.storedTable = new fillTable("#stored_" + keyId, obj, {removable: true});
+            window.storedTable = new fillTable(query, obj, {removable: true});
             StoredPolls._events(keyId);
-            div.find(".loader").hide();
+            $(query + " .loader").hide();
 
-            fontSize(div);
+            fontSize(query);
         }, cache);
     };
 
