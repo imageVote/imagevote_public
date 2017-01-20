@@ -48,6 +48,8 @@ function loadStoredPolls() {
         //LOAD NOW FROM INTERNET
         StoredPolls._loadWebPoll(keyId);
     }
+    
+    fontSize();
 }
 
 function storedPolls_init() {
