@@ -459,7 +459,7 @@ VotationInterface_shareButton = function (callback) {
                 return;
             }
             if (window.Device) {
-                $(divQuery).hide();
+                div.hide();
                 Device.share(imgData, keyId);
 
             } else {
