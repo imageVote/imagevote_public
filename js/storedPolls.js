@@ -1,7 +1,7 @@
 storedPolls_init();
 
 //wait html loads
-$(document).ready(function() {
+$(document).ready(function () {
     for (var storedKey in localStorage) {
         var arrayKey = storedKey.split("key_");
         if (arrayKey.length == 2 && arrayKey[1]) {
@@ -21,7 +21,7 @@ function loadStoredPolls() {
 
     for (var storedKey in localStorage) {
         var arrayKey = storedKey.split("key_");
-        
+
         //not key stored OR whitespace in -> cause divQuery error
         if (arrayKey.length != 2 || storedKey.indexOf(' ') != -1) {
             continue;
@@ -32,11 +32,12 @@ function loadStoredPolls() {
 
         //console.log(localStorage[storedKey])
         var arrayTimeData = JSON.parse(localStorage[storedKey]);
-        stored.append("<div class='votation' id='stored_" + keyId + "'>");
+        var div = $("<div class='votation' id='stored_" + keyId + "'>");
+        stored.append(div);
 
         var obj = parseData(arrayTimeData[1]);
         console.log(obj);
-        //remove wrong parse
+        //remove wrong parse        
         if (!obj) {
             $("#stored_" + keyId + " .loader").text(lang["error"]);
             localStorage.removeItem(storedKey);
@@ -47,26 +48,27 @@ function loadStoredPolls() {
         StoredPolls._events(keyId); //swipe
         //LOAD NOW FROM INTERNET
         StoredPolls._loadWebPoll(keyId);
+
+        fontSize(div);
     }
-    
-    fontSize();
 }
 
 function storedPolls_init() {
     window.StoredPolls = {};
 
-    StoredPolls._loadWebPoll = function(keyId) {
+    StoredPolls._loadWebPoll = function (keyId) {
         console.log("StoredPolls._loadWebPoll");
         var urlParts = getPathsFromKeyId(keyId);
         var realPath = urlParts.realPath;
         var realKey = urlParts.realKey;
 
         var cache = true;
-        loadAjaxKey(realPath + realKey + "?", function(data) {
+        loadAjaxKey(realPath + realKey + "?", function (data) {
+            var div = $("#stored_" + keyId);
             $("#stored_" + keyId + " .loader").hide();
+            
             if (!data) {
-                console.log("error retrieving data");
-                var div = $("#stored_" + keyId);
+                console.log("error retrieving data");                
                 div.off(".poll");
                 div.removeClass("clickable");
                 div.off("click");
@@ -82,18 +84,19 @@ function storedPolls_init() {
 
             window.storedTable = new fillTable("#stored_" + keyId, obj, {removable: true});
             StoredPolls._events(keyId);
-            $("#stored_" + keyId + " .loader").hide();
+            div.find(".loader").hide();
 
+            fontSize(div);
         }, cache);
     };
 
-    StoredPolls._events = function(keyId) {
+    StoredPolls._events = function (keyId) {
         var query = "#stored_" + keyId;
 
         var div = $(query + " .votation");
         var remove = $(query + " .removeInfo");
 
-        $(div).on("mousedown touchstart", function(e) {
+        $(div).on("mousedown touchstart", function (e) {
             //console.log(div)
             e = getEvent(e);
 
@@ -102,7 +105,7 @@ function storedPolls_init() {
             var top = e.clientY;
             var leftMove, topMove, p = 0;
 
-            $(document).on("mousemove.stored touchmove.stored", function(e) {
+            $(document).on("mousemove.stored touchmove.stored", function (e) {
                 e = getEvent(e);
 
                 leftMove = e.clientX - left;
@@ -132,7 +135,7 @@ function storedPolls_init() {
                 }
             });
 
-            $(document).one("mouseup.stored touchend.stored", function(e) {
+            $(document).one("mouseup.stored touchend.stored", function (e) {
                 //e.stopPropagation();
                 $(document).off(".stored");
                 if (p > 0.4) {
@@ -140,7 +143,7 @@ function storedPolls_init() {
                         opacity: 0,
                         'margin-left': w,
                         height: '40px'
-                    }, 300, function() {
+                    }, 300, function () {
                         div.css("transform", "translateX(0)");
                         StoredPolls._remove(div.parent());
                     });
@@ -153,7 +156,7 @@ function storedPolls_init() {
                     //clickablePoll(query);
                 }
 
-                setTimeout(function() {
+                setTimeout(function () {
                     $(div).removeClass("moving");
                 }, 1);
             });
@@ -162,7 +165,7 @@ function storedPolls_init() {
         clickablePoll(query, keyId); //click
     };
 
-    StoredPolls._remove = function(stored) {
+    StoredPolls._remove = function (stored) {
         console.log("StoredPolls._remove")
         stored.removeClass("clickable");
 
@@ -170,7 +173,7 @@ function storedPolls_init() {
         var undo = $("<div id='undo' class='hoverUnderline'>" + lang["UNDO"] + "</div>");
         stored.append(undo);
 
-        $(document).one("mousedown touchstart", function(e) {
+        $(document).one("mousedown touchstart", function (e) {
             e.preventDefault();
             if ($(e.target).attr("id") == "undo") {
                 undo.remove();
@@ -183,14 +186,14 @@ function storedPolls_init() {
 
             } else {
                 stored.css("height", stored.height() + "px");
-                setTimeout(function() {
+                setTimeout(function () {
                     stored.css({
                         height: 0,
                         margin: 0
                     });
                 }, 1);
 
-                setTimeout(function() {
+                setTimeout(function () {
                     stored.remove();
                 }, 300);
 
@@ -201,4 +204,4 @@ function storedPolls_init() {
     };
 
 }
-            
+
