@@ -35,7 +35,7 @@ body{
 
 /*prevent android screen drag*/
 html, body, .wrapper{
-/*html, body{*/
+    /*html, body{*/
     width: 100%;
     overflow-x: hidden;
 }
@@ -61,11 +61,12 @@ html.translucent{
         height: 99%;*/
 
     /*margin-top: 58px;*/
-/*    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;*/
+    margin-top: 8px;
+    /*    position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;*/
     pointer-events: auto;
 }
 .withoutHeader #body{
@@ -246,7 +247,7 @@ input{
 #image{
     /*prevent hides and "canvas already exists"*/
     /*display: block !important;*/   
-    
+
     position: relative;
     margin-bottom: 15px;
 }
