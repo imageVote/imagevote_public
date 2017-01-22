@@ -43,6 +43,7 @@ function flash(text, persist) {
             clearTimeout(window.flashTimeout);
             stopFlash();
         });
+        $(".absoluteLoading").remove();
     }, 1);
     console.log("flash: " + text);
 }
