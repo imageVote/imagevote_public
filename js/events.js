@@ -94,6 +94,10 @@ function loadHash(hash) {
 
     } else {
         //keep complete url for assets
+        if (location.search) {
+            location = location.origin + location.pathname + "#" + hash
+            return;
+        }
         if (location.hash == hash) {
             location.reload();
             return;
