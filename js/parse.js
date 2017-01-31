@@ -128,9 +128,9 @@ function clickablePoll(query, keyId, url) {
     }
 
     //events
-    div.on("click.temp", function (e) {
+    div.off(".stored");
+    div.on("click.stored", function (e) {
         //find again from query:
-        console.log($(query))
         if(!$(query).hasClass("clickable")){
             return;
         }
