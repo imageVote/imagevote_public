@@ -196,7 +196,7 @@ function storedPolls_init() {
             if ($(e.target).attr("id") == "undo") {
                 undo.remove();
                 stored.find(".votation").animate({
-                    'margin-left': 0,
+                    left: 0,
                     opacity: 1,
                     height: 'auto'
                 }, 300);
