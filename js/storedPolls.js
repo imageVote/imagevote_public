@@ -47,7 +47,8 @@ function loadStoredPolls() {
         }
         
         console.log("user vote: " + obj.users[window.user.id].vt);
-        if("" === obj.users[window.user.id].vt){
+        var vt = obj.users[window.user.id].vt;
+        if("undefined" === typeof(vt) || "" === vt){
             continue;
         }
         window.storedTable = new fillTable(query, obj, {removable: true});
