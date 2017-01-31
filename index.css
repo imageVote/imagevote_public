@@ -879,9 +879,9 @@ body > .option > *{
     outline: none;
 }
 
-.stored{
+/*.stored{
     -webkit-transition: all 200ms;
     -moz-transition: all 200ms;
     -o-transition: all 200ms;
     transition: all 200ms;
-}
+}*/
