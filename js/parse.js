@@ -128,8 +128,8 @@ function clickablePoll(query, keyId, url) {
     }
 
     //events
-    div.off(".stored");
-    div.on("click.stored", function (e) {
+    div.off(".event");
+    div.on("click.event", function (e) {
         //find again from query:
         if(!$(query).hasClass("clickable")){
             return;

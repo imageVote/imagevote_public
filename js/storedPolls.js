@@ -153,7 +153,7 @@ function storedPolls_init() {
                     $div.animate({
                         opacity: 0,
                         'margin-left': w,
-                        height: '40px'
+//                        height: '40px'
                     }, 300, function () {
                         $div.css("transform", "translateX(0)");
                         StoredPolls._remove($div.parent());
