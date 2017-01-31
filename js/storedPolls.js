@@ -198,7 +198,7 @@ function storedPolls_init() {
                 stored.find(".votation").animate({
                     left: 0,
                     opacity: 1,
-                    height: 'auto'
+//                    height: 'auto'
                 }, 300);
                 stored.addClass("clickable");
 
