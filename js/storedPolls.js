@@ -168,7 +168,7 @@ function storedPolls_init() {
                 }
 
                 setTimeout(function () {
-                    $div.addClass("clickable");
+                    //$div.addClass("clickable");
                 }, 200);
             });
         });
