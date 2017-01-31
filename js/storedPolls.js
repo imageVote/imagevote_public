@@ -150,8 +150,7 @@ function storedPolls_init() {
                 //e.stopPropagation();
                 $(document).off(".stored");
                 if (p > 0.4) {
-                    console.log("w: " + w)
-//                    $div.css("transform", "translateX(" + w + "px)");
+                    console.log("w: " + w);                    
                     $div.animate({
                         opacity: 0,
 //                        'margin-left': w,
@@ -159,6 +158,7 @@ function storedPolls_init() {
 //                        height: '40px'
                     }, 300, function () {
                         //$div.css("transform", "translateX(0)");
+                        $div.css("transform", "translateX(" + w + "px)");
                         StoredPolls._remove($div.parent());
                     });
 
