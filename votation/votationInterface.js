@@ -618,12 +618,20 @@ VotationInterface_saveButton = function (action, obj, callback) {
     //update before ask phone
     var sendJson;
     if ("update" == action) {
+        console.log('update" == action');
         var userArr = getUserArray(user);
         sendJson = JSON.stringify(userArr);
         obj.users[userId] = JSON.parse(sendJson);
+        saveLocally(screenPoll.key, json);
 
     } else if ("create" == action) {
         sendJson = json;
+        
+        //not local stored if not voted by me
+        var vt = obj.users[userId][1];
+        if("undefined" !== typeof(vt) && "" !== vt){
+            saveLocally(screenPoll.key, json);
+        }
 
     } else {
         console.log("error on action: " + action);
@@ -673,8 +681,6 @@ VotationInterface_saveButton = function (action, obj, callback) {
         if (call) {
             callback(call);
         }
-
-        saveLocally(screenPoll.key, json);
     }
 
     //$(".absoluteLoading").remove();

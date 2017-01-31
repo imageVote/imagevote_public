@@ -89,8 +89,7 @@ function storedPolls_init() {
             }
 
             //update new!
-            var time = (new Date()).getTime();
-            localStorage.setItem("key_" + keyId, JSON.stringify([time, data]));
+            saveLocally(keyId, data);
             var obj = parseData(data);
 
             window.storedTable = new fillTable(query, obj, {removable: true});

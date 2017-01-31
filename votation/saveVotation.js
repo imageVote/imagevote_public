@@ -86,7 +86,7 @@ function saveDevice(action, json, public, country, callback) {
 }
 
 function saveLocally(key, data) {
-    console.log(data);
+    //console.log(data);
     if (key) { //check is correct stores query
         var time = (new Date()).getTime();
         localStorage.setItem("key_" + key, JSON.stringify([time, data]));
