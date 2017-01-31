@@ -107,7 +107,7 @@ function storedPolls_init() {
         var remove = $(query + " .removeInfo");
 
         $(div).on("mousedown touchstart", function (e) {
-            console.log(div)
+            //console.log(div)
             e = getEvent(e);
 
             var w = div.width();
@@ -120,7 +120,8 @@ function storedPolls_init() {
 
                 leftMove = e.clientX - left;
                 topMove = e.clientY - top;
-
+                
+                console.log(leftMove+" > "+10+" && "+Math.abs(leftMove)+" > "+Math.abs(topMove))
                 if (leftMove > 10 && Math.abs(leftMove) > Math.abs(topMove)) {
                     leftMove = leftMove - Math.abs(topMove);
                     p = leftMove / w;
