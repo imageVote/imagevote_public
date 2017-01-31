@@ -49,7 +49,7 @@ function loadStoredPolls() {
         console.log("user vote: " + obj.users[window.user.id].vt);
         console.log(obj.users);
         console.log(window.user.id);
-        var vt = obj.users[window.user.id].vt;
+        var vt = obj.users[window.user.id][1];
         if("undefined" === typeof(vt) || "" === vt){
             continue;
         }
