@@ -35,8 +35,7 @@ function loadStoredPolls() {
         var arrayTimeData = JSON.parse(localStorage[storedKey]);
         var query = "stored_" + keyId;
         var div = $("<div class='votation' id='" + query + "'>");
-        stored.append(div);
-
+        
         var obj = parseData(arrayTimeData[1]);
         console.log(obj);
         //remove wrong parse        
@@ -46,13 +45,14 @@ function loadStoredPolls() {
             continue;
         }
         
-        console.log("user vote: " + obj.users[window.user.id].vt);
-        console.log(obj.users);
-        console.log(window.user.id);
+        //add only if I vote it
         var vt = obj.users[window.user.id][1];
         if("undefined" === typeof(vt) || "" === vt){
             continue;
         }
+        
+        //all ok:
+        stored.append(div);
         window.storedTable = new fillTable(query, obj, {removable: true});
         StoredPolls._events(keyId); //swipe events
 
@@ -81,7 +81,7 @@ function storedPolls_init() {
                 console.log("error retrieving data");
                 var div = $(query);
                 div.off(".poll");
-                div.removeClass("clickable");
+                div.removeClass("votation clickable");
                 div.off("click");
                 div.css("opacity", 0.5);
                 div.prepend("<small class='error'>" + transl("e_retrievingData") + "</small>");
