@@ -129,7 +129,9 @@ function clickablePoll(query, keyId, url) {
 
     //events
     div.on("click.temp", function (e) {
-        if(!div.hasClass("clickable")){
+        //find again from query:
+        console.log($(query))
+        if(!$(query).hasClass("clickable")){
             return;
         }
 
