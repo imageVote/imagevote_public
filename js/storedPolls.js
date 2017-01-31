@@ -154,6 +154,9 @@ function storedPolls_init() {
                         transform: "translateX(" + w + "px)",
                         opacity: 0
                     });
+                    setTimeout(function(){
+                        StoredPolls._remove($div.parent());
+                    }, 300);
                                         
 //                    $div.animate({
 //                        opacity: 0,
