@@ -150,17 +150,21 @@ function storedPolls_init() {
                 //e.stopPropagation();
                 $(document).off(".stored");
                 if (p > 0.4) {
-                    console.log("w: " + w);                    
-                    $div.animate({
-                        opacity: 0,
-//                        'margin-left': w,
-//                        transform: "translateX(" + w + "px)"
-//                        height: '40px'
-                    }, 300, function () {
-                        //$div.css("transform", "translateX(0)");
-                        $div.css("transform", "translateX(" + w + "px)");
-                        StoredPolls._remove($div.parent());
+                    $div.css({
+                        transform: "translateX(" + w + "px)",
+                        opacity: 0
                     });
+                                        
+//                    $div.animate({
+//                        opacity: 0,
+////                        'margin-left': w,
+////                        transform: "translateX(" + w + "px)"
+////                        height: '40px'
+//                    }, 300, function () {
+//                        //$div.css("transform", "translateX(0)");
+//                        
+//                        StoredPolls._remove($div.parent());
+//                    });
 
                 } else {
                     $div.css({
