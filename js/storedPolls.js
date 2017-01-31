@@ -107,7 +107,7 @@ function storedPolls_init() {
         var remove = $(query + " .removeInfo");
 
         $(div).on("mousedown touchstart", function (e) {
-            //console.log(div)
+            console.log(div)
             e = getEvent(e);
 
             var w = div.width();
