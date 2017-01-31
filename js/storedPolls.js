@@ -46,8 +46,10 @@ function loadStoredPolls() {
             continue;
         }
         
-        console.log("stored obj:");
-        console.log(obj);
+        console.log("user vote: " + obj.users[window.user.id].vt);
+        if("" === obj.users[window.user.id].vt){
+            continue;
+        }
         window.storedTable = new fillTable(query, obj, {removable: true});
         StoredPolls._events(keyId); //swipe events
 
