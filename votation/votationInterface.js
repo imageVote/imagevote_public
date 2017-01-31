@@ -533,7 +533,7 @@ VotationInterface_saveButton = function (action, obj, callback) {
 
         } else {
             console.log("votes: " + votes);
-            $("body").append(askName_html());
+            askName_html();
             $("#userNamePoll").focus();
             VotationInterface_notSave(1);
             callback(false);
