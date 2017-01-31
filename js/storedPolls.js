@@ -136,7 +136,7 @@ function storedPolls_init() {
                         remove.css("color", "grey");
                     }
 
-                    $div.removeClass("clickable");
+                    $(query).removeClass("clickable");
 
                 } else {
                     $div.css({
