@@ -103,14 +103,14 @@ function storedPolls_init() {
     StoredPolls._events = function (keyId) {
         var query = "#stored_" + keyId;
 
-        var div = $(query + " .votation");
+        var $div = $(query + " .votation");
         var remove = $(query + " .removeInfo");
 
-        $(div).on("mousedown touchstart", function (e) {
+        $div.on("mousedown touchstart", function (e) {
             //console.log(div)
             e = getEvent(e);
 
-            var w = div.width();
+            var w = $div.width();
             var left = e.clientX;
             var top = e.clientY;
             var leftMove, topMove, p = 0;
@@ -126,7 +126,7 @@ function storedPolls_init() {
                     leftMove = leftMove - Math.abs(topMove);
                     p = leftMove / w;
                     //e.preventDefault();
-                    div.css({
+                    $div.css({
                         transform: "translateX(" + leftMove + "px)",
                         opacity: 1 - p
                     });
@@ -136,10 +136,10 @@ function storedPolls_init() {
                         remove.css("color", "grey");
                     }
 
-                    $(query).removeClass("clickable");
+                    $div.removeClass("clickable");
 
                 } else {
-                    div.css({
+                    $div.css({
                         transform: "translateX(0)",
                         opacity: 1
                     });
@@ -150,17 +150,17 @@ function storedPolls_init() {
                 //e.stopPropagation();
                 $(document).off(".stored");
                 if (p > 0.4) {
-                    div.animate({
+                    $div.animate({
                         opacity: 0,
                         'margin-left': w,
                         height: '40px'
                     }, 300, function () {
-                        div.css("transform", "translateX(0)");
-                        StoredPolls._remove(div.parent());
+                        $div.css("transform", "translateX(0)");
+                        StoredPolls._remove($div.parent());
                     });
 
                 } else {
-                    div.css({
+                    $div.css({
                         transform: "translateX(0)",
                         opacity: 1
                     });
@@ -168,7 +168,7 @@ function storedPolls_init() {
                 }
 
                 setTimeout(function () {
-                    $(query).addClass("clickable");
+                    $div.addClass("clickable");
                 }, 1);
             });
         });
