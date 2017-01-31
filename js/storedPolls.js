@@ -169,7 +169,7 @@ function storedPolls_init() {
 
                 setTimeout(function () {
                     $div.addClass("clickable");
-                }, 1);
+                }, 200);
             });
         });
 
