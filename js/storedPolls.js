@@ -156,7 +156,7 @@ function storedPolls_init() {
                         transform: "translateX(" + w + "px)"
 //                        height: '40px'
                     }, 300, function () {
-                        $div.css("transform", "translateX(0)");
+                        //$div.css("transform", "translateX(0)");
                         StoredPolls._remove($div.parent());
                     });
 
