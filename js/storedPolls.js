@@ -150,6 +150,7 @@ function storedPolls_init() {
                 //e.stopPropagation();
                 $(document).off(".stored");
                 if (p > 0.4) {
+                    console.log("w: " + w)
                     $div.animate({
                         opacity: 0,
 //                        'margin-left': w,
