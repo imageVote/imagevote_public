@@ -151,7 +151,7 @@ function storedPolls_init() {
                 $(document).off(".stored");
                 if (p > 0.4) {
                     console.log("w: " + w)
-                    $div.css("transform", "translateX(" + w + "px)");
+//                    $div.css("transform", "translateX(" + w + "px)");
                     $div.animate({
                         opacity: 0,
 //                        'margin-left': w,
