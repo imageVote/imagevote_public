@@ -1,3 +1,4 @@
+//init storedPolls functions:
 storedPolls_init();
 
 //wait html loads
@@ -44,10 +45,13 @@ function loadStoredPolls() {
             localStorage.removeItem(storedKey);
             continue;
         }
-
+        
+        console.log("stored obj:");
+        console.log(obj);
         window.storedTable = new fillTable(query, obj, {removable: true});
-        StoredPolls._events(keyId); //swipe
-        //LOAD NOW FROM INTERNET
+        StoredPolls._events(keyId); //swipe events
+
+        //TRY LOAD NOW FROM INTERNET
         StoredPolls._loadWebPoll(keyId);
 
         fontSize(query);
