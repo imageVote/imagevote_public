@@ -35,7 +35,7 @@ function loadStoredPolls() {
         var arrayTimeData = JSON.parse(localStorage[storedKey]);
         var query = "stored_" + keyId;
         var div = $("<div class='votation' id='" + query + "'>");
-        
+
         var obj = parseData(arrayTimeData[1]);
         console.log(obj);
         //remove wrong parse        
@@ -44,13 +44,13 @@ function loadStoredPolls() {
             localStorage.removeItem(storedKey);
             continue;
         }
-        
+
         //add only if I vote it
         var vt = obj.users[window.user.id][1];
-        if("undefined" === typeof(vt) || "" === vt){
+        if ("undefined" === typeof (vt) || "" === vt) {
             continue;
         }
-        
+
         //all ok:
         stored.append(div);
         window.storedTable = new fillTable(query, obj, {removable: true});
@@ -120,8 +120,8 @@ function storedPolls_init() {
 
                 leftMove = e.clientX - left;
                 topMove = e.clientY - top;
-                
-                console.log(leftMove+" > "+10+" && "+Math.abs(leftMove)+" > "+Math.abs(topMove))
+
+                //console.log(leftMove + " > " + 10 + " && " + Math.abs(leftMove) + " > " + Math.abs(topMove))
                 if (leftMove > 10 && Math.abs(leftMove) > Math.abs(topMove)) {
                     leftMove = leftMove - Math.abs(topMove);
                     p = leftMove / w;
@@ -136,7 +136,7 @@ function storedPolls_init() {
                         remove.css("color", "grey");
                     }
 
-                    $(div).addClass("moving");
+                    $(query).removeClass("clickable");
 
                 } else {
                     div.css({
@@ -168,7 +168,7 @@ function storedPolls_init() {
                 }
 
                 setTimeout(function () {
-                    $(div).removeClass("moving");
+                    $(query).addClass("clickable");
                 }, 1);
             });
         });

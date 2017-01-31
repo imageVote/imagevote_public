@@ -129,8 +129,7 @@ function clickablePoll(query, keyId, url) {
 
     //events
     div.on("click.temp", function (e) {
-        if ($(this).find(".moving").length) {
-            console.log("prevented click");
+        if(!div.hasClass("clickable")){
             return;
         }
 

@@ -553,6 +553,12 @@ input{
     z-index: -1;
     margin: 0 auto;
     font-weight: normal;
+    font-size: 14px;
+    
+    -webkit-transition: color 200ms;
+    -moz-transition: color 200ms;
+    -o-transition: color 200ms;
+    transition: color 200ms;
 }
 #undo{
     right: 0;
