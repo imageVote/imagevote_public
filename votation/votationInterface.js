@@ -92,7 +92,7 @@ function checkShareEnvirontment() {
 
                 var url = "intent://" + location.host + "/share" + location.pathname + "/#Intent;"
                         + "scheme=http;"
-                        + "package=at.clicktovote;"
+                        + "package=" + window.package + ";"
                         //(empty or wrong code function) if twitter webview, this will redirect to app store but inside browser!
                         //+ "S.browser_fallback_url=" + escape(fallback_url) + ";"
                         + "end";
@@ -102,7 +102,7 @@ function checkShareEnvirontment() {
 
                 //not detects any intent (not installed app)
             } else {
-                var link = "https://play.google.com/store/apps/details?id=at.clicktovote";
+                var link = "https://play.google.com/store/apps/details?id=" + window.package;
                 $("#send").one("click", function () {
                     window.open(link, "_blank");
                 });

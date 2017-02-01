@@ -61,7 +61,8 @@ function noticePublic() {
 
     var appsLinks = "<div id=links class='hide'>"
             + "<div>"
-            + "<img src='~img/googleplay.png' onclick=\"location.href = 'https://play.google.com/store/apps/details?id=at.clicktovote'\"/>"
+            + "<img src='~img/googleplay.png'"
+            + " onclick=\"location.href = 'https://play.google.com/store/apps/details?id=" + window.package + "'\"/>"
             + "</div>"
             + "<div>"
             + "<img src='~img/appstore.png' class='disabled'/>"

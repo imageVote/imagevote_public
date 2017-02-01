@@ -26,12 +26,12 @@ iPhone = ua.indexOf("iPhone") > -1 || ua.indexOf("iPod") > -1;
 //            window.unavailableIntent = true;
 //
 //            //when redirect to google play url, android asks if open in gogole play
-//            url = "https://play.google.com/store/apps/details?id=at.clicktovote";
+//            url = "https://play.google.com/store/apps/details?id=" + window.package;
 //
 //        } else {
 //            url = intentUrl
 //                    + "scheme=http;"
-//                    + "package=at.clicktovote;"
+//                    + "package=" + window.package + ";"
 //                    //(empty or wrong code function) if twitter webview, this will redirect to app store but inside browser!
 //                    //+ "S.browser_fallback_url=" + escape(fallback_url) + ";"
 //                    + "end";

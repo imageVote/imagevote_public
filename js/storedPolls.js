@@ -107,6 +107,8 @@ function storedPolls_init() {
         var remove = $(query + " .removeInfo");
 
         $div.on("mousedown touchstart", function (e) {
+            //prevents pages swipe event bugs:
+            e.stopPropagation();
             //console.log(div)
             e = getEvent(e);
 
@@ -150,11 +152,6 @@ function storedPolls_init() {
                 //e.stopPropagation();
                 $(document).off(".stored");
                 if (p > 0.4) {
-
-                    setTimeout(function(){
-                        StoredPolls._remove($div.parent());
-                    }, 300);
-                                            
                     //needs animate
                     $div.animate({
                         opacity: 0,
@@ -162,7 +159,7 @@ function storedPolls_init() {
 //                        transform: "translateX(" + w + "px)"
 //                        height: '40px'
                     }, 300, function () {
-                        $div.css("transform", "translateX(0)");                        
+                        $div.css("transform", "translateX(0)");
                         StoredPolls._remove($div.parent());
                     });
 
@@ -191,7 +188,9 @@ function storedPolls_init() {
         var undo = $("<div id='undo' class='hoverUnderline'>" + lang["UNDO"] + "</div>");
         stored.append(undo);
 
-        $(document).one("mousedown touchstart", function (e) {
+        $(document).one("mousedown.undo touchstart.undo", function (e) {
+            $(document).off(".undo"); //prevent double event (mousedown + touchstart)
+            
             e.preventDefault();
             if ($(e.target).attr("id") == "undo") {
                 undo.remove();
