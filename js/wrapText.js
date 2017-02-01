@@ -9,7 +9,9 @@ function wrapText(context, text, x, y, maxWidth, lineHeight, info_only) {
         var metrics = context.measureText(testLine);
         var testWidth = metrics.width;
         if (testWidth > maxWidth && n > 0) {
-            context.fillText(line, x, y);
+            if (!info_only) {
+                context.fillText(line, x, y);
+            }
             line = words[n] + ' ';
             y += lineHeight;
             lines++;
