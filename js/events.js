@@ -44,16 +44,11 @@ function error(txt, f) {
         txt += ":: " + f.name + "; ";
         f = f.caller;
     }
-    //console.log(txt);
 
     //send
     if (!Device) {
-        $.ajax({
-            url: "../imageVote/error.php",
-            method: "POST",
-            data: {
-                error: text
-            }
+        $.post(window.urlPath + "/core/error.php", {
+            error: text
         });
     } else {
         Device.error(text);
@@ -135,6 +130,9 @@ function hashChanged(hash) {
         //else wrong/old hashes
 //        loadHash("home");
 
+        VotationInterface_addButtons();
+        $("#cancel, #usersButton").hide();
+
         //headers
         $("html").removeClass("withoutHeader");
         $("#pollsHeader").hide();
@@ -145,6 +143,7 @@ function hashChanged(hash) {
 
         $("#buttons").show();
         $("#showPolls").show();
+        $("#stored").show();
 
         newPollView();
     }
@@ -278,6 +277,9 @@ $(document).ready(function () {
         //first time show
         if (!storedHeight) {
             loadStoredPolls();
+            //way to get height and animate:
+            $("#stored").hide();
+            $("#stored").css("height", "auto");
             storedHeight = $("#stored").height(); //get height before put to 0
             $("#stored").css("height", 0); //height 0 after first time show!
             $("#stored").show();
@@ -293,6 +295,7 @@ $(document).ready(function () {
             _this.addClass("hide");
             $("#stored").css("height", "auto");
         }, 300);
+        $("#stored").show();
     });
 
     $("#toPolls").click(function () {
@@ -315,6 +318,7 @@ $(document).ready(function () {
     });
 
     $("#newPoll").click(function () {
+        $("#header").removeClass("search");
         newPollView();
 //        loadHash("home");
     });

@@ -2,16 +2,6 @@
 //globals
 var canvas, ctx;
 
-var defaultStyle = {
-    questionColor: [0, 0, 0],
-    textColor: [0, 0, 0],
-    backgroundColor: [255, 255, 255],
-    gradientBackground: [240, 240, 240],
-    color1: [200, 215, 220],
-    color2: [140, 180, 210],
-    extraValues: ["nm", "from"]
-};
-
 //ON CREATE ONLY!
 function getUserArray(user) {
     console.log("user: " + JSON.stringify(user));

@@ -1,11 +1,12 @@
 // GLOBAL EVENTS
 
 function showVotation(users) {
-    //public is defined on load html
-    VotationInterface_addButtons();
-
     $("#mainPage > div").hide();
     $("#votation").show();
+
+    //public is defined on load html
+    VotationInterface_addButtons();
+    $("#send").hide();
 
     var style = screenPoll.style;
     if (style && style.extraValues) {
@@ -162,7 +163,7 @@ function askUserName() {
 
     //add input
     $("#userNamePoll").remove();
-    var userName = $("<div id='userNameContainer'><input id='userNamePoll' type='text' placeholder='" + transl("myName") + "' " + nameValue + " /></div>");
+    var userName = $("<div id='userNameContainer'><input id='userNamePoll' type='text' data-placeholder='myName' " + nameValue + " /></div>");
     $("#votationButtons").prepend(userName);
 
     //if public poll
@@ -210,15 +211,18 @@ VotationInterface_addButtons = function () {
     $("#defaultButtons").remove();
     $("#usersButton").remove();
     $("#votationButtons").prepend(buttonsHTML);
-    VotationInterface_buttonsEvents();
+
+    VotationInterface_sendButtonEvent();
+    VotationInterface_cancelButtonEvent();
+    VotationInterface_usersButtonEvent();
 
     //after events
     checkShareEnvirontment();
+    $("#buttons").show();
 };
 
-VotationInterface_buttonsEvents = function () {
+function VotationInterface_sendButtonEvent() {
 //    checkShareEnvirontment();
-
     $("#send").click(function (e) {
         if (window.preventSendEvents) {
             return;
@@ -238,7 +242,7 @@ VotationInterface_buttonsEvents = function () {
                 obj.users = [];
             }
             //save user on screenPoll 'obj' (1st time)
-            obj.users[window.userId] = getUserArray(window.user);
+            obj.users[window.user.id] = getUserArray(window.user);
 
             VotationInterface_saveButton("create", obj, function (done) {
                 if (false === done) {
@@ -269,8 +273,13 @@ VotationInterface_buttonsEvents = function () {
             });
         }
     });
+}
+
+function VotationInterface_cancelButtonEvent() {
 
     $("#cancel").click(function () {
+        window.screenPoll = new LoadedPoll();
+
         if (window.isTranslucent) {
             if (window.Device) {
                 console.log("closing.. window.isTranslucent: " + window.isTranslucent);
@@ -302,48 +311,64 @@ VotationInterface_buttonsEvents = function () {
 
         $(document).off(".swipePrevent");
     });
+}
 
+function VotationInterface_usersButtonEvent() {
     //voters users
-    $("#usersButton").click(function () {
-        var obj = screenPoll.obj;
-        var users = obj.users;
-        $("#users .list").html("");
+    var obj = window.screenPoll.obj;
+    var users = obj.users;
 
-        var nameIndex;
-        if (obj.style.extraValues) {
-            for (var i = 0; i < obj.style.extraValues.length; i++) {
-                if ("nm" == obj.style.extraValues[i]) {
-                    nameIndex = 2 + i;
-                }
+    var nameIndex;
+    if (obj.style && obj.style.extraValues) {
+        for (var i = 0; i < obj.style.extraValues.length; i++) {
+            if ("nm" == obj.style.extraValues[i]) {
+                nameIndex = 2 + i;
+                break;
             }
         }
+    }
+
+    var unknown = 0;
+    var voters = [];
+    for (var id in users) {
+        var user = users[id];
+
+        //if not vote, not show
+        var userVotes = user[1];
+        if (!userVotes && 0 !== userVotes) {
+            continue;
+        }
+
+        var name = user[nameIndex];
+        if (!name || (!user[1] && 0 !== user[1])) {
+            unknown++;
+            continue;
+        }
+
+        voters.push(user);
+    }
+
+    //prevent show voters button if no voters exist
+    if (!voters.length) {
+        $("#usersButton").hide();
+        return;
+    }
+
+    $("#usersButton").click(function () {
+        $("#users .list").html("");
 
         //SORT
         var arrUsers = [];
-        for (var id in users) {
-            arrUsers.push(users[id]);
+        for (var id in voters) {
+            arrUsers.push(voters[id]);
         }
         arrUsers.sort(function (a, b) {
             return a[nameIndex].localeCompare(b[nameIndex]);
         });
 
-        var unknown = 0;
         for (var i = 0; i < arrUsers.length; i++) {
             var user = arrUsers[i];
             var id = user[0];
-
-            //if not vote, not show
-            var userVotes = user[1];
-            if (!userVotes && 0 !== userVotes) {
-                continue;
-            }
-
-            var name = user[nameIndex];
-            if (!name || (!user[1] && 0 !== user[1])) {
-                console.log("!name || !users[id][1]");
-                unknown++;
-                continue;
-            }
 
             var from = user[nameIndex + 1];
 
@@ -381,7 +406,7 @@ VotationInterface_buttonsEvents = function () {
             flash(lang["notPublicUsers"]);
         }
     });
-};
+}
 
 VotationInterface_notSave = function (why) {
     console.log("VotationInterface_notSave: " + why);
@@ -626,10 +651,10 @@ VotationInterface_saveButton = function (action, obj, callback) {
 
     } else if ("create" == action) {
         sendJson = json;
-        
+
         //not local stored if not voted by me
         var vt = obj.users[userId][1];
-        if("undefined" !== typeof(vt) && "" !== vt){
+        if ("undefined" !== typeof (vt) && "" !== vt) {
             saveLocally(screenPoll.key, json);
         }
 

@@ -107,7 +107,7 @@ html.translucent{
 
 #header > div{
     /*max-width: 450px;*/
-    max-width: 506px;
+    /*max-width: 506px;*/
     margin: auto;
     position: relative;
 }
@@ -150,7 +150,7 @@ html.translucent{
     left: 0;
     right: 0;
 }
-#mainPage, #header > div{
+#mainPage, #pollsPage, #header > div{
     /*max-width: 506px;*/
     max-width: 640px;
 }
@@ -182,7 +182,7 @@ a:hover{
 #votation{
     /*padding: 0 10px;*/
 }
-#creator{
+#creator, #votation{
     display: block;
     margin-bottom: 10px;
 }
@@ -294,7 +294,9 @@ input{
 }
 
 #stored{
-    display: none;    
+    /*'display:none' let mesure height*/
+    /*display: none;*/    
+    height: 0;
     font-weight: bold;
     position: relative;
     overflow: hidden;
@@ -326,6 +328,7 @@ input{
 }
 #stored .options{
     pointer-events: none;
+    text-shadow: 1px 1px rgba(0,0,0,0.5);
 }
 
 #stored .right{
@@ -414,11 +417,12 @@ input{
     /*padding-left: 5px;*/
     /*this breaks word only if only 1 large word like 'aaa+bbb+ccc'*/
     word-break: break-word;
+    text-shadow: 1px 1px rgba(0,0,0,0.5);
 }
 
 .option table {
     box-shadow: 1px 1px 0 rgba(0,0,0,0.35), inset 1px 1px 0 rgba(255,255,255,0.35);
-    
+
     -webkit-transition: all 300ms;
     -moz-transition: all 300ms;
     -o-transition: all 300ms;
@@ -442,7 +446,7 @@ input{
     pointer-events: none;
     left: 50%;    
     padding: 5px 15px;
-    top: 40%;
+    top: 30%;
     background-color: rgba(150,150,150,0.85);
     word-wrap: break-word;
     line-height: 25px;
@@ -554,7 +558,7 @@ input{
     margin: 0 auto;
     font-weight: normal;
     font-size: 14px;
-    
+
     -webkit-transition: color 200ms;
     -moz-transition: color 200ms;
     -o-transition: color 200ms;
@@ -839,7 +843,7 @@ input{
 }
 #pollsPage{
     position: relative;
-    max-width: 506px;
+    /*max-width: 506px;*/
     margin: auto;
     padding: 0 10px;
     height: 100%;
@@ -885,3 +889,7 @@ body > .option > *{
     -o-transition: all 200ms;
     transition: all 200ms;
 }*/
+
+#buttons{
+    min-height: 55px;
+}

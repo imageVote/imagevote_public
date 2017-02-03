@@ -2,11 +2,21 @@
 function translateTags() {
     var userLang = getUserLang();
     console.log("language: " + userLang);
-    lang = window["lang_" + userLang];
-    if (!lang) {
-        lang = window.lang_en;
-    }
 
+    $.getScript("~lang/" + userLang + ".js", function () {
+        lang = window["lang_" + userLang];
+        if (lang) {
+            loadTranslations();
+        } else {
+            $.getScript("~lang/en.js", function () {
+                lang = window.lang_en;
+                loadTranslations();
+            });
+        }
+    });
+}
+
+function loadTranslations() {
     $("[data-lang]").each(function () {
         var textKey = $(this).attr("data-lang");
         var translation = lang[textKey];
@@ -19,6 +29,18 @@ function translateTags() {
         //remove lang 4 prevent re-translate
         $(this).removeAttr("data-lang");
     });
+    $("[data-placeholder]").each(function () {
+        var textKey = $(this).attr("data-placeholder");
+        var translation = lang[textKey];
+        if (translation) {
+            $(this).attr("placeholder", translation);
+        } else {
+            $(this).attr("placeholder", translation);
+            console.log(textKey + " not have translation!");
+        }
+        //remove lang 4 prevent re-translate
+        $(this).removeAttr("data-placeholder");
+    });
 }
 
 function flash(text, persist) {
@@ -27,7 +49,7 @@ function flash(text, persist) {
 
     stopFlash();
     var div = $("<flash id='flash'>" + text + "</flash>"); //flash = prevent global div hide
-    $("#body").append(div);
+    $("body").append(div);
 
     if (persist) {
         return;
@@ -132,14 +154,4 @@ function askPhone(callback, cancelCallback) {
             //else nothing;
         });
     }, 1);
-}
-
-function loadjsfile(filename, callback) {
-    $.getScript(filename, function (data, textStatus, jqxhr) {
-        console.log(data); // Data returned
-        console.log(textStatus); // Success
-        console.log(jqxhr.status); // 200
-        console.log("Load was performed.");
-        callback();
-    });
 }

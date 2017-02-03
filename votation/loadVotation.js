@@ -19,8 +19,7 @@ function requestPollByKey(key) {
         }
 
         loadAjaxKey(url, function (data) {
-            console.log("DATA!!");
-            console.log(data);
+            //console.log(data);
 
             if (!data) {
                 if (alternative.keysPath && keysPath != alternative.keysPath) {
@@ -55,7 +54,7 @@ function requestPollByKey(key) {
                     }
                 }
 
-                //buttons
+                // + buttons
                 showVotation(obj.users);
 
                 if (obj.users && obj.users[userId]) {
@@ -104,7 +103,7 @@ function loadImage(data, keyId) {
             console.log(obj);
             window.loadedTable = new fillTable("#votation .votationBox", obj);
 
-            //buttons
+            // + buttons
             showVotation(obj.users);
 
             checkCountry(keyId);
