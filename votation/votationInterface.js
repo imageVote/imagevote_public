@@ -78,7 +78,10 @@ function saveToShare() {
     //checkShareEnvirontment("#save");
 }
 
-function checkShareEnvirontment(tag) {
+function checkShareEnvirontment(tag, extra) {
+    if(extra){
+        extra = "";
+    }
     //ANDROID BROWSER CASE (or TWITTER APP!)
     if (window.isAndroid && !window.Device) {
         console.log("window.isAndroid && !window.Device");
@@ -93,7 +96,7 @@ function checkShareEnvirontment(tag) {
                 //window.deviceIntentLoads = true;
                 //window.saveImageLocally = true;
 
-                var url = "intent://" + location.host + "/share" + location.pathname + "/#Intent;"
+                var url = "intent://" + location.host + "/share" + extra + location.pathname + "/#Intent;"
                         + "scheme=http;"
                         + "package=" + window.package + ";"
                         //(empty or wrong code function) if twitter webview, this will redirect to app store but inside browser!
@@ -106,7 +109,7 @@ function checkShareEnvirontment(tag) {
                 //not detects any intent (not installed app)
             } else {
                 var link = "https://play.google.com/store/apps/details?id=" + window.package;
-                $("#send").one("click", function () {
+                $(tag).one("click", function () {
                     window.open(link, "_blank");
                 });
                 var err = notice(transl("notInApp"));
