@@ -83,7 +83,7 @@ function checkShareEnvirontment() {
     if (window.isAndroid && !window.Device) {
         console.log("window.isAndroid && !window.Device");
         //http://stackoverflow.com/questions/6567881/how-can-i-detect-if-an-app-is-installed-on-an-android-device-from-within-a-web-p
-        var intentUrl = "intent://" + location.host + "/#Intent;scheme=http;package=" + window.package + ";end";
+        var intentUrl = "intent://" + location.host + "/#Intent;scheme=http;end";
         detectAndroidIntent(intentUrl, function (intentLoads) {
             console.log("intentLoads: " + intentLoads);
             window.preventSendEvents = true;
