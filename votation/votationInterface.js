@@ -81,7 +81,8 @@ function saveToShare() {
 function checkShareEnvirontment() {
     //ANDROID BROWSER CASE (or TWITTER APP!)
     if (window.isAndroid && !window.Device) {
-        var intentUrl = "intent://" + window.appPath + "/#Intent;";
+        //http://stackoverflow.com/questions/6567881/how-can-i-detect-if-an-app-is-installed-on-an-android-device-from-within-a-web-p
+        var intentUrl = "intent://" + window.appPath + "/#Intent;scheme=http;package=" + window.package + ";end";
         detectAndroidIntent(intentUrl, function (intentLoads) {
             console.log("intentLoads: " + intentLoads);
             window.preventSendEvents = true;
@@ -243,7 +244,7 @@ function VotationInterface_sendButtonEvent() {
             }
             //save user on screenPoll 'obj' (1st time)
             obj.users[window.user.id] = getUserArray(window.user);
-            
+
             //.SaveAndShare class includes VotationInterface_shareButton!
             VotationInterface_saveButton("create", obj, function (done) {
                 if (false === done) {
@@ -556,7 +557,9 @@ VotationInterface_saveButton = function (action, obj, callback) {
             askName_html();
             $("#userNamePoll").focus();
             VotationInterface_notSave(1);
-            callback(false);
+            if (callback) {
+                callback(false);
+            }
             return;
         }
 
@@ -576,7 +579,9 @@ VotationInterface_saveButton = function (action, obj, callback) {
                 return;
             }
             //stop
-            callback(false);
+            if (callback) {
+                callback(false);
+            }
             return;
         }
     }
@@ -605,7 +610,9 @@ VotationInterface_saveButton = function (action, obj, callback) {
             //can't save votation if not publicId is working
             askPhone();
             //stop
-            callback(false);
+            if (callback) {
+                callback(false);
+            }
             return;
         }
 
@@ -655,7 +662,9 @@ VotationInterface_saveButton = function (action, obj, callback) {
 
     } else {
         console.log("error on action: " + action);
-        callback(false);
+        if (callback) {
+            callback(false);
+        }
         return;
     }
 

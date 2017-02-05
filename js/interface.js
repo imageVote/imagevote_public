@@ -4,13 +4,15 @@ function translateTags() {
     console.log("language: " + userLang);
 
     $.getScript("~lang/" + userLang + ".js", function () {
-        lang = window["lang_" + userLang];
-        if (lang) {
+        window.lang = window["lang_" + userLang];
+        if (window.lang) {
             loadTranslations();
         } else {
             $.getScript("~lang/en.js", function () {
-                lang = window.lang_en;
-                loadTranslations();
+                window.lang = window.lang_en;
+                if (window.lang) {
+                    loadTranslations();
+                }
             });
         }
     });
@@ -19,7 +21,7 @@ function translateTags() {
 function loadTranslations() {
     $("[data-lang]").each(function () {
         var textKey = $(this).attr("data-lang");
-        var translation = lang[textKey];
+        var translation = window.lang[textKey];
         if (translation) {
             $(this).html(translation);
         } else {
@@ -31,7 +33,7 @@ function loadTranslations() {
     });
     $("[data-placeholder]").each(function () {
         var textKey = $(this).attr("data-placeholder");
-        var translation = lang[textKey];
+        var translation = window.lang[textKey];
         if (translation) {
             $(this).attr("placeholder", translation);
         } else {
