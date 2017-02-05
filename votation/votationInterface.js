@@ -75,10 +75,10 @@ function saveToShare() {
     //hide public options to show share image?
     $("#publicMessage").hide();
 
-    //checkShareEnvirontment();
+    //checkShareEnvirontment("#save");
 }
 
-function checkShareEnvirontment() {
+function checkShareEnvirontment(tag) {
     //ANDROID BROWSER CASE (or TWITTER APP!)
     if (window.isAndroid && !window.Device) {
         console.log("window.isAndroid && !window.Device");
@@ -101,7 +101,7 @@ function checkShareEnvirontment() {
                         + "end";
 
                 console.log("URL: " + url);
-                $("#send").wrap("<a class='intentLink' href='" + url + "'></a>");
+                $(tag).wrap("<a class='intentLink' href='" + url + "'></a>");
 
                 //not detects any intent (not installed app)
             } else {
@@ -219,12 +219,12 @@ VotationInterface_addButtons = function () {
     VotationInterface_usersButtonEvent();
 
     //after events
-    checkShareEnvirontment();
+    checkShareEnvirontment("#save");
     $("#buttons").show();
 };
 
 function VotationInterface_sendButtonEvent() {
-//    checkShareEnvirontment();
+//    checkShareEnvirontment("#save");
     $("#send").click(function (e) {
         if (window.preventSendEvents) {
             return;
