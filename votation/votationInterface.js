@@ -79,6 +79,7 @@ function saveToShare() {
 }
 
 function checkShareEnvirontment(tag, extra) {
+    console.log("tag: " + tag)
     if(extra){
         extra = "";
     }
@@ -103,7 +104,6 @@ function checkShareEnvirontment(tag, extra) {
                         //+ "S.browser_fallback_url=" + escape(fallback_url) + ";"
                         + "end";
 
-                console.log("URL: " + url);
                 $(tag).wrap("<a class='intentLink' href='" + url + "'></a>");
 
                 //not detects any intent (not installed app)
@@ -220,9 +220,6 @@ VotationInterface_addButtons = function () {
     VotationInterface_sendButtonEvent();
     VotationInterface_cancelButtonEvent();
     VotationInterface_usersButtonEvent();
-
-    //after events
-    checkShareEnvirontment("#save");
     $("#buttons").show();
 };
 

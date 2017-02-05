@@ -5,10 +5,10 @@ var canvas, ctx;
 //ON CREATE ONLY!
 function getUserArray(user) {
     console.log("user: " + JSON.stringify(user));
-    if(!user){
+    if (!user) {
         return [];
     }
-    
+
     var arr = [user.id, user.vt];
     //like name on private polls    
     //needs to be defined in defaultStyle because is array type stored (not by attr)
@@ -81,9 +81,9 @@ function toObject(arr) {
         return false;
     }
 
-    var question = arr.shift();
-    var options = parseOptions(arr.shift());
-    if (!options || !options.length) {
+//    var question = arr.shift();
+    var options_arr = arr.shift();
+    if (!options_arr || !options_arr.length) {
         return false;
     }
     var style = arr.shift();
@@ -96,80 +96,18 @@ function toObject(arr) {
     }
 
     var obj = {
-        question: question,
-        options: options,
+//        question: question,
         style: style,
         users: users
-    };
-    //console.log(obj);
+    };    
+    parseOptions(obj, options_arr);
+    
+    console.log(obj);
     return obj;
 }
 
-function clickablePoll(query, keyId, url) {
-    var div = $(query);
-    div.addClass("clickable");
-
-    //if is in polls list page:
-    if (div.closest("#polls").hasClass("reduced")) {
-        div.addClass("hidden");
-        //var height = $(query).height() + 2;
-        var reducedHeight = $(query).width() * 0.314;
-        div.css("max-height", reducedHeight);
-    }
-
-    //events
-    div.off(".event");
-    div.on("click.event", function (e) {
-        //find again from query:
-        if(!$(query).hasClass("clickable")){
-            return;
-        }
-
-        //setTimeout: let last hidePollEvent call first        
-        setTimeout(function () {
-            //if is canvas
-            if (div.hasClass("hidden")) {
-                //complete height
-                div.css("max-height", (div.find("canvas, img").height() + 50) + "px");
-                div.removeClass("hidden");
-
-                hidePollEvent(query, reducedHeight);
-                return;
-            }
-
-            //link
-            var link = "http://" + appPath + "/" + keyId;
-            if (Device || localhost) {
-                //prevent hash change event
-                link = location.href.split("#")[0].split("?")[0] + "#key=" + keyId;
-            }
-
-//            if (!Device) {
-//                if (url) {
-//                    link = url;
-//                }                
-//            }
-            location.href = link;
-        }, 1);
-    });
-}
-
-function hidePollEvent(query, reducedHeight) {
-    //let polls hide first
-    setTimeout(function () {
-        //ONE
-        $(document).one("click", function (e) {
-            if (!$(e.target).closest(query).length) {
-                $(query).addClass("hidden");
-                $("#polls .image").css("max-height", reducedHeight);
-            }
-        });
-    }, 1);
-}
-
-function parseOptions(obj) { 
+function parseOptions(obj, opts) {
     var usrs = obj.users;
-    var opts = obj.options;
 
     //STORE VALID OPTIONS
     var optionsResult = [];
@@ -227,7 +165,7 @@ function parseOptions(obj) {
     //optionsResult = sortOptions(optionsResult);
     //}
     //console.log(optionsResult)
-    return optionsResult;
+    obj.options = optionsResult;
 }
 
 function sortOptions(optionsResult) {
@@ -238,6 +176,68 @@ function sortOptions(optionsResult) {
     //}
     //console.log(optionsResult)
     return optionsResult;
+}
+
+function clickablePoll(query, keyId, url) {
+    var div = $(query);
+    div.addClass("clickable");
+
+    //if is in polls list page:
+    if (div.closest("#polls").hasClass("reduced")) {
+        div.addClass("hidden");
+        //var height = $(query).height() + 2;
+        var reducedHeight = $(query).width() * 0.314;
+        div.css("max-height", reducedHeight);
+    }
+
+    //events
+    div.off(".event");
+    div.on("click.event", function (e) {
+        //find again from query:
+        if (!$(query).hasClass("clickable")) {
+            return;
+        }
+
+        //setTimeout: let last hidePollEvent call first        
+        setTimeout(function () {
+            //if is canvas
+            if (div.hasClass("hidden")) {
+                //complete height
+                div.css("max-height", (div.find("canvas, img").height() + 50) + "px");
+                div.removeClass("hidden");
+
+                hidePollEvent(query, reducedHeight);
+                return;
+            }
+
+            //link
+            var link = "http://" + appPath + "/" + keyId;
+            if (Device || localhost) {
+                //prevent hash change event
+                link = location.href.split("#")[0].split("?")[0] + "#key=" + keyId;
+            }
+
+//            if (!Device) {
+//                if (url) {
+//                    link = url;
+//                }                
+//            }
+            location.href = link;
+        }, 1);
+    });
+}
+
+function hidePollEvent(query, reducedHeight) {
+    //let polls hide first
+    setTimeout(function () {
+        //ONE
+        $(document).one("click", function (e) {
+            if (!$(e.target).closest(query).length) {
+                $(query).addClass("hidden");
+                $("#polls .image").css("max-height", reducedHeight);
+            }
+        });
+    }, 1);
 }
 
 function voteArray(arr) {

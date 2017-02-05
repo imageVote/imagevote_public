@@ -170,11 +170,14 @@ html.translucent{
     
 }
 a{
-    color: #8499ff;
+    text-decoration: none;
+    /*color: #8499ff;*/
+    color: inherit;
     cursor: pointer;
 }
 a:hover{
-    text-decoration: underline;
+    /*text-decoration: underline;*/
+    text-decoration: none;
 }
 
 #creator, #votation, #loading, #users, #firstTime, #captcha{

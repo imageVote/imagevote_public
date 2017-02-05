@@ -127,6 +127,7 @@ function hashChanged(hash) {
         pollsView();
 
     } else { //and home
+        console.log("HOME");
         //else wrong/old hashes
 //        loadHash("home");
 
