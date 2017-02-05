@@ -71,6 +71,8 @@ function detectAndroidIntent(intentUrl, callback, time) {
         document.body.removeChild(ifr); // remove the iframe element        
     };
     ifr.style.display = 'none'; //in some cases css load slower
+    ifr.style.height = 0;
+    ifr.style.overflow = "hidden";
     document.body.appendChild(ifr);
 
     //remove
