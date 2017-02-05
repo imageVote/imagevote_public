@@ -75,14 +75,15 @@ function saveToShare() {
     //hide public options to show share image?
     $("#publicMessage").hide();
 
-    //checkShareEnvirontment();
+    //checkShareEnvirontment("#save");
 }
 
-function checkShareEnvirontment() {
+function checkShareEnvirontment(tag) {
     //ANDROID BROWSER CASE (or TWITTER APP!)
     if (window.isAndroid && !window.Device) {
+        console.log("window.isAndroid && !window.Device");
         //http://stackoverflow.com/questions/6567881/how-can-i-detect-if-an-app-is-installed-on-an-android-device-from-within-a-web-p
-        var intentUrl = "intent://" + window.appPath + "/#Intent;scheme=http;package=" + window.package + ";end";
+        var intentUrl = "intent://" + location.host + "/#Intent;end";
         detectAndroidIntent(intentUrl, function (intentLoads) {
             console.log("intentLoads: " + intentLoads);
             window.preventSendEvents = true;
@@ -100,7 +101,7 @@ function checkShareEnvirontment() {
                         + "end";
 
                 console.log("URL: " + url);
-                $("#send").wrap("<a class='intentLink' href='" + url + "'></a>");
+                $(tag).wrap("<a class='intentLink' href='" + url + "'></a>");
 
                 //not detects any intent (not installed app)
             } else {
@@ -218,12 +219,12 @@ VotationInterface_addButtons = function () {
     VotationInterface_usersButtonEvent();
 
     //after events
-    checkShareEnvirontment();
+    checkShareEnvirontment("#save");
     $("#buttons").show();
 };
 
 function VotationInterface_sendButtonEvent() {
-//    checkShareEnvirontment();
+//    checkShareEnvirontment("#save");
     $("#send").click(function (e) {
         if (window.preventSendEvents) {
             return;
@@ -707,7 +708,7 @@ VotationInterface_saveButton = function (action, obj, callback) {
         var cacheTimeout = (new Date()).getTime() + 86400000;
         localStorage.setItem(url, cacheTimeout);
 
-        if (callback && call) {
+        if (call) {
             callback(call);
         }
     }

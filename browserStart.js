@@ -1,5 +1,6 @@
 
 // DEVICES REDIRECTION:
+//this not works on "request desktop site" option!
 var ua = navigator.userAgent.toLowerCase();
 isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
 iPhone = ua.indexOf("iPhone") > -1 || ua.indexOf("iPod") > -1;
@@ -70,6 +71,8 @@ function detectAndroidIntent(intentUrl, callback, time) {
         document.body.removeChild(ifr); // remove the iframe element        
     };
     ifr.style.display = 'none'; //in some cases css load slower
+    ifr.style.height = 0;
+    ifr.style.overflow = "hidden";
     document.body.appendChild(ifr);
 
     //remove
