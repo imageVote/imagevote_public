@@ -82,7 +82,7 @@ function checkShareEnvirontment() {
     //ANDROID BROWSER CASE (or TWITTER APP!)
     if (window.isAndroid && !window.Device) {
         //http://stackoverflow.com/questions/6567881/how-can-i-detect-if-an-app-is-installed-on-an-android-device-from-within-a-web-p
-        var intentUrl = "intent://" + window.appPath + "/#Intent;action=android.intent.action.VIEW;end";
+        var intentUrl = "intent://" + window.appPath + "/#Intent;scheme=http;package=" + window.package + ";end";
         detectAndroidIntent(intentUrl, function (intentLoads) {
             console.log("intentLoads: " + intentLoads);
             window.preventSendEvents = true;
