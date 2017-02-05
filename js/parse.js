@@ -82,7 +82,7 @@ function toObject(arr) {
     }
 
     var question = arr.shift();
-    var options = arr.shift();
+    var options = parseOptions(arr.shift());
     if (!options || !options.length) {
         return false;
     }
