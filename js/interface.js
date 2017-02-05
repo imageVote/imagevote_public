@@ -10,7 +10,9 @@ function translateTags() {
         } else {
             $.getScript("~lang/en.js", function () {
                 window.lang = window.lang_en;
-                loadTranslations();
+                if (window.lang) {
+                    loadTranslations();
+                }
             });
         }
     });
