@@ -243,19 +243,14 @@ function VotationInterface_sendButtonEvent() {
             }
             //save user on screenPoll 'obj' (1st time)
             obj.users[window.user.id] = getUserArray(window.user);
-
+            
+            //.SaveAndShare class includes VotationInterface_shareButton!
             VotationInterface_saveButton("create", obj, function (done) {
                 if (false === done) {
                     $(".absoluteLoading").remove();
                     return;
                 }
-
                 localStorage.setItem("unusedKey", "");
-                //not save anymore
-                //$("#send").attr("class", "share");
-                VotationInterface_shareButton(function () {
-                    $(".absoluteLoading").remove();
-                });
             });
 
         } else if (!$("#send").hasClass("share")) { //class is save

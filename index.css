@@ -166,9 +166,12 @@ html.translucent{
 }
 
 /*'a' style when no href:*/
+.link{
+    
+}
 a{
+    color: #8499ff;
     cursor: pointer;
-    color: blue;
 }
 a:hover{
     text-decoration: underline;
