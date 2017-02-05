@@ -698,7 +698,7 @@ VotationInterface_saveButton = function (action, obj, callback) {
         var cacheTimeout = (new Date()).getTime() + 86400000;
         localStorage.setItem(url, cacheTimeout);
 
-        if (callback && call) {
+        if (call) {
             callback(call);
         }
     }
