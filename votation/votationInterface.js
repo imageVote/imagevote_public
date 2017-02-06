@@ -79,7 +79,7 @@ function saveToShare() {
 }
 
 function checkShareEnvirontment(tag, extra) {
-    console.log("tag: " + tag)
+    console.log("tag: " + tag);
     if(!extra){
         extra = "";
     }
