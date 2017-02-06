@@ -79,7 +79,8 @@ function saveToShare() {
 }
 
 function checkShareEnvirontment(tag, extra) {
-    if (extra) {
+    console.log("tag: " + tag);
+    if(!extra){
         extra = "";
     }
 
@@ -126,7 +127,7 @@ function checkShareEnvirontment(tag, extra) {
             }
 
             //return all to normality
-            $("#send").one("click", function () {
+            $(tag).one("click", function () {
                 //prevent any send click
                 setTimeout(function () {
                     window.preventSendEvents = false;
