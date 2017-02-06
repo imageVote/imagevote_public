@@ -34,7 +34,7 @@ function error(txt, f) {
     notice("error: " + text, true);
 
     if ($("#loading:visible").length) {
-        console.log("load defaultPage after error");
+        //console.log("load defaultPage after error");
         //defaultPage();
     }
 
