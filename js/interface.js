@@ -1,8 +1,12 @@
 
 function translateTags() {
     var userLang = getUserLang();
-    console.log("language: " + userLang);
-
+    console.log("language: " + userLang);    
+    if(window.lang){
+        loadTranslations();
+        return;
+    }
+    
     $.getScript("~lang/" + userLang + ".js", function () {
         window.lang = window["lang_" + userLang];
         if (window.lang) {

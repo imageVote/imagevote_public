@@ -1,4 +1,29 @@
 
+function loadKeyPoll() {
+    //first
+    loading();
+
+    var isCountry = screenPoll.key.indexOf("-") > 0;
+    if (screenPoll.key[0] != "-" || isCountry) {
+        //public = true;
+        screenPoll.isPublic("true");
+        if (isCountry) {
+            screenPoll.country = screenPoll.key.split("-").shift();
+        }
+
+    } else {
+        //TODO: activate maybe when app goes big
+        //notice(transl("warnNotPublic"));
+    }
+
+    requestPollByKey(screenPoll.key);
+
+    //prevent swipe events
+    $(document).on("swiperight.swipePrevent swipeleft.swipePrevent touchstart.swipePrevent touchend.swipePrevent touchup.swipePrevent", function (e) {
+        e.stopPropagation();
+    });
+}
+
 function requestPollByKey(key) {
     console.log("requestPollByKey");
     var _args = arguments;
@@ -65,6 +90,32 @@ function requestPollByKey(key) {
             });
         });
     }
+}
+
+//ON LOAD VOTATION AND STORED
+function loadAjaxKey(url, callback, findCache) {
+    console.log("url: " + url + " on loadAjaxKey()");
+
+    // jquery not allows overrideMimeType
+    var xhr = new XMLHttpRequest();
+    var nocache = "nocache=" + (new Date()).getTime();
+    if (findCache) {
+        nocache = "";
+    }
+    xhr.open('GET', url + nocache); //absolute no cache
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                callback(xhr.responseText);
+            } else {
+                console.log("Error " + xhr.status + " occurred uploading your file.");
+                callback(false);
+            }
+        }
+    };
+    // important 4 accents and, ñ, etc..
+    xhr.overrideMimeType('text/plain; charset=ISO-8859-1');
+    xhr.send();
 }
 
 //huge js codes cant be sent with loadUrl, only Device function
