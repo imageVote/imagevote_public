@@ -163,7 +163,7 @@ function loadImage(data, keyId) {
 LoadVotation_parseUserVotes = function (data, divQuery, callback) {
     var _args = arguments;
     //wait userId request
-    if (!window.user.id) {
+    if (!window.user || !window.user.id) {
         console.log("waiting for userId..");
         setTimeout(function () {
             LoadVotation_parseUserVotes.apply(this, _args);
