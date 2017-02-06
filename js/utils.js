@@ -3,13 +3,14 @@ var alternative = {
 //    keysPath: "dl.dropboxusercontent.com/u/70345137/key/"
 };
 
-function newUser(voting) {
+function newUser(id, voting) {
+    console.log("newUser(" + id + ", " + voting + ")")
     if (window.public && window.publicId) {
-        phoneId = window.userId;
-        userId = publicId;
+        phoneId = window.user.id;
+        id = publicId;
     }
     var user = {
-        id: userId,
+        id: id,
         vt: ""
     };
     if (voting) {
@@ -67,10 +68,9 @@ function addUser(id, name, country, pubId) {
         return;
     }
 
-    userId = id;
     //don't override userId localStorage userId !
     if (pubId) {
-        publicId = pubId;
+        window.publicId = pubId;
         localStorage.setItem("publicId", pubId);
     }
 
@@ -83,7 +83,7 @@ function addUser(id, name, country, pubId) {
     if (window.user && user.vt) {
         storedVotes = user.vt;
     }
-    var usr = newUser(voting); //false
+    var usr = newUser(id, voting); //false
     if (storedVotes) {
         usr.vt = storedVotes;
     }
@@ -447,18 +447,19 @@ function browser() {
 
 //http://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript
 function is_touch_device() {
-  return 'ontouchstart' in window        // works on most browsers 
-      || navigator.maxTouchPoints;       // works on IE10/11 and Surface
-};
+    return 'ontouchstart' in window        // works on most browsers 
+            || navigator.maxTouchPoints;       // works on IE10/11 and Surface
+}
+;
 
 //http://stackoverflow.com/questions/4770025/how-to-disable-scrolling-temporarily
 var keys = {37: 1, 38: 1, 39: 1, 40: 1};
 
 function preventDefault(e) {
-  e = e || window.event;
-  if (e.preventDefault)
-      e.preventDefault();
-  e.returnValue = false;  
+    e = e || window.event;
+    if (e.preventDefault)
+        e.preventDefault();
+    e.returnValue = false;
 }
 
 function preventDefaultForScrollKeys(e) {

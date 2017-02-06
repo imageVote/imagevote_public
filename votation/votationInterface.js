@@ -150,8 +150,8 @@ function askUserName() {
     //FORCE enter name to prevent poll problems with troll random voters
     var votes = null;
     var obj = screenPoll.obj;
-    if (obj.users && obj.users[userId]) {
-        votes = obj.users[userId][1];
+    if (obj.users && obj.users[user.id]) {
+        votes = obj.users[user.id][1];
     }
 
     //get value: name attr
@@ -190,7 +190,7 @@ function requiredName() {
     $("#send").off(".requiredName"); //clean
 
     $("#send").on("click.requiredName", function (e) {
-        var votes = screenPoll.obj.users[userId][1];
+        var votes = screenPoll.obj.users[user.id][1];
         if (!$("#userNamePoll").val()
                 && (votes || 0 === votes)) {
             $("#userNamePoll").focus();
@@ -533,8 +533,8 @@ VotationInterface_saveButton = function (action, obj, callback) {
         //name is mandatory for prevent troll's confusion votes, and disagree results
         var inputName = $("#userNamePoll").val() || localStorage.getItem("userName");
         var votes = null;
-        if (obj.users[userId]) {
-            votes = obj.users[userId][1];
+        if (obj.users[user.id]) {
+            votes = obj.users[user.id][1];
         }
 
         if (inputName) {
@@ -649,14 +649,14 @@ VotationInterface_saveButton = function (action, obj, callback) {
         console.log('update" == action');
         var userArr = getUserArray(user);
         sendJson = JSON.stringify(userArr);
-        obj.users[userId] = JSON.parse(sendJson);
+        obj.users[user.id] = JSON.parse(sendJson);
         saveLocally(screenPoll.key, json);
 
     } else if ("create" == action) {
         sendJson = json;
 
         //not local stored if not voted by me
-        var vt = obj.users[userId][1];
+        var vt = obj.users[user.id][1];
         if ("undefined" !== typeof (vt) && "" !== vt) {
             saveLocally(screenPoll.key, json);
         }

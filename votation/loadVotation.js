@@ -57,7 +57,7 @@ function requestPollByKey(key) {
                 // + buttons
                 showVotation(obj.users);
 
-                if (obj.users && obj.users[userId]) {
+                if (obj.users && obj.users[user.id]) {
                     user = LoadVotation_getUser(obj);
                 }
 
@@ -91,11 +91,10 @@ function loadImage(data, keyId) {
         if (obj) {
 
             console.log("loadImage newUser");
-            if (obj.users && obj.users[userId]) {
+            if (obj.users && obj.users[user.id]) {
                 user = LoadVotation_getUser(obj);
             } else {
-                var withVotes = false;
-                user = newUser(withVotes); //false
+                //user = newUser();
             }
 
             saveDefaultValues(user.vt);
@@ -120,7 +119,7 @@ function loadImage(data, keyId) {
 LoadVotation_parseUserVotes = function (data, divQuery, callback) {
     var _args = arguments;
     //wait userId request
-    if (!userId) {
+    if (!window.user.id) {
         console.log("waiting for userId..");
         setTimeout(function () {
             LoadVotation_parseUserVotes.apply(this, _args);
@@ -136,10 +135,9 @@ LoadVotation_parseUserVotes = function (data, divQuery, callback) {
         return;
     }
 
-    var withVotes = false;
     console.log("LoadVotation_parseUserVotes newUser");
-    user = newUser(withVotes); //false
-    if (obj.users && obj.users[userId]) {
+    //user = newUser();
+    if (obj.users && user && obj.users[user.id]) {
         user = LoadVotation_getUser(obj);
     }
     saveDefaultValues(user.vt);
@@ -176,18 +174,19 @@ LoadVotation_parseUserVotes = function (data, divQuery, callback) {
 };
 
 LoadVotation_getUser = function (obj) {
-    var user = obj.users[userId];
-    if (!user) {
-        throw "user = " + JSON.stringify(user);
+    var obj_user = obj.users[user.id];
+    if (!obj_user) {
+        throw "user = " + JSON.stringify(obj_user);
     }
-    var userObj = {id: user[0], vt: user[1]};
+    var userObj = {id: obj_user[0], vt: obj_user[1]};
     //add extra values
     if (obj.style && obj.style.extraValues) {
         for (var i = 0; i < obj.style.extraValues.length; i++) {
             var key = obj.style.extraValues[i];
-            userObj[key] = user[2 + i];
+            userObj[key] = obj_user[2 + i];
         }
     }
+    console.log(userObj);
     return userObj;
 };
 

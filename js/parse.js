@@ -132,7 +132,7 @@ function parseOptions(obj, opts) {
             optionsResult[i][2] = res;
         }
         if (usrs[1]["vt"]) {
-            obj.users[window.userId] = usrs[1]["vt"];
+            obj.users[window.user.id] = usrs[1]["vt"];
         }
 
     } else {

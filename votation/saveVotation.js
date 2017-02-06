@@ -15,7 +15,7 @@ function saveAjax(action, json, callback) {
         cache: false,
         data: {
             action: action,
-            id: userId,
+            id: user.id,
             key: screenPoll.key,
             value: json
         }

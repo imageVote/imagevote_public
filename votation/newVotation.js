@@ -101,7 +101,7 @@ NewVotation_newKeyAjax = function (id) {
 //            user.nm = userName;
 //            saveUserName(userName);
 //        }
-//        screenPoll.obj.users[userId] = getUserArray(user);
+//        screenPoll.obj.users[user.id] = getUserArray(user);
 //        screenPoll.obj.style.owner = userName;
 //    }
 
