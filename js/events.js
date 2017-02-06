@@ -35,7 +35,7 @@ function error(txt, f) {
 
     if ($("#loading:visible").length) {
         console.log("load defaultPage after error");
-        defaultPage();
+        //defaultPage();
     }
 
     //add stack to Log
