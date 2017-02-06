@@ -80,7 +80,7 @@ function saveToShare() {
 
 function checkShareEnvirontment(tag, extra) {
     console.log("tag: " + tag)
-    if(extra){
+    if(!extra){
         extra = "";
     }
     //ANDROID BROWSER CASE (or TWITTER APP!)
@@ -120,7 +120,7 @@ function checkShareEnvirontment(tag, extra) {
             }
 
             //return all to normality
-            $("#send").one("click", function () {
+            $(tag).one("click", function () {
                 //prevent any send click
                 setTimeout(function () {
                     window.preventSendEvents = false;
