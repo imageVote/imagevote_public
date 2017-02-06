@@ -79,10 +79,10 @@ function saveToShare() {
 }
 
 function checkShareEnvirontment(tag, extra) {
-    console.log("tag: " + tag)
-    if(extra){
+    if (extra) {
         extra = "";
     }
+
     //ANDROID BROWSER CASE (or TWITTER APP!)
     if (window.isAndroid && !window.Device) {
         console.log("window.isAndroid && !window.Device");
@@ -104,7 +104,13 @@ function checkShareEnvirontment(tag, extra) {
                         //+ "S.browser_fallback_url=" + escape(fallback_url) + ";"
                         + "end";
 
-                $(tag).wrap("<a class='intentLink' href='" + url + "'></a>");
+                var a = $("<a class='intentLink' href='" + url + "'>");
+                $(tag).wrap(a);
+                a.click(function(e){
+                   if(tag.hasClass("checked")){
+                       e.stopPropagation();
+                   } 
+                });
 
                 //not detects any intent (not installed app)
             } else {
