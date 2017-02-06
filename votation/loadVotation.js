@@ -81,10 +81,7 @@ function requestPollByKey(key) {
 
                 // + buttons
                 showVotation(obj.users);
-
-                if (obj.users && obj.users[user.id]) {
-                    user = LoadVotation_getUser(obj);
-                }
+                user = LoadVotation_getUser(obj);
 
                 checkCountry(key);
             });
@@ -142,11 +139,7 @@ function loadImage(data, keyId) {
         if (obj) {
 
             console.log("loadImage newUser");
-            if (obj.users && obj.users[user.id]) {
-                user = LoadVotation_getUser(obj);
-            } else {
-                //user = newUser();
-            }
+            user = LoadVotation_getUser(obj);
 
             saveDefaultValues(user.vt);
 
@@ -170,7 +163,7 @@ function loadImage(data, keyId) {
 LoadVotation_parseUserVotes = function (data, divQuery, callback) {
     var _args = arguments;
     //wait userId request
-    if (!window.user.id) {
+    if (!window.user || !window.user.id) {
         console.log("waiting for userId..");
         setTimeout(function () {
             LoadVotation_parseUserVotes.apply(this, _args);
@@ -187,10 +180,7 @@ LoadVotation_parseUserVotes = function (data, divQuery, callback) {
     }
 
     console.log("LoadVotation_parseUserVotes newUser");
-    //user = newUser();
-    if (obj.users && user && obj.users[user.id]) {
-        user = LoadVotation_getUser(obj);
-    }
+    user = LoadVotation_getUser(obj);
     saveDefaultValues(user.vt);
 
     $("#votationOwner").remove();
@@ -225,6 +215,16 @@ LoadVotation_parseUserVotes = function (data, divQuery, callback) {
 };
 
 LoadVotation_getUser = function (obj) {
+    if (!obj.users) {
+        obj.users = {};
+    }
+    if (!window.user) {
+        window.user = newUser();
+    }
+    if (!obj.users[user.id]) {
+        obj.users[user.id] = window.user;
+    }
+
     var obj_user = obj.users[user.id];
     if (!obj_user) {
         throw "user = " + JSON.stringify(obj_user);
