@@ -107,8 +107,9 @@ function checkShareEnvirontment(tag, extra) {
 
                 var a = $("<a class='intentLink' href='" + url + "'>");
                 $(tag).wrap(a);
+                var checked = tag.hasClass("checked");
                 a.click(function(e){
-                   if(tag.hasClass("checked")){
+                   if(checked){
                        e.stopPropagation();
                    } 
                 });
