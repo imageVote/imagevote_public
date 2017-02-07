@@ -78,10 +78,23 @@ function saveToShare() {
     //checkShareEnvirontment("#save");
 }
 
-function checkShareEnvirontment(tag, extra) {
-    console.log("tag: " + tag);
-    if(!extra){
-        extra = "";
+function checkShareEnvirontment(tag, optionsResult) {
+
+    var extra = "";
+    if (optionsResult) {
+        for (var n = 0; n < optionsResult.length; n++) {
+            var votes = optionsResult[n][2];
+            //never will share checked
+//            if ($(".option_" + n + " table").hasClass("checked")) {
+//                votes--;
+//            }
+            //add vote if this will be click
+            var option_number = $(tag).closest(".option").attr("class").split("_")[1];
+            if (option_number == n) {
+                votes++;
+            }
+            extra += "_" + votes;
+        }
     }
 
     //ANDROID BROWSER CASE (or TWITTER APP!)
