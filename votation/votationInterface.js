@@ -110,6 +110,7 @@ function checkShareEnvirontment(tag, extra) {
                 var checked = tag.hasClass("checked");
                 a.click(function(e){
                    if(checked){
+                       e.preventDefault();
                        e.stopPropagation();
                    } 
                 });
