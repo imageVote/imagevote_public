@@ -109,13 +109,13 @@ function checkShareEnvirontment(tag, extra) {
                 $(tag).wrap(a);
                 
                 //prevent share web event on uncheck
-                var checked = tag.hasClass("checked");
-                a.click(function(e){
-                   if(checked){
-                       e.preventDefault();
-                       e.stopPropagation();
-                   } 
-                });
+//                var checked = tag.hasClass("checked");
+//                a.click(function(e){
+//                   if(checked){
+//                       e.preventDefault();
+//                       e.stopPropagation();
+//                   } 
+//                });
 
                 //not detects any intent (not installed app)
             } else {
