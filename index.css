@@ -9,8 +9,8 @@ body {
 }
 /*2.3 bug*/
 
-/*http://stackoverflow.com/questions/22053010/google-webfonts-are-not-displaying-at-all-chrome-latest-version-mac*/
-/*not loaded fonts bug*/
+/*http://stackoverflow.com/questions/22053010/google-webfonts-are-not-displaying-at-all-chrome-latest-version-mac
+not loaded fonts bug
 body{
     -webkit-animation-duration: 0.1s;
     -webkit-animation-name: fontfix;
@@ -22,7 +22,7 @@ body{
     from{   opacity: 1; }
     to{ opacity: 1; }
 }
-/*not loaded fonts bug*/
+not loaded fonts bug*/
 
 html{
     /*background: gainsboro;*/
