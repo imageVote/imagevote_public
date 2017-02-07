@@ -80,23 +80,6 @@ function saveToShare() {
 
 function checkShareEnvirontment(tag, optionsResult) {
 
-    var extra = "";
-    if (optionsResult) {
-        for (var n = 0; n < optionsResult.length; n++) {
-            var votes = optionsResult[n][2];
-            //never will share checked
-//            if ($(".option_" + n + " table").hasClass("checked")) {
-//                votes--;
-//            }
-            //add vote if this will be click
-            var option_number = $(tag).closest(".option").attr("class").split("_")[1];
-            if (option_number == n) {
-                votes++;
-            }
-            extra += "_" + votes;
-        }
-    }
-
     //ANDROID BROWSER CASE (or TWITTER APP!)
     if (window.isAndroid && !window.Device) {
         console.log("window.isAndroid && !window.Device");
@@ -108,8 +91,22 @@ function checkShareEnvirontment(tag, optionsResult) {
 
             //if android detects intent url
             if (intentLoads) {
-                //window.deviceIntentLoads = true;
-                //window.saveImageLocally = true;
+                var extra = "";
+                if (optionsResult) {
+                    for (var n = 0; n < optionsResult.length; n++) {
+                        var votes = optionsResult[n][2];
+                        //never will share checked
+                        //            if ($(".option_" + n + " table").hasClass("checked")) {
+                        //                votes--;
+                        //            }
+                        //add vote if this will be click
+                        var option_number = $(tag).closest(".option").attr("class").split("_")[1];
+                        if (option_number == n) {
+                            votes++;
+                        }
+                        extra += "_" + votes;
+                    }
+                }
 
                 var url = "intent://" + location.host + "/share" + extra + location.pathname + "/#Intent;"
                         + "scheme=http;"
@@ -120,15 +117,6 @@ function checkShareEnvirontment(tag, optionsResult) {
 
                 var a = $("<a class='intentLink' href='" + url + "'>");
                 $(tag).wrap(a);
-                
-                //prevent share web event on uncheck
-//                var checked = tag.hasClass("checked");
-//                a.click(function(e){
-//                   if(checked){
-//                       e.preventDefault();
-//                       e.stopPropagation();
-//                   } 
-//                });
 
                 //not detects any intent (not installed app)
             } else {
@@ -140,20 +128,19 @@ function checkShareEnvirontment(tag, optionsResult) {
                 err.click(function () {
                     window.open(link, "_blank");
                 });
-
             }
 
-            //return all to normality
-            $(tag).one("click", function () {
-                //prevent any send click
-                setTimeout(function () {
-                    window.preventSendEvents = false;
-
-                    $(".intentLink").each(function () {
-                        $(this).find(" > *:eq(0)").unwrap();
-                    });
-                }, 500);
-            });
+//            //return all to normality
+//            $(tag).one("click", function () {
+//                //prevent any send click
+//                setTimeout(function () {
+//                    window.preventSendEvents = false;
+//
+//                    $(".intentLink").each(function () {
+//                        $(this).find(" > *:eq(0)").unwrap();
+//                    });
+//                }, 500);
+//            });
         });
     }
 }
