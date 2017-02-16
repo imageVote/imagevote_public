@@ -3,110 +3,6 @@ var alternative = {
 //    keysPath: "dl.dropboxusercontent.com/u/70345137/key/"
 };
 
-function newUser(id, voting) {
-    console.log("newUser(" + id + ", " + voting + ")")
-    if (window.public && window.publicId) {
-        phoneId = window.user.id;
-        id = publicId;
-    }
-    var user = {
-        id: id,
-        vt: ""
-    };
-    if (voting) {
-        user.vt = 0;
-    }
-    return user;
-}
-
-function myIP() {
-    console.log("myIp");
-
-    $.ajax({
-        url: window.urlPath + "/core/getIP.php"
-    }).success(function (ipData) {
-        console.log(ipData);
-
-        var data = null;
-        try {
-            data = JSON.parse(ipData);
-        } catch (e) {
-            console.log("wrong ip data");
-            return;
-        }
-
-        //not update ID if exists in localStorage
-        var id = localStorage.getItem("userId");
-        if (!id) {
-            id = data[0];
-        }
-        var country = data[1];
-
-        localStorage.setItem("userId", id);
-        addUser(id, "", country); //name = null
-
-    }).error(function () {
-        console.log("getIP.php not found");
-        var id = "local";
-        localStorage.setItem("userId", id);
-        addUser(id); //name = null
-        //if debug
-//        if (!Device && callback) {
-//            callback();
-//        }
-    });
-}
-
-//from device too!!
-function addUser(id, name, country, pubId) {
-    //var userLoading = $("<img class='loading absoluteLoading' src='~img/loader.gif'/>");
-    //$("body").append(userLoading);
-    console.log("addUser start");
-
-    if (!id) {
-        console.log("not valid id");
-        return;
-    }
-
-    //don't override userId localStorage userId !
-    if (pubId) {
-        window.publicId = pubId;
-        localStorage.setItem("publicId", pubId);
-    }
-
-    console.log("public id = '" + pubId + "' in addUser; ");
-    //not set true, addUser works on start app
-    var voting = false;
-
-    //not sure if this works any time
-    var storedVotes = false;
-    if (window.user && user.vt) {
-        storedVotes = user.vt;
-    }
-    var usr = newUser(id, voting); //false
-    if (storedVotes) {
-        usr.vt = storedVotes;
-    }
-
-    if (name) {
-        usr.nm = name;
-        $("#username input").val(name);
-    }
-
-    if (country) {
-        userCountry = country;
-        localStorage.setItem("userCountry", userCountry);
-        //at least get country by language
-    } else {
-        userCountry = navigator.language || navigator.userLanguage;
-        if (userCountry.indexOf("-") != -1) { //like 'en-US' case
-            userCountry = userCountry.split("-").pop();
-        }
-    }
-
-    window.user = usr;
-}
-
 var sending = false;
 //from DEVICE
 function resume() {
@@ -133,19 +29,26 @@ function getEvent(e) {
 }
 
 function getPathsFromKeyId(keyId) {
-    var realPath = keysPath;
-    var public = "";
-    if (keyId[0] !== "-") {
-        public = "true";
+    var realPath = window.keysPath;
+
+    var public = "true";
+    var visible = "public";
+
+    switch (keyId[0]) {
+        case "-":
+            public = "false";
+            visible = "private";
+            break
+        case "$":
+            public = "false";
+            visible = "game";
+            break;
     }
+
     screenPoll.isPublic(public);
-    var visible;
-    if (screenPoll.public) {
-        visible = "public";
-    } else {
-        visible = "private";
-    }
+//    if (visible == "public" || visible == "private") {
     realPath += visible + "/";
+//    }
 
     var countryPath = "";
     var key = keyId;
@@ -156,9 +59,11 @@ function getPathsFromKeyId(keyId) {
         realPath += countryPath;
         key = arr.join("-");
     }
+    if (keyId.indexOf("$") == 0) {
+        keyId = keyId.split("$")[1];
+    }
     var res = {
         realPath: realPath,
-//        simplePath: appPath + "/" + keyId,
         realKey: key,
         keyId: keyId,
         visible: visible,
@@ -190,15 +95,9 @@ function getPathsFromRealKey(key, public, country) {
     return res;
 }
 
-function getUserLang() {
-    var language = navigator.language || navigator.userLanguage;
-    return language.split("-")[0];
-}
-
 function transl(txt) {
     if (!window.lang) {
-        //warn: error function trigge lang again
-        $("#errorLog").append("<div>lang function missing with: '" + txt + "'</div>");
+        //$("#errorLog").append("<div>lang function missing with: '" + txt + "'</div>");
         return txt;
     }
     var res = lang[txt];
@@ -245,21 +144,6 @@ function getCountryArray(callback) {
         callback();
     });
 
-}
-
-function isUserCountry(country) {
-    var is = false;
-    //not callback function
-    if (!window.userCountryArray) {
-        return false;
-    }
-    for (var i = 0; i < userCountryArray.length; i++) {
-        if (userCountryArray[i].toUpperCase() == country.toUpperCase()) {
-            is = true;
-            break;
-        }
-    }
-    return is;
 }
 
 function formatNumber(number) {
@@ -450,10 +334,6 @@ function is_touch_device() {
     return 'ontouchstart' in window        // works on most browsers 
             || navigator.maxTouchPoints;       // works on IE10/11 and Surface
 }
-;
-
-//http://stackoverflow.com/questions/4770025/how-to-disable-scrolling-temporarily
-var keys = {37: 1, 38: 1, 39: 1, 40: 1};
 
 function preventDefault(e) {
     e = e || window.event;
@@ -463,6 +343,9 @@ function preventDefault(e) {
 }
 
 function preventDefaultForScrollKeys(e) {
+    //http://stackoverflow.com/questions/4770025/how-to-disable-scrolling-temporarily
+    var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+
     if (keys[e.keyCode]) {
         preventDefault(e);
         return false;

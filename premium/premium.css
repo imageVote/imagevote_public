@@ -1,0 +1,255 @@
+
+body{
+    margin:0;
+}
+#premium{
+
+}
+#p_menu{
+    z-index: 1;
+    top: 0;
+    height:100%;
+    width: 100%;
+    padding-right: 100%;
+    position: fixed;
+    left: -100%;             
+    font-family: sans-serif;
+
+    pointer-events: none;
+    background: transparent;
+
+    -webkit-transition: 300ms;
+    -moz-transition: 300ms;
+    -o-transition:300ms;
+    transition: 300ms;
+}
+#p_menu.p_show{
+    pointer-events: auto !important;
+    background: rgba(0,0,0,0.3);
+    left: 0;
+}
+
+#p_menu > div{
+    height:100%;
+    width:80%;
+    max-width: 450px;
+    background-color: white;
+    padding: 0 10px;
+    overflow-y: auto;
+}
+.p_title{
+    float: left;
+    padding-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type=color]{
+    padding: 0;
+    height: 40px;
+}
+
+#p_makePublic{
+    display: none;
+    float: right;
+    line-height: 42px;
+    background-color: rgb(200,200,200);
+    border: 1px solid grey;
+    padding: 0 15px 0 10px;
+    font-size: 14px;
+}
+#p_makePublic input{
+    vertical-align: sub;
+}        
+.p_checked{
+    background: -webkit-linear-gradient(top, #6496c8, #346392);
+    background: -o-linear-gradient(top, #6496c8, #346392);
+    background: -moz-linear-gradient(top, #6496c8, #346392);
+    background: linear-gradient(top, #6496c8, #346392);
+    color: white;
+}
+#publicMessage{
+    /*display: none;*/
+    color:grey;
+    margin-top: 20px;
+}
+#publicMessage > div{
+    border-top: 1px solid rgb(180,180,180);
+    padding: 10px 0;
+}
+
+#fileSelect button{
+    /*width: 100%;*/
+    line-height: 24px;
+    height: auto !important;
+    min-width: 44px;
+}
+#externalLink{
+    margin: 10px 0;
+}
+
+/*ICONS*/
+.menuIcon{ 
+    font-size: 10px;
+    background: transparent;
+    width: 35px;
+    cursor: pointer;
+
+    -webkit-transition: width 300ms;
+    -moz-transition: width 300ms;
+    -o-transition: width 300ms;
+    transition: width 300ms;
+}
+.menuIcon:hover:after{ 
+    background: rgb(100,200,255);
+}
+.menuIcon:hover:before{ 
+    border-color: rgb(100,200,255);
+}
+.menuIcon:before { 
+    border-top: 0.3em solid white;
+    content: ""; 
+    position: absolute; 
+    width: 1.9em; 
+    height: 1.1em;
+    border-bottom: 0.3em solid white; 
+    top: 1em; 
+    left: 0.7em;
+    border-radius: 0.1em;
+
+    -webkit-transition: width 300ms;
+    -moz-transition: width 300ms;
+    -o-transition: width 300ms;
+    transition: width 300ms;
+}
+.menuIcon:after { 
+    display: block; 
+    content: ""; 
+    position: absolute; 
+    top: 1.7em; 
+    width: 1.9em; 
+    height: 0.3em; 
+    background: white;
+    left: 0.7em; 
+    border-radius: 0.1em;
+
+    -webkit-transition: width 300ms;
+    -moz-transition: width 300ms;
+    -o-transition: width 300ms;
+    transition: width 300ms;
+}
+
+/*width: 0 causes bug on td positions*/
+.menuIcon.hidden{
+    width: 1px !important;
+}
+.menuIcon.hidden:before{
+    width: 1px !important;
+}
+.menuIcon.hidden:after{
+    width: 1px !important;
+}
+
+#p_defaults{
+    float: right;          
+    margin-right: 10px;
+}
+.link{
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: normal;
+}
+.link:hover{
+    text-decoration: underline;
+}
+
+/*style saver*/
+#confirmDeletion{
+    display: none;
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    width: 70%;
+    background: rgba(200,200,200,0.95);
+    box-shadow: 0 0 10px;
+    padding: 20px;
+    top: 20%;
+    z-index: 9;
+    border: 1px solid rgb(99,99,99);
+}
+#countrySelect .allCountries{
+    color: grey;
+}
+#p_notEditable > div{
+    margin: 15px;
+    color: grey;
+}
+
+/*STYLES MENU*/
+
+html:not(.withoutHeader) .p_show{
+    left: 0 !important;
+}
+
+#p_gradient{
+    display: inherit !important;
+    background-color: rgb(236,236,236);
+    margin: 9px 0;
+}
+#p_gradient canvas{
+    /*width: 100%;*/
+    max-width: 100%
+}
+
+#p_colors{
+    margin: 0 12px;
+}
+#p_colors .p_text{
+    white-space: nowrap;
+    font-size: 15px;
+}
+#p_colors td:nth-child(2){
+    width:100%;
+}
+
+#styleSaver{
+    background: rgb(240,240,240);
+}
+#styleInput input{
+    box-shadow: none; 
+    border: none;
+    background: none;
+    height: 35px;
+    width: 100%;
+}
+#savedStyles > p{
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid transparent;
+}
+#savedStyles > p:hover{
+    text-decoration: underline;
+    border: 1px dashed grey;
+}
+#savedStyles > .selected{
+    background-color: rgb(240,240,240);
+    border: 1px dashed grey;
+}
+
+#deleteStyle{
+    color: red;
+    margin-left: 10px;
+}
+#saveStyle .disabled{
+    color: grey;
+    cursor: auto;
+}
+
+/*for menu icon index*/
+#header > div{    
+    z-index: 1;
+}
+#search{
+    z-index: -1;
+}

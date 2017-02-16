@@ -105,7 +105,7 @@ NewVotation_newKeyAjax = function (id) {
 //        screenPoll.obj.style.owner = userName;
 //    }
 
-//    fillTable("#votationBox", screenPoll.obj); //table
+//    FillTable("#votationBox", screenPoll.obj); //table
 //    showVotation(screenPoll.obj.users);
 //    $("#send").attr("class", "saveAndShare");
 //    $("#usersButton").hide(); //not let show users on create

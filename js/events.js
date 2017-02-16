@@ -60,13 +60,14 @@ function notice(text, isError) {
     if (!text) {
         text = "unknown error";
     }
-    var err = $("<div>" + text + "</div>");
+    var err = $("<div data-lang='" + text + "'>" + text + "</div>");
     $("#errorLog").append(err);
     return err;
 }
 
 //prevent large urls and device url confusions
-function loadHash(hash) {
+function loadHash(hash, error) {
+    console.log("logHash");
     //remove all loadings
     $(".loading").remove();
 
@@ -78,23 +79,34 @@ function loadHash(hash) {
     }
     hash = hash.replace("#", "");
 
+    if (!error) {
+        error = "";
+    } else {
+        error = "?" + error;
+    }
+
     //REMOVE ALL TRICKI EVENTS
     //$("*").off(".temp");
 
     //prevent hashing after key url
     if (!Device) {
-        var arr = location.href.split("/");
-        arr.pop();
-        location.href = arr.join("/") + "/#" + hash;
-
+//        var arr = location.href.split("/");
+//        arr.pop();
+//        location.href = arr.join("/") + "/#" + hash + "?" + error;}
+        if (location.hash == "#" + hash + error) {
+            hashChanged(hash);
+        } else {
+            location.href = location.origin + location.pathname + "#" + hash + error;
+        }
     } else {
         //keep complete url for assets
         if (location.search) {
-            location = location.origin + location.pathname + "#" + hash
+            location = location.origin + location.pathname + "#" + hash + error;
             return;
         }
         if (location.hash == hash) {
-            location.reload();
+//            location.reload();
+            location.href = location.href + error;
             return;
         }
         location.hash = hash;
@@ -103,7 +115,7 @@ function loadHash(hash) {
 
 //then, handle hash change
 function hashChanged(hash) {
-    hash = hash.replace("#", "");
+    hash = hash.replace("#", "").split("?")[0];
     console.log("hash changed to: " + hash)
     //need trigger hashchange
 
@@ -148,6 +160,11 @@ function hashChanged(hash) {
 
         newPollView();
     }
+
+    var error = hash.split("?");
+    if (error.length > 1) {
+        notice(transl(error[1]));
+    }
 }
 
 function newPollView() {
@@ -162,30 +179,23 @@ function newPollView() {
         }, 1);
     }
 }
-;
 
 function pollsView() {
     $("#body").addClass("pollsView");
-
     $("#voteHeader").hide();
     $("#pollsHeader").show();
 
     //re-load
-    if ($("#polls").length) {
-        $("#loading").hide();
+    if (!$("#pollsPage > div").length) {
+        new GamePoll("#pollsPage");
 
-    } else {
-        $("#pollsPage").load("~polls/polls.html", function (response, status, xhr) {
-            $("#loading").hide();
-
-            if (status == "error") {
-                flash(lang["notLoadingPolls"]);
-                return;
-            }
-        });
+        if (status == "error") {
+            flash(lang["notLoadingPolls"]);
+            return;
+        }
     }
+    $("#loading").hide();
 }
-;
 
 $(document).ready(function () {
 
@@ -263,15 +273,11 @@ $(document).ready(function () {
         var _this = $(this);
         e.preventDefault();
 
-        //if to hide
-        if (_this.hasClass("hide")) {
-            _this.removeClass("hide");
-            _this.text(lang["showYourPolls"]);
+        $("#stored").toggleClass("hidden");
 
-            $("#stored").css("height", $("#stored").css("height"));
-            setTimeout(function () {
-                $("#stored").css("height", 0);
-            }, 1);
+        //if to hide
+        if ($("#stored").hasClass("hidden")) {
+            _this.text(lang["showYourPolls"]);
             return;
         }
 
@@ -293,8 +299,8 @@ $(document).ready(function () {
 
         setTimeout(function () {
             _this.text(lang["hidePolls"]);
-            _this.addClass("hide");
             $("#stored").css("height", "auto");
+            $("#stored").css("height", $("#stored").css("height"));
         }, 300);
         $("#stored").show();
     });
@@ -320,8 +326,7 @@ $(document).ready(function () {
 
     $("#newPoll").click(function () {
         $("#header").removeClass("search");
-        newPollView();
-//        loadHash("home");
+        loadHash("home");
     });
 
     if (is_touch_device()) {

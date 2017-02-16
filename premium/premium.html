@@ -1,0 +1,231 @@
+
+<link rel="stylesheet" type="text/css" href="~commons/premium/premium.css">
+<link rel="stylesheet" type="text/css" href="~premium/premium.css">
+<!--<script src="~commons/premium/googleTranslation.js"></script>-->
+
+<div id="p_menu"></div>
+
+<!--SAVE STYLE POPUP-->
+<!--hide before style loads-->
+<div id="confirmDeletion" style="display: none">
+    <div></div>
+    <br/>
+    <button class="ok" data-lang="Yes"></button>
+    <button data-lang="Not"></button>
+</div>
+
+<script>
+    init();
+
+    //define Variables (when loaded on home)
+    window.translationList = [];
+
+    //LOAD VOTES
+    if ("undefined" == typeof Device || !Device) {
+        console.log("DEBUG MODE ONLY OF PREMIUM VERSION IN PC");
+    }
+
+    //
+    $(".menuIcon").remove();
+    $("#header table tr").prepend("<td class='menuIcon hidden'></td>");
+    setTimeout(function () {
+        $(".menuIcon").removeClass("hidden");
+    }, 100);
+
+    $("#headerTitle").text(window.appName + " +");
+
+    translateTags(); //start lang
+    p.events();
+
+
+    //ADD STYLE MENU
+    $("#p_menu").load("~commons/premium/customStyles.html");
+
+
+    function init() {
+
+        window.p = {
+            addPublicOption: function () {
+                //remove public option and extra options too
+                $("#p_makePublic").remove();
+                $("#publicMessage").remove();
+
+                //add html
+                var p_makePublic = $("<div id='p_makePublic'><input type='checkbox'/><span>" + transl("Public") + "</span></div>");
+                $("#votationButtons").append(p_makePublic);
+
+                p_makePublic.click(function () {
+                    if ($("#p_makePublic input:disabled").length) {
+                        flash(lang["cantChangePublic"]);
+                    }
+                });
+
+                //add events
+                p_makePublic.find("input").change(function () {
+                    console.log("public change");
+                    var publicCheckbox = $(this).is(':checked');
+
+                    if (publicCheckbox != originalPublic) {
+                        shareToSave();
+                    } else {
+                        saveToShare();
+                    }
+
+                    // now was active public
+                    var style = screenPoll.style;
+                    if (publicCheckbox) {
+                        publicId = localStorage.getItem("publicId");
+
+                        if (!publicId || !userCountry) {
+                            console.log("missing public id or userCountry");
+                            //show pop-up
+                            askPhone("if(window.p){p.activePublic()}else{console.log('missing p')}");
+                            $(this).attr('checked', false);
+                            return;
+                        }
+
+                        p.activePublic();
+
+                        //remove extras
+                        if (style.extraValues) {
+                            window.oldExtras = style.extraValues;
+                        }
+                        style.extraValues = [];
+
+                        //was active
+                    } else {
+                        p.deactivePublic();
+
+                        //recover extras
+                        if (window.oldExtras) {
+                            style.extraValues = window.oldExtras;
+                        }
+                    }
+                });
+
+                //extra on create
+                $("#create").on("click.premium", function () {
+                    //reset
+                    $("#p_makePublic input").removeAttr("disabled");
+                    $("#p_makePublic input")[0].checked = false;
+                });
+                $("#send").on("click.premium", function (e) {
+                    console.log("premium click");
+                    //stuck input public button when save to prevent key confusions
+                    $("#p_makePublic input").attr("disabled", "disabled");
+                });
+            }
+            ,
+            deactivePublic: function () {
+                document.dispatchEvent(new Event("private"));
+
+                $("#publicMessage").remove();
+                $("#p_makePublic").removeClass("p_checked");
+
+                screenPoll.key = this.tempKey;
+                screenPoll.public = "";
+
+                screenPoll.obj.users[user.id] = screenPoll.obj.users[publicId];
+                delete screenPoll.obj.users[publicId];
+            }
+            ,
+            //FROM  DEVICE FUNCTION ?
+            activePublic: function () {
+                document.dispatchEvent(new Event("public"));
+
+                //if ask phone callback 
+                $("#p_makePublic input")[0].checked = true;
+
+                $("#publicMessage").remove();
+                var publicMessage = $("<div id='publicMessage'>");
+
+                //loading
+                //publicMessage.html("<img src='~img/loader.gif'/>"); //not beatifull
+                publicMessage.load("~premium/publicOptions.html");
+                $("#votation").append(publicMessage);
+
+                $("#p_makePublic").addClass("p_checked");
+
+                this.tempKey = screenPoll.key;
+                screenPoll.key = "";
+                screenPoll.public = "true";
+
+                screenPoll.obj.users[publicId] = screenPoll.obj.users[user.id];
+                delete screenPoll.obj.users[user.id];
+                window.user.id = publicId;
+            }
+            ,
+            poll: {}
+            ,
+            events: function () {
+                //need to w8 jquery load
+                overthrow.set();
+
+                $("#fileSelect").on("tap", function () {
+                    if (window.Device) {
+                        Device.pickIconImage();
+                    } else {
+                        var input = $("<input type='file' accept='image/*'>");
+                        input.trigger("tap");
+                        input.change(function (e) {
+//                        p.poll.drawIcon();
+                            console.log("change")
+                            appIcon.onload = function () {
+                                p.draw();
+                            };
+                            console.log(e.target.files[0])
+                            appIcon.src = URL.createObjectURL(e.target.files[0]);
+                            $("#saveStyle a").removeClass("disabled");
+                        });
+                    }
+                });
+
+                $("#confirmDeletion button").click(function () {
+                    $("#confirmDeletion .ok").off(".deletion");
+                    $("#confirmDeletion").hide();
+                });
+
+                $("#cancel").click(function () {
+                    //reset
+                    screenPoll.public = "";
+                    $("#p_makePublic").removeClass("p_checked");
+                    $("#p_makePublic input").removeAttr("disabled");
+                    $("#p_makePublic input").prop('checked', false);
+                });
+
+                //injection on the original function
+                var init = hashChanged;
+                function hashChanged(hash) {
+                    init(hash);
+                    p.urlUpdate(hash);
+                }
+
+//                $(document).on("urlUpdate", function (e, hash) {
+//                    p.urlUpdate(hash);
+//                });
+//                p.urlUpdate(location.hash);
+            }
+            ,
+            urlUpdate: function (hash) {
+                console.log("hash = " + hash);
+                //disallow edit polls style when not sense
+                if (hash == "polls" || !hash) {
+                    $("#p_menu .overthrow").hide();
+                    $("#p_menu").append("<div id='p_notEditable'><div>" + transl("p_notEditable") + "</div></div>");
+                } else {
+                    $("#p_menu .overthrow").show();
+                    $("#p_notEditable").remove();
+                }
+
+                //only show Public button when new 
+                if (hash == "new") {
+                    p.addPublicOption();
+                    $("#p_makePublic").show();
+                } else {
+                    $("#p_makePublic").hide();
+                }
+            }
+        };
+    }
+
+</script>

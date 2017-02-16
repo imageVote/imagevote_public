@@ -2,7 +2,7 @@
 // CONNECTIVITY
 
 function saveAjax(action, json, callback) {
-    if (screenPoll.public) {
+    if ("true" == screenPoll.public) {
         //but let share!
         //error("Vote on public polls whithout APP is forbidden.");
         error("PublicOnlyFromApp");

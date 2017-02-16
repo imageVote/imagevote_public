@@ -9,21 +9,6 @@ body {
 }
 /*2.3 bug*/
 
-/*http://stackoverflow.com/questions/22053010/google-webfonts-are-not-displaying-at-all-chrome-latest-version-mac
-not loaded fonts bug
-body{
-    -webkit-animation-duration: 0.1s;
-    -webkit-animation-name: fontfix;
-    -webkit-animation-iteration-count: 1;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-delay: 0.1s;
-}
-@-webkit-keyframes fontfix{
-    from{   opacity: 1; }
-    to{ opacity: 1; }
-}
-not loaded fonts bug*/
-
 html{
     /*background: gainsboro;*/
     /*background: rgb(225,225,225);*/    
@@ -165,9 +150,10 @@ html.translucent{
     left: 0;
     right: 0;
 }
-#mainPage, #pollsPage, #header > div{
+#mainPage, #pollsPage, #header > div, #errorLog{
     /*max-width: 506px;*/
     max-width: 640px;
+    margin: auto;
 }
 #mainPage{
     position: relative;
@@ -201,10 +187,13 @@ a:hover{
     position: relative;
 }
 #votation{
-    /*padding: 0 10px;*/
+    margin-left: -10px; 
+    margin-right: -10px; 
+    padding: 0 10px;
+    padding-bottom: 9px;
 }
-#creator, #votation{
-    display: block;
+#creator, #votation, #pollsPage .options{
+    /*display: block;*/
     margin-bottom: 10px;
 }
 
@@ -268,18 +257,18 @@ input{
 #image{
     /*prevent hides and "canvas already exists"*/
     /*display: block !important;*/   
-
     position: relative;
     margin-bottom: 15px;
+    text-align: center;
 }
 #image .link{
-    margin-top: 5px;
+    /*margin-top: 5px;*/
     margin-left: 2px;
+    text-align: left;
 }
 .image{
-    width: 100%;
+    display: inline-block;
     margin-top:12px;
-    text-align: center;
 }
 #image img, #image canvas{
     max-width: 100% !important;
@@ -326,6 +315,9 @@ input{
     -moz-transition: height 300ms;
     -o-transition: height 300ms;
     transition: height 300ms;
+}
+#stored.hidden{
+    height: 0 !important;
 }
 #stored > .list{
     margin-top: 20px;
@@ -493,7 +485,7 @@ input{
     display: none;
     /*color: grey;*/
     color: rgba(0,0,0,0.5);
-    margin: 0;
+    /*margin: 0;*/
     margin-bottom: 10px;    
 }
 
@@ -653,42 +645,60 @@ input{
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAUCAYAAABvVQZ0AAABsElEQVQ4T6WUSytFURTHXRFm8grJayKRiTIxMaJIKSWPGPsAyEQekeQTmCEDUaIQBlJMJI8yEuVRHikZI+X3v+1722e3r8e169c+e621/2etdfY+oYTgSGbZBZ1QDenwCkewAIvw6eyJLkOWo5znZaiIFYz9DNrg0hcTEZPQPmSaoAfmDXiCfGiCXON7Zq6FK1dQYklwCpXGOcY8Dh9WcArPIzBobCfMNRAoWWI9MGeCRs0mXxWyTcGAcXYwq4fRIbFtqId7KHEyckVTMdxBNqxDsyv2giEDZqA3VkqWXVWomkdQPwOZqe5EGAb166cxSYB69wbKNCD218zm2d0N+tJ5rtgWhgb4Tc/SiLsF9WwNWlwxvUVv09CRGPqmzml8fcbfyrziiumcHUOVcUwwq3fvVqB6I1u/sekMlsG1K6a1HAeQZZzqxyboJhRAI+Q4Gd+wrgOVHR723ZTgEkQydPaGl8pIP4PIUGYS1NkLiGmtknWy9efQX0PnT1/7EGZB124XinyCdma+THy2Yox7PsF4xPQCXTsJFlpvu4hXzCe4+h8xCZbCDpxD+3/FAj39AjSQUMHqxHGOAAAAAElFTkSuQmCC);
 }
 
-#needPhone{
+#modal_box, #modal_input{
     position: fixed;
-    width: 100%;
-    height: 100%;
     top: 0;
+    bottom: 0;
     left: 0;
+    right: 0;
     text-align: center;
+    height: inherit;
+    background-color: rgba(255,255,255,0.3);
+    opacity:0;
+
+    transition: 300ms;
 
     /*position fixed 2.3*/
+    width: 100%;
+    height: 100%;
     backface-visibility:hidden;
     -webkit-backface-visibility: hidden;
     background-color: rgba(255,255,255,0.3);
     z-index: 99;
 }
-#needPhone > div{
-    position: absolute;
-    width: 84%;
-    max-width: 400px;
 
+#modal_box > div, #modal_input > div{
+    position: absolute;
+    top: 45%;
     left: 50%;
-    top: 40%;
-    background-color: rgba(0,0,0,0.8);
-    color: white;
-    font-size: 15px;
-    padding: 5% 2%;
+    /*text-align: center;*/
+
+    transition: 300ms;
 
     transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%); /* IE 9 */
-    -webkit-transform: translate(-50%,-50%); /* Chrome, Safari, Opera */    
+    -webkit-transform: translate(-50%,-50%); /* Chrome, Safari, Opera */
 }
-#needPhone p{
+
+#modal_input > div{
+    width: 200px;
+}
+
+#modal_box > div{
+    width: 84%;
+    max-width: 400px;
+
+    background-color: rgba(0,0,0,0.8);
+    color: white;
+    font-size: 15px;
+    padding: 5% 2%;    
+}
+#modal_box p{
     font-weight: bold;
     margin: 3%;
     line-height: 20px;
 }
-#needPhone button{
+#modal_box button{
     margin-top: 5px;
     margin-bottom: 30px;
     background: black;
@@ -698,10 +708,10 @@ input{
     color: white;
     font-weight: bold;
 }
-#needPhone button:hover{
+#modal_box button:hover{
     background: rgb(80,80,80);
 }
-#needPhone small{
+#modal_box small{
     color: rgb(200,200,200);
 }
 
@@ -840,7 +850,7 @@ input{
     padding-right: 5px;
 }
 
-#userNameContainer{
+/*#modal_input{
     height: 55px;
     overflow: hidden;    
 
@@ -848,7 +858,7 @@ input{
     -moz-transition: height 300ms;
     -o-transition: height 300ms;
     transition: height 300ms;
-}
+}*/
 .hideHeight{
     height: 0px !important;
 }
@@ -902,14 +912,9 @@ body > .option > *{
     font-family: "LeagueGothic";
     margin: 0 5px;
     outline: none;
+    /*game SKIP margin:*/
+    padding: 0 5%;
 }
-
-/*.stored{
-    -webkit-transition: all 200ms;
-    -moz-transition: all 200ms;
-    -o-transition: all 200ms;
-    transition: all 200ms;
-}*/
 
 #buttons{
     min-height: 55px;

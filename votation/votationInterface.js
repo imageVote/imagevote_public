@@ -39,12 +39,13 @@ function showVotation(users) {
     $("#send").removeAttr("disabled");
 
     //if private, add name input
-    askUserName();
+    //askUserName();
 }
 
 function backVotation() {
     $("#mainPage > div").hide();
     $("#votation").show();
+    $("#buttons").show();
 }
 
 // VOTATION EVENTS
@@ -79,6 +80,10 @@ function saveToShare() {
 }
 
 function checkShareEnvirontment(tag, optionsResult) {
+    if (window.intentLoads) {
+        shareIntents(window.intentLoads, tag, optionsResult);
+        return;
+    }
 
     //ANDROID BROWSER CASE (or TWITTER APP!)
     if (window.isAndroid && !window.Device) {
@@ -87,62 +92,68 @@ function checkShareEnvirontment(tag, optionsResult) {
         var intentUrl = "intent://" + location.host + "/#Intent;end";
         detectAndroidIntent(intentUrl, function (intentLoads) {
             console.log("intentLoads: " + intentLoads);
-            window.preventSendEvents = true;
+            window.intentLoads = intentLoads;
 
-            //if android detects intent url
-            if (intentLoads) {
-                var extra = "";
-                if (optionsResult) {
-                    for (var n = 0; n < optionsResult.length; n++) {
-                        var votes = optionsResult[n][2];
-                        //never will share checked
-                        //            if ($(".option_" + n + " table").hasClass("checked")) {
-                        //                votes--;
-                        //            }
-                        //add vote if this will be click
-                        var option_number = $(tag).closest(".option").attr("class").split("_")[1];
-                        if (option_number == n) {
-                            votes++;
-                        }
-                        extra += "_" + votes;
-                    }
-                }
-
-                var url = "intent://" + location.host + "/share" + extra + location.pathname + "/#Intent;"
-                        + "scheme=http;"
-                        + "package=" + window.package + ";"
-                        //(empty or wrong code function) if twitter webview, this will redirect to app store but inside browser!
-                        //+ "S.browser_fallback_url=" + escape(fallback_url) + ";"
-                        + "end";
-
-                var a = $("<a class='intentLink' href='" + url + "'>");
-                $(tag).wrap(a);
-
-                //not detects any intent (not installed app)
-            } else {
-                var link = "https://play.google.com/store/apps/details?id=" + window.package;
-                $(tag).one("click", function () {
-                    window.open(link, "_blank");
-                });
-                var err = notice(transl("notInApp"));
-                err.click(function () {
-                    window.open(link, "_blank");
-                });
-            }
-
-//            //return all to normality
-//            $(tag).one("click", function () {
-//                //prevent any send click
-//                setTimeout(function () {
-//                    window.preventSendEvents = false;
-//
-//                    $(".intentLink").each(function () {
-//                        $(this).find(" > *:eq(0)").unwrap();
-//                    });
-//                }, 500);
-//            });
+            shareIntents(intentLoads, tag, optionsResult);
         });
     }
+}
+
+function shareIntents(intentLoads, tag, optionsResult) {
+    window.preventSendEvents = true;
+
+    //if android detects intent url
+    if (intentLoads) {
+        var extra = "";
+        if (optionsResult) {
+            for (var n = 0; n < optionsResult.length; n++) {
+                var votes = optionsResult[n][2];
+                var option_number = $(tag).closest(".option").attr("class").split("_")[1];
+                if (option_number == n) {
+                    votes++;
+                }
+                extra += "_" + votes;
+            }
+        }
+
+        var url = "intent://" + location.host + "/share" + extra + location.pathname + "/#Intent;"
+                + "scheme=http;"
+                + "package=" + window.package + ";"
+                //(empty or wrong code function) if twitter webview, this will redirect to app store but inside browser!
+                //+ "S.browser_fallback_url=" + escape(fallback_url) + ";"
+                + "end";
+
+        var a = $("<a class='intentLink' href='" + url + "'>");
+        $(tag).wrap(a);
+
+    } else { //not detects any intent (not installed app)
+        var link = "https://play.google.com/store/apps/details?id=" + window.package;
+
+        $(tag).one("click", function () {
+            modalBox("Usa la la app para compartir la encuesta!",
+                    "La app es gratuita y no requiere de permisos especiales.",
+                    function () {
+                        window.open(link, "_blank");
+                    });
+        });
+
+        var err = notice(transl("notInApp"));
+        err.click(function () {
+            window.open(link, "_blank");
+        });
+    }
+
+    //return all to normality (required on google play links)
+    $(tag).one("click", function () {
+        //prevent any send click
+        setTimeout(function () {
+            window.preventSendEvents = false;
+
+            $(".intentLink").each(function () {
+                $(this).find(" > *:eq(0)").unwrap();
+            });
+        }, 500);
+    });
 }
 
 function shareToSave() {
@@ -158,7 +169,7 @@ function shareToSave() {
 
 //ADD functionality
 function askUserName() {
-    //FORCE enter name to prevent poll problems with troll random voters
+    //FORCE enter name to prevent poll problems with troll random url voters
     var votes = null;
     var obj = screenPoll.obj;
     if (obj.users && obj.users[user.id]) {
@@ -179,7 +190,7 @@ function askUserName() {
 
     //add input
     $("#userNamePoll").remove();
-    var userName = $("<div id='userNameContainer'><input id='userNamePoll' type='text' data-placeholder='myName' " + nameValue + " /></div>");
+    var userName = $("<div id='modal_background'><input id='userNamePoll' type='text' data-placeholder='myName' " + nameValue + " /></div>");
     $("#votationButtons").prepend(userName);
 
     //if public poll
@@ -197,7 +208,7 @@ function askUserName() {
 }
 
 function requiredName() {
-    $("#userNameContainer").removeClass("hideHeight");
+    $("#modal_input").removeClass("hideHeight");
     $("#send").off(".requiredName"); //clean
 
     $("#send").on("click.requiredName", function (e) {
@@ -209,7 +220,7 @@ function requiredName() {
     });
 }
 function no_requiredName() {
-    $("#userNameContainer").addClass("hideHeight");
+    $("#modal_input").addClass("hideHeight");
     $("#send").off(".requiredName");
 }
 
@@ -218,15 +229,16 @@ function no_requiredName() {
 
 VotationInterface_addButtons = function () {
     var buttonsHTML = "<div id='defaultButtons'>"
-            + "<button id='send' class='share'><em></em><span>" + transl("Share") + "</span></button>"
-            + "<button id='cancel'>" + transl("Cancel") + "</button>"
+            + "<button id='send' class='share'><em></em><span data-lang='Share'></span></button>"
+            + "<button id='cancel' data-lang='Cancel'></button>"
             + "</div>"
-            + "<button id='usersButton'>" + transl("Voters") + "</button>";
+            + "<button id='usersButton' data-lang='Voters'></button>";
 
     //create BUTTONS every time for good reset (class saveAndshare ex.)
     $("#defaultButtons").remove();
     $("#usersButton").remove();
     $("#votationButtons").prepend(buttonsHTML);
+    loadTranslations();
 
     VotationInterface_sendButtonEvent();
     VotationInterface_cancelButtonEvent();
@@ -276,7 +288,7 @@ function VotationInterface_sendButtonEvent() {
             });
 
         } else { //share
-            VotationInterface_shareButton(function () {
+            VotationInterface_shareButton(screenPoll, function () {
                 $(".absoluteLoading").remove();
             });
         }
@@ -357,7 +369,7 @@ function VotationInterface_usersButtonEvent() {
     }
 
     //prevent show voters button if no voters exist
-    if (!voters.length) {
+    if (voters.length < 2) {
         $("#usersButton").hide();
         return;
     }
@@ -424,7 +436,7 @@ VotationInterface_notSave = function (why) {
 var sharingPoll = false;
 var _ajaxKeyWaiting = 0;
 //not pass obj for function. this is a Device function.
-VotationInterface_shareButton = function (callback) {
+VotationInterface_shareButton = function (screenPoll, callback) {
     var _args = arguments;
 
     if (!sharingPoll) {
@@ -496,6 +508,7 @@ VotationInterface_shareButton = function (callback) {
                 Device.share(imgData, keyId);
 
             } else {
+                $("#stored").addClass("hidden");
                 div.show();
                 //VotationInterface_saveImageLocally(keyId, imgData);
                 if (callback) {
@@ -540,13 +553,16 @@ VotationInterface_saveButton = function (action, obj, callback) {
     var _args = arguments;
     console.log("VotationInterface_shareButton screenPoll");
 
+    var _user = obj.users[user.id];
+    var votes = null;
+    if (_user) {
+        votes = _user[1];
+    }
+    console.log("VOTES: " + votes)
+
     if (!screenPoll.public) {
         //name is mandatory for prevent troll's confusion votes, and disagree results
         var inputName = $("#userNamePoll").val() || localStorage.getItem("userName");
-        var votes = null;
-        if (obj.users[user.id]) {
-            votes = obj.users[user.id][1];
-        }
 
         if (inputName) {
             if (!window.user) {
@@ -565,10 +581,12 @@ VotationInterface_saveButton = function (action, obj, callback) {
             saveUserName(inputName);
 
         } else {
-            console.log("votes: " + votes);
-            askName_html();
-            $("#userNamePoll").focus();
-            VotationInterface_notSave(1);
+            var userName = localStorage.getItem("userName");
+            modalInput(transl("myName"), userName, function (val) {
+                saveUserName(val);
+                VotationInterface_saveButton(action, obj, callback);
+            });
+
             if (callback) {
                 callback(false);
             }
@@ -601,9 +619,9 @@ VotationInterface_saveButton = function (action, obj, callback) {
     if (!savingPoll) {
         //loading class for group and work with all loadings on page
         if ($(".absoluteLoading").length) {
-            $(".absoluteLoading").attr("from", 'VotationInterface_saveButton !savingPoll');
+            $(".absoluteLoading").attr("from", 'VotationInterface_saveButton');
         } else {
-            $("body").append("<img from='VotationInterface_saveButton !savingPoll' class='loading absoluteLoading' src='~img/loader.gif'/>");
+            $("body").append("<img from='VotationInterface_saveButton' class='loading absoluteLoading' src='~img/loader.gif'/>");
         }
         savingPoll = true;
     }
@@ -639,37 +657,33 @@ VotationInterface_saveButton = function (action, obj, callback) {
     // WRONG VALUES CHECKED
 
     $("#image").remove();
-    saveDefaultValues(user.vt);
+    saveDefaultValues(votes);
 
     //wait callback only if creating poll 4 check that works
     var saveCallback = "";
     if ($("#send").hasClass("saveAndShare")) {
         saveCallback = function () {
-            VotationInterface_shareButton(function () {
+            VotationInterface_shareButton(screenPoll, function () {
                 $(".absoluteLoading").remove();
             });
         };
     }
 
-    var arr = toArray(obj);
-    var json = screenPoll.json = toJson(arr); //update user
-
     //update before ask phone
     var sendJson;
     if ("update" == action) {
         console.log('update" == action');
-        var userArr = getUserArray(user);
-        sendJson = JSON.stringify(userArr);
-        obj.users[user.id] = JSON.parse(sendJson);
-        saveLocally(screenPoll.key, json);
+//        var userArr = getUserArray(user);
+        sendJson = JSON.stringify(_user);
+//        obj.users[user.id] = userArr;
+        saveLocally(screenPoll.key, screenPoll.json + "," + sendJson);
 
     } else if ("create" == action) {
-        sendJson = json;
+        sendJson = pollToJson(obj);
 
         //not local stored if not voted by me
-        var vt = obj.users[user.id][1];
-        if ("undefined" !== typeof (vt) && "" !== vt) {
-            saveLocally(screenPoll.key, json);
+        if ("undefined" !== typeof (votes) && "" !== votes) {
+            saveLocally(screenPoll.key, sendJson);
         }
 
     } else {
@@ -727,7 +741,3 @@ VotationInterface_saveButton = function (action, obj, callback) {
     //$(".absoluteLoading").remove();
     savingPoll = false;
 };
-
-function saveUserName(name) {
-    localStorage.setItem("userName", name);
-}

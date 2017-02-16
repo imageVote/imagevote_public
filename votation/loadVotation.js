@@ -25,7 +25,7 @@ function loadKeyPoll() {
 }
 
 function requestPollByKey(key) {
-    console.log("requestPollByKey");
+    console.log("requestPollByKey " + key);
     var _args = arguments;
 
     var urlParts = getPathsFromKeyId(key);
@@ -38,6 +38,15 @@ function requestPollByKey(key) {
         Device.loadKeyData(key);
 
     } else {
+        if ("game" == urlParts.visible) {
+            console.log($("#pollsPage").length)
+//            loadHash("polls");
+            new GamePoll("#pollsPage", urlParts.keyId);
+            $("html").removeClass("withoutHeader");
+            $("#body").addClass("pollsView");
+            return;
+        }
+
         var url = realPath + screenPoll.realKey + "?";
         if ("public" == urlParts.visible) {
             url = keysPath + "get.php?url=public/" + urlParts.countryPath + screenPoll.realKey + "&";
@@ -64,16 +73,14 @@ function requestPollByKey(key) {
                 console.log(obj);
 
                 if (!obj) {
-                    pollsView();
-                    setTimeout(function () {
-                        location.hash = "";
-                    }, 400);
+                    loadHash("home", "votationNotFound");
+                    return;
                 }
 
                 //TODO: or iphone on future
                 if (!isAndroid) {
                     noticeBrowser();
-                    if (screenPoll.public) {
+                    if ("true" == screenPoll.public) {
                         disableVotation();
                         noticePublic();
                     }
@@ -81,7 +88,7 @@ function requestPollByKey(key) {
 
                 // + buttons
                 showVotation(obj.users);
-                user = LoadVotation_getUser(obj);
+                window.user = LoadVotation_getUser(obj);
 
                 checkCountry(key);
             });
@@ -137,19 +144,20 @@ function loadImage(data, keyId) {
         }
         var obj = screenPoll.obj = parseData(data);
         if (obj) {
-
             console.log("loadImage newUser");
             user = LoadVotation_getUser(obj);
 
             saveDefaultValues(user.vt);
 
             console.log(obj);
-            window.loadedTable = new fillTable("#votation .votationBox", obj);
+            window.loadedTable = new FillTable("#votation .votationBox", obj);
 
             // + buttons
             showVotation(obj.users);
-
             checkCountry(keyId);
+
+            screenPoll.json = data;
+            saveLocally(screenPoll.key, screenPoll.json);
         }
     } else {
         error("e_noDataReceived");
@@ -172,6 +180,9 @@ LoadVotation_parseUserVotes = function (data, divQuery, callback) {
     }
 
     var obj = screenPoll.obj = parseData(data);
+
+    screenPoll.json = data;
+    saveLocally(screenPoll.key, screenPoll.json);
 
     if (!screenPoll.obj) {
         console.log("error parsing object");
@@ -210,7 +221,7 @@ LoadVotation_parseUserVotes = function (data, divQuery, callback) {
         $("#votation").prepend(ownerDiv);
     }
 
-    window.loadedTable = new fillTable(divQuery, obj);
+    window.loadedTable = new FillTable(divQuery, obj);
     callback(obj);
 };
 
@@ -218,9 +229,9 @@ LoadVotation_getUser = function (obj) {
     if (!obj.users) {
         obj.users = {};
     }
-    if (!window.user) {
-        window.user = newUser();
-    }
+//    if (!window.user) {
+//        window.user = new User();
+//    }
     if (!obj.users[user.id]) {
         obj.users[user.id] = window.user;
     }
@@ -229,7 +240,7 @@ LoadVotation_getUser = function (obj) {
     if (!obj_user) {
         throw "user = " + JSON.stringify(obj_user);
     }
-    var userObj = {id: obj_user[0], vt: obj_user[1]};
+    var userObj = {id: user.id, vt: obj_user[1]};
     //add extra values
     if (obj.style && obj.style.extraValues) {
         for (var i = 0; i < obj.style.extraValues.length; i++) {

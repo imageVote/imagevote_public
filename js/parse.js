@@ -27,25 +27,45 @@ function getUserArray(user) {
     return arr;
 }
 
-function toArray(obj) {
-    var style = screenPoll.style;
+function pollToJson(obj) {
+    var style = window.screenPoll.style;
     if (!obj.style) {
         obj.style = style;
+    }
+    if (window.user && window.user.nm) {
+        obj.style.owner = window.user.nm;
+    }
 
-        //add color styles if changed
-    } else {
-        for (var key in style) {
-            if (!obj.style[key]) {
-                obj.style[key] = style[key];
-            }
+    //remove default styles
+    for (var key in obj.style) {
+        if (obj.style[key] == defaultStyle[key]) {
+            delete obj.style[key];
         }
     }
 
-    var arr = [obj.question, obj.options, obj.style, getUserArray(user)];
-    return arr;
-}
+    if (!obj.question) {
+        obj.question = "";
+    }
 
-function toJson(arr) {
+    var options_obj = obj.options;
+    var options = [];
+    for (var i = 0; i < options_obj.length; i++) {
+        if (options_obj[i] && options_obj[i][1]) {
+            options.push(options_obj[i][1]);
+        } else {
+            options.push(options_obj);
+        }
+
+    }
+
+    var arr = [obj.question, options, obj.style];
+
+    //add user ony if is voting
+    var user = getUserArray(window.user);
+    if (user.vt) {
+        arr.push(user);
+    }
+
     return JSON.stringify(arr).slice(0, -1);
 }
 
@@ -65,13 +85,13 @@ function parseData(value) {
 
     var arr;
     try {
-        arr = JSON.parse(value += "]");
+        arr = JSON.parse(value + "]");
     } catch (e) {
         console.log(e + " on " + value);
         //error("e_votationWithErrors", true);
         return false;
     }
-
+    
     return toObject(arr);
 }
 
@@ -81,11 +101,12 @@ function toObject(arr) {
         return false;
     }
 
-//    var question = arr.shift();
+    var question = arr.shift();
     var options_arr = arr.shift();
     if (!options_arr || !options_arr.length) {
         return false;
     }
+
     var style = arr.shift();
 
     var users = {};
@@ -96,12 +117,12 @@ function toObject(arr) {
     }
 
     var obj = {
-//        question: question,
+        question: question,
         style: style,
         users: users
-    };    
+    };
     parseOptions(obj, options_arr);
-    
+
     console.log(obj);
     return obj;
 }
