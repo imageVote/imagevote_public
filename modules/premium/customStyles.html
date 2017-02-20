@@ -1,5 +1,5 @@
 
-<script src="~premium/customStyles.js"></script>
+<script src="~modules/premium/customStyles.js"></script>
 
 <div class="overthrow">
     <br/>
@@ -221,7 +221,7 @@
             }
             ,
             restoreDefault: function () {
-                screenPoll.style = $.extend({}, defaultStyle);
+                screenPoll.style = $.extend({}, window.defaultStyle);
                 customStyles.updatePickers(screenPoll.style);
                 $("#p_head .p_title").text(lang["CustomStyles"]);
                 $("#savedStyles .selected").removeClass("selected");

@@ -307,7 +307,7 @@ function VotationInterface_cancelButtonEvent() {
                 return;
             }
         }
-        if (keyLinkPage) {
+        if (window.keyLinkPage) {
             if (document.referrer.indexOf(window.location.host) > -1 || true) {
                 window.history.back();
 
