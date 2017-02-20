@@ -187,7 +187,7 @@ function pollsView() {
 
     //re-load
     if (!$("#pollsPage > div").length) {
-        new GamePoll("#pollsPage");
+        window.game = new GamePoll("#pollsPage", null, "game");
 
         if (status == "error") {
             flash(lang["notLoadingPolls"]);
