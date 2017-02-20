@@ -38,7 +38,7 @@ function pollToJson(obj) {
 
     //remove default styles
     for (var key in obj.style) {
-        if (obj.style[key] == defaultStyle[key]) {
+        if (obj.style[key] == window.defaultStyle[key]) {
             delete obj.style[key];
         }
     }
