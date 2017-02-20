@@ -18,7 +18,7 @@ var User = function (voting, callback) {
             }
         });
     } else {
-        Device.loadProfile(); //will load window.user after
+        //Device.loadProfile(); //will load window.user after
         if (callback) {
             callback(this);
         }
@@ -59,7 +59,6 @@ User.prototype.userIP = function (callback) {
         var country = data[1];
 
         localStorage.setItem("userId", id);
-        //addUser(id, "", country); //name = null
         _this.id = id;
         _this.country = country;
 
@@ -73,7 +72,6 @@ User.prototype.userIP = function (callback) {
         console.log("getIP.php not found");
         var id = "local";
         localStorage.setItem("userId", id);
-        //addUser(id); //name = null
         _this.id = id;
         //if debug
         if (callback) {
@@ -104,7 +102,8 @@ function isUserCountry(country) {
 
 
 //DEVICE function!! - global User already exists (providing id, etc..)
-function addUser(id, name, country, pubId) {
+// every time something in Android user updates (Digits, etc..)
+function addUser(id, country) {
     console.log("addUser start");
 
     if (!id) {
@@ -113,16 +112,11 @@ function addUser(id, name, country, pubId) {
     }
 
     //don't override userId localStorage userId !
-    if (pubId) {
-        window.publicId = pubId;
-        localStorage.setItem("publicId", pubId);
-    }
-    console.log("public id = '" + pubId + "' in addUser; ");
     window.user.id = id;
 
-    if (name) {
-        window.user.nm = name;
-        $("#username input").val(name);
+    window.user.nm = localStorage.getItem("userName");
+    if (window.user.nm) {        
+        $("#username input").val(window.user.nm);
     }
 
     if (country) {
