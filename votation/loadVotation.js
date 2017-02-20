@@ -41,7 +41,7 @@ function requestPollByKey(key) {
         if ("game" == urlParts.visible) {
             console.log($("#pollsPage").length)
 //            loadHash("polls");
-            new GamePoll("#pollsPage", urlParts.keyId);
+            window.game = new GamePoll("#pollsPage", urlParts.keyId, "game");
             $("html").removeClass("withoutHeader");
             $("#body").addClass("pollsView");
             return;
