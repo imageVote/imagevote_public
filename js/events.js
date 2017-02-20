@@ -67,7 +67,7 @@ function notice(text, isError) {
 
 //prevent large urls and device url confusions
 function loadHash(hash, error) {
-    console.log("logHash");
+    console.log("loadHash: " + hash + " : " + error);
     //remove all loadings
     $(".loading").remove();
 
