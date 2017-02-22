@@ -4,9 +4,11 @@
     width: 100%;
     height: 100%;
     background: black;
-    z-index: 99;
     font-weight: bold;
     overflow-y: scroll;
+    /*bigger than tutorial z-index:*/
+    z-index: 200;
+    pointer-events: auto !important;
 }
 
 #languages > div{
