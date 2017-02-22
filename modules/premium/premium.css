@@ -248,7 +248,8 @@ html:not(.withoutHeader) .p_show{
 
 /*for menu icon index*/
 #header > div{    
-    z-index: 1;
+    /*full screen option not work:*/
+    /*z-index: 1;*/
 }
 #search{
     z-index: -1;
