@@ -170,6 +170,7 @@ html.translucent{
 
 #body > div > div{
     padding: 0 10px; 
+    overflow-x: hidden;
 }
 
 /*'a' style when no href:*/
@@ -449,7 +450,7 @@ input{
 @media screen and (max-width: 480px) {
     #pollsPage > div{
         /* 28 x 4 */
-        padding-bottom: 133% !important;
+        padding-bottom: 130% !important;
     }
     #pollsPage .options_container{
         left: 0 !important;
@@ -471,7 +472,7 @@ input{
 
 .option table {
     margin: auto;
-    /*width: 97%;*/ 
+    width: 100%; 
     height: 100%; 
     border-collapse: collapse;
     box-shadow: 1px 1px 0 rgba(0,0,0,0.35), inset 1px 1px 0 rgba(255,255,255,0.35);
