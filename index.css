@@ -38,7 +38,7 @@ html, body, .wrapper{
     /*html, body{*/
     width: 100%;
     /*hidden scroll test:*/
-    /*overflow-x: hidden;*/
+    overflow-x: hidden;
 }
 
 html.Device{
