@@ -69,7 +69,8 @@ html.translucent{
         left: 0;
         right: 0;*/
     pointer-events: auto;
-    /*height: 100%;*/
+    /*needs to overflow-x*/
+    height: 100%;
 }
 .withoutHeader #body{
     margin-top: 0;
@@ -155,6 +156,8 @@ html.translucent{
     bottom: 0;
     left: 0;
     right: 0;
+    border-right: 1px grey dashed;
+    margin-right: -1px;
 }
 #mainPage, #pollsPage, #header > div, #errorLog{
     /*max-width: 506px;*/
@@ -911,7 +914,6 @@ input{
     width: 100%;
     bottom: 0;
     /*padding: 10px;*/
-    border-left: 1px grey dashed;
 }
 #pollsPage{
     position: relative;
