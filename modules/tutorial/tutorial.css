@@ -19,7 +19,7 @@
     pointer-events: auto !important;
 }
 .tutorial_unselectable{
-    pointer-events: none;
+    pointer-events: none !important;
 }
 
 /*FROM SMALLTOWN*/

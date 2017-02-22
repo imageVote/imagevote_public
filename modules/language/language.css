@@ -1,0 +1,38 @@
+
+#languages{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: black;
+    z-index: 99;
+    font-weight: bold;
+    overflow-y: scroll;
+}
+
+#languages > div{
+    height: 62px;
+    position: relative;
+    padding: 0 10px;
+    cursor: pointer;
+}
+#languages > div:hover{
+    background: grey;
+}
+
+#languages .img{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#languages img{
+    zoom: 1.5;
+    vertical-align: middle;
+}
+
+#languages .text{
+    margin-left: 85px;
+    top: 49%;
+    position: absolute;
+    transform: translateY(-50%);
+}

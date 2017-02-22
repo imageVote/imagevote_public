@@ -1,0 +1,23 @@
+
+<link rel="stylesheet" type="text/css" href="~commons/modules/language/language.css">
+<script type="text/javascript" src="~commons/modules/language/Language.js"></script>
+
+<script>
+
+    (function () {
+        
+        var local_lang = localStorage.getItem("userLang");
+        if (!local_lang) {
+            new Language([
+                ["en", "GB", "English", "preguntasEN"],
+                ["es", "ES", "Español", "preguntas"],
+                ["de", "DE", "Deutsch", "preguntasDE"],
+                ["fr", "FR", "Français", "preguntasFR"],
+                ["it", "IT", "Italiano", "preguntasIT"],
+                ["pt", "PT", "Português", "preguntasPT"]
+            ], "body");
+        }
+        
+    })();
+
+</script>

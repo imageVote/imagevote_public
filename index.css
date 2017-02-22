@@ -37,7 +37,8 @@ body{
 html, body, .wrapper{
     /*html, body{*/
     width: 100%;
-    overflow-x: hidden;
+    /*hidden scroll test:*/
+    /*overflow-x: hidden;*/
 }
 
 html.Device{
@@ -68,6 +69,7 @@ html.translucent{
         left: 0;
         right: 0;*/
     pointer-events: auto;
+    /*height: 100%;*/
 }
 .withoutHeader #body{
     margin-top: 0;
@@ -100,6 +102,10 @@ html.translucent{
     box-shadow: 0 3px rgba(0,0,0,0.4);
     text-shadow: 1px 1px black;
     /*margin-bottom: 15px;*/
+
+    /* z-index needed (overflowing polls, etc..) */
+    position: relative;
+    z-index: 1;    
 }
 #header, #header .button, #header button{
     background-color: rgb(50,50,50);
@@ -275,7 +281,7 @@ input{
 }
 
 #creator table{
-    width: 100%;
+    /*width: 100%;*/
     border-collapse: collapse;
 }
 /*#creator > *{
@@ -431,9 +437,43 @@ input{
     /*this breaks word only if only 1 large word like 'aaa+bbb+ccc'*/
     word-break: break-word;
     text-shadow: 1px 1px rgba(0,0,0,0.5);
+
+    width: 50%;
+    display: inline-block;
+    height: 100%;
+    /*margin:0 1.7%*/
+    width: 48%;
+    margin: 0 1%;
+}
+
+@media screen and (max-width: 480px) {
+    #pollsPage > div{
+        /* 28 x 4 */
+        padding-bottom: 133% !important;
+    }
+    #pollsPage .options_container{
+        left: 0 !important;
+        right: 0 !important;
+    }
+    #pollsPage .option {
+        display: block;
+        width: 98%;
+        margin-bottom: 2% !important;
+        height: 49%;
+    }
+    #pollsPage table {
+        width: 100% !important;
+    }
+    #pollsPage #gameSkip{
+        zoom: 1.1;
+    }
 }
 
 .option table {
+    margin: auto;
+    /*width: 97%;*/ 
+    height: 100%; 
+    border-collapse: collapse;
     box-shadow: 1px 1px 0 rgba(0,0,0,0.35), inset 1px 1px 0 rgba(255,255,255,0.35);
 
     -webkit-transition: all 300ms;
@@ -515,14 +555,14 @@ input{
     display: inline-block;
 }
 
-.saveAndShare em, .share em{
+.saveAndShare em, .share em, #gameShare em{
     background-image: url('img/share.png');
     background-repeat: no-repeat;
     background-size: 100%;
     vertical-align: text-top;
     display: inline-block;
     margin-right: 5px;
-    width: 15px;
+    width: 15px;    
 }
 .saveAndShare:disabled, .share:disabled{
     background: -webkit-linear-gradient(top, rgb(150,150,150),rgb(99,99,99));
@@ -909,13 +949,27 @@ body > .option > *{
 }
 
 .option_text{
+    position: relative;
     font-family: "LeagueGothic";
     margin: 0 5px;
     outline: none;
     /*game SKIP margin:*/
     padding: 0 7%;
 }
+.option_text > div{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 7%;
+    right: 7%;
+}
+.option_text > div > div{
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+}
 
 #buttons{
-    min-height: 55px;
+    min-height: 54px;
 }
