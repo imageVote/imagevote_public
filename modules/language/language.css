@@ -3,10 +3,12 @@
     position: fixed;
     width: 100%;
     height: 100%;
-    background: black;
-    z-index: 99;
+    background: black;    
     font-weight: bold;
     overflow-y: scroll;
+    /*bigger than tutorial z-index:*/
+    z-index: 101;
+    pointer-events: auto !important;
 }
 
 #languages > div{
