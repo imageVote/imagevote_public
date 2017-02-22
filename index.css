@@ -71,6 +71,8 @@ html.translucent{
     pointer-events: auto;
     /*needs to overflow-x*/
     height: 100%;
+    /*exact height if accepting calc()*/
+    height: calc(100% - 58px);
 }
 .withoutHeader #body{
     margin-top: 0;
@@ -448,6 +450,7 @@ input{
     /*margin:0 1.7%*/
     width: 48%;
     margin: 0 1%;
+    box-shadow: 1px 1px 0 rgba(0,0,0,0.35), inset 1px 1px 0 rgba(255,255,255,0.35);
 }
 
 @media screen and (max-width: 480px) {
@@ -473,13 +476,12 @@ input{
     }
 }
 
-.option table {
+.option {
     margin: auto;
     width: 100%; 
     height: 100%; 
     border-collapse: collapse;
-    box-shadow: 1px 1px 0 rgba(0,0,0,0.35), inset 1px 1px 0 rgba(255,255,255,0.35);
-
+    
     -webkit-transition: all 300ms;
     -moz-transition: all 300ms;
     -o-transition: all 300ms;
