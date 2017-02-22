@@ -9,7 +9,8 @@ Tutorial.prototype.start = function () {
     var _this = this;
 
     var helpStop = $("<div id='helpStop'>");
-    helpStop.text("helpStop");
+    var stop = $("<span style='display:inline-block'>helpStop</span>");
+    helpStop.append(stop);
     var left = $("<div style='float:left;padding: 0 25px'><</div>");
     helpStop.append(left);
     left.click(function (e) {
@@ -35,7 +36,7 @@ Tutorial.prototype.start = function () {
         _this.nextHelp();
     });
 
-    helpStop.on("tap", function () {
+    stop.on("tap", function () {
         _this.stop();
     });
 
@@ -48,7 +49,7 @@ Tutorial.prototype.start = function () {
 Tutorial.prototype.done = function () {
     console.log("tutorial done");
     this.stop();
-    flash("help_done");
+    //flash("help_done");
 };
 
 Tutorial.prototype.stop = function () {
@@ -188,16 +189,17 @@ Tutorial.prototype.placeHelper = function (queryDiv, callback) {
         help.addClass("tutorial_right");
     }
 
-    if (y + divHeight / 2 <= height / 2) {
+//    if (y + divHeight / 2 <= height / 2) {
         if (!divHeight) {
             divHeight = 20;
         }
         help.css("top", y + divHeight + 10);
         help.addClass("tutorial_top");
-    } else {
-        help.css("bottom", height - y + 10);
-        help.addClass("tutorial_bottom");
-    }
+//    } else {
+//    //BOTTOM CAUSES BAD MOVES ON WINDOW RESIZE
+//        help.css("bottom", height - y + 10);
+//        help.addClass("tutorial_bottom");
+//    }
 
     this.divAd(queryDiv);
     //$(".tutorial_selectable").removeClass("tutorial_selectable");
