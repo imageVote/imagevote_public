@@ -73,6 +73,7 @@ html.translucent{
     height: 100%;
     /*exact height if accepting calc()*/
     height: calc(100% - 58px);
+    
 }
 .withoutHeader #body{
     margin-top: 0;
