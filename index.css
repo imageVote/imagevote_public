@@ -876,7 +876,7 @@ input{
     position: relative;
     /*max-width: 506px;*/
     margin: auto;
-    padding: 0 10px;
+    padding: 0 5px !important;
     height: 100%;
 }
 

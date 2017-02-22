@@ -99,7 +99,7 @@ NewVotation_newKeyAjax = function (id) {
 //        var userName = $("#username input").val();
 //        if (userName != user.name) {
 //            user.nm = userName;
-//            saveUserName(userName);
+//            updateUserName(userName);
 //        }
 //        screenPoll.obj.users[user.id] = getUserArray(user);
 //        screenPoll.obj.style.owner = userName;

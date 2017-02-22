@@ -2,7 +2,9 @@
 var User = function (voting, callback) {
     console.log("new User(" + voting + ")");
     if (window.public && window.publicId) {
-        phoneId = window.user.id;
+        if (window.user) {
+            phoneId = window.user.id;
+        }
         this.id = window.publicId;
     }
     this.vt = "";
@@ -19,6 +21,9 @@ var User = function (voting, callback) {
         });
     } else {
         //Device.loadProfile(); //will load window.user after
+        if (!this.id && window.user) {
+            this.id = window.user.id;
+        }
         if (callback) {
             callback(this);
         }
@@ -111,13 +116,11 @@ function addUser(id, country) {
         return;
     }
 
-    //don't override userId localStorage userId !
-    window.user.id = id;
+    //don't override userId localStorage userId ???
+    updateUserId(id);
 
-    window.user.nm = localStorage.getItem("userName");
-    if (window.user.nm) {        
-        $("#username input").val(window.user.nm);
-    }
+    var name = localStorage.getItem("userName");
+    updateUserName(name);
 
     if (country) {
         userCountry = country;
@@ -131,6 +134,17 @@ function addUser(id, country) {
     }
 }
 
-function saveUserName(name) {
+function updateUserId(id) {
+    if (window.user) {
+        window.user.id = id;
+    }
+    localStorage.setItem("userId", id);
+}
+
+function updateUserName(name) {
+    if (window.user) {
+        window.user.nm = name;
+    }
     localStorage.setItem("userName", name);
+    $("#username input").val(name);
 }

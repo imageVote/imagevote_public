@@ -227,12 +227,12 @@ linksLink:hover{
     position: absolute;    
     background: rgb(40,40,40);
     width: 60px;
-    max-width: 11%;
+    max-width: 13%;
     border-radius: 99px;    
     text-align: center;
     font-weight: bold;
     border: 1px solid rgba(0,0,0,0.5);    
-    box-shadow: inset 1px 1px 1px rgba(255,255,255,0.3), 1px 1px 0 rgba(0,0,0,0.5);
+    box-shadow: inset 1px 1px 0 rgba(255,255,255,0.3), 1px 1px 0 rgba(0,0,0,0.3);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

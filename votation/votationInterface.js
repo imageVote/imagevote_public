@@ -578,12 +578,12 @@ VotationInterface_saveButton = function (action, obj, callback) {
             } else {
                 user.from = browser();
             }
-            saveUserName(inputName);
+            updateUserName(inputName);
 
         } else {
             var userName = localStorage.getItem("userName");
             modalInput(transl("myName"), userName, function (val) {
-                saveUserName(val);
+                updateUserName(val);
                 VotationInterface_saveButton(action, obj, callback);
             });
 
