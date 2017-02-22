@@ -318,10 +318,8 @@ $(document).ready(function () {
 //        }
 //
 //        console.log("to polls click");
-//        loadHash("polls");
-
-        pollsView();
-//        loadHash("polls");
+//        pollsView();
+        loadHash("polls");
     });
 
     $("#newPoll").click(function () {
@@ -331,11 +329,13 @@ $(document).ready(function () {
 
     if (is_touch_device()) {
         $(document).on("swiperight", function (e) {
-            newPollView();
+//            newPollView();
+            loadHash("home");
 
         }).on("swipeleft", function () {
             if (!$("#p_menu").hasClass("p_show") && !$("#body").hasClass("swiping")) {
-                pollsView();
+//                pollsView();
+                loadHash("polls");
             }
         });
     }

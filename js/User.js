@@ -81,6 +81,10 @@ User.prototype.userIP = function (callback) {
 };
 
 function getUserLang() {
+    var local_lang = localStorage.getItem("userLang");
+    if(local_lang){
+        return local_lang;
+    }
     var language = navigator.language || navigator.userLanguage;
     return language.split("-")[0];
 }

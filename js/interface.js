@@ -1,32 +1,38 @@
 
-function translateTags() {
-    var userLang = getUserLang();
-    console.log("language: " + userLang);
-    if (window.lang) {
+function translateTags(refresh) {
+    if (window.lang && !refresh) {
         loadTranslations();
         return;
     }
 
+    var userLang = getUserLang();
+    //console.log("language: " + userLang);
+
     $.getScript("~lang/" + userLang + ".js", function () {
         window.lang = window["lang_" + userLang];
-        if (window.lang) {
-            loadTranslations();
-        } else {
-            $.getScript("~lang/en.js", function () {
-                window.lang = window.lang_en;
-                if (window.lang) {
-                    loadTranslations();
-                }
-            });
-        }
+        loadTranslations(refresh);
+
+    }).fail(function () {
+        console.log("wrong lang " + userLang);
+        $.getScript("~lang/en.js", function () {
+            window.lang = window.lang_en;
+            if (window.lang) {
+                loadTranslations(refresh);
+            }
+        });
     });
 }
 
-function loadTranslations() {
-    if(!window.lang){
+function loadTranslations(refresh) {
+    if (!window.lang) {
         return;
     }
     $("[data-lang]").each(function () {
+        //prevent re-translate
+        if ($(this).text() && !refresh) {
+            return true; //continue
+        }
+
         var textKey = $(this).attr("data-lang");
         var translation = window.lang[textKey];
         if (translation) {
@@ -36,7 +42,7 @@ function loadTranslations() {
             console.log(textKey + " not have translation!");
         }
         //remove lang 4 prevent re-translate
-        $(this).removeAttr("data-lang");
+        //$(this).removeAttr("data-lang");
     });
     $("[data-placeholder]").each(function () {
         var textKey = $(this).attr("data-placeholder");
