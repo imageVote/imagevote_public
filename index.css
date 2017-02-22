@@ -457,7 +457,7 @@ input{
 @media screen and (max-width: 480px) {
     #pollsPage > div{
         /* 28 x 4 */
-        padding-bottom: 130% !important;
+        padding-bottom: 128% !important;
     }
     #pollsPage .options_container{
         left: 0 !important;
