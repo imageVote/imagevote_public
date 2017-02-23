@@ -100,10 +100,11 @@ function checkShareEnvirontment(tag, optionsResult) {
 }
 
 function shareIntents(intentLoads, tag, optionsResult) {
-    window.preventSendEvents = true;
 
     //if android detects intent url
     if (intentLoads) {
+        window.preventSendEvents = true;
+        
         var extra = "";
         if (optionsResult) {
             for (var n = 0; n < optionsResult.length; n++) {
@@ -250,6 +251,7 @@ function VotationInterface_sendButtonEvent() {
 //    checkShareEnvirontment("#save");
     $("#send").click(function (e) {
         if (window.preventSendEvents) {
+            console.log("preventSendEvents");
             return;
         }
 
