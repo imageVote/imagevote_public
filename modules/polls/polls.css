@@ -180,29 +180,6 @@ linksLink:hover{
     text-decoration: underline;
 }
 
-#search input{
-    display: none;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
-    float: right;
-    border: none;
-    outline: none;
-    box-shadow: none;
-}
-#header.search input{
-    display: block !important;
-}
-#search .button{
-    cursor: pointer;
-    width: 50px;
-}
-#search .button span{
-    float: right;
-    margin-right: 13px;
-    margin-left: 7px;
-}
 /*#errorLog{
     margin-bottom: 0px !important;
 }*/

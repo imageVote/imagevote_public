@@ -2,15 +2,34 @@
 <link rel="stylesheet" type="text/css" href="~commons/modules/language/language.css">
 <script type="text/javascript" src="~commons/modules/language/Language.js"></script>
 
+<img src="~commons/img/lang.png">
+
 <script>
 
-    new Language([
-        ["en", "GB", "English", "preguntasEN"],
-        ["es", "ES", "Español", "preguntas"],
-        ["de", "DE", "Deutsch", "preguntasDE"],
-        ["fr", "FR", "Français", "preguntasFR"],
-        ["it", "IT", "Italiano", "preguntasIT"],
-        ["pt", "PT", "Português", "preguntasPT"]
-    ], "body");
+    (function () {
+
+        var languages = [
+            ["en", "GB", "English", "preguntasEN"],
+            ["es", "ES", "Español", "preguntas"],
+            ["de", "DE", "Deutsch", "preguntasDE"],
+            ["fr", "FR", "Français", "preguntasFR"],
+            ["it", "IT", "Italiano", "preguntasIT"],
+            ["pt", "PT", "Português", "preguntasPT"]
+        ];
+
+        var local_lang = localStorage.getItem("userLang");
+        if (!local_lang) {
+            new Language(languages, "body");
+        }
+
+        $("#language_icon").click(function () {
+            new Language(languages, "body", function () {
+                if (window.game) {
+                    game.reset();
+                }
+            });
+        });
+
+    })();
 
 </script>

@@ -5,17 +5,23 @@ function translateTags(refresh) {
         return;
     }
 
+    if (!window.lang) {
+        window.lang = {};
+    }
+
     var userLang = getUserLang();
     //console.log("language: " + userLang);
 
     $.getScript("~lang/" + userLang + ".js", function () {
-        window.lang = window["lang_" + userLang];
+//        window.lang = window["lang_" + userLang];
+        $.extend(window.lang, window["lang_" + userLang]);
         loadTranslations(refresh);
 
     }).fail(function () {
         console.log("wrong lang " + userLang);
         $.getScript("~lang/en.js", function () {
-            window.lang = window.lang_en;
+//            window.lang = window.lang_en;
+            $.extend(window.lang, window.lang_en);
             if (window.lang) {
                 loadTranslations(refresh);
             }
@@ -28,12 +34,15 @@ function loadTranslations(refresh) {
         return;
     }
     $("[data-lang]").each(function () {
+        var textKey = $(this).attr("data-lang");
+
         //prevent re-translate
-        if ($(this).text() && !refresh) {
+        if ($(this).text() && !refresh && $(this).text() != textKey) {
+            console.log($(this).text() + " != " + textKey)
             return true; //continue
         }
 
-        var textKey = $(this).attr("data-lang");
+
         var translation = window.lang[textKey];
         if (translation) {
             $(this).html(translation);

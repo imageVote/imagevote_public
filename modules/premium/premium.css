@@ -92,6 +92,7 @@ input[type=color]{
     font-size: 10px;
     background: transparent;
     width: 35px;
+    min-width: 35px;
     cursor: pointer;
 
     -webkit-transition: width 300ms;

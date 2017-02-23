@@ -67,9 +67,9 @@ Tutorial.prototype.locateHelper = function (queryDiv, value, target, func) {
     helpContainer.append(help);
 
     var text = transl(value);
-    text = text.replace(/\. /g, '.<br/><br/>').replace(/! /g, '.<br/><br/>');
+    //text = text.replace(/\. /g, '.<br/><br/>').replace(/! /g, '.<br/><br/>');
     help.html(text);
-
+    
     $("#tutorial_helpFilter").remove();
 
     $("body").append(helpContainer);
@@ -126,10 +126,9 @@ Tutorial.prototype.targetEvent = function (target, help, func) {
             });
         }
     } else {
-        console.log("OK!!!")
         $("#tutorial_helpFilter").addClass("tutorial_filter");
         var button = $("<button>");
-        button.text("ok");
+        button.text("next");
         button.on("click", function () {
             $("#tutorial_helpFilter").remove();
 

@@ -137,7 +137,8 @@ html.translucent{
     background: rgb(99,99,99);    
 }
 #header .title{
-    max-width: 0;
+    /*lang icon overrides*/
+    /*max-width: 0;*/
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -445,10 +446,11 @@ input{
     width: 48%;
     margin: 0 1%;
     box-shadow: 1px 1px 0 rgba(0,0,0,0.35), inset 1px 1px 0 rgba(255,255,255,0.35);
+    cursor: pointer;
 }
 
 @media screen and (max-width: 480px) {
-    #pollsPage > div{
+    #pollsPage #polls, #pollsPage #game{
         /* 28 x 4 */
         padding-bottom: 128% !important;
     }
@@ -917,7 +919,8 @@ input{
     /*max-width: 506px;*/
     margin: auto;
     padding: 0 5px !important;
-    height: 100%;
+    /*skip button #pollsPage position*/
+    /*height: 100%;*/
 }
 
 html:not(.withoutHeader) .pollsView{

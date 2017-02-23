@@ -323,7 +323,6 @@ $(document).ready(function () {
     });
 
     $("#newPoll").click(function () {
-        $("#header").removeClass("search");
         loadHash("home");
     });
 
