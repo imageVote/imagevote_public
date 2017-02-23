@@ -433,21 +433,20 @@ VotationInterface_notSave = function (why) {
     $("#send").removeAttr("disabled");
 };
 
-var sharingPoll = false;
 var _ajaxKeyWaiting = 0;
 //not pass obj for function. this is a Device function.
-VotationInterface_shareButton = function (screenPoll, callback) {
+VotationInterface_shareButton = function (poll, callback) {
     var _args = arguments;
 
-    if (!sharingPoll) {
+    if (!window.sharingPoll) {
         $(".absoluteLoading").remove();
         //loading class for group and work with all loadings on page
         $("body").append("<img from='VotationInterface_shareButton' class='loading absoluteLoading' src='~img/loader.gif'/>");
-        sharingPoll = true;
+        window.sharingPoll = true;
     }
 
     console.log("VotationInterface_shareButton");
-    if (!Device && !screenPoll.key) {
+    if (!window.Device && !poll.key) {
         //if not seems respond
         if (_ajaxKeyWaiting > 10) {
             _ajaxKeyWaiting = 0;
@@ -467,8 +466,8 @@ VotationInterface_shareButton = function (screenPoll, callback) {
     }
     _ajaxKeyWaiting = 0;
 
-    console.log("country = " + screenPoll.country);
-    var keyId = screenPoll.key;
+    console.log("country = " + poll.country);
+    var keyId = poll.key;
     var divQuery = "#image .image";
 
     //if canvas exists only re-share height modifications
@@ -488,7 +487,7 @@ VotationInterface_shareButton = function (screenPoll, callback) {
             if (callback) {
                 callback(true);
             }
-            sharingPoll = false;
+            window.sharingPoll = false;
         }
 
     } else {
@@ -498,7 +497,7 @@ VotationInterface_shareButton = function (screenPoll, callback) {
 
         var width = null;
         var list = null;
-        getCanvasImage(divQuery, screenPoll.obj, keyId, width, list, function (imgData) {
+        getCanvasImage(divQuery, poll.obj, keyId, width, list, function (imgData) {
             if (!imgData) {
                 error("!imgData on getCanvasImage");
                 return;
@@ -514,7 +513,7 @@ VotationInterface_shareButton = function (screenPoll, callback) {
                 if (callback) {
                     callback(true);
                 }
-                sharingPoll = false;
+                window.sharingPoll = false;
             }
         });
     }

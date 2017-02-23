@@ -101,8 +101,9 @@
         }
     });
 
-    $("#p_menu").on("tap", function (e) {
+    $("#p_menu").on("tap", function (e) {        
         if ("p_menu" == $(e.target).attr("id")) {
+            e.preventDefault(); //prevent pass through click
             customStyles.hide();
         }
     });
