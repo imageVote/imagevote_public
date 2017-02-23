@@ -20,7 +20,6 @@ var User = function (voting, callback) {
             }
         });
     } else {
-        //Device.loadProfile(); //will load window.user after
         if (!this.id && window.user) {
             this.id = window.user.id;
         }

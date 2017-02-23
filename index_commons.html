@@ -184,15 +184,15 @@
                 defaultPage();
             }
         } else {
-            loadKeyPoll();
+            loadKeyPoll(screenPoll);
         }
 
-        //make backround fixed (soft-keyboard resize)
-        setTimeout(function () {
-            var backgroundWidth = getBackgroundSize($("html")[0]).width;
-            console.log("backgroundWidth: " + backgroundWidth);
-            $("html").css("background-size", backgroundWidth + "px auto");
-        }, 2000); //need completely loaded page
+//        //make backround fixed (soft-keyboard resize)
+//        setTimeout(function () {
+//            var backgroundWidth = getBackgroundSize($("html")[0]).width;
+//            console.log("backgroundWidth: " + backgroundWidth);
+//            $("html").css("background-size", backgroundWidth + "px auto");
+//        }, 2000); //need completely loaded page
     }
 
     function loadHashData() {

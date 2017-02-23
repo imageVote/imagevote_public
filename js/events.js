@@ -25,6 +25,7 @@ window.addEventListener("error", function (e) {
 });
 
 function error(txt, f) {
+    console.log(txt + " - in error function");
     //try transation
 
     //if number
@@ -122,7 +123,7 @@ function hashChanged(hash) {
     if (hash.search(/^key=/i) > -1) {
         screenPoll.key = hash.split("=")[1];
         $("html").addClass("withoutHeader");
-        loadKeyPoll();
+        loadKeyPoll(screenPoll);
 
     } else if ("new" == hash) {
         newPoll();
