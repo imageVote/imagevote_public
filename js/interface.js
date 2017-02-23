@@ -38,7 +38,7 @@ function loadTranslations(refresh) {
 
         //prevent re-translate
         if ($(this).text() && !refresh && $(this).text() != textKey) {
-            console.log($(this).text() + " != " + textKey)
+            //console.log($(this).text() + " != " + textKey)
             return true; //continue
         }
 

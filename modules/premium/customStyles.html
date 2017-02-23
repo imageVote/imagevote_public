@@ -48,7 +48,7 @@
 
     init();
     translateTags(); //start lang
-
+    
     //load Styles
     for (var i = 0; i < localStorage.length; i++) {
         var name = localStorage.key(i);
@@ -89,6 +89,7 @@
 
     $(document).on("swiperight", function (e) {
         if (!$(".votation.moving").length && !$("#body.pollsView").length && !$("#body.swiping").length) {
+            customStyles.draw();
             customStyles.show();
         }
     }).on("swipeleft", function (e) {

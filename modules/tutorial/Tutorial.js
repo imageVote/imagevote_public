@@ -89,6 +89,8 @@ Tutorial.prototype.targetEvent = function (target, help, func) {
             $(target)
                     //.addClass("smltown_userSelectable")
                     .on("click.help", function (e) {
+                        e.preventDefault();
+                        
                         console.log("click")
                         if (!canClick) {
                             return;
