@@ -1,10 +1,8 @@
 
-function loadKeyPoll(poll) {
-    this.poll = screenPoll = poll;
+var LoadKeyPoll = function (poll) {
+    this.poll = window.screenPoll = poll;
     this.key = this.poll.key;
-    
-    this.query = "#votation .votationBox";
-    
+
     //first
     loading();
 
@@ -27,10 +25,9 @@ function loadKeyPoll(poll) {
     $(document).on("swiperight.swipePrevent swipeleft.swipePrevent touchstart.swipePrevent touchend.swipePrevent touchup.swipePrevent", function (e) {
         e.stopPropagation();
     });
-}
+};
 
-loadKeyPoll.prototype.requestPollByKey = function () {
-    var _this = this;
+LoadKeyPoll.prototype.requestPollByKey = function () {
     var key = this.key;
     console.log("requestPollByKey " + key);
 
@@ -59,59 +56,12 @@ loadKeyPoll.prototype.requestPollByKey = function () {
         }
 
         loadAjaxKey(url, function (data) {
-            _this.data = data;
-            _this.requestPollByKeyCallback();
+            new RequestPollByKeyCallback(key, data);
         });
     }
 };
 
-loadKeyPoll.prototype.requestPollByKeyCallback = function () {
-    var _this = this;
-    var data = this.data;
-    
-    window.loadedPoll = true;
-    $("#errorLog").html("");
-
-    if (!data) {
-        if (alternative.keysPath && keysPath != alternative.keysPath) {
-            keysPath = alternative.keysPath;
-            console.log("requestPollByKey again");
-            this.requestPollByKey();
-            return;
-        }
-
-        error("votationNotFound");
-        error("e_noDataReceived");
-        defaultPage();
-        return;
-    }
-
-    if (data[0] == "_") {
-        error(data);
-    }
-
-    this.parseUserVotes(function (obj) {
-        if (!obj) {
-            loadHash("home", "votationNotFound");
-            return;
-        }
-
-        //TODO: or iphone on future
-        if (!window.isAndroid) {
-            noticeBrowser();
-            if ("true" == _this.poll.public) {
-                disableVotation();
-                noticePublic();
-            }
-        }
-
-        // + buttons
-        showVotation(obj.users);
-        window.user = _this.LoadVotation_getUser(obj);
-
-        checkCountry(key);
-    });
-};
+///////////////////////////////////////////////////////////////////////////////
 
 //ON LOAD VOTATION AND STORED
 function loadAjaxKey(url, callback, findCache) {
@@ -139,19 +89,70 @@ function loadAjaxKey(url, callback, findCache) {
     xhr.send();
 }
 
-//device 
-loadKeyPoll.prototype.dataIsReady = function (keyId) {
+//device (allow run directly from android url scratch)
+function dataIsReady (keyId) {
     //huge js codes cant be sent with loadUrl, only Device function
-    this.data = window.Device.getKeyData(keyId);
-    this.requestPollByKeyCallback();
+    var data = window.Device.getKeyData(keyId);
+    new RequestPollByKeyCallback(keyId, data);
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+var RequestPollByKeyCallback = function (keyId, data) {
+    var _this = this;
+    this.data = data;
+    this.poll = window.screenPoll;
+    this.query = "#votation .votationBox";
+
+    window.loadedPoll = true;
+    $("#errorLog").html("");
+
+    if (!data) {
+        if (alternative.keysPath && keysPath != alternative.keysPath) {
+            keysPath = alternative.keysPath;
+            console.log("requestPollByKey again");
+            new requestPollByKey();
+            return;
+        }
+
+        error("votationNotFound");
+        error("e_noDataReceived");
+        defaultPage();
+        return;
+    }
+
+    if (data[0] == "_") {
+        error(data);
+    }
+
+    this.parseUserVotes(function (obj) {
+        if (!obj) {
+            loadHash("home", "votationNotFound");
+            return;
+        }
+
+        //TODO: or iPhone on future
+        if (!window.isAndroid) {
+            noticeBrowser();
+            if ("true" == _this.poll.public) {
+                disableVotation();
+                noticePublic();
+            }
+        }
+
+        // + buttons
+        showVotation(obj.users);
+        window.user = _this.getUser(obj);
+
+        checkCountry(keyId);
+    });
 };
 
 //parse ajax by userId
-loadKeyPoll.prototype.parseUserVotes = function (callback) {
+RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
     var _this = this;
-    var _args = arguments;
     var data = this.data;
-    
+
     //wait userId request
     if (!window.user || !window.user.id) {
         console.log("waiting for userId..");
@@ -161,6 +162,7 @@ loadKeyPoll.prototype.parseUserVotes = function (callback) {
         return;
     }
 
+    console.log(data);
     var obj = this.poll.obj = parseData(data);
 
     this.poll.json = data;
@@ -172,8 +174,8 @@ loadKeyPoll.prototype.parseUserVotes = function (callback) {
         return;
     }
 
-    console.log("LoadVotation_parseUserVotes newUser");
-    window.user = this.LoadVotation_getUser(obj);
+    console.log("parseUserVotes newUser");
+    window.user = this.getUser(obj);
     saveDefaultValues(user.vt);
 
     $("#votationOwner").remove();
@@ -203,19 +205,18 @@ loadKeyPoll.prototype.parseUserVotes = function (callback) {
         $("#votation").prepend(ownerDiv);
     }
 
+    console.log(obj);
     window.loadedTable = new FillTable(this.query, obj);
     callback(obj);
 };
 
-loadKeyPoll.prototype.LoadVotation_getUser = function (obj) {
+RequestPollByKeyCallback.prototype.getUser = function (obj) {
     if (!obj.users) {
         obj.users = {};
     }
-//    if (!window.user) {
-//        window.user = new User();
-//    }
+
     if (!obj.users[user.id]) {
-        obj.users[user.id] = window.user;
+        obj.users[user.id] = getUserArray(window.user);
     }
 
     var obj_user = obj.users[user.id];

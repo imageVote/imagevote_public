@@ -17,7 +17,7 @@
 
 <script type="text/javascript" src="~commons/votation/votationInterface.js"></script>
 <script type="text/javascript" src="~commons/votation/newVotation.js"></script>  
-<script type="text/javascript" src="~commons/votation/loadVotation.js"></script>        
+<script type="text/javascript" src="~commons/votation/LoadKeyPoll.js"></script>        
 <script type="text/javascript" src="~commons/votation/saveVotation.js"></script>
 
 <script type="text/javascript" src="~commons/js/User.js"></script>
@@ -184,7 +184,7 @@
                 defaultPage();
             }
         } else {
-            loadKeyPoll(screenPoll);
+            window.keyPoll = new LoadKeyPoll(screenPoll);
         }
 
 //        //make backround fixed (soft-keyboard resize)

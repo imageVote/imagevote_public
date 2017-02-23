@@ -123,7 +123,7 @@ function hashChanged(hash) {
     if (hash.search(/^key=/i) > -1) {
         screenPoll.key = hash.split("=")[1];
         $("html").addClass("withoutHeader");
-        loadKeyPoll(screenPoll);
+        window.keyPoll = new LoadKeyPoll(screenPoll);
 
     } else if ("new" == hash) {
         newPoll();
