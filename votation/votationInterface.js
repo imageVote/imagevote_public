@@ -86,7 +86,7 @@ function checkShareEnvirontment(tag, optionsResult) {
     }
 
     //ANDROID BROWSER CASE (or TWITTER APP!)
-    if (window.isAndroid && !window.Device) {
+    if (window.isAndroid && !window.Device && navigator.plugins.length == 0) {
         console.log("window.isAndroid && !window.Device");
         //http://stackoverflow.com/questions/6567881/how-can-i-detect-if-an-app-is-installed-on-an-android-device-from-within-a-web-p
         var intentUrl = "intent://" + location.host + "/#Intent;end";
@@ -96,15 +96,18 @@ function checkShareEnvirontment(tag, optionsResult) {
 
             shareIntents(intentLoads, tag, optionsResult);
         });
+        
+    }else{
+        window.intentLoads = false;
     }
 }
 
 function shareIntents(intentLoads, tag, optionsResult) {
+    window.preventSendEvents = true;
 
     //if android detects intent url
     if (intentLoads) {
-        window.preventSendEvents = true;
-        
+
         var extra = "";
         if (optionsResult) {
             for (var n = 0; n < optionsResult.length; n++) {
@@ -146,6 +149,7 @@ function shareIntents(intentLoads, tag, optionsResult) {
 
     //return all to normality (required on google play links)
     $(tag).one("click", function () {
+        flash("app redirect");
         //prevent any send click
         setTimeout(function () {
             window.preventSendEvents = false;

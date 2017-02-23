@@ -59,13 +59,17 @@ iPhone = ua.indexOf("iPhone") > -1 || ua.indexOf("iPod") > -1;
 
 //http://stackoverflow.com/questions/6567881/how-can-i-detect-if-an-app-is-installed-on-an-android-device-from-within-a-web-p
 //detect protocol works
-function detectAndroidIntent(intentUrl, callback, time) {    
+function detectAndroidIntent(intentUrl, callback, time) {
+    var done = false;
+
     var ifr = document.createElement('iframe');
     ifr.src = intentUrl;
-    //if load: means intent protocol was not found
-    ifr.onload = function() {
+    
+    //if load: means intent protocol was not found //ONLY WILL WORK ON ANDROID DEVICE !!
+    ifr.onload = function () {
+        console.log("INTENT ONLOAD");
+        done = true;
         clearTimeout(timeout);
-
         console.log("iframe onload - intent protocol seems not work -> redirect (my 2.3 is exception?)");
         callback(false); //intent error on load
         document.body.removeChild(ifr); // remove the iframe element        
@@ -79,8 +83,10 @@ function detectAndroidIntent(intentUrl, callback, time) {
     }
     //timeout
     clearTimeout(timeout);
-    var timeout = setTimeout(function() {
-        document.body.removeChild(ifr); // remove the iframe element
-        callback(true); //intent loads
+    var timeout = setTimeout(function () {
+        if (!done) {
+            document.body.removeChild(ifr); // remove the iframe element
+            callback(true); //intent loads
+        }
     }, time);
 }
