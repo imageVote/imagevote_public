@@ -976,3 +976,8 @@ body > .option > *{
 #buttons{
     min-height: 54px;
 }
+
+[contenteditable]{
+    -webkit-user-select: text;
+    user-select: text;
+}
