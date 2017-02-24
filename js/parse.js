@@ -29,6 +29,9 @@ function getUserArray(user) {
 
 function pollToJson(obj) {
     var style = window.screenPoll.style;
+    if(!style){
+        style = {};
+    }
     if (!obj.style) {
         obj.style = style;
     }
@@ -74,13 +77,13 @@ function parseData(value) {
     if (!value) {
         error("e_votationRemoved");
         reset();
-        return;
+        return false;
     }
     //not tested rule
     else if ("null" == value) {
         error("e_connectionLost");
         reset();
-        return;
+        return false;
     }
 
     var arr;
@@ -104,6 +107,7 @@ function toObject(arr) {
     var question = arr.shift();
     var options_arr = arr.shift();
     if (!options_arr || !options_arr.length) {
+        console.log("!options_arr || !options_arr.length");
         return false;
     }
 
