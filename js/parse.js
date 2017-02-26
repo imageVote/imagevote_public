@@ -32,7 +32,7 @@ function pollToJson(obj) {
     if (!obj.style) {
         obj.style = style;
         if (!obj.style) {
-            obj.style = {} ;
+            obj.style = {};
         }
     }
     if (window.user && window.user.nm) {
