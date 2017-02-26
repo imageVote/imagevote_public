@@ -498,6 +498,8 @@ input{
 #flash{
     position: absolute;
     max-width: 80%;
+    /*default width with left and transform is too small (50%)*/
+    min-width: 300px;
     text-align: center;
     pointer-events: none;
     left: 50%;    

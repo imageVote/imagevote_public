@@ -634,7 +634,7 @@ VotationInterface_saveButton = function (action, obj, callback) {
     //before change anything
     //if existing votation is public
     console.log("saving key: '" + screenPoll.key + "'");
-    if (window.Device && screenPoll.key && "-" != screenPoll.key[0]) { //not private key        
+    if (window.Device && screenPoll.key && "-" != screenPoll.key[0]) { //not private key    
         //if create poll
         if (!window.publicId) {
             VotationInterface_notSave(2);
@@ -642,8 +642,11 @@ VotationInterface_saveButton = function (action, obj, callback) {
                 flash(transl("loadingPublicKey"));
                 return;
             }
+            
             //can't save votation if not publicId is working
+            console.log("ASKING PHONE " + screenPoll.key);    
             askPhone();
+            
             //stop
             if (callback) {
                 callback(false);

@@ -134,6 +134,7 @@
 
     var localhost = document.location.hostname == "localhost";
     var isAndroid, iPhone, webview;
+    
     if (!window.Device) {
         window.Device = false;
         $.getScript("~commons/browserStart.js");
@@ -241,9 +242,6 @@
     }
 
     //FROM ANDROID ACTIVITY ///////////////////////////
-
-    //define if is already created poll for premium options
-    var loadedPoll = false;
 
     function checkCountry(keyId) {
         if (keyId.indexOf("-") < 1) {

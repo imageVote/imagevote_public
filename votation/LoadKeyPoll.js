@@ -90,21 +90,24 @@ function loadAjaxKey(url, callback, findCache) {
 }
 
 //device (allow run directly from android url scratch)
-function dataIsReady (keyId) {
+function dataIsReady(keyId) {
     //huge js codes cant be sent with loadUrl, only Device function
     var data = window.Device.getKeyData(keyId);
     new RequestPollByKeyCallback(keyId, data);
-};
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 
 var RequestPollByKeyCallback = function (keyId, data) {
     var _this = this;
     this.data = data;
-    this.poll = window.screenPoll;
     this.query = "#votation .votationBox";
 
-    window.loadedPoll = true;
+    this.poll = window.screenPoll;
+    if (!this.poll) {
+        this.poll = new LoadedPoll();
+    }
+
     $("#errorLog").html("");
 
     if (!data) {
@@ -126,11 +129,6 @@ var RequestPollByKeyCallback = function (keyId, data) {
     }
 
     this.parseUserVotes(function (obj) {
-        if (!obj) {
-            loadHash("home", "votationNotFound");
-            return;
-        }
-
         //TODO: or iPhone on future
         if (!window.isAndroid) {
             noticeBrowser();
@@ -170,7 +168,7 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
 
     if (!this.poll.obj) {
         console.log("error parsing object");
-        callback(false);
+        errorParse("e_votationWithErrors");
         return;
     }
 
@@ -209,6 +207,19 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
     window.loadedTable = new FillTable(this.query, obj);
     callback(obj);
 };
+
+//device call
+function errorParse(code) {
+    console.log("errorParse " + $("html").hasClass("translucent").toString());
+    if (window.Device && $("html").hasClass("translucent")) {
+        $(".loading").remove();
+        flash(transl(code), null, function () {
+            Device.close();
+        });
+        return;
+    }
+    loadHash("home", code);
+}
 
 RequestPollByKeyCallback.prototype.getUser = function (obj) {
     if (!obj.users) {

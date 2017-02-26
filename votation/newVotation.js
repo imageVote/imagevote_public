@@ -58,7 +58,6 @@ NewVotation_newKeyAjax = function (id) {
 //        return;
 //    }
 //
-//    loadedPoll = false;
 //    resetData();
 //
 //    var key = screenPoll.key = localStorage.getItem("unusedKey");

@@ -67,7 +67,7 @@ function loadTranslations(refresh) {
     });
 }
 
-function flash(text, persist) {
+function flash(text, persist, callback) {
     $(document).off(".search");
     text += ""; //text.length not work eith numbers
 
@@ -81,20 +81,23 @@ function flash(text, persist) {
 
     clearTimeout(window.flashTimeout);
     window.flashTimeout = setTimeout(function () {
-        stopFlash();
+        stopFlash(callback);
     }, 500 + text.length * 50);
 
     setTimeout(function () {
         $(document).one("click.search", function () {
             clearTimeout(window.flashTimeout);
-            stopFlash();
+            stopFlash(callback);
         });
         $(".absoluteLoading").remove();
     }, 1);
     console.log("flash: " + text);
 }
 
-function stopFlash() {
+function stopFlash(callback) {
+    if (callback) {
+        callback();
+    }
     $("#flash").remove();
 }
 
@@ -222,7 +225,11 @@ function askPhone(callback_device) {
     modalBox(transl("needsPhone"), transl("needsPhoneComment"), function () {
         window.phoneAlreadyAsked = true;
         setTimeout(function () {
-            Device.askPhone(callback_device);
+            if (Device.askPhone) {
+                Device.askPhone(callback_device);
+            } else {
+                flash(transl("deprecatedVersion"));
+            }
         }, 1);
     });
 }
