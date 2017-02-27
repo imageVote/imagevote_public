@@ -27,7 +27,7 @@ function flash(text, persist) {
 
     stopFlash();
     var div = $("<flash id='flash'>" + text + "</flash>"); //flash = prevent global div hide
-    $("#body").append(div);
+    $(".wrapper").append(div);
 
     if (persist) {
         return;
