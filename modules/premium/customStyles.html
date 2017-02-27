@@ -1,0 +1,274 @@
+
+<script src="~modules/premium/customStyles.js"></script>
+
+<div class="overthrow">
+    <br/>
+
+    <div id="p_head">
+        <div class="p_title" data-lang="CustomStyles"></div>
+        <div><a id="p_defaults" class="link" data-lang="defaults"></a></div>
+    </div>
+
+    <br/><br/>
+
+    <table id="p_colors">                    
+<!--        <tr>
+            <td style="white-space: nowrap; width:100%" class="p_text" data-lang="Symbol"></td>
+            <td id="fileSelect"> <input type="file" accept='image/*'></td>
+            <td id="fileSelect"><button data-lang="ChooseFile"></button></td>
+        </tr>-->
+    </table>
+    <hr/>
+    <div id="p_gradient"></div>
+    <hr/>
+    <table id="styleSaver" style="width:100%">
+        <tr>
+            <td id="styleInput">
+                <input type="text" data-placeholder="StyleNamePlaceholder"/>
+            </td>
+            <td id="saveStyle" style="text-align:center">
+                <a class="link disabled" data-lang="SaveStyle"></a>
+            </td>
+        </tr>
+    </table>
+    <div id="savedStyles"></div>
+
+    <br/><br/>
+</div>
+
+<script>
+
+    for (var i = 0; i < customStyles_options.length; i++) {
+        var option = customStyles_options[i];
+        $("#p_colors").append("<tr>"
+                + "<td style='white-space:nowrap; width:100%' data-lang='" + option + "'></td>"
+                + "<td class='p_color'> <input id='p_" + option + "' type='color'></td>"
+                + "</tr>");
+    }
+
+    init();
+    translateTags(); //start lang
+    
+    //load Styles
+    for (var i = 0; i < localStorage.length; i++) {
+        var name = localStorage.key(i);
+        if ("style_" == name.substr(0, 6)) {
+            var arr = name.split("_");
+            arr.shift();
+            customStyles.addToList(arr.join("_"));
+        }
+    }
+
+    //start draw
+    customStyles.restoreDefault();
+    customStyles.updatePickers(screenPoll.style);
+
+    //EVENTS
+    $("#p_defaults").click(function () {
+        customStyles.restoreDefault();
+        customStyles.draw();
+    });
+
+    $("#styleInput input").keypress(function () {
+        $("#saveStyle a").removeClass("disabled");
+    });
+
+    $("#saveStyle").click(function () {
+        var name = $("#styleInput input").val();
+        if (!name) {
+            flash("need name te save");
+            return;
+        }
+
+        $("#saveStyle a").addClass("disabled");
+        customStyles.addToList(name);
+        customStyles.saveData(name);
+
+        $("#styleInput input").val("");
+    });
+
+    $(document).on("swiperight", function (e) {
+        if (!$(".votation.moving").length && !$("#body.pollsView").length && !$("#body.swiping").length) {
+            customStyles.draw();
+            customStyles.show();
+        }
+    }).on("swipeleft", function (e) {
+        if ($("#p_menu").hasClass("p_show")) {
+            customStyles.hide();
+            $("#body").addClass("swiping");
+            setTimeout(function () {
+                $("#body").removeClass("swiping");
+            }, 1);
+        }
+    });
+
+    $("#p_menu").on("tap", function (e) {        
+        if ("p_menu" == $(e.target).attr("id")) {
+            e.preventDefault(); //prevent pass through click
+            customStyles.hide();
+        }
+    });
+
+    $("#create").click(function () {
+        customStyles.draw();
+    });
+
+    $(".menuIcon").click(function () {
+        customStyles.draw();
+        customStyles.show();
+    });
+
+    //every color
+    $(".p_color input").change(function () {
+        console.log("change")
+        customStyles.draw();
+        $("#saveStyle a").removeClass("disabled");
+    });
+
+
+    //create object first
+    function init() {
+        window.customStyles = {
+            style: {},
+            show: function () {
+                $("#p_menu").addClass("p_show");
+            }
+            ,
+            hide: function () {
+                $("#p_menu").removeClass("p_show");
+            }
+            ,
+            draw: function (question, options) {
+                //on every change
+                var obj = screenPoll.obj;
+                console.log(JSON.stringify(obj));
+
+                if (obj.options) {
+                    options = obj.options;
+                    question = obj.question;
+                }
+
+                //ctx = $("#p_gradient canvas")[0].getContext("2d");
+                var width = $("#p_gradient").width();
+
+                this.style = {};
+                for (var i = 0; i < customStyles_options.length; i++) {
+                    var option = customStyles_options[i];
+                    this.style[option] = toRGB($("#p_" + option).val());
+                }
+                this.style.owner = transl("ownerNameExample");
+
+                if ("undefined" == typeof question) {
+                    question = lang["ExampleQuestion"];
+                }
+                if ("undefined" == typeof options) {
+                    options = [[0, lang["OptionExample1"], 3], [1, lang["OptionExample2"], 1]];
+                }
+
+                this.poll = new DrawPoll({
+                    style: this.style,
+                    width: width,
+                    question: question,
+                    options: options
+                }); //draw image
+
+                this.poll.drawCanvas(function (canvas) {
+                    $("#p_gradient").html(canvas);
+                });
+            }
+            ,
+            addToList: function (name) {
+                var exists = $("#savedStyles p[style=" + name + "]").length;
+                if (!exists) {
+                    var p = $("<p style='" + name + "'>" + name + "</p>");
+                    $("#savedStyles").append(p);
+                    customStyles.loadEvent(p, name);
+                }
+            }
+            ,
+            loadEvent: function (div, name) {
+                div.click(function () {
+                    var json = localStorage.getItem("style_" + name);
+
+                    screenPoll.style = JSON.parse(json);
+                    customStyles.updatePickers(screenPoll.style);
+
+//                    customStyles.loadData(name);
+                    customStyles.draw();
+                    $(".selected").removeClass("selected");
+                    $("#savedStyles > p[style=" + name + "]").addClass("selected");
+                    
+                    css_colors();
+                });
+            }
+            ,
+            saveData: function (name) {
+                localStorage.setItem("style_" + name, JSON.stringify(this.style));
+                // DELETE STYLE LINK
+                var a = $("<a id='deleteStyle' class='link'>delete style</a>");
+                a.click(function () {
+                    $("#confirmDeletion").show();
+                    $("#confirmDeletion > div").html(lang["Delete"] + " <b>" + name + "</b>?");
+
+                    $("#confirmDeletion .ok").one("click.deletion", function () {
+                        localStorage.removeItem("style_" + name);
+                        customStyles.restoreDefault();
+                        $("#savedStyles > p[style=" + name + "]").remove();
+                        customStyles.draw();
+                    });
+                });
+
+                $("#p_head .p_title").html(name + ": ").append(a);
+                $("#styleInput input").val(name);
+            }
+            ,
+            restoreDefault: function () {
+                screenPoll.style = $.extend({}, window.defaultStyle);
+                customStyles.updatePickers(screenPoll.style);
+                $("#p_head .p_title").text(lang["CustomStyles"]);
+                $("#savedStyles .selected").removeClass("selected");
+            }
+            ,
+            //colors
+            updatePickers: function () {
+                if (!screenPoll.style) {
+                    return;
+                }
+                var style = screenPoll.style;
+                for (var i = 0; i < customStyles_options.length; i++) {
+                    var option = customStyles_options[i];
+                    $("#p_" + option).val(toHEX(style[option]));
+                }
+            }
+            ,
+            //FROM DEVICE
+            newIconLoad: function (data) {
+                appIcon.src = "data:image/png;base64," + data;
+                p.draw();
+            }
+        };
+    }
+
+    //UTILS
+    function toRGB(hex) {
+        var rgb = [];
+        var array = hex.substr(1).match(/.{1,2}/g);
+        for (var i = 0; i < array.length; i++) {
+            rgb.push(parseInt(array[i], 16));
+        }
+        return rgb;
+    }
+
+    function toHEX(arr) {
+        if(!arr){
+            return;
+        }
+        return "#" + componentToHex(arr[0]) + componentToHex(arr[1]) + componentToHex(arr[2]);
+    }
+
+    function componentToHex(c) {
+        var hex = c.toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+    }
+
+</script>

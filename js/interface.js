@@ -1,15 +1,49 @@
 
-function translateTags() {
-    var userLang = getUserLang();
-    console.log("language: " + userLang);
-    lang = window["lang_" + userLang];
-    if (!lang) {
-        lang = window.lang_en;
+function translateTags(refresh) {
+    if (window.lang && !refresh) {
+        loadTranslations();
+        return;
     }
 
+    if (!window.lang) {
+        window.lang = {};
+    }
+
+    var userLang = getUserLang();
+    //console.log("language: " + userLang);
+
+    $.getScript("~lang/" + userLang + ".js", function () {
+//        window.lang = window["lang_" + userLang];
+        $.extend(window.lang, window["lang_" + userLang]);
+        loadTranslations(refresh);
+
+    }).fail(function () {
+        console.log("wrong lang " + userLang);
+        $.getScript("~lang/en.js", function () {
+//            window.lang = window.lang_en;
+            $.extend(window.lang, window.lang_en);
+            if (window.lang) {
+                loadTranslations(refresh);
+            }
+        });
+    });
+}
+
+function loadTranslations(refresh) {
+    if (!window.lang) {
+        return;
+    }
     $("[data-lang]").each(function () {
         var textKey = $(this).attr("data-lang");
-        var translation = lang[textKey];
+
+        //prevent re-translate
+        if ($(this).text() && !refresh && $(this).text() != textKey) {
+            //console.log($(this).text() + " != " + textKey)
+            return true; //continue
+        }
+
+
+        var translation = window.lang[textKey];
         if (translation) {
             $(this).html(translation);
         } else {
@@ -17,17 +51,29 @@ function translateTags() {
             console.log(textKey + " not have translation!");
         }
         //remove lang 4 prevent re-translate
-        $(this).removeAttr("data-lang");
+        //$(this).removeAttr("data-lang");
+    });
+    $("[data-placeholder]").each(function () {
+        var textKey = $(this).attr("data-placeholder");
+        var translation = window.lang[textKey];
+        if (translation) {
+            $(this).attr("placeholder", translation);
+        } else {
+            $(this).attr("placeholder", translation);
+            console.log(textKey + " not have translation!");
+        }
+        //remove lang 4 prevent re-translate
+        $(this).removeAttr("data-placeholder");
     });
 }
 
-function flash(text, persist) {
+function flash(text, persist, callback) {
     $(document).off(".search");
     text += ""; //text.length not work eith numbers
 
     stopFlash();
     var div = $("<flash id='flash'>" + text + "</flash>"); //flash = prevent global div hide
-    $(".wrapper").append(div);
+    $("body").append(div);
 
     if (persist) {
         return;
@@ -35,20 +81,23 @@ function flash(text, persist) {
 
     clearTimeout(window.flashTimeout);
     window.flashTimeout = setTimeout(function () {
-        stopFlash();
+        stopFlash(callback);
     }, 500 + text.length * 50);
 
     setTimeout(function () {
         $(document).one("click.search", function () {
             clearTimeout(window.flashTimeout);
-            stopFlash();
+            stopFlash(callback);
         });
         $(".absoluteLoading").remove();
     }, 1);
     console.log("flash: " + text);
 }
 
-function stopFlash() {
+function stopFlash(callback) {
+    if (callback) {
+        callback();
+    }
     $("#flash").remove();
 }
 
@@ -61,10 +110,11 @@ function noticePublic() {
 
     var appsLinks = "<div id=links class='hide'>"
             + "<div>"
-            + "<img src='~img/googleplay.png' onclick=\"location.href = 'https://play.google.com/store/apps/details?id=at.clicktovote'\"/>"
+            + "<img src='~commons/img/googleplay.png'"
+            + " onclick=\"location.href = 'https://play.google.com/store/apps/details?id=" + window.package + "'\"/>"
             + "</div>"
             + "<div>"
-            + "<img src='~img/appstore.png' class='disabled'/>"
+            + "<img src='~commons/img/appstore.png' class='disabled'/>"
             + "</div>"
             + "</div>";
     $("#linksLink").append(appsLinks);
@@ -92,53 +142,94 @@ function noticeBrowser() {
     }
 }
 
-function askPhone(callback, cancelCallback) {
-    if (window.phoneAlreadyAsked) {
-        error("e_phoneValidationNotWork");
-    }
+function modalInput(txt, nameValue, callback) {
+    var divBackground = $("<div id='modal_input'>");
+    var divContainer = $("<div>");
+    divContainer.append("<b style='line-height:50px; font-size: 18px;'>" + txt + "</b>");
 
-    $("#needPhone").remove();
-    var needPhone = $("<div id='needPhone'><div id='needPhoneNote'>"
-            + "<p>" + transl("needsPhone") + "</p>"
-            + "<button id='phoneOk'>" + transl("Ok") + "</button><br/>"
-            + "<small>" + transl("needsPhoneComment") + "</small><br/>"
-            + "</div></div>");
-    $("#body").append(needPhone);
+    var input = $("<input style='width:100%; text-align: center;' type='text' data-placeholder='myName' />");
+    if (nameValue) {
+        input.attr("value", nameValue);
+    }
+    divContainer.append(input);
+
+    var button = $("<button style='width:100%'>");
+    button.text(transl("Ok"));
+    button.click(function () {
+        if (callback) {
+            callback(input.val());
+        }
+        divBackground.remove();
+    });
+    divContainer.append(button);
+
+    divBackground.append(divContainer);
+
+    //animation
+    setTimeout(function () {
+        divBackground.css("opacity", 1);
+        divContainer.css("transform", "translate(-50%, -64%)");
+    }, 100);
+
+    $("body").append(divBackground);
+    input.focus();
+}
+
+function modalBox(txt, comment, callback, cancelCallback) {
+    $("#modal_box").remove();
+    var divBackground = $("<div id='modal_box'>");
+    var divContainer = $("<div id='modal_box_note'>"
+            + "<p>" + txt + "</p>"
+            + "<button id='modal_ok'>" + transl("Ok") + "</button><br/>"
+            + "<small>" + comment + "</small><br/>"
+            + "</div>");
+    divBackground.append(divContainer);
+    $("body").append(divBackground);
 
     setTimeout(function () {
-        $(document).on("click.needPhone", function (e) {
+        $(document).on("click.modal", function (e) {
             var target = $(e.target);
 
-            if ("phoneOk" == target.attr("id")) {
-                console.log("click ok")
-                window.phoneAlreadyAsked = true;
-
-                needPhone.remove();
-                $(document).off(".needPhone");
+            if ("modal_ok" == target.attr("id")) {
+                divBackground.remove();
+                $(document).off(".modal");
 
                 //let phone popup remove - apps resume looks clear after
-                setTimeout(function () {
-                    Device.askPhone(callback);
-                }, 1);
+                if (callback) {
+                    callback();
+                }
 
-            } else if ("needPhoneNote" != target.attr("id") && !target.closest("#needPhoneNote").length) {
-                needPhone.remove();
-                $(document).off(".needPhone");
+            } else if ("modal_box_note" != target.attr("id") && !target.closest("#modal_box_note").length) {
+                divBackground.remove();
+                $(document).off(".modal");
                 if (cancelCallback) {
                     cancelCallback();
                 }
             }
-            //else nothing;
+            //else nothing!;
         });
+
+        //animation
+        setTimeout(function () {
+            divBackground.css("opacity", 1);
+            divContainer.css("transform", "translate(-50%, -64%)");
+        }, 100);
     }, 1);
 }
 
-function loadjsfile(filename, callback) {
-    $.getScript(filename, function (data, textStatus, jqxhr) {
-        console.log(data); // Data returned
-        console.log(textStatus); // Success
-        console.log(jqxhr.status); // 200
-        console.log("Load was performed.");
-        callback();
+//
+function askPhone(callback_device) {
+    if (window.phoneAlreadyAsked) {
+        error("e_phoneValidationNotWork");
+    }
+    modalBox(transl("needsPhone"), transl("needsPhoneComment"), function () {
+        window.phoneAlreadyAsked = true;
+        setTimeout(function () {
+            if (Device.askPhone) {
+                Device.askPhone(callback_device);
+            } else {
+                flash(transl("deprecatedVersion"));
+            }
+        }, 1);
     });
 }

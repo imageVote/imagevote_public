@@ -25,6 +25,7 @@ window.addEventListener("error", function (e) {
 });
 
 function error(txt, f) {
+    console.log(txt + " - in error function");
     //try transation
 
     //if number
@@ -34,8 +35,8 @@ function error(txt, f) {
     notice("error: " + text, true);
 
     if ($("#loading:visible").length) {
-        console.log("load defaultPage after error");
-        defaultPage();
+        //console.log("load defaultPage after error");
+        //defaultPage();
     }
 
     //add stack to Log
@@ -44,16 +45,11 @@ function error(txt, f) {
         txt += ":: " + f.name + "; ";
         f = f.caller;
     }
-    //console.log(txt);
 
     //send
     if (!Device) {
-        $.ajax({
-            url: "../imageVote/error.php",
-            method: "POST",
-            data: {
-                error: text
-            }
+        $.post(window.urlPath + "/core/error.php", {
+            error: text
         });
     } else {
         Device.error(text);
@@ -65,13 +61,14 @@ function notice(text, isError) {
     if (!text) {
         text = "unknown error";
     }
-    var err = $("<div>" + text + "</div>");
+    var err = $("<div data-lang='" + text + "'>" + text + "</div>");
     $("#errorLog").append(err);
     return err;
 }
 
 //prevent large urls and device url confusions
-function loadHash(hash) {
+function loadHash(hash, error) {
+    console.log("loadHash: " + hash + " : " + error);
     //remove all loadings
     $(".loading").remove();
 
@@ -83,23 +80,34 @@ function loadHash(hash) {
     }
     hash = hash.replace("#", "");
 
+    if (!error) {
+        error = "";
+    } else {
+        error = "?" + error;
+    }
+
     //REMOVE ALL TRICKI EVENTS
     //$("*").off(".temp");
 
     //prevent hashing after key url
     if (!Device) {
-        var arr = location.href.split("/");
-        arr.pop();
-        location.href = arr.join("/") + "/#" + hash;
-
+//        var arr = location.href.split("/");
+//        arr.pop();
+//        location.href = arr.join("/") + "/#" + hash + "?" + error;}
+        if (location.hash == "#" + hash + error) {
+            hashChanged(hash);
+        } else {
+            location.href = location.origin + location.pathname + "#" + hash + error;
+        }
     } else {
         //keep complete url for assets
         if (location.search) {
-            location = location.origin + location.pathname + "#" + hash
+            location = location.origin + location.pathname + "#" + hash + error;
             return;
         }
         if (location.hash == hash) {
-            location.reload();
+//            location.reload();
+            location.href = location.href + error;
             return;
         }
         location.hash = hash;
@@ -108,14 +116,14 @@ function loadHash(hash) {
 
 //then, handle hash change
 function hashChanged(hash) {
-    hash = hash.replace("#", "");
+    hash = hash.replace("#", "").split("?")[0];
     console.log("hash changed to: " + hash)
     //need trigger hashchange
 
     if (hash.search(/^key=/i) > -1) {
         screenPoll.key = hash.split("=")[1];
         $("html").addClass("withoutHeader");
-        loadKeyPoll();
+        window.keyPoll = new LoadKeyPoll(screenPoll);
 
     } else if ("new" == hash) {
         newPoll();
@@ -132,8 +140,12 @@ function hashChanged(hash) {
         pollsView();
 
     } else { //and home
+        console.log("HOME");
         //else wrong/old hashes
 //        loadHash("home");
+
+        VotationInterface_addButtons();
+        $("#cancel, #usersButton").hide();
 
         //headers
         $("html").removeClass("withoutHeader");
@@ -145,8 +157,14 @@ function hashChanged(hash) {
 
         $("#buttons").show();
         $("#showPolls").show();
+        $("#stored").show();
 
         newPollView();
+    }
+
+    var error = hash.split("?");
+    if (error.length > 1) {
+        notice(transl(error[1]));
     }
 }
 
@@ -162,30 +180,23 @@ function newPollView() {
         }, 1);
     }
 }
-;
 
 function pollsView() {
     $("#body").addClass("pollsView");
-
     $("#voteHeader").hide();
     $("#pollsHeader").show();
 
     //re-load
-    if ($("#polls").length) {
-        $("#loading").hide();
+    if (!$("#pollsPage > div").length) {
+        window.game = new GamePoll("#pollsPage", null, "game");
 
-    } else {
-        $("#pollsPage").load("~polls/polls.html", function (response, status, xhr) {
-            $("#loading").hide();
-
-            if (status == "error") {
-                flash(lang["notLoadingPolls"]);
-                return;
-            }
-        });
+        if (status == "error") {
+            flash(lang["notLoadingPolls"]);
+            return;
+        }
     }
+    $("#loading").hide();
 }
-;
 
 $(document).ready(function () {
 
@@ -263,21 +274,20 @@ $(document).ready(function () {
         var _this = $(this);
         e.preventDefault();
 
-        //if to hide
-        if (_this.hasClass("hide")) {
-            _this.removeClass("hide");
-            _this.text(lang["showYourPolls"]);
+        $("#stored").toggleClass("hidden");
 
-            $("#stored").css("height", $("#stored").css("height"));
-            setTimeout(function () {
-                $("#stored").css("height", 0);
-            }, 1);
+        //if to hide
+        if ($("#stored").hasClass("hidden")) {
+            _this.text(lang["showYourPolls"]);
             return;
         }
 
         //first time show
         if (!storedHeight) {
             loadStoredPolls();
+            //way to get height and animate:
+            $("#stored").hide();
+            $("#stored").css("height", "auto");
             storedHeight = $("#stored").height(); //get height before put to 0
             $("#stored").css("height", 0); //height 0 after first time show!
             $("#stored").show();
@@ -290,9 +300,10 @@ $(document).ready(function () {
 
         setTimeout(function () {
             _this.text(lang["hidePolls"]);
-            _this.addClass("hide");
             $("#stored").css("height", "auto");
+            $("#stored").css("height", $("#stored").css("height"));
         }, 300);
+        $("#stored").show();
     });
 
     $("#toPolls").click(function () {
@@ -308,24 +319,23 @@ $(document).ready(function () {
 //        }
 //
 //        console.log("to polls click");
-//        loadHash("polls");
-
-        pollsView();
-//        loadHash("polls");
+//        pollsView();
+        loadHash("polls");
     });
 
     $("#newPoll").click(function () {
-        newPollView();
-//        loadHash("home");
+        loadHash("home");
     });
 
     if (is_touch_device()) {
         $(document).on("swiperight", function (e) {
-            newPollView();
+//            newPollView();
+            loadHash("home");
 
         }).on("swipeleft", function () {
             if (!$("#p_menu").hasClass("p_show") && !$("#body").hasClass("swiping")) {
-                pollsView();
+//                pollsView();
+                loadHash("polls");
             }
         });
     }
