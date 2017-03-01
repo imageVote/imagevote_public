@@ -435,12 +435,13 @@ input{
 
 #flash{
     position: absolute;
+    z-index: 9;
     max-width: 80%;
     text-align: center;
     pointer-events: none;
     left: 50%;    
     padding: 5px 15px;
-    top: 35%;
+    top: 15%;
     background-color: rgba(150,150,150,0.85);
     word-wrap: break-word;
     line-height: 25px;
@@ -461,7 +462,7 @@ input{
     display: none;
 }
 
-#errorLog{
+#errorLog, .log{
     font-size: 14px;
     display: none;
     /*color: grey;*/
