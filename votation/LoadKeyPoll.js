@@ -34,30 +34,28 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
     var urlParts = getPathsFromKeyId(key);
     var realPath = urlParts.realPath;
     this.poll.realKey = urlParts.realKey;
+    
+    var url = realPath + screenPoll.realKey + "?";
+    if ("public" == urlParts.visible) {
+        url = window.keysPath + "get.php?url=public/" + urlParts.countryPath + screenPoll.realKey + "&";
+    }
+            
+    
 
-    if (window.Device) {
-        //return on dataIsReady
-        console.log("Device.loadKeyData(" + key + ")");
-        Device.loadKeyData(key);
-
-    } else {
-        if ("game" == urlParts.visible) {
-            console.log($("#pollsPage").length)
-//            loadHash("polls");
-            window.gamePollKey = new GamePoll("#pollsPage", urlParts.keyId, "gamePollKey");
-            $("html").removeClass("withoutHeader");
-            $("#body").addClass("pollsView");
-            return;
+            
+            
+    if ("private" == urlParts.visible || "public" == urlParts.visible) {
+        if (window.Device) {
+            //return on dataIsReady
+            //console.log("Device.loadKeyData(" + key + ")");
+            //Device.loadKeyData(key);            
+            Device.simpleRequest(url, "new RequestPollByKeyCallback");
+            
+        } else {
+            loadAjaxKey(url, function (data) {
+                new RequestPollByKeyCallback(data);
+            });
         }
-
-        var url = realPath + screenPoll.realKey + "?";
-        if ("public" == urlParts.visible) {
-            url = window.keysPath + "get.php?url=public/" + urlParts.countryPath + screenPoll.realKey + "&";
-        }
-
-        loadAjaxKey(url, function (data) {
-            new RequestPollByKeyCallback(key, data);
-        });
     }
 };
 
@@ -89,16 +87,16 @@ function loadAjaxKey(url, callback, findCache) {
     xhr.send();
 }
 
-//device (allow run directly from android url scratch)
-function dataIsReady(keyId) {
-    //huge js codes cant be sent with loadUrl, only Device function
-    var data = window.Device.getKeyData(keyId);
-    new RequestPollByKeyCallback(keyId, data);
-}
+////device (allow run directly from android url scratch)
+//function dataIsReady(keyId) {
+//    //huge js codes cant be sent with loadUrl, only Device function
+//    var data = window.Device.getKeyData(keyId);
+//    new RequestPollByKeyCallback(keyId, data);
+//}
 
 ///////////////////////////////////////////////////////////////////////////////
 
-var RequestPollByKeyCallback = function (keyId, data) {
+var RequestPollByKeyCallback = function (data) {
     var _this = this;
     this.data = data;
     this.query = "#votation .votationBox";
@@ -141,7 +139,8 @@ var RequestPollByKeyCallback = function (keyId, data) {
         // + buttons
         showVotation(obj.users);
         window.user = _this.getUser(obj);
-
+        
+        var keyId = window.screenPoll.key;
         checkCountry(keyId);
     });
 };
@@ -218,7 +217,7 @@ function errorParse(code) {
         });
         return;
     }
-    loadHash("home", code);
+    hashManager.update("home", code);
 }
 
 RequestPollByKeyCallback.prototype.getUser = function (obj) {

@@ -1,6 +1,5 @@
 
 <link rel="stylesheet" type="text/css" href="~commons/modules/premium/premium.css">
-<link rel="stylesheet" type="text/css" href="~modules/premium/premium.css">
 <!--<script src="~commons/premium/googleTranslation.js"></script>-->
 
 <div id="p_menu"></div>
@@ -25,6 +24,8 @@
     }
 
     $(document).ready(function () {
+        window.p = new Premium();
+        
         $(".menuIcon").remove();
         $("#header table tr").prepend("<td class='menuIcon hidden'></td>");
         setTimeout(function () {
@@ -40,8 +41,8 @@
         $("#p_menu").load("~commons/modules/premium/customStyles.html");
     });
 
-    window.p = {
-        addPublicOption: function () {
+    function Premium() {
+        this.addPublicOption = function () {
             //remove public option and extra options too
             $("#p_makePublic").remove();
             $("#publicMessage").remove();
@@ -111,8 +112,8 @@
                 $("#p_makePublic input").attr("disabled", "disabled");
             });
         }
-        ,
-        deactivePublic: function () {
+        
+        this.deactivePublic = function () {
             document.dispatchEvent(new Event("private"));
 
             $("#publicMessage").remove();
@@ -124,9 +125,9 @@
             screenPoll.obj.users[user.id] = screenPoll.obj.users[publicId];
             delete screenPoll.obj.users[publicId];
         }
-        ,
+        
         //FROM  DEVICE FUNCTION ?
-        activePublic: function () {
+        this.activePublic = function () {
             document.dispatchEvent(new Event("public"));
 
             //if ask phone callback 
@@ -149,11 +150,11 @@
             screenPoll.obj.users[publicId] = screenPoll.obj.users[user.id];
             delete screenPoll.obj.users[user.id];
             window.user.id = publicId;
-        }
-        ,
-        poll: {}
-        ,
-        events: function () {
+        };
+        
+        this.poll = {};
+        
+        this.events = function () {
             //need to w8 jquery load
             overthrow.set();
 
@@ -189,20 +190,12 @@
                 $("#p_makePublic input").prop('checked', false);
             });
 
-            //injection on the original function
-            var init = hashChanged;
-            function hashChanged(hash) {
-                init(hash);
-                p.urlUpdate(hash);
-            }
-
-//                $(document).on("urlUpdate", function (e, hash) {
-//                    p.urlUpdate(hash);
-//                });
-//                p.urlUpdate(location.hash);
-        }
-        ,
-        urlUpdate: function (hash) {
+            $(window).on('hashchange', function () {
+                p.urlUpdate(location.hash);
+            });
+        };
+        
+        this.urlUpdate = function (hash) {
             console.log("hash = " + hash);
             //disallow edit polls style when not sense
             if (hash == "polls" || !hash) {

@@ -9,7 +9,7 @@ Tutorial.prototype.start = function () {
     var _this = this;
 
     var helpStop = $("<div id='helpStop'>");
-    var stop = $("<span style='display:inline-block'>helpStop</span>");
+    var stop = $("<span style='display:inline-block' data-lang='helpStop'></span>");
     helpStop.append(stop);
     var left = $("<div style='float:left;padding: 0 25px'><</div>");
     helpStop.append(left);

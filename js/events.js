@@ -66,108 +66,6 @@ function notice(text, isError) {
     return err;
 }
 
-//prevent large urls and device url confusions
-function loadHash(hash, error) {
-    console.log("loadHash: " + hash + " : " + error);
-    //remove all loadings
-    $(".loading").remove();
-
-    //need trigger hashchange
-    $(document).trigger("urlUpdate", [hash]);
-
-    if (!hash) {
-        hash = "";
-    }
-    hash = hash.replace("#", "");
-
-    if (!error) {
-        error = "";
-    } else {
-        error = "?" + error;
-    }
-
-    //REMOVE ALL TRICKI EVENTS
-    //$("*").off(".temp");
-
-    //prevent hashing after key url
-    if (!Device) {
-//        var arr = location.href.split("/");
-//        arr.pop();
-//        location.href = arr.join("/") + "/#" + hash + "?" + error;}
-        if (location.hash == "#" + hash + error) {
-            hashChanged(hash);
-        } else {
-            location.href = location.origin + location.pathname + "#" + hash + error;
-        }
-    } else {
-        //keep complete url for assets
-        if (location.search) {
-            location = location.origin + location.pathname + "#" + hash + error;
-            return;
-        }
-        if (location.hash == hash) {
-//            location.reload();
-            location.href = location.href + error;
-            return;
-        }
-        location.hash = hash;
-    }
-}
-
-//then, handle hash change
-function hashChanged(hash) {
-    hash = hash.replace("#", "").split("?")[0];
-    console.log("hash changed to: " + hash)
-    //need trigger hashchange
-
-    if (hash.search(/^key=/i) > -1) {
-        screenPoll.key = hash.split("=")[1];
-        $("html").addClass("withoutHeader");
-        window.keyPoll = new LoadKeyPoll(screenPoll);
-
-    } else if ("new" == hash) {
-        newPoll();
-
-    } else if ("firstTime" == hash) {
-        $("#mainPage > div").hide();
-        $("#firstTime").show();
-
-    } else if ("polls" == hash) {
-        $("html").removeClass("withoutHeader");
-        $("#pollsHeader").hide();
-        $("#voteHeader").show();
-
-        pollsView();
-
-    } else { //and home
-        console.log("HOME");
-        //else wrong/old hashes
-//        loadHash("home");
-
-        VotationInterface_addButtons();
-        $("#cancel, #usersButton").hide();
-
-        //headers
-        $("html").removeClass("withoutHeader");
-        $("#pollsHeader").hide();
-        $("#voteHeader").show();
-        //view
-        $("#mainPage > div").hide();
-        $("#creator").show();
-
-        $("#buttons").show();
-        $("#showPolls").show();
-        $("#stored").show();
-
-        newPollView();
-    }
-
-    var error = hash.split("?");
-    if (error.length > 1) {
-        notice(transl(error[1]));
-    }
-}
-
 function newPollView() {
     if ($("#body").hasClass("pollsView")) {
         $("#body").removeClass("pollsView");
@@ -182,20 +80,15 @@ function newPollView() {
 }
 
 function pollsView() {
-    $("#body").addClass("pollsView");
-    $("#voteHeader").hide();
-    $("#pollsHeader").show();
-
-    //re-load
-    if (!$("#pollsPage > div").length) {
-        window.game = new GamePoll("#pollsPage", null, "game");
-
-        if (status == "error") {
-            flash(lang["notLoadingPolls"]);
-            return;
-        }
-    }
-    $("#loading").hide();
+//    $("#body").addClass("pollsView");
+//    $("#voteHeader").hide();
+//    $("#pollsHeader").show();
+//
+//    //re-load
+//    if (!$("#pollsPage > div").length) {
+////        window.game = new GamePoll("#pollsPage", null, "game");
+//    }
+//    $("#loading").hide();
 }
 
 $(document).ready(function () {
@@ -218,7 +111,7 @@ $(document).ready(function () {
         //load by hash change
         window.lastKeyAsk++; //first, to be the same after
         window.fromCreateFunction = true; //prevents new polls when click back button or similar
-        loadHash("new"); //newPoll()                
+        hashManager.update("new"); //newPoll()
     });
 
     //first time app
@@ -226,11 +119,11 @@ $(document).ready(function () {
         if (Device) {
             Device.firstTimeOk();
         } else {
-            loadHash("home");
+            hashManager.update("home");
         }
     });
     $("#firstCreate").click(function () {
-        loadHash("home");
+        hashManager.update("home");
     });
     //
 
@@ -320,22 +213,22 @@ $(document).ready(function () {
 //
 //        console.log("to polls click");
 //        pollsView();
-        loadHash("polls");
+        hashManager.update("polls");
     });
 
     $("#newPoll").click(function () {
-        loadHash("home");
+        hashManager.update("home");
     });
 
     if (is_touch_device()) {
         $(document).on("swiperight", function (e) {
 //            newPollView();
-            loadHash("home");
+            hashManager.update("home");
 
         }).on("swipeleft", function () {
             if (!$("#p_menu").hasClass("p_show") && !$("#body").hasClass("swiping")) {
 //                pollsView();
-                loadHash("polls");
+                hashManager.update("polls");
             }
         });
     }

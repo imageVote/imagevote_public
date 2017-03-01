@@ -584,7 +584,7 @@ input{
 }
 
 .clickable{
-    cursor: pointer;
+    cursor: pointer !important;
     /*min-height: 50px;*/
 
     -webkit-touch-callout: none;
@@ -982,4 +982,17 @@ body > .option > *{
 [contenteditable]{
     -webkit-user-select: text;
     user-select: text;
+}
+
+/* :before used to gradient */
+.checked:after{
+    font-family: FontAwesome;
+    content: "\f00c";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 200px;
+    color: rgba(255,255,255,0.16);
+    text-shadow: none;
 }

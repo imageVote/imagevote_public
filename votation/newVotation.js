@@ -27,7 +27,8 @@ NewVotation_newKeyAjax = function (id) {
         }
     }).done(function (res) {
         console.log("NewVotation_newKeyAjax: " + res);
-        loadKey(id, res);
+        //loadKey(id, res);
+        loadKey(res);
 
     }).error(function (res) {
         console.log(res);
@@ -36,7 +37,7 @@ NewVotation_newKeyAjax = function (id) {
     }).complete(function () {
         clearInterval(interval);
     });
-    
+
     //check connection not ends while ajax
     interval = setInterval(function () {
         console.log("5s TIMEOUT");

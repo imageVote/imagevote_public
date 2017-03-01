@@ -5,9 +5,8 @@
 <meta name="author" content="" />
 <!--<meta name="copyright" content="" />-->
 
+<link rel="stylesheet" type="text/css" href="~commons/libs/font-awesome/css/font-awesome.min.css">     
 <link rel="stylesheet" type="text/css" href="~commons/index.css">        
-<!--load polls.css here to prevent bad rendering on load-->
-<link rel="stylesheet" type="text/css" href="~commons/modules/polls/polls.css">
 
 <!--settings first -> injects in language files-->
 <script type="text/javascript" src="settings.js"></script> 
@@ -22,6 +21,7 @@
 
 <script type="text/javascript" src="~commons/js/User.js"></script>
 <script type="text/javascript" src="~commons/js/StoredPolls.js"></script>
+<script type="text/javascript" src="~commons/js/HashManager.js"></script>
 <script type="text/javascript" src="~commons/js/utils.js"></script>
 <script type="text/javascript" src="~commons/js/parse.js"></script>
 
@@ -80,6 +80,8 @@
     //init globals
     window.screenPoll.key = null;
 
+    window.hashManager = new HashManager();
+
     //on run app first time from key redirection link
     //only from intent, prevent when reload location!
 
@@ -134,7 +136,7 @@
 
     var localhost = document.location.hostname == "localhost";
     var isAndroid, iPhone, webview;
-    
+
     if (!window.Device) {
         window.Device = false;
         $.getScript("~commons/browserStart.js");
@@ -144,13 +146,6 @@
 
     //before tag placeholders
     translateTags();
-
-    //DEBUG //WARN: if not localhost, PREMIUM code -> loads home in bucle!
-    if (localhost) {
-        $('#premium').remove();
-        $('body').append($('<div id="premium">').load('~commons/modules/premium/premium.html'));
-        //on localhost not have this file
-    }
 
     var webDEBUG = true;
     //DATA
@@ -204,17 +199,11 @@
             window[func]();
 
         } else {
-            hashChanged(location.hash);
+            hashManager.load(location.hash);
             console.log(func + "() was not a function -> hashChanged()");
         }
         return;
     }
-
-    //hash change like 'back button'
-    $(window).on('hashchange', function () {
-        console.log("hashchange");
-        hashChanged(location.hash);
-    });
 
     function reset() {
         console.log("reset");
@@ -226,7 +215,7 @@
     function defaultPage() {
         console.log("default page");
         //if not in Device, create poll is strange
-        loadHash("home");
+        hashManager.update("home");
         //                if (!window.Device) {
         //                    $("#body").addClass("pollsView");
         //                }
@@ -276,12 +265,13 @@
     }
 
     //device (preload key only)
-    function loadKey(id, newkey) {
+//    function loadKey(id, newkey) {
+    function loadKey(newkey) {
         console.log("loadKey: " + newkey);
-        if (window.lastKeyAsk != id) {
-            console.log("older key retrieved. lastKeyAsk: " + lastKeyAsk + ", id: " + id);
-            return;
-        }
+//        if (window.lastKeyAsk != id) {
+//            console.log("older key retrieved. lastKeyAsk: " + lastKeyAsk + ", id: " + id);
+//            return;
+//        }
 
         //save private key only!
         if (newkey[0] == "-") {

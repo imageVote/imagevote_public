@@ -168,7 +168,7 @@
 
     $("#newPoll").click(function () {
         $("#header").removeClass("search");
-        loadHash("home");
+        hashManager.update("home");
     });
 
     translateTags();

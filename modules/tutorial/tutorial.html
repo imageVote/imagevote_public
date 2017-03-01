@@ -1,0 +1,19 @@
+
+<link rel="stylesheet" type="text/css" href="~commons/modules/tutorial/tutorial.css">
+<script type="text/javascript" src="~commons/modules/tutorial/Tutorial.js"></script>
+
+<!--<div id='tutorial_background'></div>-->
+
+<script>
+
+    (function () {
+        var userLang = getUserLang();
+
+        $.getScript("~commons/modules/tutorial/lang/" + userLang + ".js")
+                .fail(function () {
+                    console.log("tutorial lang failed!");
+                    $.getScript("~commons/modules/tutorial/lang/en.js");
+                });
+    })();
+
+</script>

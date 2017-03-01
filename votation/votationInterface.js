@@ -323,7 +323,7 @@ function VotationInterface_cancelButtonEvent() {
                 }
 
             } else {
-                loadHash("polls");
+                hashManager.update("polls");
             }
         } else {
 //            defaultPage();
@@ -332,7 +332,7 @@ function VotationInterface_cancelButtonEvent() {
 //            $("#mainPage > div").hide();
 //            $("#creator").show();
 //            location.hash = "polls";
-            loadHash("");
+            hashManager.update("");
         }
 
         $(document).off(".swipePrevent");
