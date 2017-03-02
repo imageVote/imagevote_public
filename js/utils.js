@@ -29,6 +29,14 @@ function getEvent(e) {
 }
 
 function getPathsFromKeyId(keyId) {
+
+    if (!keyId) {
+        var key = location.pathname.split("/").pop();
+        if (key.indexOf('.') !== -1) {
+            return false;
+        }
+    }
+
     var realPath = window.keysPath;
 
     var public = "true";
@@ -359,9 +367,11 @@ function disableScroll() {
 //    window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
 //    window.ontouchmove = preventDefault; // mobile
 //    document.onkeydown = preventDefaultForScrollKeys;
-    
+
     //mobile
-    $('*').on('touchmove.disableScroll', function(e){e.preventDefault()});
+    $('*').on('touchmove.disableScroll', function (e) {
+        e.preventDefault()
+    });
 }
 
 function enableScroll() {
@@ -371,7 +381,7 @@ function enableScroll() {
 //    window.onwheel = null;
 //    window.ontouchmove = null;
 //    document.onkeydown = null;
-    
+
     //mobile
     $('*').off('.disableScroll');
 }
