@@ -31,8 +31,8 @@ function getEvent(e) {
 function getPathsFromKeyId(keyId) {
 
     if (!keyId) {
-        var key = location.pathname.split("/").pop();
-        if (key.indexOf('.') !== -1) {
+        keyId = location.pathname.split("/").pop();
+        if (keyId.indexOf('.') !== -1) {
             return false;
         }
     }
