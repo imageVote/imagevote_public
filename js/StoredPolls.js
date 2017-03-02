@@ -46,8 +46,8 @@ function loadStoredPolls() {
         }
 
         //add only if I vote it
-        var user = obj.users[window.user.id];
-        if (!user || "undefined" === typeof (user[1]) || "" === user[1]) {
+        var userVote = obj.users[window.user.id];
+        if ("undefined" === typeof userVote || "" === userVote) {
             continue;
         }
 
