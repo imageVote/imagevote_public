@@ -1,0 +1,318 @@
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+
+<meta name="author" content="" />
+<!--<meta name="copyright" content="" />-->
+
+<link rel="stylesheet" type="text/css" href="~commons/libs/font-awesome/css/font-awesome.min.css">     
+<link rel="stylesheet" type="text/css" href="~commons/index.css">        
+
+<!--settings first -> injects in language files-->
+<script type="text/javascript" src="settings.js"></script> 
+
+<!--        <script type="text/javascript" src="~commons/libs/jquery-1.11.0.min.js"></script>-->
+<script type="text/javascript" src="~commons/libs/jquery.mobile.events.min.js"></script>
+
+<script type="text/javascript" src="~commons/votation/votationInterface.js"></script>
+<script type="text/javascript" src="~commons/votation/newVotation.js"></script>  
+<script type="text/javascript" src="~commons/votation/LoadKeyPoll.js"></script>        
+<script type="text/javascript" src="~commons/votation/saveVotation.js"></script>
+
+<script type="text/javascript" src="~commons/js/User.js"></script>
+<script type="text/javascript" src="~commons/js/StoredPolls.js"></script>
+<script type="text/javascript" src="~commons/js/HashManager.js"></script>
+<script type="text/javascript" src="~commons/js/utils.js"></script>
+<script type="text/javascript" src="~commons/js/parse.js"></script>
+
+<script type="text/javascript" src="~commons/libs/wrapText.js"></script>
+
+<script type="text/javascript" src="~commons/js/interface.js"></script>
+<script type="text/javascript" src="~commons/js/events.js"></script>
+
+<script type="text/javascript" src="~commons/getCountryName.js"></script>
+
+<script src="~commons/libs/overthrow/overthrow-detect.js"></script>
+<script src="~commons/libs/overthrow/overthrow-init.js"></script>
+<script src="~commons/libs/overthrow/overthrow-polyfill.js"></script>
+<script src="~commons/libs/overthrow/overthrow-toss.js"></script>
+
+<script>
+
+    //before js imports
+    window.LoadedPoll = function () {
+        console.log("new LoadedPoll");
+        var _this = this;
+        this.key = null;
+        this.realKey = null;
+        this.public = "";
+        this.country = "";
+        this.json = "";
+        this.obj = {};
+        //this.style = $.extend({}, defaultStyle);
+
+        this.isPublic = function (value) {
+            //value assign
+            if (true === value) {
+                if (window.p) {
+                    p.activePublic();
+                }
+            } else if (false === value) {
+                if (window.p) {
+                    p.deactivePublic();
+                }
+                //ask
+            } else {
+                if ("-" == value[0]) {
+                    _this.public = "";
+                } else {
+                    _this.public = "true";
+                }
+            }
+            _this.public = value;
+            return _this.public;
+        };
+    };
+    window.screenPoll = new LoadedPoll();
+
+    ////////////////////////////////////////////////////////////////////            
+
+    //init globals
+    window.screenPoll.key = null;
+
+    window.hashManager = new HashManager();
+
+    //on run app first time from key redirection link
+    //only from intent, prevent when reload location!
+
+    window.fromDeviceTranslucent = false;
+    if (window.Device) {
+        fromDeviceTranslucent = Device.isTranslucent();
+        console.log("fromDeviceTranslucent? = " + fromDeviceTranslucent + "; location.hash: " + location.hash);
+    }
+
+    if (location.hash == "#translucent" || "true" == fromDeviceTranslucent) {
+        console.log("is translucent");
+        window.isTranslucent = true;
+        $('html').addClass('translucent');
+
+        $("html").click(function (e) {
+            if (e.target.nodeName == "HTML") {
+                if (window.Device) {
+                    Device.close();
+                }
+            }
+        });
+    }
+
+    //KEY HANDLE
+    //if (location.pathname.match(/\//g).length == 1 && location.pathname.length > 1) { //not work with complex debugging subdomain
+    (function () {
+        if (location.pathname.match(/\//g).length > 0 && location.pathname.length > 1) {
+            var key = location.pathname.split("/").pop();
+            if (key.indexOf('.') === -1) {
+                screenPoll.key = key;
+                console.log("KEY = " + screenPoll.key)
+                //from app
+            }
+        }
+        //deprecated?
+        if (!screenPoll.key && location.search) { //before the ?
+            screenPoll.key = location.search.substr(1);
+            console.log("before the ? KEY = " + screenPoll.key);
+        }
+    })();
+
+    if (screenPoll.key && !location.hash) {
+        //header could be Twitter header webview
+        $("html").addClass("withoutHeader");
+        window.keyLinkPage = true;
+    }
+
+</script>
+
+<!--called script needs run after html to work with it!-->
+<script>
+
+    var localhost = document.location.hostname == "localhost";
+    var isAndroid, iPhone, webview;
+
+    if (!window.Device) {
+        window.Device = false;
+        $.getScript("~commons/browserStart.js");
+    } else {
+        $("html").addClass("Device");
+    }
+
+    //before tag placeholders
+    translateTags();
+
+    var webDEBUG = true;
+    //DATA
+    var originalVotes, originalPublic, originalCountry, originalLink;
+
+    //globals
+//    var h = 35;
+
+    //HASH FUNCTION
+    $(document).ready(function () {
+        console.log("principal document ready");
+        window.user = new User(true, function () {
+            loadAPP();
+        });
+    });
+
+    function loadAPP() {
+        //get userName not Device way (before any return)
+        var userName = localStorage.getItem("userName");
+        if (userName) {
+            $("#username input").val(userName);
+        }
+
+        if (!screenPoll.key) {
+            //LOAD HASH after know is key or not to handle function calls
+            if (location.hash) {
+                console.log("lodHash() without key");
+                loadHashData();
+            } else {
+                //defaultPage on location.hash from java
+                console.log("!key and !location.hash");
+                defaultPage();
+            }
+        } else {
+            window.keyPoll = new LoadKeyPoll(screenPoll);
+        }
+
+//        //make backround fixed (soft-keyboard resize)
+//        setTimeout(function () {
+//            var backgroundWidth = getBackgroundSize($("html")[0]).width;
+//            console.log("backgroundWidth: " + backgroundWidth);
+//            $("html").css("background-size", backgroundWidth + "px auto");
+//        }, 2000); //need completely loaded page
+    }
+
+    function loadHashData() {
+        console.log("loadHashData of: " + location.hash);
+        var func = location.hash.split("#")[1];
+        if (func && window[func]) {
+            //if is funcion (like loading), prevent go #home
+            window[func]();
+
+        } else {
+            hashManager.load(location.hash);
+            console.log(func + "() was not a function -> hashChanged()");
+        }
+        return;
+    }
+
+    function reset() {
+        console.log("reset");
+        resetData();
+        defaultPage();
+        resume();
+    }
+
+    function defaultPage() {
+        console.log("default page");
+        //if not in Device, create poll is strange
+        hashManager.update("home");
+        //                if (!window.Device) {
+        //                    $("#body").addClass("pollsView");
+        //                }
+
+        console.log("remove translucent class");
+        $('html').removeClass('translucent');
+    }
+
+    function resetData() {
+        console.log("resetData newUser");
+        window.user = new User(true);
+        screenPoll = new LoadedPoll();
+    }
+
+    //FROM ANDROID ACTIVITY ///////////////////////////
+
+    function checkCountry(keyId) {
+        if (keyId.indexOf("-") < 1) {
+            return;
+        }
+        var country = keyId.split("-").shift();
+
+        if (country) { //then is public
+            var countryName = getCountryName(country.toUpperCase(), getUserLang());
+
+            if (!isUserCountry(country)) {
+                if ("undefined" != typeof publicId && publicId) {
+                    disableVotation();
+                    notice(transl("WrongCountry") + countryName + ".");
+                }
+                //ELSE ask phone when click
+
+            } else {
+                //only say country disponibility if not errors or notices ¿?
+                if ($("#linksLink").html() == "") {
+                    notice(lang["PollOnlyAvailableIn"] + countryName + ".");
+                }
+            }
+        }
+    }
+
+    //device
+    function loading() {
+        console.log("loading");
+        $("#mainPage > div").hide();
+        $("#loading").show();
+    }
+
+    //device (preload key only)
+//    function loadKey(id, newkey) {
+    function loadKey(newkey) {
+        console.log("loadKey: " + newkey);
+//        if (window.lastKeyAsk != id) {
+//            console.log("older key retrieved. lastKeyAsk: " + lastKeyAsk + ", id: " + id);
+//            return;
+//        }
+
+        //save private key only!
+        if (newkey[0] == "-") {
+            console.log("new key = " + newkey);
+            localStorage.setItem("unusedKey", newkey);
+        }
+        var key = screenPoll.key = newkey;
+
+        if (!screenPoll.json) {
+            console.log("verbose: not json on key: " + key + " yet");
+            return;
+        }
+        saveLocally(key, screenPoll.json);
+    }
+
+    //AJAX
+    if (document.referrer && -1 == document.referrer.indexOf(window.appPath) && !window.Device) {
+        console.log("referer: " + document.referrer);
+        $.ajax({
+            method: "POST",
+            url: window.urlPath + "/core/ajax.php",
+            data: {
+                action: "addWebUsage",
+                url: document.referrer
+            }
+        }).done(function (msg) {
+            //console.log("referer: ");
+            //console.log(msg);
+        });
+    }
+
+</script>
+
+<!-- GOOGLE STARS ? -->
+<!--http://www.webpagefx.com/blog/seo/how-to-get-stars-search/-->
+<!--<div itemscope itemtype=”http://schema.org/Product”>
+    <img itemprop=”image” src=”image-link.jpg” alt="Product Name"/>
+    <span itemprop=”name”>Product Name</span>
+    <div itemprop=”aggregateRating itemscope itemtype=”http://schema.org/AggregateRating”>
+        <span itemprop=”ratingValue”>4.5</span>
+        out of <span itemprop=”bestRating”>5</span>
+        based on <span itemprop=”ratingCount”>301</span> user ratings.
+    </div>
+</div>-->

@@ -1,0 +1,52 @@
+
+#languages{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    font-weight: bold;
+    overflow-y: scroll;
+    /*bigger than tutorial z-index:*/
+    z-index: 200;
+    pointer-events: auto !important;
+}
+
+#languages > div{
+    height: 62px;
+    position: relative;
+    padding: 0 10px;
+    cursor: pointer;
+}
+#languages > div:hover{
+    background: grey;
+}
+
+#languages .img{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#languages img{
+    zoom: 1.5;
+    vertical-align: middle;
+}
+
+#languages .text{
+    margin-left: 85px;
+    top: 49%;
+    position: absolute;
+    transform: translateY(-50%);
+}
+
+#language_icon{
+    width: 100%;
+}
+#language_icon img{
+    position: absolute;
+    height: 35px;
+    top: 48%;
+    transform: translateY(-50%);
+    margin-left: 10px;
+}

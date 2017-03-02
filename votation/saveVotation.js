@@ -2,7 +2,7 @@
 // CONNECTIVITY
 
 function saveAjax(action, json, callback) {
-    if (screenPoll.public) {
+    if ("true" == screenPoll.public) {
         //but let share!
         //error("Vote on public polls whithout APP is forbidden.");
         error("PublicOnlyFromApp");
@@ -15,7 +15,7 @@ function saveAjax(action, json, callback) {
         cache: false,
         data: {
             action: action,
-            id: userId,
+            id: user.id,
             key: screenPoll.key,
             value: json
         }
@@ -86,7 +86,7 @@ function saveDevice(action, json, public, country, callback) {
 }
 
 function saveLocally(key, data) {
-    console.log(data);
+    //console.log(data);
     if (key) { //check is correct stores query
         var time = (new Date()).getTime();
         localStorage.setItem("key_" + key, JSON.stringify([time, data]));

@@ -1,0 +1,232 @@
+
+/*#header, #header .button{*/
+#header .button{
+    -webkit-transition: background 300ms;
+    -moz-transition: background 300ms;
+    -o-transition: background 300ms;
+    transition: background 300ms;
+}
+#header.search, #header.search .button{
+    background-color: white;
+    color: black;
+}
+#header.search .title > span{
+    display: none;
+}
+
+#totalPolls, #showAll{
+    display: inline-block;
+    margin-bottom: 5px;
+}
+#totalPolls{
+    display: none;
+    font-weight: bold;
+    margin-right: 10px;
+    color: grey;
+    font-weight: normal;
+    font-size:14px;
+}
+#totalPolls img{
+    height: 16px !important;
+    vertical-align: bottom;
+    margin-left: 2px;
+}
+#showAll{
+    float: right; 
+    cursor: pointer;
+    color: blue;
+    font-size: 15px;
+}
+#showAll:hover{
+    text-decoration: underline;
+}
+
+#header.search #newPoll{
+    background-color: rgb(60,60,60) !important;
+}
+
+#polls{
+    margin-top: -5px;
+    clear: both;
+    width: 100%;
+}
+/*#polls > div{
+    position: relative;
+    width: 100%;
+}*/
+#polls.extended{
+    -moz-column-count: 3;
+    -moz-column-gap: 0;
+    -webkit-column-count: 2;
+    -webkit-column-gap: 3px;
+    column-count: 2;
+    column-gap: 0;
+}
+#polls .canvas{
+    pointer-events: none;
+}
+#polls .canvas canvas, #polls .canvas img{
+    pointer-events: auto;
+    margin: 1px 0;
+    border: 1px solid rgb(135,135,135);
+    box-shadow: 0 0 0 1px rgb(230,230,230);
+    padding: 4px;
+    border: 1px solid rgb(150,150,150);
+    background-color: rgb(210,210,210);
+}
+#polls.reduced .image{    
+    width: auto !important;    
+    overflow: hidden;
+    text-align: right;
+
+    -webkit-transition: height 200ms;
+    -moz-transition: height 200ms;
+    -o-transition: height 200ms;
+    transition: height 200ms;
+    -webkit-transition: max-height 200ms;
+    -moz-transition: max-height 200ms;
+    -o-transition: max-height 200ms;
+    transition: max-height 200ms;
+}
+#polls.reduced .image:after{
+    content: "";
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    opacity: 0;
+    box-shadow: inset -5px -5px 8px rgba(0,0,0,0.25);
+
+    -webkit-transition: opacity 200ms;
+    -moz-transition: opacity 200ms;
+    -o-transition: opacity 200ms;
+    transition: opacity 200ms;
+}
+#polls.reduced .hidden:after{    
+    opacity: 1;
+}
+#polls .image.hidden{           
+    border-bottom: none;
+}
+#polls.extended .image{
+    width: 100%;
+    display: inline-block;
+    margin-top: 5px !important;
+}
+
+#polls .info{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    margin-top: 4px;
+    height: 100%;
+}
+
+#polls .info .key{
+    color: grey;        
+    text-align: center;
+    display: inline-block;              
+    max-width: 40px;
+    word-wrap: break-word;
+    max-height: 100%;
+}
+#polls .info .key div{
+    line-height: 35px;
+    min-width: 31px;
+    padding: 0 2px;
+    border-radius: 20px;
+    background: rgb(207,207,207);    
+    display: inline-block;
+    /*box-shadow: 0 0 0 1px rgb(195,195,195);*/
+    box-shadow: 1px 1px;
+    border: 1px solid rgb(195,195,195);
+    white-space: nowrap;
+}
+
+#polls .flag{
+    cursor: pointer;
+    text-align: center;
+    font-size: 12px;
+
+    margin-left: -9px;
+    margin-right: -9px;
+    word-wrap: normal;
+    overflow: hidden;
+}
+#polls img{
+    width: 24px;
+}
+#polls img:hover{
+    background: rgb(200,255,150);
+}    
+
+#polls .canvas{
+    margin-left: 50px;
+}
+
+linksLink:hover{
+    background-color: rgba(150,255,0,0.2) !important;
+}
+
+#navigator{
+    text-align: center;
+    color: grey;
+    margin: 15px;
+    cursor: pointer;
+}
+#navigator:hover{
+    text-decoration: underline;
+}
+
+/*#errorLog{
+    margin-bottom: 0px !important;
+}*/
+#polls .error{
+    min-height: 50px;
+}
+#polls .error .info{
+    margin-top: 0 !important;
+}
+#polls .error .canvas{
+    color: grey;
+    margin-top: 12px;
+    font-size: 15px;
+}
+
+#polls .numberPoll{
+    margin-bottom: -8px;
+    font-size: 15px;        
+}
+
+#gameSkip{
+    position: absolute;    
+    background: rgba(0,0,0,0.7);
+    width: 60px;
+    /*max-width: 11%;*/
+    border-radius: 99px;    
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid rgba(0,0,0,0.5);    
+    box-shadow: inset 1px 1px 0 rgba(255,255,255,0.3), 1px 1px 0 rgba(0,0,0,0.3);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 1;
+}
+#gameSkip:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+#gameSkip span{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#gameSkip:hover{
+    box-shadow: 1px 1px 1px rgba(255,255,255,0.3), inset 1px 1px 0 rgba(0,0,0,0.5);
+}

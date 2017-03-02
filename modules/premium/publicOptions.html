@@ -1,0 +1,78 @@
+<!--public options - load every time for prevent old checked options-->
+
+<style>
+    #o_limitByCountry{
+        width: 100%; 
+        white-space:nowrap;
+    }    
+    #o_countrySelect select{
+        padding-left: 8px;
+    }
+</style>
+
+<div>
+    <table>
+        <tr id="o_country">
+            <td id="o_limitByCountry"></td>
+            <td>
+                <div id="o_countrySelect">
+                    <select name='country'>
+                        <option value='' class='allCountries'></option>
+                    </select>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <!--<input id="externalLink" type="text" data-placeholder="AddPollLink"/>-->
+</div>
+
+<small id="o_WillShowPublic"></small>
+
+<script>
+
+    $("#o_limitByCountry").text(transl("LimitByCountry"));
+    $("#o_WillShowPublic").text(transl("WillShowPublic"));
+    $("#o_countrySelect .allCountries").text(transl("allCountries"));
+
+    $("#o_countrySelect select").change(function () {
+        var country = screenPoll.country = $(this).val();
+        screenPoll.style.country = country;
+        if (country != originalCountry) {
+            shareToSave();
+        } else {
+            saveToShare();
+        }
+    });
+
+    getCountryArray(function () {
+        if ("undefined" != typeof userCountryArray && userCountryArray) {
+
+            console.log("user country = " + userCountry);
+            //var ISO = userCountry;
+
+            for (var i = 0; i < userCountryArray.length; i++) {
+                var ISO = userCountryArray[i].toUpperCase();
+                console.log("ISO = " + ISO);
+                $("#o_countrySelect select").append("<option value='" + ISO + "'>" + getCountryName(ISO, userLanguage) + "</option>");
+            }
+
+        } else {
+            console.log("NOT USER COUNTRY FOUND !");
+            $("#o_country").hide();
+            $("#o_country").before(transl("noUserCountryFound"));
+        }
+    });
+
+    // if add link
+//    $("#externalLink").change(function () {
+//        style.link = $(this).val();
+//
+//        if (style.link != originalLink) {
+//            shareToSave();
+//        } else {
+//            saveToShare();
+//        }
+//    });
+
+</script>
