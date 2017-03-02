@@ -17,7 +17,8 @@ window.onerror = function (msg, url, line, col, err) {
     //this workd for android
     console.log(errorMmessage, "from", err.stack);
 
-    error(errorMmessage, arguments.callee.caller);
+    //error(errorMmessage, arguments.callee.caller);
+    error(err.stack, arguments.callee.caller);
 };
 // Only Chrome & Opera have an error attribute on the event.
 window.addEventListener("error", function (e) {
@@ -39,12 +40,12 @@ function error(txt, f) {
         //defaultPage();
     }
 
-    //add stack to Log
-    while (f) {
-        console.log("stack");
-        txt += ":: " + f.name + "; ";
-        f = f.caller;
-    }
+//    //add stack to Log
+//    while (f) {
+//        console.log("stack");
+//        txt += ":: " + f.name + "; ";
+//        f = f.caller;
+//    }
 
     //send
     if (!Device) {
