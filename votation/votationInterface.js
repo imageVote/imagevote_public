@@ -273,7 +273,7 @@ function VotationInterface_sendButtonEvent() {
                 obj.users = [];
             }
             //save user on screenPoll 'obj' (1st time)
-            obj.users[window.user.id] = getUserArray(window.user);
+            obj.users[window.user.id] = user.vt;
 
             //.SaveAndShare class includes VotationInterface_shareButton!
             VotationInterface_saveButton("create", obj, function (done) {
