@@ -96,8 +96,8 @@ function checkShareEnvirontment(tag, optionsResult) {
 
             shareIntents(intentLoads, tag, optionsResult);
         });
-        
-    }else{
+
+    } else {
         window.intentLoads = false;
     }
 }
@@ -634,31 +634,36 @@ VotationInterface_saveButton = function (action, obj, callback) {
     //before change anything
     //if existing votation is public
     console.log("saving key: '" + screenPoll.key + "'");
-    if (window.Device && screenPoll.key && "-" != screenPoll.key[0]) { //not private key    
-        //if create poll
-        if (!window.publicId) {
-            VotationInterface_notSave(2);
-            if (window.loadingPublicKey) {
-                flash(transl("loadingPublicKey"));
+    if (window.Device && screenPoll.key) {
+        if ("_" == screenPoll.key[0]) {
+            notice(screenPoll.key);
+            
+        } else if ("-" != screenPoll.key[0]) { //not private key
+            //if create poll
+            if (!window.publicId) {
+                VotationInterface_notSave(2);
+                if (window.loadingPublicKey) {
+                    flash(transl("loadingPublicKey"));
+                    return;
+                }
+
+                //can't save votation if not publicId is working
+                console.log("ASKING PHONE " + screenPoll.key);
+                askPhone();
+
+                //stop
+                if (callback) {
+                    callback(false);
+                }
                 return;
             }
-            
-            //can't save votation if not publicId is working
-            console.log("ASKING PHONE " + screenPoll.key);    
-            askPhone();
-            
-            //stop
-            if (callback) {
-                callback(false);
-            }
-            return;
-        }
 
-        //public = "true";
-        screenPoll.isPublic("true");
-        //remove old not-public user
-        if (window.phoneId && obj.users[phoneId]) {
-            delete obj.users[phoneId];
+            //public = "true";
+            screenPoll.isPublic("true");
+            //remove old not-public user
+            if (window.phoneId && obj.users[phoneId]) {
+                delete obj.users[phoneId];
+            }
         }
     }
 
