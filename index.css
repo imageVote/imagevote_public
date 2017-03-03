@@ -85,9 +85,9 @@ html.translucent{
 .translucent #header, .translucent #image, .translucent #mainPage > div{
     display: none;
 }
-.translucent .votationBox, .translucent #votationButtons button{
+/*.translucent .votationBox, .translucent #votationButtons button{
     box-shadow: 0 0 8px rgba(0,0,0,0.25);
-}
+}*/
 
 /*#votationButtons{
     margin-top: 10px;
