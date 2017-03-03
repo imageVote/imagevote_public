@@ -124,10 +124,10 @@
 
             screenPoll.obj.users[user.id] = screenPoll.obj.users[publicId];
             delete screenPoll.obj.users[publicId];
-        }
+        };
         
-        //FROM  DEVICE FUNCTION ?
         this.activePublic = function () {
+            console.log("active public");
             document.dispatchEvent(new Event("public"));
 
             //if ask phone callback 

@@ -273,7 +273,7 @@ function VotationInterface_sendButtonEvent() {
                 obj.users = [];
             }
             //save user on screenPoll 'obj' (1st time)
-            obj.users[window.user.id] = user.vt;
+            obj.users[window.user.id] = getUserArray(window.user);
 
             //.SaveAndShare class includes VotationInterface_shareButton!
             VotationInterface_saveButton("create", obj, function (done) {
@@ -558,13 +558,6 @@ VotationInterface_saveButton = function (action, obj, callback) {
     var _args = arguments;
     console.log("VotationInterface_shareButton screenPoll");
 
-    var _user = obj.users[user.id];
-    var votes = null;
-    if (_user) {
-        votes = _user[1];
-    }
-    console.log("VOTES: " + votes)
-
     if (!screenPoll.public) {
         //name is mandatory for prevent troll's confusion votes, and disagree results
         var inputName = $("#userNamePoll").val() || localStorage.getItem("userName");
@@ -637,7 +630,7 @@ VotationInterface_saveButton = function (action, obj, callback) {
     if (window.Device && screenPoll.key) {
         if ("_" == screenPoll.key[0]) {
             notice(screenPoll.key);
-            
+
         } else if ("-" != screenPoll.key[0]) { //not private key
             //if create poll
             if (!window.publicId) {
@@ -666,8 +659,8 @@ VotationInterface_saveButton = function (action, obj, callback) {
             }
         }
     }
-
-    // WRONG VALUES CHECKED
+    
+    var votes = obj.users[window.user.id][1];
 
     $("#image").remove();
     saveDefaultValues(votes);
@@ -686,8 +679,8 @@ VotationInterface_saveButton = function (action, obj, callback) {
     var sendJson;
     if ("update" == action) {
         console.log('update" == action');
-//        var userArr = getUserArray(user);
-        sendJson = JSON.stringify(_user);
+        var userArr = getUserArray(obj.users[user.id]);
+        sendJson = JSON.stringify(userArr);
 //        obj.users[user.id] = userArr;
         saveLocally(screenPoll.key, screenPoll.json + "," + sendJson);
 

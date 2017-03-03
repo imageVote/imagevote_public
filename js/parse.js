@@ -6,7 +6,7 @@ var canvas, ctx;
 function getUserArray(user) {
     console.log("user: " + JSON.stringify(user));
     if (!user) {
-        return [];
+        return [window.user.id, ""];
     }
 
     var arr = [user.id, user.vt];
@@ -160,7 +160,7 @@ function parseOptions(obj, opts) {
             optionsResult[i][2] = res;
         }
         if (usrs[1]["vt"]) {
-            obj.users[window.user.id] = usrs[1]["vt"];
+            obj.users[window.user.id][1] = usrs[1]["vt"];
         }
 
     } else {
