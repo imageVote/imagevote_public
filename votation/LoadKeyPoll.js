@@ -35,24 +35,22 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
     var realPath = urlParts.realPath;
     this.poll.realKey = urlParts.realKey;
     
-    var url = realPath + screenPoll.realKey + "?";
+    var url = realPath + screenPoll.realKey;
+    var params = "";
     if ("public" == urlParts.visible) {
-        url = window.keysPath + "get.php?url=public/" + urlParts.countryPath + screenPoll.realKey + "&";
+        url = window.keysPath + "get.php";
+        params = "url=public/" + urlParts.countryPath + screenPoll.realKey;
     }
-            
-    
 
-            
-            
     if ("private" == urlParts.visible || "public" == urlParts.visible) {
         if (window.Device) {
             //return on dataIsReady
             //console.log("Device.loadKeyData(" + key + ")");
             //Device.loadKeyData(key);            
-            Device.simpleRequest(url, "new RequestPollByKeyCallback");
+            Device.simpleRequest(url, params, "new RequestPollByKeyCallback");
             
         } else {
-            loadAjaxKey(url, function (data) {
+            loadAjaxKey(url, params, function (data) {
                 new RequestPollByKeyCallback(data);
             });
         }
@@ -62,16 +60,15 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
 ///////////////////////////////////////////////////////////////////////////////
 
 //ON LOAD VOTATION AND STORED
-function loadAjaxKey(url, callback, findCache) {
+function loadAjaxKey(url, params, callback, findCache) {
     console.log("url: " + url + " on loadAjaxKey()");
 
     // jquery not allows overrideMimeType
     var xhr = new XMLHttpRequest();
-    var nocache = "nocache=" + (new Date()).getTime();
-    if (findCache) {
-        nocache = "";
+    if (!findCache) {
+        params += "nocache=" + (new Date()).getTime();
     }
-    xhr.open('GET', url + nocache); //absolute no cache
+    xhr.open('POST', url); //absolute no cache
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
@@ -84,7 +81,7 @@ function loadAjaxKey(url, callback, findCache) {
     };
     // important 4 accents and, ñ, etc..
     xhr.overrideMimeType('text/plain; charset=ISO-8859-1');
-    xhr.send();
+    xhr.send(params);
 }
 
 ////device (allow run directly from android url scratch)
