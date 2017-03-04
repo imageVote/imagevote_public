@@ -29,16 +29,16 @@ function getEvent(e) {
 }
 
 function getPathsFromKeyId(keyId) {
-
+    console.log("getPathsFromKeyId " + keyId);
     if (!keyId) {
         keyId = location.pathname.split("/").pop();
-        if (keyId.indexOf('.') !== -1) {
+        if (!keyId || keyId.indexOf('.') !== -1) {
             return false;
         }
     }
 
     var realPath = window.keysPath;
-
+    
     var public = "true";
     var visible = "public";
 

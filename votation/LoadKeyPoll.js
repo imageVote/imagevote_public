@@ -1,5 +1,6 @@
 
 var LoadKeyPoll = function (poll) {
+    console.log("LoadKeyPoll");
     this.poll = window.screenPoll = poll;
     this.key = this.poll.key;
 

@@ -27,7 +27,9 @@
         window.p = new Premium();
         
         $(".menuIcon").remove();
-        $("#header table tr").prepend("<td class='menuIcon hidden'></td>");
+        //$("#header table tr").prepend("<td class='menuIcon hidden'></td>");
+        $("#voteHeader table tr").prepend("<td class='menuIcon hidden'></td>");
+        
         setTimeout(function () {
             $(".menuIcon").removeClass("hidden");
         }, 100);
@@ -190,30 +192,30 @@
                 $("#p_makePublic input").prop('checked', false);
             });
 
-            $(window).on('hashchange', function () {
-                p.urlUpdate(location.hash);
-            });
+//            $(window).on('hashchange', function () {
+//                p.urlUpdate(location.hash);
+//            });
         };
         
-        this.urlUpdate = function (hash) {
-            console.log("hash = " + hash);
-            //disallow edit polls style when not sense
-            if (hash == "polls" || !hash) {
-                $("#p_menu .overthrow").hide();
-                $("#p_menu").append("<div id='p_notEditable'><div>" + transl("p_notEditable") + "</div></div>");
-            } else {
-                $("#p_menu .overthrow").show();
-                $("#p_notEditable").remove();
-            }
-
-            //only show Public button when new 
-            if (hash == "new") {
-                p.addPublicOption();
-                $("#p_makePublic").show();
-            } else {
-                $("#p_makePublic").hide();
-            }
-        }
+//        this.urlUpdate = function (hash) {
+//            console.log("urlUpdate hash = " + hash);
+//            //disallow edit polls style when not sense
+//            if (hash == "#polls" || !hash) {
+//                $("#p_menu .overthrow").hide();
+//                $("#p_menu").append("<div id='p_notEditable'><div>" + transl("p_notEditable") + "</div></div>");
+//            } else {
+//                $("#p_menu .overthrow").show();
+//                $("#p_notEditable").remove();
+//            }
+//
+//            //only show Public button when new 
+//            if (hash == "new") {
+//                p.addPublicOption();
+//                $("#p_makePublic").show();
+//            } else {
+//                $("#p_makePublic").hide();
+//            }
+//        }
     };
 
 </script>

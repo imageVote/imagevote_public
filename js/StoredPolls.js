@@ -33,9 +33,10 @@ function loadStoredPolls() {
 
         //console.log(localStorage[storedKey])
         var arrayTimeData = JSON.parse(localStorage[storedKey]);
-        var query = "#stored_" + keyId.replace(/([^\w\s])/g, '\$1');
-        var div = $("<div class='votation' id='" + query + "'>");
-
+        var id = "stored_" + keyId.replace(/([^\w\s])/g, '\$1');
+        var div = $("<div class='votation' id='" + id + "'>");
+        
+        var query = "#" + id;
         var obj = parseData(arrayTimeData[1]);
         console.log(obj);
         //remove wrong parse        
@@ -73,7 +74,7 @@ function storedPolls_init() {
         var realKey = urlParts.realKey;
 
         var cache = true;
-        loadAjaxKey(realPath + realKey + "?", function (data) {
+        loadAjaxKey(realPath + realKey, "", function (data) {
             var query = "#stored_" + keyId;
             $("#stored_" + keyId + " .loader").hide();
 

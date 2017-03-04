@@ -557,6 +557,7 @@ var savingPoll = false;
 VotationInterface_saveButton = function (action, obj, callback) {
     var _args = arguments;
     console.log("VotationInterface_shareButton screenPoll");
+    console.log(obj);
 
     if (!screenPoll.public) {
         //name is mandatory for prevent troll's confusion votes, and disagree results
@@ -679,7 +680,7 @@ VotationInterface_saveButton = function (action, obj, callback) {
     var sendJson;
     if ("update" == action) {
         console.log('update" == action');
-        var userArr = getUserArray(obj.users[user.id]);
+        var userArr = obj.users[user.id];
         sendJson = JSON.stringify(userArr);
 //        obj.users[user.id] = userArr;
         saveLocally(screenPoll.key, screenPoll.json + "," + sendJson);
