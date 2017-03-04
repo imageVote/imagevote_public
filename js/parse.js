@@ -102,6 +102,7 @@ function parseData(value) {
 }
 
 function toObject(arr) {
+    console.log(arr)
     if (!$.isArray(arr)) {
         console.log("NOT ARRAY on " + JSON.stringify(arr));
         return false;
@@ -115,12 +116,11 @@ function toObject(arr) {
     }
 
     var style = arr.shift();
-
+    
     var users = {};
     for (var i = 0; i < arr.length; i++) {
-        if (arr && arr[i]) {
-            users[arr[i][0]] = arr[i];
-        }
+        var user = arr[i];
+        users[user[0]] = user;
     }
 
     var obj = {
@@ -130,7 +130,6 @@ function toObject(arr) {
     };
     parseOptions(obj, options_arr);
 
-    console.log(obj);
     return obj;
 }
 

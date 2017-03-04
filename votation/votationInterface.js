@@ -500,10 +500,14 @@ VotationInterface_shareButton = function (poll, callback) {
         $("#image").remove();
         var div = $("<div id='image'><hr/><div class='image'></div></div>");
         $("#mainPage").append(div);
-
+        
+        var type = "";
+        if($(poll.divQuery).hasClass("show")){
+            type = "show";
+        }
+        
         var width = null;
-        var list = null;
-        getCanvasImage(divQuery, poll.obj, keyId, width, list, function (imgData) {
+        getCanvasImage(divQuery, poll.obj, keyId, width, type, function (imgData) {
             if (!imgData) {
                 error("!imgData on getCanvasImage");
                 return;

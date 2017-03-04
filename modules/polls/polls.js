@@ -434,9 +434,8 @@ function loadJsonPoll(keyPaths, country) {
         canvasWith = $("#poll_" + keyId + " .canvas").width() - 10 - 17; //borders and scroll-bar
         console.log("canvas width = " + canvasWith);
     }
-    var onList = true;
 
-    getCanvasImage("#poll_" + keyId + " .canvas", obj, keyId, canvasWith, onList, function (canvas) {
+    getCanvasImage("#poll_" + keyId + " .canvas", obj, keyId, canvasWith, "list", function (canvas) {
         //wait canvas load to specify poll height on click
         var simpleUrl = appPath + "/" + keyId;
         clickablePoll("#poll_" + keyId + " .canvas", keyId, simpleUrl);

@@ -158,7 +158,7 @@
     //HASH FUNCTION
     $(document).ready(function () {
         console.log("principal document ready");
-        window.user = new User(true, function () {
+        window.user = new User(null, function () {
             loadAPP();
         });
     });
@@ -227,7 +227,7 @@
 
     function resetData() {
         console.log("resetData newUser");
-        window.user = new User(true);
+        window.user = new User();
         screenPoll = new LoadedPoll();
     }
 

@@ -12,11 +12,11 @@
     <br/><br/>
 
     <table id="p_colors">                    
-<!--        <tr>
-            <td style="white-space: nowrap; width:100%" class="p_text" data-lang="Symbol"></td>
-            <td id="fileSelect"> <input type="file" accept='image/*'></td>
-            <td id="fileSelect"><button data-lang="ChooseFile"></button></td>
-        </tr>-->
+        <!--        <tr>
+                    <td style="white-space: nowrap; width:100%" class="p_text" data-lang="Symbol"></td>
+                    <td id="fileSelect"> <input type="file" accept='image/*'></td>
+                    <td id="fileSelect"><button data-lang="ChooseFile"></button></td>
+                </tr>-->
     </table>
     <hr/>
     <div id="p_gradient"></div>
@@ -48,7 +48,7 @@
 
     init();
     translateTags(); //start lang
-    
+
     //load Styles
     for (var i = 0; i < localStorage.length; i++) {
         var name = localStorage.key(i);
@@ -102,7 +102,7 @@
         }
     });
 
-    $("#p_menu").on("tap", function (e) {        
+    $("#p_menu").on("tap", function (e) {
         if ("p_menu" == $(e.target).attr("id")) {
             e.preventDefault(); //prevent pass through click
             customStyles.hide();
@@ -129,7 +129,6 @@
     //create object first
     function init() {
         window.customStyles = {
-            style: {},
             show: function () {
                 $("#p_menu").addClass("p_show");
             }
@@ -141,7 +140,7 @@
             draw: function () {
                 //on every change
                 var obj = $.extend({}, screenPoll.obj);
-                
+
                 //ctx = $("#p_gradient canvas")[0].getContext("2d");
                 var width = $("#p_gradient").width();
 
@@ -151,17 +150,17 @@
                     this.style[option] = toRGB($("#p_" + option).val());
                 }
                 this.style.owner = transl("ownerNameExample");
-                
+                obj.style = this.style;
+
                 if (!obj.question) {
                     obj.question = lang["ExampleQuestion"];
                 }
                 if (!obj.options) {
                     obj.options = [[0, lang["OptionExample1"], 3], [1, lang["OptionExample2"], 1]];
                 }
-                
+
                 console.log(JSON.stringify(obj));
                 this.poll = new DrawPoll({
-                    style: this.style,
                     width: width,
                     obj: obj
                 }); //draw image
@@ -191,7 +190,7 @@
                     customStyles.draw();
                     $(".selected").removeClass("selected");
                     $("#savedStyles > p[style=" + name + "]").addClass("selected");
-                    
+
                     css_colors();
                 });
             }
@@ -254,7 +253,7 @@
     }
 
     function toHEX(arr) {
-        if(!arr){
+        if (!arr) {
             return;
         }
         return "#" + componentToHex(arr[0]) + componentToHex(arr[1]) + componentToHex(arr[2]);

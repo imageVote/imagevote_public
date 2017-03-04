@@ -35,7 +35,7 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
     var urlParts = getPathsFromKeyId(key);
     var realPath = urlParts.realPath;
     this.poll.realKey = urlParts.realKey;
-    
+
     var url = realPath + screenPoll.realKey;
     var params = "";
     if ("public" == urlParts.visible) {
@@ -49,7 +49,7 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
             //console.log("Device.loadKeyData(" + key + ")");
             //Device.loadKeyData(key);            
             Device.simpleRequest(url, params, "new RequestPollByKeyCallback");
-            
+
         } else {
             loadAjaxKey(url, params, function (data) {
                 new RequestPollByKeyCallback(data);
@@ -137,7 +137,7 @@ var RequestPollByKeyCallback = function (data) {
         // + buttons
         showVotation(obj.users);
         window.user = _this.getUser(obj);
-        
+
         var keyId = window.screenPoll.key;
         checkCountry(keyId);
     });
@@ -149,7 +149,7 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
     var data = this.data;
 
     //wait userId request
-    if (!window.user || !window.user.id) {            
+    if (!window.user || !window.user.id) {
         console.log("waiting for userId..");
         setTimeout(function () {
             _this.parseUserVotes(callback);
@@ -159,6 +159,7 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
 
     console.log(data);
     var obj = this.poll.obj = parseData(data);
+    console.log(JSON.stringify(this.poll))
 
     this.poll.json = data;
     saveLocally(this.poll.key, this.poll.json);
@@ -170,8 +171,10 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
     }
 
     console.log("parseUserVotes newUser");
+    console.log(JSON.stringify(obj))
     window.user = this.getUser(obj);
-    saveDefaultValues(user.vt);
+    console.log(JSON.stringify(obj))
+    saveDefaultValues(window.user.vt);
 
     $("#votationOwner").remove();
     if (obj.style && obj.style.owner) {
@@ -200,7 +203,6 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
         $("#votation").prepend(ownerDiv);
     }
 
-    console.log(obj);
     window.loadedTable = new FillTable(this.query, obj);
     callback(obj);
 };
@@ -224,7 +226,7 @@ RequestPollByKeyCallback.prototype.getUser = function (obj) {
     }
 
     if (!obj.users[user.id]) {
-        obj.users[user.id] = getUserArray(window.user);
+        obj.users[user.id] = getUserArray();
     }
 
     var obj_user = obj.users[user.id];
