@@ -3,11 +3,9 @@ var alternative = {
 //    keysPath: "dl.dropboxusercontent.com/u/70345137/key/"
 };
 
-var sending = false;
 //from DEVICE
 function resume() {
     stopFlash();
-    sending = false;
     // only if loading
     if ($("#loading:visible").length && !$("html").hasClass("translucent")) {
         defaultPage();

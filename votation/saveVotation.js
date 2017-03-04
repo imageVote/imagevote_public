@@ -48,12 +48,6 @@ function saveDevice(action, json, public, country, callback) {
     var key = screenPoll.key;
     //FORCE WAIT KEY
     if (!key && !public && "create" == action) { //check external key!
-        //4 prevent repeat work on timeout
-        if (!sending) {
-            flash(lang["waitingKey"], true);
-            sending = true;
-        }
-        
         if(window.keyWaiting > 8){
             flash(lang["waitingKeyExpired"]);
             return;
@@ -94,4 +88,3 @@ function saveLocally(key, data) {
         console.log("WRONG KEY TO STORE: " + key);
     }
 }
-

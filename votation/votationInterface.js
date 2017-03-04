@@ -489,7 +489,7 @@ VotationInterface_shareButton = function (poll, callback) {
             return;
         }
         if (window.Device) {
-//            div.hide();
+            div.hide();
             Device.share(imgData, keyId);
 
         } else {
@@ -536,14 +536,17 @@ VotationInterface_saveButton = function (action, obj, callback) {
     var _args = arguments;
     console.log("VotationInterface_shareButton screenPoll");
     console.log(obj);
+    
+    var poll = window.screenPoll;
+    var user = window.user;
 
-    if (!screenPoll.public) {
+    if (!poll.public) {
         //name is mandatory for prevent troll's confusion votes, and disagree results
         var inputName = $("#userNamePoll").val() || localStorage.getItem("userName");
 
         if (inputName) {
-            if (!window.user) {
-                window.user = {};
+            if (!user) {
+                user = {};
             }
             user.nm = inputName;
             if (window.Device) {
@@ -570,7 +573,7 @@ VotationInterface_saveButton = function (action, obj, callback) {
             return;
         }
 
-        if (!screenPoll.key) {
+        if (!poll.key) {
             if (checkConnection()) {
                 if (window.key_waiting > 10) {
                     $(".absoluteLoading").remove();
@@ -605,12 +608,12 @@ VotationInterface_saveButton = function (action, obj, callback) {
 
     //before change anything
     //if existing votation is public
-    console.log("saving key: '" + screenPoll.key + "'");
-    if (window.Device && screenPoll.key) {
-        if ("_" == screenPoll.key[0]) {
-            notice(screenPoll.key);
+    console.log("saving key: '" + poll.key + "'");
+    if (window.Device && poll.key) {
+        if ("_" == poll.key[0]) {
+            notice(poll.key);
 
-        } else if ("-" != screenPoll.key[0]) { //not private key
+        } else if ("-" != poll.key[0]) { //not private key
             //if create poll
             if (!window.publicId) {
                 VotationInterface_notSave(2);
@@ -620,7 +623,7 @@ VotationInterface_saveButton = function (action, obj, callback) {
                 }
 
                 //can't save votation if not publicId is working
-                console.log("ASKING PHONE " + screenPoll.key);
+                console.log("ASKING PHONE " + poll.key);
                 askPhone();
 
                 //stop
@@ -631,7 +634,7 @@ VotationInterface_saveButton = function (action, obj, callback) {
             }
 
             //public = "true";
-            screenPoll.isPublic("true");
+            poll.isPublic("true");
             //remove old not-public user
             if (window.phoneId && obj.users[phoneId]) {
                 delete obj.users[phoneId];
@@ -639,7 +642,7 @@ VotationInterface_saveButton = function (action, obj, callback) {
         }
     }
 
-    var votes = obj.users[window.user.id][1];
+    var votes = obj.users[user.id][1];
 
     $("#image").remove();
     saveDefaultValues(votes);
@@ -648,7 +651,7 @@ VotationInterface_saveButton = function (action, obj, callback) {
     var saveCallback = "";
     if ($("#send").hasClass("saveAndShare")) {
         saveCallback = function () {
-            VotationInterface_shareButton(screenPoll, function () {
+            VotationInterface_shareButton(poll, function () {
                 $(".absoluteLoading").remove();
             });
         };
@@ -661,14 +664,14 @@ VotationInterface_saveButton = function (action, obj, callback) {
         var userArr = obj.users[user.id];
         sendJson = JSON.stringify(userArr);
 //        obj.users[user.id] = userArr;
-        saveLocally(screenPoll.key, screenPoll.json + "," + sendJson);
+        saveLocally(poll.key, poll.json + "," + sendJson);
 
     } else if ("create" == action) {
         sendJson = pollToJson(obj);
 
         //not local stored if not voted by me
         if ("undefined" !== typeof (votes) && "" !== votes) {
-            saveLocally(screenPoll.key, sendJson);
+            saveLocally(poll.key, sendJson);
         }
 
     } else {
@@ -683,36 +686,19 @@ VotationInterface_saveButton = function (action, obj, callback) {
     var call = true;
 
     //WEB like ios change button now
-    if (!Device) {
-//        if (!window.deviceIntentLoads) {
+    if (!window.Device) {
         saveAjax(action, sendJson, saveCallback);
-//        } else {
-//            user.vt = originalVotes;
-//
-//            $("#votationBox tr").each(function () {
-//                var checkbox = $(this).find(".checkbox")[0];
-//                if (checkbox.checked == true) {
-//                    checkbox.checked = false;
-//                    var option = $(this).find(".option");
-//                    var num = parseInt(option.text()) - 1;
-//                    option.text(num);
-//                }
-//            });
-//
-//            addUserVotes("#votationBox", user.vt);
-//        }
-//        window.deviceIntentLoads = false;
 
     } else {
         saveCallback = "" + saveCallback;
         //only way of public - public-id has to be updated on load
         console.log("callback: " + saveCallback);
-        saveDevice(action, sendJson, "" + screenPoll.public, screenPoll.country, saveCallback);
+        saveDevice(action, sendJson, "" + poll.public, poll.country, saveCallback);
     }
 
     //remove any stored cache
-    if (screenPoll.key) {
-        var urlParts = getPathsFromKeyId(screenPoll.key);
+    if (poll.key) {
+        var urlParts = getPathsFromKeyId(poll.key);
         var url = urlParts.realPath + urlParts.realKey;
         //1 DAY with no cache (don't do less, older file could will be cached!)
         var cacheTimeout = (new Date()).getTime() + 86400000;
