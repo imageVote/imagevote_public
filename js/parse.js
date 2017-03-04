@@ -29,7 +29,7 @@ function getUserArray(user) {
 
 function pollToJson(obj) {
     var style = window.screenPoll.style;
-    if(!style){
+    if (!style) {
         style = {};
     }
     if (!obj.style) {
@@ -97,7 +97,7 @@ function parseData(value) {
         //error("e_votationWithErrors", true);
         return false;
     }
-    
+
     return toObject(arr);
 }
 
@@ -269,6 +269,10 @@ function hidePollEvent(query, reducedHeight) {
 }
 
 function voteArray(arr) {
+    if (null == arr || "undefined" == typeof arr) {
+        return [];
+    }
+
     if ("object" != typeof arr) {
         if (arr || 0 === arr) {
             arr = [arr];
