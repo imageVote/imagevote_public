@@ -171,9 +171,7 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
     }
 
     console.log("parseUserVotes newUser");
-    console.log(JSON.stringify(obj))
     window.user = this.getUser(obj);
-    console.log(JSON.stringify(obj))
     saveDefaultValues(window.user.vt);
 
     $("#votationOwner").remove();
@@ -221,19 +219,21 @@ function errorParse(code) {
 }
 
 RequestPollByKeyCallback.prototype.getUser = function (obj) {
+    var userId = window.user.id;
+    
     if (!obj.users) {
         obj.users = {};
     }
 
-    if (!obj.users[user.id]) {
-        obj.users[user.id] = getUserArray();
+    if (!obj.users[userId]) {
+        obj.users[userId] = getUserArray();
     }
 
-    var obj_user = obj.users[user.id];
+    var obj_user = obj.users[userId];
     if (!obj_user) {
         throw "user = " + JSON.stringify(obj_user);
     }
-    var userObj = {id: user.id, vt: obj_user[1]};
+    var userObj = {id: userId, vt: obj_user[1]};
     //add extra values
     if (obj.style && obj.style.extraValues) {
         for (var i = 0; i < obj.style.extraValues.length; i++) {
