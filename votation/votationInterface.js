@@ -443,12 +443,9 @@ var _ajaxKeyWaiting = 0;
 //not pass obj for function. this is a Device function.
 VotationInterface_shareButton = function (poll, callback) {
     var _args = arguments;
-
-    if (!window.sharingPoll) {
-        $(".absoluteLoading").remove();
-        //loading class for group and work with all loadings on page
-        $("body").append("<img from='VotationInterface_shareButton' class='loading absoluteLoading' src='~img/loader.gif'/>");
-        window.sharingPoll = true;
+    
+    if (!$("#shareButtonLoading").length) {
+        $("body").append("<img from='VotationInterface_shareButton' id='shareButtonLoading' class='loading absoluteLoading' src='~img/loader.gif'/>");
     }
 
     console.log("VotationInterface_shareButton");
@@ -476,58 +473,35 @@ VotationInterface_shareButton = function (poll, callback) {
     var keyId = poll.key;
     var divQuery = "#image .image";
 
-    //if canvas exists only re-share height modifications
+    $("#image").remove();
+    var div = $("<div id='image'><hr/><div class='image'></div></div>");
+    $("#mainPage").append(div);
 
-    var canvas = $(divQuery + " canvas");
-    var imgData;
-    if (canvas.length) {
-        console.log("canvas already exists");
-        imgData = canvas[0].toDataURL();
+    var type = "";
+    if ($(poll.divQuery).hasClass("show")) {
+        type = "show";
+    }
+
+    var width = null;
+    getCanvasImage(divQuery, poll.obj, keyId, width, type, function (imgData) {
+        if (!imgData) {
+            error("!imgData on getCanvasImage");
+            return;
+        }
         if (window.Device) {
+//            div.hide();
             Device.share(imgData, keyId);
 
         } else {
+            $("#stored").addClass("hidden");
+            div.show();
             //VotationInterface_saveImageLocally(keyId, imgData);
-
-            $(".absoluteLoading").remove();
-            if (callback) {
-                callback(true);
-            }
-            window.sharingPoll = false;
         }
 
-    } else {
-        $("#image").remove();
-        var div = $("<div id='image'><hr/><div class='image'></div></div>");
-        $("#mainPage").append(div);
-        
-        var type = "";
-        if($(poll.divQuery).hasClass("show")){
-            type = "show";
+        if (callback) {
+            callback(true);
         }
-        
-        var width = null;
-        getCanvasImage(divQuery, poll.obj, keyId, width, type, function (imgData) {
-            if (!imgData) {
-                error("!imgData on getCanvasImage");
-                return;
-            }
-            if (window.Device) {
-                div.hide();
-                Device.share(imgData, keyId);
-
-            } else {
-                $("#stored").addClass("hidden");
-                div.show();
-                //VotationInterface_saveImageLocally(keyId, imgData);
-                if (callback) {
-                    callback(true);
-                }
-                window.sharingPoll = false;
-            }
-        });
-    }
-
+    });
 };
 
 //VotationInterface_saveImageLocally = function(keyId, imgData) {
@@ -664,7 +638,7 @@ VotationInterface_saveButton = function (action, obj, callback) {
             }
         }
     }
-    
+
     var votes = obj.users[window.user.id][1];
 
     $("#image").remove();

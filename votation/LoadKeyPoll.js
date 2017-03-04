@@ -1,6 +1,7 @@
 
 var LoadKeyPoll = function (poll) {
     console.log("LoadKeyPoll");
+    
     this.poll = window.screenPoll = poll;
     this.key = this.poll.key;
 
@@ -36,11 +37,11 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
     var realPath = urlParts.realPath;
     this.poll.realKey = urlParts.realKey;
 
-    var url = realPath + screenPoll.realKey;
+    var url = realPath + this.poll.realKey;
     var params = "";
     if ("public" == urlParts.visible) {
         url = window.keysPath + "get.php";
-        params = "url=public/" + urlParts.countryPath + screenPoll.realKey;
+        params = "url=public/" + urlParts.countryPath + this.poll.realKey;
     }
 
     if ("private" == urlParts.visible || "public" == urlParts.visible) {
@@ -98,8 +99,10 @@ var RequestPollByKeyCallback = function (data) {
     var _this = this;
     this.data = data;
     this.query = "#votation .votationBox";
-
+    
+    this.user = window.user;
     this.poll = window.screenPoll;
+    
     if (!this.poll) {
         this.poll = new LoadedPoll();
     }
@@ -136,9 +139,9 @@ var RequestPollByKeyCallback = function (data) {
 
         // + buttons
         showVotation(obj.users);
-        window.user = _this.getUser(obj);
+        this.user = _this.getUser(obj);
 
-        var keyId = window.screenPoll.key;
+        var keyId = this.poll.key;
         checkCountry(keyId);
     });
 };
@@ -149,7 +152,7 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
     var data = this.data;
 
     //wait userId request
-    if (!window.user || !window.user.id) {
+    if (!this.user || !this.user.id) {
         console.log("waiting for userId..");
         setTimeout(function () {
             _this.parseUserVotes(callback);
@@ -159,7 +162,6 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
 
     console.log(data);
     var obj = this.poll.obj = parseData(data);
-    console.log(JSON.stringify(this.poll))
 
     this.poll.json = data;
     saveLocally(this.poll.key, this.poll.json);
@@ -171,8 +173,8 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
     }
 
     console.log("parseUserVotes newUser");
-    window.user = this.getUser(obj);
-    saveDefaultValues(window.user.vt);
+    this.user = this.getUser(obj);
+    saveDefaultValues(this.user.vt);
 
     $("#votationOwner").remove();
     if (obj.style && obj.style.owner) {
@@ -205,22 +207,9 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
     callback(obj);
 };
 
-//device call
-function errorParse(code) {
-    console.log("errorParse " + $("html").hasClass("translucent").toString());
-    if (window.Device && $("html").hasClass("translucent")) {
-        $(".loading").remove();
-        flash(transl(code), null, function () {
-            Device.close();
-        });
-        return;
-    }
-    hashManager.update("home", code);
-}
-
 RequestPollByKeyCallback.prototype.getUser = function (obj) {
-    var userId = window.user.id;
-    
+    var userId = this.user.id;
+
     if (!obj.users) {
         obj.users = {};
     }
@@ -244,6 +233,19 @@ RequestPollByKeyCallback.prototype.getUser = function (obj) {
     console.log(userObj);
     return userObj;
 };
+
+//device call
+function errorParse(code) {
+    console.log("errorParse " + $("html").hasClass("translucent").toString());
+    if (window.Device && $("html").hasClass("translucent")) {
+        $(".loading").remove();
+        flash(transl(code), null, function () {
+            Device.close();
+        });
+        return;
+    }
+    hashManager.update("home", code);
+}
 
 function disableVotation() {
     $("#votation .votationBox").addClass("unClickable");
