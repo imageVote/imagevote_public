@@ -149,7 +149,7 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
     var data = this.data;
 
     //wait userId request
-    if (!window.user || !window.user.id) {
+    if (!window.user || !window.user.id) {            
         console.log("waiting for userId..");
         setTimeout(function () {
             _this.parseUserVotes(callback);
