@@ -454,6 +454,9 @@ input{
         /* 28 x 4 */
         padding-bottom: 128% !important;
     }
+    #pollsPage #gameButtons{
+        padding-top: 132% !important;
+    }
     #pollsPage .options_container{
         left: 0 !important;
         right: 0 !important;
