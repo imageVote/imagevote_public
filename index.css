@@ -450,7 +450,7 @@ input{
 }
 
 @media screen and (max-width: 480px) {
-    #pollsPage #polls, #pollsPage #game{
+    #pollsPage #polls, #pollsPage .game{
         /* 28 x 4 */
         padding-bottom: 128% !important;
     }
