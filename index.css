@@ -922,11 +922,9 @@ input{
 }
 #pollsPage{
     position: relative;
-    /*max-width: 506px;*/
     margin: auto;
     padding: 0 5px !important;
-    /*skip button #pollsPage position*/
-    /*height: 100%;*/
+    
 }
 
 html:not(.withoutHeader) .pollsView{
