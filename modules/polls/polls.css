@@ -215,6 +215,7 @@ linksLink:hover{
     transform: translate(-50%, -50%);
     cursor: pointer;
     z-index: 1;
+    margin: 0 !important;
 }
 #gameSkip:after {
     content: "";
