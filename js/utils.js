@@ -36,7 +36,7 @@ function getPathsFromKeyId(keyId) {
     }
 
     var realPath = window.keysPath;
-    
+
     var public = "true";
     var visible = "public";
 
@@ -336,9 +336,27 @@ function browser() {
 }
 
 //http://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript
-function is_touch_device() {
-    return 'ontouchstart' in window        // works on most browsers 
-            || navigator.maxTouchPoints;       // works on IE10/11 and Surface
+$(window).on("swipe", function(){
+    console.log("SWIPE")
+    is_touch_device("true");
+});
+function is_touch_device(isTouch) {
+//    return 'ontouchstart' in window        // works on most browsers 
+//            || navigator.maxTouchPoints;       // works on IE10/11 and Surface
+//            
+//    var touch = Modernizr.touchevents;
+//    console.log("TOUCH: " + touch)
+//    return touch;
+    if (isTouch) {
+        localStorage.setItem("touch", isTouch);
+        return;
+    }
+
+    var touch = localStorage.getItem("touch");
+    if (!touch || "false" == touch || "undefined" == touch) {
+        touch = false;
+    }
+    return touch;
 }
 
 //http://stackoverflow.com/questions/4770025/how-to-disable-scrolling-temporarily
