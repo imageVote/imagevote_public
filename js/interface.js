@@ -9,21 +9,24 @@ function translateTags(refresh) {
         window.lang = {};
     }
 
-    var userLang = getUserLang();
-    //console.log("language: " + userLang);
-
-    $.getScript("~lang/" + userLang + ".js", function () {
-//        window.lang = window["lang_" + userLang];
-        $.extend(window.lang, window["lang_" + userLang]);
+    loadLanguage("~lang", function () {
         loadTranslations(refresh);
+    });
+}
+
+function loadLanguage(path, callback) {
+    var userLang = getUserLang();
+
+    $.getScript(path + "/" + userLang + ".js", function () {
+        if (callback) {
+            callback();
+        }
 
     }).fail(function () {
-        console.log("wrong lang " + userLang);
-        $.getScript("~lang/en.js", function () {
-//            window.lang = window.lang_en;
-            $.extend(window.lang, window.lang_en);
-            if (window.lang) {
-                loadTranslations(refresh);
+        console.log(path + " lang failed!");
+        $.getScript(path + "/en.js", function () {
+            if (callback) {
+                callback();
             }
         });
     });
@@ -85,7 +88,7 @@ function flash(text, persist, callback) {
     }, 500 + text.length * 50);
 
     setTimeout(function () {
-        $(document).one("click.search", function () {
+        $(document).one("mousedown.search touchstart.search", function () {
             clearTimeout(window.flashTimeout);
             stopFlash(callback);
         });
