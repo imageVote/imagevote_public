@@ -149,7 +149,8 @@ function shareIntents(intentLoads, tag, optionsResult) {
 
     //return all to normality (required on google play links)
     $(tag).one("click", function () {
-        flash("app redirect");
+        console.log("APP REDIRECT")
+//        flash("app redirect");
         //prevent any send click
         setTimeout(function () {
             window.preventSendEvents = false;
