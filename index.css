@@ -455,7 +455,7 @@ input{
         padding-bottom: 128% !important;
     }
     #pollsPage #gameButtons{
-        padding-top: 132% !important;
+        padding-top: 130% !important;
     }
     #pollsPage .options_container{
         left: 0 !important;
@@ -923,7 +923,7 @@ input{
 #pollsPage{
     position: relative;
     margin: auto;
-    padding: 0 5px !important;
+    padding: 5px !important;
     
 }
 
