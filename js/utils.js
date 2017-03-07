@@ -38,18 +38,8 @@ function getPathsFromKeyId(keyId) {
     var realPath = window.keysPath;
 
     var public = "true";
+    var symbol = "";
     var visible = "public";
-
-    switch (keyId[0]) {
-        case "-":
-            public = "false";
-            visible = "private";
-            break
-        case "$":
-            public = "false";
-            visible = "game";
-            break;
-    }
 
     screenPoll.isPublic(public);
 //    if (visible == "public" || visible == "private") {
@@ -59,19 +49,27 @@ function getPathsFromKeyId(keyId) {
     var countryPath = "";
     var key = keyId;
     if (keyId.indexOf("-") > 0) {
+        symbol = "-";
+        public = "false";
+        visible = "private";
         var arr = keyId.split("-");
         var country = arr.shift();
         countryPath = "~" + country + "/";
         realPath += countryPath;
         key = arr.join("-");
     }
-    if (keyId.indexOf("$") == 0) {
+
+    if (keyId.indexOf("$") > 0) {
+        symbol = "$";
+        public = "false";
         keyId = keyId.split("$")[1];
     }
+
     var res = {
         realPath: realPath,
         realKey: key,
         keyId: keyId,
+        symbol: symbol,
         visible: visible,
         countryPath: countryPath
     };
@@ -336,7 +334,7 @@ function browser() {
 }
 
 //http://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript
-$(window).on("swipe", function(){
+$(window).on("swipe", function () {
     console.log("SWIPE")
     is_touch_device("true");
 });

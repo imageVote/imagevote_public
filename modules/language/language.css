@@ -49,4 +49,5 @@
     top: 48%;
     transform: translateY(-50%);
     margin-left: 10px;
+    cursor: pointer;
 }
