@@ -37,21 +37,15 @@ function getPathsFromKeyId(keyId) {
 
     var realPath = window.keysPath;
 
-    var public = "true";
-    var symbol = "";
-    var visible = "public";
-
-    screenPoll.isPublic(public);
-//    if (visible == "public" || visible == "private") {
-    realPath += visible + "/";
-//    }
+    var public = "false";
+    var symbol = "-";
+    var visible = "private";
 
     var countryPath = "";
     var key = keyId;
     if (keyId.indexOf("-") > 0) {
-        symbol = "-";
-        public = "false";
-        visible = "private";
+        public = "true";
+        visible = "public";
         var arr = keyId.split("-");
         var country = arr.shift();
         countryPath = "~" + country + "/";
@@ -59,10 +53,15 @@ function getPathsFromKeyId(keyId) {
         key = arr.join("-");
     }
 
-    if (keyId.indexOf("$") > 0) {
+    if (keyId[0] == "$") {
         symbol = "$";
-        public = "false";
+        visible = "";
         keyId = keyId.split("$")[1];
+    }
+
+    screenPoll.isPublic(public);
+    if (visible == "public" || visible == "private") {
+        realPath += visible + "/";
     }
 
     var res = {

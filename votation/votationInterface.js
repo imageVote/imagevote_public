@@ -614,7 +614,7 @@ VotationInterface_saveButton = function (action, obj, callback) {
         if ("_" == poll.key[0]) { //error
             notice(poll.key);
 
-        } else if ("-" != poll.key[0]) { //not private key
+        } else if (!poll.key[0] == "-") { //not private key
             console.log("not private key: " + poll.key);
             //if create poll
             if (!window.publicId) {

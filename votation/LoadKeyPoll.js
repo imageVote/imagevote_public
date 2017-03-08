@@ -10,6 +10,7 @@ var LoadKeyPoll = function (poll) {
 
     var isCountry = poll.key.indexOf("-") > 0;
     if (poll.key[0] != "-" || isCountry) {
+        console.log("loadKeyPoll public '" + poll.key + "' " + isCountry);
         //public = true;
         poll.isPublic("true");
         if (isCountry) {
@@ -43,7 +44,8 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
         url = window.keysPath + "get.php";
         params = "url=public/" + urlParts.countryPath + this.poll.realKey;
     }
-
+    
+    console.log("url: " + realPath + " + " + this.poll.realKey);
     if ("private" == urlParts.visible || "public" == urlParts.visible) {
         if (window.Device) {
             //return on dataIsReady
@@ -139,9 +141,9 @@ var RequestPollByKeyCallback = function (data) {
 
         // + buttons
         showVotation(obj.users);
-        this.user = _this.getUser(obj);
+        _this.user = _this.getUser(obj);
 
-        var keyId = this.poll.key;
+        var keyId = _this.poll.key;
         checkCountry(keyId);
     });
 };
@@ -167,7 +169,7 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
     saveLocally(this.poll.key, this.poll.json);
 
     if (!this.poll.obj) {
-        console.log("error parsing object");
+        console.log("error parsing object: " + this.poll.json);
         errorParse("e_votationWithErrors");
         return;
     }

@@ -235,7 +235,7 @@
     //FROM ANDROID ACTIVITY ///////////////////////////
 
     function checkCountry(keyId) {
-        if (keyId.indexOf("-") < 1) {
+        if (keyId[0] == "-") {
             return;
         }
         var country = keyId.split("-").shift();
