@@ -611,10 +611,11 @@ VotationInterface_saveButton = function (action, obj, callback) {
     //if existing votation is public
     console.log("saving key: '" + poll.key + "'");
     if (window.Device && poll.key) {
-        if ("_" == poll.key[0]) {
+        if ("_" == poll.key[0]) { //error
             notice(poll.key);
 
         } else if ("-" != poll.key[0]) { //not private key
+            console.log("not private key: " + poll.key);
             //if create poll
             if (!window.publicId) {
                 VotationInterface_notSave(2);
