@@ -40,23 +40,27 @@ function getPathsFromKeyId(keyId) {
     var public = "false";
     var symbol = "-";
     var visible = "private";
-
+    
+    var prefix;
     var countryPath = "";
+    
     var key = keyId;
     if (keyId.indexOf("-") > 0) {
         public = "true";
         visible = "public";
         var arr = keyId.split("-");
-        var country = arr.shift();
-        countryPath = "~" + country + "/";
+        prefix = arr.shift();
+        countryPath = "~" + prefix + "/";
         realPath += countryPath;
         key = arr.join("-");
     }
 
-    if (keyId[0] == "$") {
+    if (keyId.indexOf("$") > 0) {
         symbol = "$";
-        visible = "";
-        keyId = keyId.split("$")[1];
+        visible = "public";
+        var arr = keyId.split("$");
+        prefix = arr.shift();
+        key = arr.join("$");
     }
 
     screenPoll.isPublic(public);
@@ -70,6 +74,7 @@ function getPathsFromKeyId(keyId) {
         keyId: keyId,
         symbol: symbol,
         visible: visible,
+        prefix: prefix,
         countryPath: countryPath
     };
     return res;
