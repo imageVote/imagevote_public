@@ -55,9 +55,9 @@ function getPathsFromKeyId(keyId) {
         key = arr.join("-");
     }
 
-    if (keyId.indexOf("$") > 0) {
+    if (keyId.indexOf("$") > -1) {
         symbol = "$";
-        visible = "public";
+        visible = "";
         var arr = keyId.split("$");
         prefix = arr.shift();
         key = arr.join("$");

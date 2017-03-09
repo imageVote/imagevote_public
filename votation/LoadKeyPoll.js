@@ -1,6 +1,6 @@
 
 var LoadKeyPoll = function (poll) {
-    console.log("LoadKeyPoll");
+    console.log("LoadKeyPoll " + poll.key);
     
     this.poll = window.screenPoll = poll;
     this.key = this.poll.key;
@@ -9,9 +9,7 @@ var LoadKeyPoll = function (poll) {
     loading();
 
     var isCountry = poll.key.indexOf("-") > 0;
-    if (poll.key[0] != "-" || isCountry) {
-        console.log("loadKeyPoll public '" + poll.key + "' " + isCountry);
-        //public = true;
+    if ((poll.key[0] != "-" || isCountry) && poll.key.indexOf("$") == -1) {
         poll.isPublic("true");
         if (isCountry) {
             poll.country = poll.key.split("-").shift();
@@ -45,8 +43,8 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
         params = "url=public/" + urlParts.countryPath + this.poll.realKey;
     }
     
-    console.log("url: " + realPath + " + " + this.poll.realKey);
     if ("private" == urlParts.visible || "public" == urlParts.visible) {
+        console.log("url: " + realPath + " + " + this.poll.realKey);
         if (window.Device) {
             //return on dataIsReady
             //console.log("Device.loadKeyData(" + key + ")");
