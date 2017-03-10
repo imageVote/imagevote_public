@@ -962,6 +962,7 @@ body > .option > *{
     outline: none;
     /*game SKIP margin:*/
     padding: 0 7%;
+    height: 100%;
 }
 .option_text > div{
     position: absolute;
