@@ -209,7 +209,7 @@ linksLink:hover{
     text-align: center;
     font-weight: bold;
     border: 1px solid rgba(0,0,0,0.5);    
-    box-shadow: inset 1px 1px 0 rgba(255,255,255,0.3), 1px 1px 0 rgba(0,0,0,0.3);
+    box-shadow: inset 1px 1px 0 rgba(255,255,255,0.3), 1px 1px 0 rgba(0,0,0,0.3), 0 0 0 5px rgba(0,0,0,0.2);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -229,9 +229,12 @@ linksLink:hover{
     transform: translate(-50%, -50%);
 }
 #gameSkip:hover{
-    box-shadow: 1px 1px 1px rgba(255,255,255,0.3), inset 1px 1px 0 rgba(0,0,0,0.5), 0 0 0 5px rgba(255,255,255,0.2);
+    box-shadow: 1px 1px 1px rgba(255,255,255,0.3), inset 1px 1px 0 rgba(0,0,0,0.5), 0 0 0 5px rgba(0,0,0,0.2);
+    /*box-shadow: 1px 1px 1px rgba(255,255,255,0.3), inset 1px 1px 0 rgba(0,0,0,0.5), 0 0 0 5px rgba(255,255,255,0.2);*/
 }
 
 #pollsPage{
-    overflow-x: hidden;
+/*    overflow-x: hidden;
+    this prevents ie bug:
+    overflow-y: hidden;*/
 }
