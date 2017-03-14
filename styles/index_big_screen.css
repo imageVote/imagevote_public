@@ -1,5 +1,8 @@
 
 @media screen and (min-width: 1024px) {
+    html {
+        background-size: 42px;
+    }
     #mainPage, #pollsPage, #header > div, #errorLog{
         max-width: 960px;        
     }
@@ -14,8 +17,11 @@
         width: 70%;
     }
 
-    #pollsPage .game{
+    .votationBox, #pollsPage .game{
         padding-bottom: 30% !important;
+    }
+    #buttons{
+        margin: 20px 0;
     }
     #gameButtons{
         padding-top: 32% !important;
