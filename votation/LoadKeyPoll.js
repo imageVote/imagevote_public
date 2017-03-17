@@ -148,17 +148,17 @@ var RequestPollByKeyCallback = function (data) {
 
 //parse ajax by userId
 RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
-    var _this = this;
+//    var _this = this;
     var data = this.data;
-
-    //wait userId request
-    if (!this.user || !this.user.id) {
-        console.log("waiting for userId..");
-        setTimeout(function () {
-            _this.parseUserVotes(callback);
-        }, 700);
-        return;
-    }
+    
+//    //wait userId request
+//    if (!this.user || !this.user.id) {
+//        console.log("waiting for userId..");
+//        setTimeout(function () {
+//            _this.parseUserVotes(callback);
+//        }, 700);
+//        return;
+//    }
 
     console.log(data);
     var obj = this.poll.obj = parseData(data);
