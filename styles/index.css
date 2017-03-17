@@ -454,9 +454,12 @@ input{
 }
 
 @media screen and (max-width: 480px) {
+    html{
+        background-size: 32px !important;
+    }
     #pollsPage #polls, #pollsPage .game{
         /* 28 x 4 */
-        padding-bottom: 128% !important;
+        padding-bottom: 128% !important;        
     }
     #pollsPage #gameButtons{
         padding-top: 130% !important;
