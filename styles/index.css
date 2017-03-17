@@ -454,6 +454,9 @@ input{
 }
 
 @media screen and (max-width: 480px) {
+    html{
+        background-size: 32px !important;
+    }
     #pollsPage #polls, #pollsPage .game{
         /* 28 x 4 */
         padding-bottom: 128% !important;
@@ -995,4 +998,7 @@ body > .option > *{
 }
 .checked:after{
     color: rgba(255,255,255,0.16);
+}
+#stored .option:after{
+    font-size: 60px !important; 
 }
