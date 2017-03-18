@@ -82,11 +82,14 @@
 
     //init globals
     window.screenPoll.key = null;
-
     window.hashManager = new HashManager();
 
-    //on run app first time from key redirection link
-    //only from intent, prevent when reload location!
+    if (!window.Device) {
+        window.Device = false;
+        $.getScript("~commons/browserStart.js");
+    } else {
+        $("html").addClass("Device");
+    }
 
     window.fromDeviceTranslucent = false;
     if (Device.isTranslucent) {
@@ -139,13 +142,6 @@
 
     var localhost = document.location.hostname == "localhost";
     var isAndroid, iPhone, webview;
-
-    if (!window.Device) {
-        window.Device = false;
-        $.getScript("~commons/browserStart.js");
-    } else {
-        $("html").addClass("Device");
-    }
 
     //before tag placeholders
     translateTags();
