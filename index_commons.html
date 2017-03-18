@@ -89,7 +89,7 @@
     //only from intent, prevent when reload location!
 
     window.fromDeviceTranslucent = false;
-    if (window.Device) {
+    if (Device.isTranslucent) {
         fromDeviceTranslucent = Device.isTranslucent();
         console.log("fromDeviceTranslucent? = " + fromDeviceTranslucent + "; location.hash: " + location.hash);
     }
