@@ -64,7 +64,7 @@ NewVotation_newKeyAjax = function (id) {
 //    var key = screenPoll.key = localStorage.getItem("unusedKey");
 //
 //    if (!key) {
-//        if (window.Device) {
+//        if (Device.newKey) {
 //            console.log("newKey(), call number token: " + window.lastKeyAsk);
 //            Device.newKey(window.lastKeyAsk);
 //        } else {

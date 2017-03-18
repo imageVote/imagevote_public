@@ -150,15 +150,14 @@ function shareIntents(intentLoads, tag, optionsResult) {
     //return all to normality (required on google play links)
     $(tag).one("click", function () {
         console.log("APP REDIRECT")
-//        flash("app redirect");
         //prevent any send click
-        setTimeout(function () {
-            window.preventSendEvents = false;
-
-            $(".intentLink").each(function () {
-                $(this).find(" > *:eq(0)").unwrap();
-            });
-        }, 500);
+//        setTimeout(function () {
+//            window.preventSendEvents = false;
+//
+//            $(".intentLink").each(function () {
+//                $(this).find(" > *:eq(0)").unwrap();
+//            });
+//        }, 500);
     });
 }
 
@@ -308,7 +307,7 @@ function VotationInterface_cancelButtonEvent() {
         window.screenPoll = new LoadedPoll();
 
         if (window.isTranslucent) {
-            if (window.Device) {
+            if (Device.close) {
                 console.log("closing.. window.isTranslucent: " + window.isTranslucent);
                 Device.close();
                 return;
@@ -318,7 +317,7 @@ function VotationInterface_cancelButtonEvent() {
             if (document.referrer.indexOf(window.location.host) > -1 || true) {
                 window.history.back();
 
-                if (history.length <= 1 && window.Device) {
+                if (history.length <= 1 && Device.close) {
                     console.log("no history close");
                     Device.close();
                 }
@@ -450,7 +449,7 @@ VotationInterface_shareButton = function (poll, callback) {
     }
 
     console.log("VotationInterface_shareButton");
-    if (!window.Device && !poll.key) {
+    if (!Device.share && !poll.key) {
         //if not seems respond
         if (_ajaxKeyWaiting > 10) {
             _ajaxKeyWaiting = 0;
@@ -489,7 +488,7 @@ VotationInterface_shareButton = function (poll, callback) {
             error("!imgData on getCanvasImage");
             return;
         }
-        if (window.Device) {
+        if (Device.share) {
             div.hide();
             Device.share(imgData, keyId);
 
@@ -688,7 +687,7 @@ VotationInterface_saveButton = function (action, obj, callback) {
     var call = true;
 
     //WEB like ios change button now
-    if (!window.Device) {
+    if (!Device.save) {
         saveAjax(action, sendJson, saveCallback);
 
     } else {

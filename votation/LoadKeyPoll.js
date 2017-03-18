@@ -45,7 +45,7 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
     
     if ("private" == urlParts.visible || "public" == urlParts.visible) {
         console.log("url: " + realPath + " + " + this.poll.realKey);
-        if (window.Device) {
+        if (Device.simpleRequest) {
             //return on dataIsReady
             //console.log("Device.loadKeyData(" + key + ")");
             //Device.loadKeyData(key);            
@@ -150,15 +150,6 @@ var RequestPollByKeyCallback = function (data) {
 RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
 //    var _this = this;
     var data = this.data;
-    
-//    //wait userId request
-//    if (!this.user || !this.user.id) {
-//        console.log("waiting for userId..");
-//        setTimeout(function () {
-//            _this.parseUserVotes(callback);
-//        }, 700);
-//        return;
-//    }
 
     console.log(data);
     var obj = this.poll.obj = parseData(data);
@@ -237,7 +228,7 @@ RequestPollByKeyCallback.prototype.getUser = function (obj) {
 //device call
 function errorParse(code) {
     console.log("errorParse " + $("html").hasClass("translucent").toString());
-    if (window.Device && $("html").hasClass("translucent")) {
+    if (Device.close && $("html").hasClass("translucent")) {
         $(".loading").remove();
         flash(transl(code), null, function () {
             Device.close();

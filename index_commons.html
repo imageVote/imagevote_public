@@ -101,7 +101,7 @@
 
         $("html").click(function (e) {
             if (e.target.nodeName == "HTML") {
-                if (window.Device) {
+                if (window.Device.close) {
                     Device.close();
                 }
             }

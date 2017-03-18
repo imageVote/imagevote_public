@@ -65,7 +65,7 @@ HashManager.prototype.update = function (hash, error) {
     //$("*").off(".temp");
 
     //prevent hashing after key url
-    if (!Device) {
+    if (!window.Device) {
 //        var arr = location.href.split("/");
 //        arr.pop();
 //        location.href = arr.join("/") + "/#" + hash + "?" + error;}
