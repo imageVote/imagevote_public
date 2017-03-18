@@ -161,7 +161,7 @@
             overthrow.set();
 
             $("#fileSelect").on("tap", function () {
-                if (window.Device) {
+                if (Device.pickIconImage) {
                     Device.pickIconImage();
                 } else {
                     var input = $("<input type='file' accept='image/*'>");

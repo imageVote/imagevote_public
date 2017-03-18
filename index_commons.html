@@ -89,7 +89,7 @@
     //only from intent, prevent when reload location!
 
     window.fromDeviceTranslucent = false;
-    if (window.Device) {
+    if (window.Device.isTranslucent) {
         fromDeviceTranslucent = Device.isTranslucent();
         console.log("fromDeviceTranslucent? = " + fromDeviceTranslucent + "; location.hash: " + location.hash);
     }
@@ -101,7 +101,7 @@
 
         $("html").click(function (e) {
             if (e.target.nodeName == "HTML") {
-                if (window.Device) {
+                if (window.Device.close) {
                     Device.close();
                 }
             }

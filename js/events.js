@@ -48,7 +48,7 @@ function error(txt, f) {
 //    }
 
     //send
-    if (!Device) {
+    if (!Device.error) {
         $.post(window.urlPath + "/core/error.php", {
             error: text
         });
@@ -117,7 +117,7 @@ $(document).ready(function () {
 
     //first time app
     $("#firstOk").click(function () {
-        if (Device) {
+        if (Device.firstTimeOk) {
             Device.firstTimeOk();
         } else {
             hashManager.update("home");
