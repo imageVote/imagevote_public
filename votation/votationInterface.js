@@ -130,6 +130,10 @@ function shareIntents(intentLoads, tag, optionsResult) {
         var a = $("<a class='intentLink' href='" + url + "'>");
         $(tag).wrap(a);
 
+        $(tag).one("click", function (e) {
+            e.preventDefault();            
+        });
+
     } else { //not detects any intent (not installed app)
         var link = "https://play.google.com/store/apps/details?id=" + window.package;
 
@@ -147,12 +151,10 @@ function shareIntents(intentLoads, tag, optionsResult) {
         });
     }
 
-    //return all to normality (required on google play links)
-    $(tag).one("click", function (e) {        
-        console.log("first APP REDIRECT");
-        e.preventDefault();
-        e.stopPropagation();
-        //prevent any send click
+//    //return all to normality (required on google play links)
+//    $(tag).one("click", function (e) {        
+//        console.log("first APP REDIRECT");
+    //prevent any send click
 //        setTimeout(function () {
 //            window.preventSendEvents = false;
 //
@@ -160,7 +162,7 @@ function shareIntents(intentLoads, tag, optionsResult) {
 //                $(this).find(" > *:eq(0)").unwrap();
 //            });
 //        }, 500);
-    });
+//    });
 }
 
 function shareToSave() {
@@ -445,7 +447,7 @@ var _ajaxKeyWaiting = 0;
 //not pass obj for function. this is a Device function.
 VotationInterface_shareButton = function (poll, callback) {
     var _args = arguments;
-    
+
     if (!$("#shareButtonLoading").length) {
         $("body").append("<img from='VotationInterface_shareButton' id='shareButtonLoading' class='loading absoluteLoading' src='~img/loader.gif'/>");
     }
@@ -539,7 +541,7 @@ VotationInterface_saveButton = function (action, obj, callback) {
     var _args = arguments;
     console.log("VotationInterface_shareButton screenPoll");
     console.log(obj);
-    
+
     var poll = window.screenPoll;
     var user = window.user;
 
