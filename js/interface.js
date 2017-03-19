@@ -171,7 +171,11 @@ function modalInput(txt, nameValue, callback) {
     //animation
     setTimeout(function () {
         divBackground.css("opacity", 1);
-        divContainer.css("transform", "translate(-50%, -64%)");
+        divContainer.css({
+            '-webkit-transform': "translate(-50%, -64%)",
+            '-ms-transform': "translate(-50%, -64%)",
+            'transform': "translate(-50%, -64%)"
+        });
     }, 100);
 
     $("body").append(divBackground);
@@ -215,7 +219,11 @@ function modalBox(txt, comment, callback, cancelCallback) {
         //animation
         setTimeout(function () {
             divBackground.css("opacity", 1);
-            divContainer.css("transform", "translate(-50%, -64%)");
+            divContainer.css({
+                '-webkit-transform': "translate(-50%, -64%)",
+                '-ms-transform': "translate(-50%, -64%)",
+                'transform': "translate(-50%, -64%)"
+            });
         }, 100);
     }, 1);
 }

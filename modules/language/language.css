@@ -22,12 +22,16 @@
     background: grey;
 }
 
-#languages .img{
+#languages .img, #languages .text{
     position: absolute;
-    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
 
+#languages .img{    
+    top: 50%;
+}
 #languages img{
     zoom: 1.5;
     vertical-align: middle;
@@ -36,8 +40,6 @@
 #languages .text{
     margin-left: 85px;
     top: 49%;
-    position: absolute;
-    transform: translateY(-50%);
 }
 
 #language_icon{
@@ -46,8 +48,11 @@
 #language_icon img{
     position: absolute;
     height: 35px;
-    top: 48%;
-    transform: translateY(-50%);
+    top: 48%;   
     margin-left: 10px;
     cursor: pointer;
+
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 }

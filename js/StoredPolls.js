@@ -130,8 +130,10 @@ function storedPolls_init() {
                     p = leftMove / w;
                     //e.preventDefault();
                     $div.css({
-                        transform: "translateX(" + leftMove + "px)",
-                        opacity: 1 - p
+                        '-webkit-transform': "translateX(" + leftMove + "px)",
+                        '-ms-transform': "translateX(" + leftMove + "px)",
+                        'transform': "translateX(" + leftMove + "px)",
+                        'opacity': 1 - p
                     });
                     if (p > 0.4) {
                         remove.css("color", "red");
@@ -143,7 +145,9 @@ function storedPolls_init() {
 
                 } else {
                     $div.css({
-                        transform: "translateX(0)",
+                        '-webkit-transform': "translateX(0)",
+                        '-ms-transform': "translateX(0)",
+                        'transform': "translateX(0)",
                         opacity: 1
                     });
                 }
@@ -166,8 +170,10 @@ function storedPolls_init() {
 
                 } else {
                     $div.css({
-                        transform: "translateX(0)",
-                        opacity: 1
+                        '-webkit-transform': "translateX(0)",
+                        '-ms-transform': "translateX(0)",
+                        'transform': "translateX(0)",
+                        'opacity': 1
                     });
                     //clickablePoll(query);
                 }
