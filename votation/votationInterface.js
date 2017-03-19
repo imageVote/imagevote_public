@@ -130,7 +130,7 @@ function shareIntents(intentLoads, tag, optionsResult) {
         var a = $("<a class='intentLink' href='" + url + "'>");
         $(tag).wrap(a);
         
-        a.css("pointer-events", "none");
+        $(tag).css("pointer-events", "none");
         a.one("click", function (e) {
             setTimeout(function(){
                 $(tag).css("pointer-events", "auto");
