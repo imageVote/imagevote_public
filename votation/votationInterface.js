@@ -132,7 +132,9 @@ function shareIntents(intentLoads, tag, optionsResult) {
         
         a.css("pointer-events", "none");
         a.one("click", function (e) {
-            $(tag).css("pointer-events", "auto");
+            setTimeout(function(){
+                $(tag).css("pointer-events", "auto");
+            },1);            
         });
 
     } else { //not detects any intent (not installed app)
