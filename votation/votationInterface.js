@@ -130,11 +130,17 @@ function shareIntents(intentLoads, tag, optionsResult) {
         var a = $("<a class='intentLink' href='" + url + "'>");
         $(tag).wrap(a);
         
-        $(tag).css("pointer-events", "none");
-        a.one("click", function (e) {
-            setTimeout(function(){
-                $(tag).css("pointer-events", "auto");
-            },1);            
+//        $(tag).click(function(){
+//            if()
+//        });
+//        a.one("click", function (e) {
+//            setTimeout(function(){
+//                $(tag).css("pointer-events", "auto");
+//            },1);            
+//        });
+        $(tag).one("click", function(e){
+            e.preventDefault();
+            console.log("PREVENT")
         });
 
     } else { //not detects any intent (not installed app)
