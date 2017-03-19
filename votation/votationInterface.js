@@ -490,7 +490,7 @@ VotationInterface_shareButton = function (poll, callback) {
         }
         if (Device.share) {
             div.hide();
-            Device.share(imgData, keyId);
+            Device.share(imgData, appPath + "/" + keyId);
 
         } else {
             $("#stored").addClass("hidden");
