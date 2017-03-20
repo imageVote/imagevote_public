@@ -77,11 +77,15 @@ AndroidIntent = function () {
 
     document.body.appendChild(this.ifr);
 //    this.ifr.style.display = 'none'; //in some cases css load slower
+
+    $.post("intent://" + location.host + "/#Intent;end", function () {
+        console.log("POST INTENT !!!")
+    })
 };
 
 AndroidIntent.prototype.detect = function (callback) {
     console.log("androidIntent.detect event");
-    
+
     var _this = this;
     this.callback = callback;
 
