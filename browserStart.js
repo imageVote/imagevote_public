@@ -78,8 +78,10 @@ AndroidIntent = function () {
     document.body.appendChild(this.ifr);
 //    this.ifr.style.display = 'none'; //in some cases css load slower
 
-    $.post("intent://" + location.host + "/#Intent;end", function () {
-        console.log("POST INTENT !!!")
+    $.post("intent://" + location.host + "/#Intent;end").done(function () {
+        console.log("INTENT LOAD !!!");
+    }).fail(function () {
+        console.log("INTENT FAIL !!!");
     })
 };
 
