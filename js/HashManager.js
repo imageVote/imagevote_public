@@ -1,12 +1,12 @@
 
 function HashManager() {
     var _this = this;
-    
+
     $(window).on('hashchange', function () {
         console.log("hashchange");
         _this.load(location.hash);
     });
-    
+
     //
     this.list = {
         'new': function () {
@@ -21,7 +21,7 @@ function HashManager() {
             //else wrong/old hashes
 //        loadHash("home");
 
-            VotationInterface_addButtons();
+            new VotationButtons();
             $("#cancel, #usersButton").hide();
 
             //headers
@@ -39,6 +39,21 @@ function HashManager() {
             newPollView();
         }
     };
+
+    //on start:
+    $(document).ready(function () {
+        if (!screenPoll.key) {
+            //LOAD HASH after know is key or not to handle function calls
+            if (location.hash) {
+                console.log("lodHash() without key");
+                _this.loadHashData();
+            } else {
+                //defaultPage on location.hash from java
+                console.log("!key and !location.hash");
+                _this.defaultPage();
+            }
+        }
+    })
 }
 
 //prevent large urls and device url confusions
@@ -116,4 +131,32 @@ HashManager.prototype.load = function (hash) {
     if (error.length > 1) {
         notice(transl(error[1]));
     }
+};
+
+HashManager.prototype.loadHashData = function () {
+    console.log("loadHashData of: " + location.hash);
+    var func = location.hash.split("#")[1];
+    if (func && window[func]) {
+        //if is funcion (like loading), prevent go #home
+        window[func]();
+
+    } else {
+        this.load(location.hash);
+        console.log(func + "() was not a function -> hashChanged()");
+    }
+};
+
+HashManager.prototype.defaultPage = function () {
+    this.update("home");
+    $('html').removeClass('translucent');
+};
+
+//from DEVICE
+HashManager.prototype.resume = function () {
+    stopFlash();
+    // only if loading
+    if ($("#loading:visible").length && !$("html").hasClass("translucent")) {
+        this.defaultPage();
+    }
+    $("#send").removeAttr("disabled");
 };

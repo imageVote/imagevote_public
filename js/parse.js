@@ -239,7 +239,7 @@ function clickablePoll(query, keyId, url) {
 
             //link
             var link = "http://" + appPath + "/" + keyId;
-            if (Device || localhost) {
+            if (window.Device || window.localhost) {
                 //prevent hash change event
                 link = location.href.split("#")[0].split("?")[0] + "#key=" + keyId;
             }
