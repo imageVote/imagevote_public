@@ -76,13 +76,13 @@ AndroidIntent = function () {
     };
 
     document.body.appendChild(this.ifr);
-//    this.ifr.style.display = 'none'; //in some cases css load slower
+    this.ifr.style.display = 'none'; //in some cases css load slower
 
-    $.post("intent://" + location.host + "/#Intent;end").done(function () {
-        console.log("INTENT LOAD !!!");
-    }).fail(function () {
-        console.log("INTENT FAIL !!!");
-    })
+//    $.post("intent://" + location.host + "/#Intent;end").done(function () {
+//        console.log("INTENT LOAD !!!");
+//    }).fail(function () {
+//        console.log("INTENT FAIL !!!");
+//    });
 };
 
 AndroidIntent.prototype.detect = function (callback) {
