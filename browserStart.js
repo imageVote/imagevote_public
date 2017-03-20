@@ -64,7 +64,9 @@ AndroidIntent = function () {
 
     this.isAndroidIntent = null;
     this.ifr = document.createElement('iframe');
-    this.ifr.src = "intent://" + location.host + "/#Intent";
+//    this.ifr.src = "intent://" + location.host + "/#Intent";
+    this.ifr.src = "http://" + location.host + "/~share";
+    console.log(this.ifr.src)
 
     //if load: means intent protocol was not found //ONLY WILL WORK ON ANDROID DEVICE !!
     this.ifr.onload = function () {
@@ -72,11 +74,11 @@ AndroidIntent = function () {
         _this.isAndroidIntent = false;
 
         console.log("iframe onload - intent protocol seems not work -> redirect (my 2.3 is exception?)");
-        document.body.removeChild(_this.ifr); // remove the iframe element        
+//        document.body.removeChild(_this.ifr); // remove the iframe element        
     };
 
     document.body.appendChild(this.ifr);
-    this.ifr.style.display = 'none'; //in some cases css load slower
+//    this.ifr.style.display = 'none'; //in some cases css load slower
 
 //    $.post("intent://" + location.host + "/#Intent;end").done(function () {
 //        console.log("INTENT LOAD !!!");
