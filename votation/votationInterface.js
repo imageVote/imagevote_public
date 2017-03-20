@@ -119,8 +119,9 @@ function shareIntents(intentLoads, tag, optionsResult) {
                 extra += "_" + votes;
             }
         }
-
-        var url = "intent://" + location.host + "/share" + extra + location.pathname + "/#Intent;"
+        
+        //add intent to share but show image too        
+        var url = "intent://" + location.host + "/~share#" + extra + location.pathname + "/#Intent;"
                 + "scheme=http;"
                 + "package=" + window.package + ";"
                 //(empty or wrong code function) if twitter webview, this will redirect to app store but inside browser!
@@ -129,19 +130,6 @@ function shareIntents(intentLoads, tag, optionsResult) {
 
         var a = $("<a class='intentLink' href='" + url + "'>");
         $(tag).wrap(a);
-        
-//        $(tag).click(function(){
-//            if()
-//        });
-//        a.one("click", function (e) {
-//            setTimeout(function(){
-//                $(tag).css("pointer-events", "auto");
-//            },1);            
-//        });
-        $(tag).one("click", function(e){
-            e.preventDefault();
-            console.log("PREVENT")
-        });
 
     } else { //not detects any intent (not installed app)
         var link = "https://play.google.com/store/apps/details?id=" + window.package;
@@ -159,19 +147,6 @@ function shareIntents(intentLoads, tag, optionsResult) {
             window.open(link, "_blank");
         });
     }
-
-//    //return all to normality (required on google play links)
-//    $(tag).one("click", function (e) {        
-//        console.log("first APP REDIRECT");
-    //prevent any send click
-//        setTimeout(function () {
-//            window.preventSendEvents = false;
-//
-//            $(".intentLink").each(function () {
-//                $(this).find(" > *:eq(0)").unwrap();
-//            });
-//        }, 500);
-//    });
 }
 
 function shareToSave() {
