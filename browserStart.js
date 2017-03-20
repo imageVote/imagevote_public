@@ -64,7 +64,7 @@ AndroidIntent = function () {
 
     this.isAndroidIntent = null;
     this.ifr = document.createElement('iframe');
-    this.ifr.src = "intent://" + location.host + "/#Intent;end";
+    this.ifr.src = "intent://" + location.host + "/#Intent";
 
     //if load: means intent protocol was not found //ONLY WILL WORK ON ANDROID DEVICE !!
     this.ifr.onload = function () {
@@ -76,7 +76,7 @@ AndroidIntent = function () {
     };
 
     document.body.appendChild(this.ifr);
-    this.ifr.style.display = 'none'; //in some cases css load slower
+//    this.ifr.style.display = 'none'; //in some cases css load slower
 };
 
 AndroidIntent.prototype.detect = function (callback) {
