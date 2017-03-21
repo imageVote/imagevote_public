@@ -67,10 +67,11 @@ AndroidIntent = function () {
     
 //    var url = "intent://" + location.host + "/#Intent";
 //    var url = "http://" + location.host + "/~share";
-    var url = "intent://" + location.host + "/~share/#Intent;"
-            + "scheme=http;"
-            + "package=" + window.package + ";"
-            + "end";
+//    var url = "intent://" + location.host + "/~share/#Intent;"
+//            + "scheme=http;"
+//            + "package=" + window.package + ";"
+//            + "end";
+    var url = "http://would-you-rather.exists"
     this.ifr.src = url;
     console.log(this.ifr.src)
 
