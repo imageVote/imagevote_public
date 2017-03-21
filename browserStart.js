@@ -64,8 +64,16 @@ AndroidIntent = function () {
 
     this.isAndroidIntent = null;
     this.ifr = document.createElement('iframe');
-//    this.ifr.src = "intent://" + location.host + "/#Intent";
-    this.ifr.src = "http://" + location.host + "/~share";
+    
+//    var url = "intent://" + location.host + "/#Intent";
+//    var url = "http://" + location.host + "/~share";
+    var url = "intent://" + location.host + "/~share/#Intent;"
+            + "scheme=http;"
+            + "package=" + window.package + ";"
+            //(empty or wrong code function) if twitter webview, this will redirect to app store but inside browser!
+            //+ "S.browser_fallback_url=" + escape(fallback_url) + ";"
+            + "end";
+    this.ifr.src = url;
     console.log(this.ifr.src)
 
     //if load: means intent protocol was not found //ONLY WILL WORK ON ANDROID DEVICE !!
