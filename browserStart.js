@@ -64,16 +64,8 @@ AndroidIntent = function () {
 
     this.isAndroidIntent = null;
     this.ifr = document.createElement('iframe');
-    
-//    var url = "intent://" + location.host + "/#Intent";
-//    var url = "http://" + location.host + "/~share";
-//    var url = "intent://" + location.host + "/~share/#Intent;"
-//            + "scheme=http;"
-//            + "package=" + window.package + ";"
-//            + "end";
-    var url = "http://would-you-rather_exists.info"
-    this.ifr.src = url;
-    console.log(this.ifr.src)
+    document.body.appendChild(this.ifr);
+    this.ifr.src = "";
 
     //if load: means intent protocol was not found //ONLY WILL WORK ON ANDROID DEVICE !!
     this.ifr.onload = function () {
@@ -84,7 +76,17 @@ AndroidIntent = function () {
 //        document.body.removeChild(_this.ifr); // remove the iframe element        
     };
 
-    document.body.appendChild(this.ifr);
+    //    var url = "intent://" + location.host + "/#Intent";
+//    var url = "http://" + location.host + "/~share";
+//    var url = "intent://" + location.host + "/~share/#Intent;"
+//            + "scheme=http;"
+//            + "package=" + window.package + ";"
+//            + "end";
+    var url = "http://would-you-rather_exists.info"
+    //this.ifr.src = "";
+    frames[0].window.location = url;
+    console.log(this.ifr.src)
+
 //    this.ifr.style.display = 'none'; //in some cases css load slower
 
 //    $.post("intent://" + location.host + "/#Intent;end").done(function () {
