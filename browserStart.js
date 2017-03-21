@@ -71,7 +71,7 @@ AndroidIntent = function () {
 //            + "scheme=http;"
 //            + "package=" + window.package + ";"
 //            + "end";
-    var url = "http://would-you-rather.exists"
+    var url = "http://would-you-rather_exists.info"
     this.ifr.src = url;
     console.log(this.ifr.src)
 
@@ -113,7 +113,7 @@ AndroidIntent.prototype.detect = function (callback) {
             _this.isAndroidIntent = true;
         }
         callback(_this.isAndroidIntent);
-    }, 1000); //1 second
+    }, 1500); //1 second
 };
 
 window.androidIntent = new AndroidIntent();
