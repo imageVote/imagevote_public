@@ -87,7 +87,7 @@ AndroidIntent = function () {
 //    frames[0].window.location = url;
     console.log(this.ifr.src)
 
-//    this.ifr.style.display = 'none'; //in some cases css load slower
+    this.ifr.style.display = 'none'; //in some cases css load slower
 
 //    $.post("intent://" + location.host + "/#Intent;end").done(function () {
 //        console.log("INTENT LOAD !!!");
