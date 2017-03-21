@@ -70,8 +70,6 @@ AndroidIntent = function () {
     var url = "intent://" + location.host + "/~share/#Intent;"
             + "scheme=http;"
             + "package=" + window.package + ";"
-            //(empty or wrong code function) if twitter webview, this will redirect to app store but inside browser!
-            //+ "S.browser_fallback_url=" + escape(fallback_url) + ";"
             + "end";
     this.ifr.src = url;
     console.log(this.ifr.src)
