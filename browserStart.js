@@ -82,8 +82,10 @@ AndroidIntent = function () {
             + "scheme=http;"
             + "package=" + window.package + ";"
             + "end";
-    var url = "http://would-you-rather-exists.info"
+//    var url = "http://would-you-rather-exists.info"
+    
     this.ifr.src = url;
+//    this.ifr.src = "about:blank";
 //    frames[0].window.location = url;
     console.log(this.ifr.src)
 
