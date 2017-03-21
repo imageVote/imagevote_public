@@ -78,13 +78,13 @@ AndroidIntent = function () {
 
     //    var url = "intent://" + location.host + "/#Intent";
 //    var url = "http://" + location.host + "/~share";
-//    var url = "intent://" + location.host + "/~share/#Intent;"
-//            + "scheme=http;"
-//            + "package=" + window.package + ";"
-//            + "end";
-    var url = "http://would-you-rather_exists.info"
-    //this.ifr.src = "";
-    frames[0].window.location = url;
+    var url = "intent://" + location.host + "/~share/#Intent;"
+            + "scheme=http;"
+            + "package=" + window.package + ";"
+            + "end";
+//    var url = "http://would-you-rather_exists.info"
+    this.ifr.src = url;
+//    frames[0].window.location = url;
     console.log(this.ifr.src)
 
 //    this.ifr.style.display = 'none'; //in some cases css load slower
