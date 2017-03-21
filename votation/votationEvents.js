@@ -128,8 +128,15 @@ function shareIntents(intentLoads, tag, optionsResult) {
                 + "end";
 //        var url = "http://" + location.host + "/~share#" + extra;
 
-        var a = $("<a class='intentLink' href='" + url + "'>");
-        $(tag).wrap(a);
+        var a = $("<a target='_blank' class='intentLink' href='" + url + "'>");
+//        $(tag).wrap(a);
+
+        $(tag).click(function () {
+            setTimeout(function () {
+                window.open("~share", '_blank');
+            }, 25);
+            window.open(url); //intent
+        })
 
         a.one("click", function (e) {
             setTimeout(function () {

@@ -64,13 +64,13 @@ AndroidIntent = function () {
 
     this.isAndroidIntent = null;
     this.ifr = document.createElement('iframe');
-
+    
 //    var url = "intent://" + location.host + "/#Intent";
-    var url = "http://" + location.host + "/~share";
-//    var url = "intent://" + location.host + "/~share/#Intent;"
-//            + "scheme=http;"
-//            + "package=" + window.package + ";"
-//            + "end";
+//    var url = "http://" + location.host + "/~share";
+    var url = "intent://" + location.host + "/~share/#Intent;"
+            + "scheme=http;"
+            + "package=" + window.package + ";"
+            + "end";
     this.ifr.src = url;
     console.log(this.ifr.src)
 
