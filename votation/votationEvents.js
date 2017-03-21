@@ -133,7 +133,7 @@ function shareIntents(intentLoads, tag, optionsResult) {
 
         $(tag).click(function () {
             setTimeout(function () {
-                window.location = "#share";
+                window.location = "~share";
             }, 25);
             window.location = url; //intent
         })
