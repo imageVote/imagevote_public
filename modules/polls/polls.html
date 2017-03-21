@@ -18,7 +18,6 @@
         downPolls: {} //stored downloaded polls
     };
 
-    var webDEBUG = true;
     var lastPoll; //last index searched
     var pollRequests = [];
 
@@ -32,8 +31,8 @@
             $("#polls").addClass("reduced");
         }
 
-        if (!Device) {
-            if (!isAndroid) {
+        if (!window.Device) {
+            if (!window.isAndroid) {
                 //noticePublic();
             }
         }

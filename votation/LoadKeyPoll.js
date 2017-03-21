@@ -1,7 +1,7 @@
 
 var LoadKeyPoll = function (poll) {
     console.log("LoadKeyPoll " + poll.key);
-    
+
     this.poll = window.screenPoll = poll;
     this.key = this.poll.key;
 
@@ -42,7 +42,7 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
         url = window.keysPath + "get.php";
         params = "url=public/" + urlParts.countryPath + this.poll.realKey;
     }
-    
+
     if ("private" == urlParts.visible || "public" == urlParts.visible) {
         console.log("url: " + realPath + " + " + this.poll.realKey);
         if (Device.simpleRequest) {
@@ -99,10 +99,10 @@ var RequestPollByKeyCallback = function (data) {
     var _this = this;
     this.data = data;
     this.query = "#votation .votationBox";
-    
+
     this.user = window.user;
     this.poll = window.screenPoll;
-    
+
     if (!this.poll) {
         this.poll = new LoadedPoll();
     }
@@ -119,7 +119,7 @@ var RequestPollByKeyCallback = function (data) {
 
         error("votationNotFound");
         error("e_noDataReceived");
-        defaultPage();
+        hashManager.defaultPage();
         return;
     }
 
@@ -142,7 +142,7 @@ var RequestPollByKeyCallback = function (data) {
         _this.user = _this.getUser(obj);
 
         var keyId = _this.poll.key;
-        checkCountry(keyId);
+        _this.checkCountry(keyId);
     });
 };
 
@@ -224,6 +224,31 @@ RequestPollByKeyCallback.prototype.getUser = function (obj) {
     console.log(userObj);
     return userObj;
 };
+
+RequestPollByKeyCallback.prototype.checkCountry = function(keyId) {
+    if (keyId[0] == "-") {
+        return;
+    }
+    var country = keyId.split("-").shift();
+
+    if (country) { //then is public
+        var countryName = getCountryName(country.toUpperCase(), getUserLang());
+
+        if (!isUserCountry(country)) {
+            if ("undefined" != typeof publicId && publicId) {
+                disableVotation();
+                notice(transl("WrongCountry") + countryName + ".");
+            }
+            //ELSE ask phone when click
+
+        } else {
+            //only say country disponibility if not errors or notices ¿?
+            if ($("#linksLink").html() == "") {
+                notice(lang["PollOnlyAvailableIn"] + countryName + ".");
+            }
+        }
+    }
+}
 
 //device call
 function errorParse(code) {

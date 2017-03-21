@@ -2,10 +2,10 @@
 // DEVICES REDIRECTION:
 //this not works on "request desktop site" option!
 var ua = navigator.userAgent.toLowerCase();
-isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
-iPhone = ua.indexOf("iPhone") > -1 || ua.indexOf("iPod") > -1;
+window.isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+window.iPhone = ua.indexOf("iPhone") > -1 || ua.indexOf("iPod") > -1;
 
-//if (isAndroid) {
+//if (window.isAndroid) {
 //    console.log("isAndroid");
 //    //WARN: THIS NOT WORK PROPERLY IF BROWSER APP ID NOT INITIALIZED
 //
@@ -52,41 +52,59 @@ iPhone = ua.indexOf("iPhone") > -1 || ua.indexOf("iPod") > -1;
 //        link.attr("href", url);
 //    });
 //
-//} else if (iPhone) {
+//} else if (window.iPhone) {
 //    console.log("TODO: iPhone");
 //    //TODO: iPhone
 //}
 
 //http://stackoverflow.com/questions/6567881/how-can-i-detect-if-an-app-is-installed-on-an-android-device-from-within-a-web-p
 //detect protocol works
-function detectAndroidIntent(intentUrl, callback, time) {
-    var done = false;
+AndroidIntent = function () {
+    var _this = this;
 
-    var ifr = document.createElement('iframe');
-    ifr.src = intentUrl;
-    
+    this.isAndroidIntent = null;
+    this.ifr = document.createElement('iframe');
+    this.ifr.src = "intent://" + location.host + "/#Intent";
+
     //if load: means intent protocol was not found //ONLY WILL WORK ON ANDROID DEVICE !!
-    ifr.onload = function () {
+    this.ifr.onload = function () {
         console.log("INTENT ONLOAD");
-        done = true;
-        clearTimeout(timeout);
-        console.log("iframe onload - intent protocol seems not work -> redirect (my 2.3 is exception?)");
-        callback(false); //intent error on load
-        document.body.removeChild(ifr); // remove the iframe element        
-    };
-    ifr.style.display = 'none'; //in some cases css load slower
-    document.body.appendChild(ifr);
+        _this.isAndroidIntent = false;
 
-    //remove
-    if (!time) {
-        time = 1000;  // 100ms. timeout failed - but protocol intent shouldn't have internet times problems
+        console.log("iframe onload - intent protocol seems not work -> redirect (my 2.3 is exception?)");
+        document.body.removeChild(_this.ifr); // remove the iframe element        
+    };
+
+    document.body.appendChild(this.ifr);
+    this.ifr.style.display = 'none'; //in some cases css load slower
+
+//    $.post("intent://" + location.host + "/#Intent;end").done(function () {
+//        console.log("INTENT LOAD !!!");
+//    }).fail(function () {
+//        console.log("INTENT FAIL !!!");
+//    });
+};
+
+AndroidIntent.prototype.detect = function (callback) {
+    console.log("androidIntent.detect event");
+
+    var _this = this;
+    this.callback = callback;
+
+    //this calls multiple times anyway because timeout is needed
+    if (null !== this.isAndroidIntent) {
+        callback(this.isAndroidIntent);
+        return;
     }
-    //timeout
-    clearTimeout(timeout);
-    var timeout = setTimeout(function () {
-        if (!done) {
-            document.body.removeChild(ifr); // remove the iframe element
-            callback(true); //intent loads
+
+    // or timeout
+    setTimeout(function () {
+        if (null === _this.isAndroidIntent) {
+            //document.body.removeChild(_this.ifr); // remove the iframe element
+            _this.isAndroidIntent = true;
         }
-    }, time);
-}
+        callback(_this.isAndroidIntent);
+    }, 1000); //1 second
+};
+
+window.androidIntent = new AndroidIntent();

@@ -3,16 +3,6 @@ var alternative = {
 //    keysPath: "dl.dropboxusercontent.com/u/70345137/key/"
 };
 
-//from DEVICE
-function resume() {
-    stopFlash();
-    // only if loading
-    if ($("#loading:visible").length && !$("html").hasClass("translucent")) {
-        defaultPage();
-    }
-    $("#send").removeAttr("disabled");
-}
-
 var userLanguage = window.navigator.userLanguage || window.navigator.language;
 
 function getEvent(e) {

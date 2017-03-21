@@ -38,7 +38,7 @@
     $("#o_countrySelect select").change(function () {
         var country = screenPoll.country = $(this).val();
         screenPoll.style.country = country;
-        if (country != originalCountry) {
+        if (country != window.originalCountry) {
             shareToSave();
         } else {
             saveToShare();
@@ -68,7 +68,7 @@
 //    $("#externalLink").change(function () {
 //        style.link = $(this).val();
 //
-//        if (style.link != originalLink) {
+//        if (style.link != window.originalLink) {
 //            shareToSave();
 //        } else {
 //            saveToShare();
