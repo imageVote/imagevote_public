@@ -203,7 +203,7 @@ VotationButtons.prototype.VotationButtons_users = function () {
 
 var _ajaxKeyWaiting = 0;
 //not pass obj for function. this is a Device function.
-votationEvents_shareButton = function (poll, callback) {
+var votationEvents_shareButton = function (poll, callback) {
     var _args = arguments;
 
     if (!$("#shareButtonLoading").length) {
@@ -252,8 +252,7 @@ votationEvents_shareButton = function (poll, callback) {
         }
         if (Device.share) {
             div.hide();
-//            Device.share(imgData.replace("data:image/png;base64,", ""), keyId);
-            Device.share(imgData.substring(22), keyId);
+            votationEvents_deviceShare(keyId, imgData);
 
         } else {
             $("#stored").addClass("hidden");
@@ -267,8 +266,14 @@ votationEvents_shareButton = function (poll, callback) {
     });
 };
 
+//device function too !
+var votationEvents_deviceShare = function (keyId, imgData) {
+    //Device.share(imgData.replace("data:image/png;base64,", ""), keyId);
+    Device.share(imgData.substring(22), keyId);
+}
+
 var savingPoll = false;
-votationEvents_saveButton = function (action, obj, callback) {
+var votationEvents_saveButton = function (action, obj, callback) {
     var _args = arguments;
     console.log("votationEvents_shareButton screenPoll");
     console.log(obj);
@@ -450,7 +455,7 @@ votationEvents_saveButton = function (action, obj, callback) {
     savingPoll = false;
 };
 
-votationEvents_notSave = function (why) {
+var votationEvents_notSave = function (why) {
     console.log("votationEvents_notSave: " + why);
     $("#send").removeAttr("disabled");
 };
