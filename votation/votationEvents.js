@@ -89,7 +89,7 @@ function checkShareEnvirontment(tag, optionsResult) {
     if (window.isAndroid && !window.Device && navigator.plugins.length == 0) {
         console.log("window.isAndroid && !window.Device " + tag);
         //http://stackoverflow.com/questions/6567881/how-can-i-detect-if-an-app-is-installed-on-an-android-device-from-within-a-web-p
-        
+
         androidIntent.detect(function (intentLoads) {
             console.log("intentLoads: " + intentLoads);
             window.intentLoads = intentLoads;
@@ -120,11 +120,15 @@ function shareIntents(intentLoads, tag, optionsResult) {
             }
         }
 
-        var url = "intent://" + location.host + "/share" + extra + location.pathname + "/#Intent;"
+//        var url = "intent://" + location.host + "/share" + extra + location.pathname + "/#Intent;"
+//                + "scheme=http;"
+//                + "package=" + window.package + ";"
+//                //(empty or wrong code function) if twitter webview, this will redirect to app store but inside browser!
+//                //+ "S.browser_fallback_url=" + escape(fallback_url) + ";"
+//                + "end";
+        var url = "intent://" + location.host + "/~share#" + extra + location.pathname +"/#Intent;"
                 + "scheme=http;"
                 + "package=" + window.package + ";"
-                //(empty or wrong code function) if twitter webview, this will redirect to app store but inside browser!
-                //+ "S.browser_fallback_url=" + escape(fallback_url) + ";"
                 + "end";
 
         var a = $("<a class='intentLink' href='" + url + "'>");
@@ -140,8 +144,8 @@ function shareIntents(intentLoads, tag, optionsResult) {
         var link = "https://play.google.com/store/apps/details?id=" + window.package;
 
         $(tag).one("click", function () {
-            modalBox("Usa la la app para compartir la encuesta!",
-                    "La app es gratuita y no requiere de permisos especiales.",
+            modalBox("Usa la app para compartir la encuesta!",
+                    "Descárgala completamente gratis. <br>No requiere de permisos especiales",
                     function () {
                         window.open(link, "_blank");
                     });
@@ -168,7 +172,7 @@ function shareToSave() {
 //ADD functionality
 function AskUserName() {
     var _this = this;
-    
+
     //FORCE enter name to prevent poll problems with troll random url voters
     var votes = null;
     var obj = screenPoll.obj;
