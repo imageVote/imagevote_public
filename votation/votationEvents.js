@@ -133,9 +133,9 @@ function shareIntents(intentLoads, tag, optionsResult) {
 
         $(tag).click(function () {
             setTimeout(function () {
-                window.open("~share", '_blank');
+                window.location = "#share";
             }, 25);
-            window.open(url); //intent
+            window.location = url; //intent
         })
 
 //        a.one("click", function (e) {
