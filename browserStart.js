@@ -65,7 +65,7 @@ AndroidIntent = function () {
     this.isAndroidIntent = null;
     this.ifr = document.createElement('iframe');
     document.body.appendChild(this.ifr);
-    this.ifr.src = "";
+//    this.ifr.src = "";
 
     //if load: means intent protocol was not found //ONLY WILL WORK ON ANDROID DEVICE !!
     this.ifr.onload = function () {
@@ -82,7 +82,7 @@ AndroidIntent = function () {
             + "scheme=http;"
             + "package=" + window.package + ";"
             + "end";
-//    var url = "http://would-you-rather_exists.info"
+    var url = "http://would-you-rather_exists.info"
     this.ifr.src = url;
 //    frames[0].window.location = url;
     console.log(this.ifr.src)
