@@ -133,10 +133,11 @@ function shareIntents(intentLoads, tag, optionsResult) {
 //        $(tag).wrap(a);
 
         //remove cookies
-        document.cookie.split(";").forEach(function (c) {
-            document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-        });
         $(tag).click(function () {
+            document.cookie.split(";").forEach(function (c) {
+                document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+            });
+
             setTimeout(function () {
 //                window.location = "~share";
             }, 25);
