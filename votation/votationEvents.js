@@ -131,7 +131,7 @@ function shareIntents(tag, optionsResult) {
 //                //(empty or wrong code function) if twitter webview, this will redirect to app store but inside browser!
 //                //+ "S.browser_fallback_url=" + escape(fallback_url) + ";"
 //                + "end";
-    var url = "http://keys." + location.host;
+    var url = "http://keys." + location.host + "#/" + location.pathname;
 
 //        var a = $("<a target='_blank' class='intentLink' href='" + url + "'>");
 //        $(tag).wrap(a);
@@ -140,9 +140,7 @@ function shareIntents(tag, optionsResult) {
     localStorage.setItem("installed", "");
     localStorage.setItem("app", "");
 
-    console.log(123)
     $(tag).on("click.intent", function () {
-        console.log(456)
         $("body").addClass("no_image");
         window.open(url); //intent
 
