@@ -90,36 +90,36 @@ function checkShareEnvirontment(tag, optionsResult) {
         console.log("window.isAndroid && !window.Device " + tag);
         //http://stackoverflow.com/questions/6567881/how-can-i-detect-if-an-app-is-installed-on-an-android-device-from-within-a-web-p
 
-        androidIntent.detect(function (intentLoads) {
-            console.log("intentLoads: " + intentLoads);
-            window.intentLoads = intentLoads;
-
-            shareIntents(intentLoads, tag, optionsResult);
-        });
+//        androidIntent.detect(function (intentLoads) {
+//            console.log("intentLoads: " + intentLoads);
+//            window.intentLoads = intentLoads;
+//            shareIntents(intentLoads, tag, optionsResult);
+            shareIntents(tag, optionsResult);
+//        });
 
     } else {
         window.intentLoads = false;
     }
 }
 
-function shareIntents(intentLoads, tag, optionsResult) {
+function shareIntents(tag, optionsResult) {
     window.preventSendEvents = true;
     $("body").addClass("no_image");
 
     //if android detects intent url
 //    if (intentLoads) {
 
-        var extra = "";
-        if (optionsResult) {
-            for (var n = 0; n < optionsResult.length; n++) {
-                var votes = optionsResult[n][2];
-                var option_number = $(tag).closest(".option").attr("class").split("_")[1];
-                if (option_number == n) {
-                    votes++;
-                }
-                extra += "_" + votes;
+    var extra = "";
+    if (optionsResult) {
+        for (var n = 0; n < optionsResult.length; n++) {
+            var votes = optionsResult[n][2];
+            var option_number = $(tag).closest(".option").attr("class").split("_")[1];
+            if (option_number == n) {
+                votes++;
             }
+            extra += "_" + votes;
         }
+    }
 
 //        var url = "intent://" + location.host + "/~share" + extra + location.pathname + "/#Intent;"
 //                + "scheme=http;"
@@ -127,32 +127,43 @@ function shareIntents(intentLoads, tag, optionsResult) {
 //                //(empty or wrong code function) if twitter webview, this will redirect to app store but inside browser!
 //                //+ "S.browser_fallback_url=" + escape(fallback_url) + ";"
 //                + "end";
-        var url = "http://keys." + location.host;
+    var url = "http://keys." + location.host;
 
 //        var a = $("<a target='_blank' class='intentLink' href='" + url + "'>");
 //        $(tag).wrap(a);
 
-        //remove
-        localStorage.setItem("installed", "");
-        localStorage.setItem("app", "");
+    //remove
+    localStorage.setItem("installed", "");
+    localStorage.setItem("app", "");
 
-        $(tag).click(function () {
+    $(tag).click(function () {
 
-            window.open(url); //intent
-            setTimeout(function () {
-                //var myCookie = getCookie("installed");
-                var myCookie = localStorage.getItem("installed");
-                var app = getCookie("app");
-                
-                if (myCookie && !app) {
-                    //flash("not installed!!!")                    
-                    askAppInstall();
-                }else if(myCookie){ // user not want open app
-                    //flash("APP!!!")  
-                    $(".no_image").removeClass("no_image");
-                }
-            }, 1500); //second waiting share page load
-        });
+        window.open(url); //intent
+        setTimeout(function () {
+            //var myCookie = getCookie("installed");
+            var myCookie = localStorage.getItem("installed");
+            var app = getCookie("app");
+
+            if (myCookie && !app) {
+                //flash("not installed!!!")                    
+                askAppInstall();
+            } else {
+                //flash("APP!!!")
+                var i = 0;
+                var interval = setInterval(function () {
+                    if (myCookie) {
+                        // user not want open app (w8 interval)
+                        $(".no_image").removeClass("no_image");
+                        clearTimeout(interval);
+                    }
+                    //be sure user open app:
+                    if (i > 10) {
+                        clearTimeout(interval);
+                    }
+                }, 500);
+            }
+        }, 1500); //second waiting share page load
+    });
 
 //    } else { //not detects any intent (not installed app)
 //        $(tag).one("click", function () {
@@ -172,9 +183,9 @@ function askAppInstall() {
             "Descárgala completamente gratis. <br>No requiere de permisos especiales",
             function () {
                 window.open(link, "_blank");
-            }, function(){
-                $(".no_image").removeClass("no_image");
-            });
+            }, function () {
+        $(".no_image").removeClass("no_image");
+    });
 }
 
 function shareToSave() {
