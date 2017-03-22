@@ -136,7 +136,8 @@ function shareIntents(intentLoads, tag, optionsResult) {
             setTimeout(function () {
 //                window.location = "~share";
             }, 25);
-            window.open(url, '_blank'); //intent
+            window.open(url); //intent
+//            window.open(url, '_blank'); //intent
             setTimeout(function () {
                 var myCookie = getCookie("installed");
                 if (myCookie) {
