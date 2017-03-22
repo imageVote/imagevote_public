@@ -80,26 +80,27 @@ function saveToShare() {
 }
 
 function checkShareEnvirontment(tag, optionsResult) {
-    if (window.intentLoads) {
-        shareIntents(window.intentLoads, tag, optionsResult);
-        return;
-    }
-
-    //ANDROID BROWSER CASE (or TWITTER APP!)
-    if (window.isAndroid && !window.Device && navigator.plugins.length == 0) {
-        console.log("window.isAndroid && !window.Device " + tag);
-        //http://stackoverflow.com/questions/6567881/how-can-i-detect-if-an-app-is-installed-on-an-android-device-from-within-a-web-p
-
-//        androidIntent.detect(function (intentLoads) {
-//            console.log("intentLoads: " + intentLoads);
-//            window.intentLoads = intentLoads;
-//            shareIntents(intentLoads, tag, optionsResult);
-        shareIntents(tag, optionsResult);
-//        });
-
-    } else {
-        window.intentLoads = false;
-    }
+//    if (window.intentLoads) {
+//        shareIntents(window.intentLoads, tag, optionsResult);
+//        return;
+//    }
+//
+//    //ANDROID BROWSER CASE (or TWITTER APP!)
+//    if (window.isAndroid && !window.Device && navigator.plugins.length == 0) {
+//        console.log("window.isAndroid && !window.Device " + tag);
+//        //http://stackoverflow.com/questions/6567881/how-can-i-detect-if-an-app-is-installed-on-an-android-device-from-within-a-web-p
+//
+////        androidIntent.detect(function (intentLoads) {
+////            console.log("intentLoads: " + intentLoads);
+////            window.intentLoads = intentLoads;
+////            shareIntents(intentLoads, tag, optionsResult);
+//        shareIntents(tag, optionsResult);
+////        });
+//
+//    } else {
+//        window.intentLoads = false;
+//    }
+    shareIntents(tag, optionsResult);
 }
 
 function shareIntents(tag, optionsResult) {
@@ -135,8 +136,7 @@ function shareIntents(tag, optionsResult) {
     //remove
     localStorage.setItem("installed", "");
     localStorage.setItem("app", "");
-    
-    console.log("tag: " + tag)
+
     $(tag).click(function () {
 
         window.open(url); //intent
