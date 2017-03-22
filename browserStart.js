@@ -83,7 +83,7 @@ AndroidIntent = function () {
             + "package=" + window.package + ";"
             + "end";
 //    var url = "http://would-you-rather-exists.info"
-    var url = "http://share.would-you-rather.tk";
+    var url = "http://keys.would-you-rather.tk";
 
     this.ifr.src = url;
 //    this.ifr.src = "about:blank";
