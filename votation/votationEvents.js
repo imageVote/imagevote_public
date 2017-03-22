@@ -139,7 +139,8 @@ function shareIntents(tag, optionsResult) {
     //remove
     localStorage.setItem("installed", "");
     localStorage.setItem("app", "");
-
+    
+    console.log(123)
     $(tag).on("click.intent", function () {
         $("body").addClass("no_image");
         window.open(url); //intent
