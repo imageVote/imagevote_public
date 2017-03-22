@@ -146,7 +146,7 @@ function shareIntents(tag, optionsResult) {
             var app = getCookie("app");
 
             if (myCookie && !app) {
-                //flash("not installed!!!")
+                flash("App not installed")
                 if(window.askAppInstallDone){
                     $(".no_image").removeClass("no_image");
                     return;
@@ -154,7 +154,7 @@ function shareIntents(tag, optionsResult) {
                 window.askAppInstallDone = true;
                 askAppInstall();
             } else {
-                //flash("APP!!!")
+                flash("App in Device")
                 var i = 0;
                 var interval = setInterval(function () {
                     if (myCookie) {
