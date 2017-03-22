@@ -55,7 +55,7 @@ html.translucent{
     margin-top: 0;
 }
 
-.translucent #header, .translucent #image, .translucent #mainPage > div{
+.translucent #header, .translucent #image, .translucent #mainPage > div, .no_image #image{
     display: none;
 }
 

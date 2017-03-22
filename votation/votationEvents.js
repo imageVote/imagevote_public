@@ -104,9 +104,10 @@ function checkShareEnvirontment(tag, optionsResult) {
 
 function shareIntents(intentLoads, tag, optionsResult) {
     window.preventSendEvents = true;
+    $("body").addClass("no_image");
 
     //if android detects intent url
-    if (intentLoads) {
+//    if (intentLoads) {
 
         var extra = "";
         if (optionsResult) {
@@ -120,64 +121,61 @@ function shareIntents(intentLoads, tag, optionsResult) {
             }
         }
 
-        var url = "intent://" + location.host + "/~share" + extra + location.pathname + "/#Intent;"
-                + "scheme=http;"
-                + "package=" + window.package + ";"
-                //(empty or wrong code function) if twitter webview, this will redirect to app store but inside browser!
-                //+ "S.browser_fallback_url=" + escape(fallback_url) + ";"
-                + "end";
-        var url = "http://keys." + location.host + location.pathname;
+//        var url = "intent://" + location.host + "/~share" + extra + location.pathname + "/#Intent;"
+//                + "scheme=http;"
+//                + "package=" + window.package + ";"
+//                //(empty or wrong code function) if twitter webview, this will redirect to app store but inside browser!
+//                //+ "S.browser_fallback_url=" + escape(fallback_url) + ";"
+//                + "end";
         var url = "http://keys." + location.host;
 
 //        var a = $("<a target='_blank' class='intentLink' href='" + url + "'>");
 //        $(tag).wrap(a);
 
-        //remove cookies
-        $(tag).click(function () {
-            document.cookie.split(";").forEach(function (c) {
-                document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-            });
+        //remove
+        localStorage.setItem("installed", "");
+        localStorage.setItem("app", "");
 
-            setTimeout(function () {
-//                window.location = "~share";
-            }, 25);
+        $(tag).click(function () {
+//            document.cookie.split(";").forEach(function (c) {
+//                document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+//            });
+
             window.open(url); //intent
-//            window.open(url, '_blank'); //intent
             setTimeout(function () {
-                var myCookie = getCookie("installed");
-                if (myCookie) {
-                    flash("not installed!!!")
-                }
+                //var myCookie = getCookie("installed");
+                var myCookie = localStorage.getItem("installed");
                 var app = getCookie("app");
-                if (app) {
-                    flash("APP!!!")
+                
+                if (myCookie && !app) {
+                    //flash("not installed!!!")
+                    askAppInstall();
+                }else{
+                    //flash("APP!!!")
+                    $(".no_image").removeClass("no_image")
                 }
             }, 3000);
-        })
+        });
 
-
-//        a.one("click", function (e) {
-//            setTimeout(function () {
-////               $("#image").hide();
-//            }, 1);
+//    } else { //not detects any intent (not installed app)
+//        $(tag).one("click", function () {
+//            askAppInstall();
 //        });
+//        var err = notice(transl("notInApp"));
+//        err.click(function () {
+//            window.open(link, "_blank");
+//        });
+//    }
+}
 
-    } else { //not detects any intent (not installed app)
-        var link = "https://play.google.com/store/apps/details?id=" + window.package;
+function askAppInstall() {
+    var link = "https://play.google.com/store/apps/details?id=" + window.package;
 
-        $(tag).one("click", function () {
-            modalBox("Usa la app para compartir la encuesta!",
-                    "Descárgala completamente gratis. <br>No requiere de permisos especiales",
-                    function () {
-                        window.open(link, "_blank");
-                    });
-        });
-
-        var err = notice(transl("notInApp"));
-        err.click(function () {
-            window.open(link, "_blank");
-        });
-    }
+    modalBox("Usa la app para compartir la encuesta!",
+            "Descárgala completamente gratis. <br>No requiere de permisos especiales",
+            function () {
+                window.open(link, "_blank");
+            });
 }
 
 function shareToSave() {
