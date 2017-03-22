@@ -145,11 +145,10 @@ function shareIntents(intentLoads, tag, optionsResult) {
                 var app = getCookie("app");
                 
                 if (myCookie && !app) {
-                    //flash("not installed!!!")
+                    //flash("not installed!!!")                    
                     askAppInstall();
                 }else{
-                    //flash("APP!!!")
-                    $(".no_image").removeClass("no_image")
+                    //flash("APP!!!")                    
                 }
             }, 3000);
         });
@@ -172,6 +171,8 @@ function askAppInstall() {
             "Descárgala completamente gratis. <br>No requiere de permisos especiales",
             function () {
                 window.open(link, "_blank");
+            }, function(){
+                $(".no_image").removeClass("no_image");
             });
 }
 
