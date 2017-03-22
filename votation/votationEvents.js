@@ -137,9 +137,6 @@ function shareIntents(intentLoads, tag, optionsResult) {
         localStorage.setItem("app", "");
 
         $(tag).click(function () {
-//            document.cookie.split(";").forEach(function (c) {
-//                document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-//            });
 
             window.open(url); //intent
             setTimeout(function () {

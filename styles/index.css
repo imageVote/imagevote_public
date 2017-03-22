@@ -56,7 +56,7 @@ html.translucent{
 }
 
 .translucent #header, .translucent #image, .translucent #mainPage > div, .no_image #image{
-    display: none;
+    display: none !important;
 }
 
 #header{
