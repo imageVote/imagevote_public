@@ -159,6 +159,7 @@ function shareIntents(tag, optionsResult) {
                 flash("App in Device")
                 var i = 0;
                 var interval = setInterval(function () {
+                    myCookie = localStorage.getItem("installed");
                     if (myCookie) {
                         // user not want open app (w8 interval)
                         $(".no_image").removeClass("no_image");
@@ -168,6 +169,7 @@ function shareIntents(tag, optionsResult) {
                     if (i > 20) { //10 seconds
                         clearTimeout(interval);
                     }
+                    i++;
                 }, 500);
             }
         }, 1500); //second waiting share page load
