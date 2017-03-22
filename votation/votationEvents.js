@@ -147,10 +147,11 @@ function shareIntents(intentLoads, tag, optionsResult) {
                 if (myCookie && !app) {
                     //flash("not installed!!!")                    
                     askAppInstall();
-                }else{
-                    //flash("APP!!!")                    
+                }else if(myCookie){ // user not want open app
+                    //flash("APP!!!")  
+                    $(".no_image").removeClass("no_image");
                 }
-            }, 3000);
+            }, 1500); //second waiting share page load
         });
 
 //    } else { //not detects any intent (not installed app)
