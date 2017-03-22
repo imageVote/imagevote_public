@@ -70,7 +70,7 @@ AndroidIntent = function () {
     //if load: means intent protocol was not found //ONLY WILL WORK ON ANDROID DEVICE !!
     this.ifr.onload = function () {
         console.log("INTENT ONLOAD");
-        _this.isAndroidIntent = false;
+//        _this.isAndroidIntent = false;
 
         console.log("iframe onload - intent protocol seems not work -> redirect (my 2.3 is exception?)");
 //        document.body.removeChild(_this.ifr); // remove the iframe element        
