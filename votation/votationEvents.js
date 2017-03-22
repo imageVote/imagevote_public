@@ -148,6 +148,10 @@ function shareIntents(intentLoads, tag, optionsResult) {
                 if (myCookie) {
                     flash("not installed!!!")
                 }
+                var app = getCookie("app");
+                if (app) {
+                    flash("APP!!!")
+                }
             }, 3000);
         })
 
