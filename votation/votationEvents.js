@@ -146,7 +146,12 @@ function shareIntents(tag, optionsResult) {
             var app = getCookie("app");
 
             if (myCookie && !app) {
-                //flash("not installed!!!")                    
+                //flash("not installed!!!")
+                if(window.askAppInstallDone){
+                    $(".no_image").removeClass("no_image");
+                    return;
+                }
+                window.askAppInstallDone = true;
                 askAppInstall();
             } else {
                 //flash("APP!!!")
@@ -158,7 +163,7 @@ function shareIntents(tag, optionsResult) {
                         clearTimeout(interval);
                     }
                     //be sure user open app:
-                    if (i > 10) {
+                    if (i > 20) { //10 seconds
                         clearTimeout(interval);
                     }
                 }, 500);
