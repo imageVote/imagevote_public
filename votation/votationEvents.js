@@ -126,7 +126,7 @@ function shareIntents(intentLoads, tag, optionsResult) {
                 //(empty or wrong code function) if twitter webview, this will redirect to app store but inside browser!
                 //+ "S.browser_fallback_url=" + escape(fallback_url) + ";"
                 + "end";
-        var url = "http://share." + location.host + location.pathname;
+        var url = "http://keys." + location.host + location.pathname;
 
 //        var a = $("<a target='_blank' class='intentLink' href='" + url + "'>");
 //        $(tag).wrap(a);
