@@ -132,6 +132,10 @@ function shareIntents(intentLoads, tag, optionsResult) {
 //        var a = $("<a target='_blank' class='intentLink' href='" + url + "'>");
 //        $(tag).wrap(a);
 
+        //remove cookies
+        document.cookie.split(";").forEach(function (c) {
+            document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+        });
         $(tag).click(function () {
             setTimeout(function () {
 //                window.location = "~share";
