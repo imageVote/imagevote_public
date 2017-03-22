@@ -142,6 +142,7 @@ function shareIntents(tag, optionsResult) {
     
     console.log(123)
     $(tag).on("click.intent", function () {
+        console.log(456)
         $("body").addClass("no_image");
         window.open(url); //intent
 
