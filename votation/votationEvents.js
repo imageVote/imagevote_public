@@ -104,6 +104,10 @@ function checkShareEnvirontment(tag, optionsResult) {
 }
 
 function shareIntents(tag, optionsResult) {
+    if (window.notAskAppIntent) {
+        return;
+    }
+
     window.preventSendEvents = true;
 
     //if android detects intent url
@@ -139,7 +143,7 @@ function shareIntents(tag, optionsResult) {
     $(tag).on("click.intent", function () {
         $("body").addClass("no_image");
         window.open(url); //intent
-        
+
         setTimeout(function () {
             //var myCookie = getCookie("installed");
             var myCookie = localStorage.getItem("installed");
@@ -149,7 +153,9 @@ function shareIntents(tag, optionsResult) {
                 //flash("App not installed")
                 if (window.notAskAppInstall) {
                     $(".no_image").removeClass("no_image");
+
                     $("*").off(".intent");
+                    window.notAskAppIntent = true;
                     return;
                 }
                 window.notAskAppInstall = true;
@@ -165,7 +171,9 @@ function shareIntents(tag, optionsResult) {
                         // user not want open app (w8 interval)
                         $(".no_image").removeClass("no_image");
                         clearTimeout(interval);
+
                         $("*").off(".intent");
+                        window.notAskAppIntent = true;
                     }
                     //be sure user open app:
                     if (i > 20) { //10 seconds
