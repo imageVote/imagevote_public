@@ -148,7 +148,7 @@ function shareIntents(intentLoads, tag, optionsResult) {
                 if (myCookie) {
                     flash("not installed!!!")
                 }
-            }, 2000);
+            }, 3000);
         })
 
 
