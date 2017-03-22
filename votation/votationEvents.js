@@ -94,7 +94,7 @@ function checkShareEnvirontment(tag, optionsResult) {
 //            console.log("intentLoads: " + intentLoads);
 //            window.intentLoads = intentLoads;
 //            shareIntents(intentLoads, tag, optionsResult);
-            shareIntents(tag, optionsResult);
+        shareIntents(tag, optionsResult);
 //        });
 
     } else {
@@ -109,17 +109,17 @@ function shareIntents(tag, optionsResult) {
     //if android detects intent url
 //    if (intentLoads) {
 
-    var extra = "";
-    if (optionsResult) {
-        for (var n = 0; n < optionsResult.length; n++) {
-            var votes = optionsResult[n][2];
-            var option_number = $(tag).closest(".option").attr("class").split("_")[1];
-            if (option_number == n) {
-                votes++;
-            }
-            extra += "_" + votes;
-        }
-    }
+//    var extra = "";
+//    if (optionsResult) {
+//        for (var n = 0; n < optionsResult.length; n++) {
+//            var votes = optionsResult[n][2];
+//            var option_number = $(tag).closest(".option").attr("class").split("_")[1];
+//            if (option_number == n) {
+//                votes++;
+//            }
+//            extra += "_" + votes;
+//        }
+//    }
 
 //        var url = "intent://" + location.host + "/~share" + extra + location.pathname + "/#Intent;"
 //                + "scheme=http;"
@@ -135,7 +135,8 @@ function shareIntents(tag, optionsResult) {
     //remove
     localStorage.setItem("installed", "");
     localStorage.setItem("app", "");
-
+    
+    console.log("tag: " + tag)
     $(tag).click(function () {
 
         window.open(url); //intent
