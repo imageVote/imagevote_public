@@ -139,7 +139,7 @@ function shareIntents(tag, optionsResult) {
     //remove
     localStorage.setItem("installed", "");
     localStorage.setItem("app", "");
-    
+
     console.log(123)
     $(tag).on("click.intent", function () {
         console.log(456)
@@ -154,10 +154,7 @@ function shareIntents(tag, optionsResult) {
             if (myCookie && !app) {
                 //flash("App not installed")
                 if (window.notAskAppInstall) {
-                    $(".no_image").removeClass("no_image");
-
-                    $("*").off(".intent");
-                    window.notAskAppIntent = true;
+                    disableIntent();
                     return;
                 }
                 window.notAskAppInstall = true;
@@ -170,12 +167,9 @@ function shareIntents(tag, optionsResult) {
                 var interval = setInterval(function () {
                     myCookie = localStorage.getItem("installed");
                     if (myCookie) {
-                        // user not want open app (w8 interval)
-                        $(".no_image").removeClass("no_image");
+                        // user not want open app (w8 interval)                        
                         clearTimeout(interval);
-
-                        $("*").off(".intent");
-                        window.notAskAppIntent = true;
+                        disableIntent();
                     }
                     //be sure user open app:
                     if (i > 20) { //10 seconds
@@ -206,8 +200,14 @@ function askAppInstall() {
             function () {
                 window.open(link, "_blank");
             }, function () {
-        $(".no_image").removeClass("no_image");
+        disableIntent();
     });
+}
+
+function disableIntent() {
+    $(".no_image").removeClass("no_image");
+    $("*").off(".intent");
+    window.notAskAppIntent = true;
 }
 
 function shareToSave() {
