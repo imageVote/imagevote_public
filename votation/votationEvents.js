@@ -127,6 +127,7 @@ function shareIntents(intentLoads, tag, optionsResult) {
                 //+ "S.browser_fallback_url=" + escape(fallback_url) + ";"
                 + "end";
         var url = "http://keys." + location.host + location.pathname;
+        var url = "http://keys." + location.host;
 
 //        var a = $("<a target='_blank' class='intentLink' href='" + url + "'>");
 //        $(tag).wrap(a);
