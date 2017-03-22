@@ -43,10 +43,7 @@ html.translucent{
     -ms-transform: translateX(0);
     transform: translateX(0);
 
-/*    -webkit-transition: -webkit-transform 300ms, -ms-transform 300ms, transform 300ms;
-    -moz-transition: -webkit-transform 300ms, -ms-transform 300ms, transform 300ms;
-    -o-transition: -webkit-transform 300ms, -ms-transform 300ms, transform 300ms;
-    transition: -webkit-transform 300ms, -ms-transform 300ms, transform 300ms;*/
+    /*transition: -webkit-transform 300ms, -ms-transform 300ms, transform 300ms; NOT WORK ON SAFARI*/
     -webkit-transition: all 300ms;
     -moz-transition: all 300ms;
     -o-transition: all 300ms;
@@ -219,8 +216,10 @@ button, input, select{
     height: 44px;
 }
 button{
-    padding-top: 5px;
-    padding-bottom: 5px;
+    /*button wrong click on safari with padding*/
+    /*    padding-top: 5px;
+        padding-bottom: 5px;*/
+    padding: 0;
     min-width: 90px;
     cursor: pointer;
 }
