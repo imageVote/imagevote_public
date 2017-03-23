@@ -86,10 +86,11 @@ function shareIntents(tag) {
     }
     window.preventSendEvents = true;
 
-    var url = "http://share." + location.host + "#" + location.pathname;
+//    var url = "http://share." + location.host + "#" + location.pathname;
+    var url = "http://" + location.host + "/~share#" + location.pathname;
 
     //remove
-    localStorage.setItem("installed", "");
+    localStorage.setItem("not_installed", "");
     localStorage.setItem("app", "");
 
     $(tag).on("click.intent", function () {
@@ -98,7 +99,7 @@ function shareIntents(tag) {
 
         setTimeout(function () {
             //var myCookie = getCookie("installed");
-            var myCookie = localStorage.getItem("installed");
+            var myCookie = localStorage.getItem("not_installed");
             var app = localStorage.getItem("app");
 
             if (myCookie && !app) {
@@ -109,7 +110,7 @@ function shareIntents(tag) {
                 //flash("App in Device")
                 var i = 0;
                 var interval = setInterval(function () {
-                    myCookie = localStorage.getItem("installed");
+                    myCookie = localStorage.getItem("not_installed");
                     if (myCookie) {
                         // user not want open app (w8 interval)                        
                         clearTimeout(interval);
