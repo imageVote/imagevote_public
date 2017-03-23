@@ -99,10 +99,10 @@ function shareIntents(tag) {
 
         setTimeout(function () {
             //var myCookie = getCookie("installed");
-            var myCookie = localStorage.getItem("not_installed");
+            var not_installed = localStorage.getItem("not_installed");
             var app = localStorage.getItem("app");
 
-            if (myCookie && !app) {
+            if (not_installed && !app) {
                 //flash("App not installed")                
                 askAppInstall();
 
@@ -110,8 +110,8 @@ function shareIntents(tag) {
                 //flash("App in Device")
                 var i = 0;
                 var interval = setInterval(function () {
-                    myCookie = localStorage.getItem("not_installed");
-                    if (myCookie) {
+                    not_installed = localStorage.getItem("not_installed");
+                    if (not_installed) {
                         // user not want open app (w8 interval)                        
                         clearTimeout(interval);
                         disableIntent();
