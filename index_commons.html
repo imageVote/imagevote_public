@@ -89,6 +89,10 @@
     if (!window.Device) {
         window.Device = false;
 //        $.getScript("~commons/browserStart.js");
+        var ua = navigator.userAgent.toLowerCase();
+        window.isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+        window.iPhone = ua.indexOf("iPhone") > -1 || ua.indexOf("iPod") > -1;
+
     } else {
         $("html").addClass("Device");
     }
@@ -148,7 +152,7 @@
             if (userName) {
                 $("#username input").val(userName);
             }
-            
+
             //user init needed!
             if (screenPoll.key) {
                 window.keyPoll = new LoadKeyPoll(screenPoll);
