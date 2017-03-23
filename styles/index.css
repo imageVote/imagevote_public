@@ -250,6 +250,7 @@ input{
 }
 #image img, #image canvas{
     max-width: 100% !important;
+    box-shadow: 1px 1px 8px black;
 }
 
 #creator table{
