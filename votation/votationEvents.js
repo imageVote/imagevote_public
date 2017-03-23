@@ -89,7 +89,7 @@ function shareIntents(tag) {
     window.preventSendEvents = true;
 
 //    var url = "http://share." + location.host + "#" + location.pathname;
-    var url = "http://" + location.host + "/~share#" + location.pathname;
+    var url = "http://share." + location.host + "#" + location.pathname;
 
     //remove
     localStorage.setItem("not_installed", "");
