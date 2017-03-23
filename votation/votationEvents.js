@@ -99,7 +99,7 @@ function shareIntents(tag) {
         setTimeout(function () {
             //var myCookie = getCookie("installed");
             var myCookie = localStorage.getItem("installed");
-            var app = getCookie("app");
+            var app = localStorage.getItem("app");
 
             if (myCookie && !app) {
                 //flash("App not installed")                
