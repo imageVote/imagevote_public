@@ -105,7 +105,6 @@ function shareIntents(tag) {
                 //flash("App not installed")
                 if (window.notAskAppInstall) {
                     disableIntent();
-                    return;
                 }
                 window.notAskAppInstall = true;
                 askAppInstall();
