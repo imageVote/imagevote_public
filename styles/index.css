@@ -219,6 +219,7 @@ button{
     /*button wrong click on safari with padding*/
     /*    padding-top: 5px;
         padding-bottom: 5px;*/
+    min-height: 40px;
     padding: 0;
     min-width: 90px;
     cursor: pointer;
