@@ -102,15 +102,10 @@ function shareIntents(tag) {
             var app = getCookie("app");
 
             if (myCookie && !app) {
-                //flash("App not installed")
-                if (window.notAskAppInstall) {
-                    disableIntent();
-                }
-                window.notAskAppInstall = true;
+                //flash("App not installed")                
                 askAppInstall();
 
             } else {
-                window.notAskAppInstall = true;
                 //flash("App in Device")
                 var i = 0;
                 var interval = setInterval(function () {
@@ -135,8 +130,8 @@ function askAppInstall() {
     var link = "https://play.google.com/store/apps/details?id=" + window.package;
 
     modalBox("Usa la app para compartir la encuesta!",
-            "Descárgala completamente gratis. <br>No requiere de permisos especiales",
-            function () {
+            "Descárgala completamente gratis. <br>No requiere de permisos especiales"
+            , function () {
                 window.open(link, "_blank");
             }, function () {
         disableIntent();
