@@ -77,7 +77,9 @@ function saveToShare() {
 }
 
 function checkShareEnvirontment(tag, optionsResult) {
-    shareIntents(tag, optionsResult);
+    if (window.isAndroid || window.iPhone) {
+        shareIntents(tag, optionsResult);
+    }
 }
 
 function shareIntents(tag) {
