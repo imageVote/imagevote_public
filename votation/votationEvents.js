@@ -58,7 +58,6 @@ function saveDefaultValues(votes) {
 
     window.originalPublic = $("#p_makePublic input").is(':checked');
     window.originalCountry = $("#countrySelect select").val();
-    //window.originalLink = $("#externalLink").val();
 }
 
 function saveToShare() {
@@ -75,66 +74,19 @@ function saveToShare() {
 
     //hide public options to show share image?
     $("#publicMessage").hide();
-
-    //checkShareEnvirontment("#save");
 }
 
 function checkShareEnvirontment(tag, optionsResult) {
-//    if (window.intentLoads) {
-//        shareIntents(window.intentLoads, tag, optionsResult);
-//        return;
-//    }
-//
-//    //ANDROID BROWSER CASE (or TWITTER APP!)
-//    if (window.isAndroid && !window.Device && navigator.plugins.length == 0) {
-//        console.log("window.isAndroid && !window.Device " + tag);
-//        //http://stackoverflow.com/questions/6567881/how-can-i-detect-if-an-app-is-installed-on-an-android-device-from-within-a-web-p
-//
-////        androidIntent.detect(function (intentLoads) {
-////            console.log("intentLoads: " + intentLoads);
-////            window.intentLoads = intentLoads;
-////            shareIntents(intentLoads, tag, optionsResult);
-//        shareIntents(tag, optionsResult);
-////        });
-//
-//    } else {
-//        window.intentLoads = false;
-//    }
     shareIntents(tag, optionsResult);
 }
 
-function shareIntents(tag, optionsResult) {
+function shareIntents(tag) {
     if (window.notAskAppIntent) {
         return;
     }
-
     window.preventSendEvents = true;
 
-    //if android detects intent url
-//    if (intentLoads) {
-
-//    var extra = "";
-//    if (optionsResult) {
-//        for (var n = 0; n < optionsResult.length; n++) {
-//            var votes = optionsResult[n][2];
-//            var option_number = $(tag).closest(".option").attr("class").split("_")[1];
-//            if (option_number == n) {
-//                votes++;
-//            }
-//            extra += "_" + votes;
-//        }
-//    }
-
-//        var url = "intent://" + location.host + "/~share" + extra + location.pathname + "/#Intent;"
-//                + "scheme=http;"
-//                + "package=" + window.package + ";"
-//                //(empty or wrong code function) if twitter webview, this will redirect to app store but inside browser!
-//                //+ "S.browser_fallback_url=" + escape(fallback_url) + ";"
-//                + "end";
     var url = "http://share." + location.host + "#" + location.pathname;
-
-//        var a = $("<a target='_blank' class='intentLink' href='" + url + "'>");
-//        $(tag).wrap(a);
 
     //remove
     localStorage.setItem("installed", "");
@@ -178,16 +130,6 @@ function shareIntents(tag, optionsResult) {
             }
         }, 1500); //second waiting share page load
     });
-
-//    } else { //not detects any intent (not installed app)
-//        $(tag).one("click", function () {
-//            askAppInstall();
-//        });
-//        var err = notice(transl("notInApp"));
-//        err.click(function () {
-//            window.open(link, "_blank");
-//        });
-//    }
 }
 
 function askAppInstall() {
@@ -203,6 +145,7 @@ function askAppInstall() {
 }
 
 function disableIntent() {
+    console.log("disableIntent()");
     $(".no_image").removeClass("no_image");
     $("*").off(".intent");
     window.notAskAppIntent = true;
