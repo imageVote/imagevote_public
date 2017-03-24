@@ -108,7 +108,7 @@ function shareIntents(tag) {
                 //flash("App not installed")                
                 askAppInstall();
 
-            } else {
+            } else if (app) {
                 //flash("App in Device")
                 var i = 0;
                 var interval = setInterval(function () {
@@ -124,6 +124,10 @@ function shareIntents(tag) {
                     }
                     i++;
                 }, 500);
+
+            } else {
+                //if nothing works!
+                disableIntent();
             }
         }, 1500); //second waiting share page load
     });

@@ -121,7 +121,7 @@
     // SCREEN POLL KEY HANDLE
     (function () {
         //if (location.pathname.match(/\//g).length == 1 && location.pathname.length > 1) { //not work with complex debugging subdomain
-        if (location.pathname.match(/\//g).length > 0 && location.pathname.length > 1) {
+        if (location.pathname.match(/\//g).length > 0 && location.pathname.length > 1 && location.indexOf("/share") == -1) {
             var key = location.pathname.split("/").pop();
             if (key.indexOf('.') === -1) {
                 screenPoll.key = key;
