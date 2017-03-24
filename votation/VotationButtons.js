@@ -210,7 +210,7 @@ var votationEvents_shareButton = function (poll, callback) {
         $("body").append("<img from='votationEvents_shareButton' id='shareButtonLoading' class='loading absoluteLoading' src='~img/loader.gif'/>");
     }
 
-    console.log("votationEvents_shareButton");
+    console.log("votationEvents_shareButton " );
     if (!Device.share && !poll.key) {
         //if not seems respond
         if (_ajaxKeyWaiting > 10) {

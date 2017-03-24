@@ -20,7 +20,7 @@ function getPathsFromKeyId(keyId) {
     console.log("getPathsFromKeyId " + keyId);
     if (!keyId) {
         keyId = location.pathname.split("/").pop();
-        if (!keyId || keyId.indexOf('.') !== -1) {
+        if (!keyId || keyId.indexOf('.') !== -1 || location.href.indexOf("/share") > -1) {
             return false;
         }
     }
