@@ -76,7 +76,7 @@ VotationButtons.prototype.VotationButtons_cancel = function () {
         if (window.isTranslucent) {
             if (Device.close) {
                 console.log("closing.. window.isTranslucent: " + window.isTranslucent);
-                Device.close();
+                Device.close("VotationButtons_cancel window.isTranslucent");
                 return;
             }
         }
@@ -86,7 +86,7 @@ VotationButtons.prototype.VotationButtons_cancel = function () {
 
                 if (history.length <= 1 && Device.close) {
                     console.log("no history close");
-                    Device.close();
+                    Device.close("window.keyLinkPage & history.length <= 1");
                 }
 
             } else {
@@ -269,7 +269,7 @@ var votationEvents_shareButton = function (poll, callback) {
 //device function too !
 var votationEvents_deviceShare = function (keyId, imgData) {
     //Device.share(imgData.replace("data:image/png;base64,", ""), keyId);
-    Device.share(imgData.substring(22), keyId);
+    return Device.share(imgData.substring(22), keyId);
 }
 
 var savingPoll = false;

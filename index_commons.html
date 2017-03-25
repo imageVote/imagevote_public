@@ -112,7 +112,7 @@
         $("html").click(function (e) {
             if (e.target.nodeName == "HTML") {
                 if (Device.close) {
-                    Device.close();
+                    Device.close("e.target.nodeName == HTML");
                 }
             }
         });

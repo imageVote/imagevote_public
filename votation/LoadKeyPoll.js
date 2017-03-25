@@ -256,7 +256,7 @@ function errorParse(code) {
     if (Device.close && $("html").hasClass("translucent")) {
         $(".loading").remove();
         flash(transl(code), null, function () {
-            Device.close();
+            Device.close("errorParse " + code);
         });
         return;
     }
