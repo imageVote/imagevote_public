@@ -3,12 +3,12 @@
 var canvas, ctx;
 
 //ON CREATE ONLY!
-function getUserArray(user) {
-    console.log("user: " + JSON.stringify(user));
-    if (!user || "undefined" == user) {
+function getUserArray(user) {    
+    if (empty(user)) {
         console.log("[" + window.user.id + ", '']");
         return [window.user.id, ""];
     }
+    console.log("user: " + JSON.stringify(user));
 
     var arr = [user.id, user.vt];
     //like name on private polls    
