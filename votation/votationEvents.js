@@ -116,7 +116,7 @@ function shareIntents(tag, optionsResult) {
             console.log("not_installed: '" + not_installed + "', app: '" + app + "'");
 
             if (not_installed && !app) {
-                //flash("App not installed")                
+                //flash("App not installed")
                 askAppInstall();
 
             } else if (app) { //but user opened as web
@@ -158,15 +158,25 @@ shareIntents.prototype.getUrl = function (extra) {
 };
 
 function askAppInstall() {
-    var link = "https://play.google.com/store/apps/details?id=" + window.package;
+    var link = "";
+    if (window.isAndroid) {
+        link = "https://play.google.com/store/apps/details?id=" + window.package;
+    }
+    if (window.iPhone) {
+        link = "https://ios_page?id=" + window.package;
+    }
 
-    modalBox("Usa la app para compartir la encuesta!",
-            "Descárgala completamente gratis. <br>No requiere de permisos especiales"
-            , function () {
-                window.open(link, "_blank");
-            }, function () {
-        disableIntent("modalBox");
-    });
+    if (link) {
+        modalBox("Usa la app para compartir la encuesta!",
+                "Descárgala completamente gratis. <br>No requiere de permisos especiales"
+                , function () {
+                    window.open(link, "_blank");
+                }, function () {
+            disableIntent("from modalBox");
+        });
+    } else {
+        disableIntent("from modalBox");
+    }
 }
 
 function disableIntent(why) {
