@@ -34,6 +34,9 @@ html, body, .wrapper{
 html.translucent{
     background: rgba(255,255,255,0.4);
 }
+html.translucent #modal_box{
+    background: transparent;
+}
 
 #body{
     margin-top: 8px;
@@ -670,7 +673,7 @@ input{
 
 #modal_box, #modal_input{
     /*block important to show as popup in device*/
-    display: block !important;
+    /*display: block !important;*/
     position: fixed;
     top: 0;
     bottom: 0;
