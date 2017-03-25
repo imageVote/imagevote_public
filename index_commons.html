@@ -147,7 +147,7 @@
         console.log("principal document ready");
         
         new User(null, function (user) {
-            widnow.user = user;
+            window.user = user;
             
             //get userName not Device way (before any return)
             var userName = localStorage.getItem("userName");
