@@ -168,7 +168,7 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
     saveDefaultValues(this.user.vt);
 
     $("#votationOwner").remove();
-    if (obj.style && obj.style.owner) {
+    if (obj.style && !empty(obj.style.owner)) {
         var ownerDiv = $("<div id='votationOwner'><span class='by'>by: </span></div>");
         var text = obj.style.owner;
         text = decode_uri(text);

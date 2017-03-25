@@ -393,3 +393,10 @@ function enableScroll() {
     //mobile
     $('*').off('.disableScroll');
 }
+
+function empty(variable){
+    if(!variable || "null" == variable || "undefined" == variable){
+        return true;
+    }
+    return false;
+}
