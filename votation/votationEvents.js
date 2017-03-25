@@ -82,19 +82,31 @@ function checkShareEnvirontment(tag, optionsResult) {
     }
 }
 
-function shareIntents(tag) {
+function shareIntents(tag, optionsResult) {
     if (window.notAskAppIntent) {
         return;
     }
     window.preventSendEvents = true;
 
-    var url = "http://share." + location.host + "#" + location.pathname;
+    var extra = "";
+    if (optionsResult) {
+        for (var n = 0; n < optionsResult.length; n++) {
+            var votes = optionsResult[n][2];
+            var option_number = $(tag).closest(".option").attr("class").split("_")[1];
+            if (option_number == n) {
+                votes++;
+            }
+            extra += "_" + votes;
+        }
+    }
+    var url = "http://share." + location.host + "#" + extra + location.pathname;
+    console.log("shareIntents " + url)
 
     //remove
     localStorage.setItem("not_installed", "");
     localStorage.setItem("app", "");
 
-    $(tag).on("click.intent", function () {
+    $(tag).on("click.intent", {extra:extra}, function () {
         $("body").addClass("no_image");
         window.open(url); //intent
 
@@ -114,7 +126,7 @@ function shareIntents(tag) {
                 var interval = setInterval(function () {
                     not_installed = localStorage.getItem("not_installed");
                     if (not_installed) {
-                        // user not want open app (w8 interval)                        
+                        // user not want open app (w8 interval)
                         clearTimeout(interval);
                         disableIntent("not_installed interval");
                     }
@@ -125,12 +137,12 @@ function shareIntents(tag) {
                     i++;
                 }, 500);
 
-            }else{ //else user open app or cancel on choose - redirect to intent app
-                url = "intent://" + location.host + "/share" +  location.pathname + "#Intent;"
-                + "scheme=http;"
-                + "package=" + window.package + ";"
-                + "end";
-            }            
+            } else { //else user open app or cancel on choose - redirect to intent app
+                url = "intent://" + location.host + "/share" + extra + location.pathname + "#Intent;"
+                        + "scheme=http;"
+                        + "package=" + window.package + ";"
+                        + "end";
+            }
 
         }, 2500); //second waiting share page load
     });
