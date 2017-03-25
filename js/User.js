@@ -86,7 +86,7 @@ User.prototype.userIP = function (callback) {
 
 function getUserLang() {
     var local_lang = localStorage.getItem("userLang");
-    if(local_lang){
+    if (local_lang) {
         return local_lang;
     }
     var language = navigator.language || navigator.userLanguage;
@@ -109,10 +109,10 @@ function isUserCountry(country) {
 }
 
 
-//DEVICE function!! - global User already exists (providing id, etc..)
+//DEVICE function only!! - global User already exists (providing id, etc..)
 // every time something in Android user updates (Digits, etc..)
 function addUser(id, country) {
-    console.log("addUser start " + id);
+    console.log("addUser start '" + id + "'");
 
     if (!id) {
         console.log("not valid id");
@@ -138,16 +138,18 @@ function addUser(id, country) {
 }
 
 function updateUserId(id) {
-    if (window.user) {
-        window.user.id = id;
+    if (!window.user) {
+        window.user = new User();
     }
+    window.user.id = id;
     localStorage.setItem("userId", id);
 }
 
 function updateUserName(name) {
-    if (window.user) {
-        window.user.nm = name;
+    if (!window.user) {
+        window.user = new User();
     }
+    window.user.nm = name;
     localStorage.setItem("userName", name);
     $("#username input").val(name);
 }
