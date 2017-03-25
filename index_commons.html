@@ -145,21 +145,26 @@
     // ON DOCUMENT READY:
     $(document).ready(function () {
         console.log("principal document ready");
-        
-        new User(null, function (user) {
-            window.user = user;
-            
-            //get userName not Device way (before any return)
-            var userName = localStorage.getItem("userName");
-            if (userName) {
-                $("#username input").val(userName);
-            }
 
-            //user init needed!
+        if (!window.user) {
+            window.user = new User(null, function () {
+                //get userName not Device way (before any return)
+                var userName = localStorage.getItem("userName");
+                if (userName) {
+                    $("#username input").val(userName);
+                }
+                keyLoad();
+            });
+        } else {
+            keyLoad();
+        }
+        
+        //user init needed!
+        function keyLoad() {            
             if (screenPoll.key) {
                 window.keyPoll = new LoadKeyPoll(screenPoll);
             }
-        });
+        }
 
         translateTags();
     });
