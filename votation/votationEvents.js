@@ -125,8 +125,8 @@ function shareIntents(tag) {
                     i++;
                 }, 500);
 
-            }else{ //else user open app - redirect to intent app
-                url = "intent://" + location.host + "/~share/" +  location.pathname + "#Intent;"
+            }else{ //else user open app or cancel on choose - redirect to intent app
+                url = "intent://" + location.host + "/share" +  location.pathname + "#Intent;"
                 + "scheme=http;"
                 + "package=" + window.package + ";"
                 + "end";
