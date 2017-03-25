@@ -6,6 +6,7 @@ var canvas, ctx;
 function getUserArray(user) {
     console.log("user: " + JSON.stringify(user));
     if (!user) {
+        console.log("[" + window.user.id + ", '']");
         return [window.user.id, ""];
     }
 
@@ -116,7 +117,7 @@ function toObject(arr) {
     }
 
     var style = arr.shift();
-    
+
     var users = {};
     for (var i = 0; i < arr.length; i++) {
         var user = arr[i];

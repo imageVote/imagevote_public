@@ -1,16 +1,17 @@
 
 var User = function (voting, callback) {
     console.log("new User(" + voting + ")");
-    if (window.public && window.publicId) {
-        if (window.user) {
-            phoneId = window.user.id;
-        }
-        this.id = window.publicId;
-    }
-    this.vt = "";
-    if (voting) {
-        this.vt = 0;
-    }
+    //NOT VOTING ANYMORE (IN WOULD-YOU-RATHER)
+//    if (window.public && window.publicId) {
+//        if (window.user) {
+//            phoneId = window.user.id;
+//        }
+//        this.id = window.publicId;
+//    }
+//    this.vt = "";
+//    if (voting) {
+//        this.vt = 0;
+//    }
 
     //only for web index.html redirection requests! not 4 APP
     if (!window.Device) {
@@ -113,7 +114,6 @@ function isUserCountry(country) {
 // every time something in Android user updates (Digits, etc..)
 function addUser(id, country) {
     console.log("addUser start '" + id + "'");
-
     if (!id) {
         console.log("not valid id");
         return;
