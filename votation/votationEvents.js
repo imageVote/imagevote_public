@@ -102,13 +102,14 @@ function shareIntents(tag) {
             //var myCookie = getCookie("installed");
             var not_installed = localStorage.getItem("not_installed");
             var app = localStorage.getItem("app");
-
+            console.log("not_installed: " + not_installed + ", app: " + app);
+            
             if (not_installed && !app) {
                 //flash("App not installed")                
                 askAppInstall();
 
             } else if (app) {
-                //flash("App in Device")
+                //flash("App in Device")                
                 var i = 0;
                 var interval = setInterval(function () {
                     not_installed = localStorage.getItem("not_installed");
