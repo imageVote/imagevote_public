@@ -88,7 +88,6 @@ function shareIntents(tag) {
     }
     window.preventSendEvents = true;
 
-//    var url = "http://share." + location.host + "#" + location.pathname;
     var url = "http://share." + location.host + "#" + location.pathname;
 
     //remove
@@ -116,7 +115,7 @@ function shareIntents(tag) {
                     if (not_installed) {
                         // user not want open app (w8 interval)                        
                         clearTimeout(interval);
-                        disableIntent();
+                        disableIntent("not_installed interval");
                     }
                     //be sure user open app:
                     if (i > 20) { //10 seconds
@@ -127,7 +126,7 @@ function shareIntents(tag) {
 
             } else {
                 //if nothing works!
-                disableIntent();
+                disableIntent("nothing works");
             }
         }, 1500); //second waiting share page load
     });
@@ -141,12 +140,12 @@ function askAppInstall() {
             , function () {
                 window.open(link, "_blank");
             }, function () {
-        disableIntent();
+        disableIntent("modalBox");
     });
 }
 
-function disableIntent() {
-    console.log("disableIntent()");
+function disableIntent(why) {
+    console.log("disableIntent(): " + why);
     $(".no_image").removeClass("no_image");
     $("*").off(".intent");
     window.notAskAppIntent = true;
