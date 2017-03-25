@@ -164,8 +164,9 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
     }
 
     console.log("parseUserVotes newUser");
-    this.user = this.getUser(obj);
-    saveDefaultValues(this.user.vt);
+    var user = this.getUser(obj);
+    saveDefaultValues(user.vt);
+    this.user = user;
 
     $("#votationOwner").remove();
     if (obj.style && !empty(obj.style.owner)) {

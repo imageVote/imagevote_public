@@ -1,6 +1,6 @@
 
 var User = function (voting, callback) {
-    console.log("new User(" + voting + ")");
+    console.log("new User()");
     //NOT VOTING ANYMORE (IN WOULD-YOU-RATHER)
 //    if (window.public && window.publicId) {
 //        if (window.user) {
