@@ -8,7 +8,8 @@ function getUserArray(user) {
         console.log("[" + window.user.id + ", '']");
         return [window.user.id, ""];
     }
-    console.log("user: " + JSON.stringify(user));
+//    console.log("user: " + JSON.stringify(user));
+    console.log("user: '" + user + "'");
 
     var arr = [user.id, user.vt];
     //like name on private polls    
