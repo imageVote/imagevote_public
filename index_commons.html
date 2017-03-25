@@ -145,8 +145,10 @@
     // ON DOCUMENT READY:
     $(document).ready(function () {
         console.log("principal document ready");
-
-        window.user = new User(null, function () {
+        
+        new User(null, function (user) {
+            widnow.user = user;
+            
             //get userName not Device way (before any return)
             var userName = localStorage.getItem("userName");
             if (userName) {
