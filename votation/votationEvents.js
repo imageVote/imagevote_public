@@ -78,11 +78,12 @@ function saveToShare() {
 
 function checkShareEnvirontment(tag, optionsResult) {
     if (window.isAndroid || window.iPhone) {
-        shareIntents(tag, optionsResult);
+        new shareIntents(tag, optionsResult);
     }
 }
 
 function shareIntents(tag, optionsResult) {
+    var _this = this;
     if (window.notAskAppIntent) {
         return;
     }
@@ -104,11 +105,9 @@ function shareIntents(tag, optionsResult) {
                 extra += "_" + votes;
             }
         }
-        var url = "http://share." + location.host + "#" + extra + location.pathname;
-        console.log("shareIntents " + url);
 
         $("body").addClass("no_image");
-        window.open(url); //intent
+        window.open(_this.getUrl(extra)); //intent
 
         setTimeout(function () {
             //var myCookie = getCookie("installed");
@@ -138,15 +137,25 @@ function shareIntents(tag, optionsResult) {
                 }, 500);
 
             } else { //else user open app or cancel on choose - redirect to intent app
-                url = "intent://" + location.host + "/share" + extra + location.pathname + "#Intent;"
-                        + "scheme=http;"
-                        + "package=" + window.package + ";"
-                        + "end";
+                _this.getUrl = function (extra) {
+                    var url = "intent://" + location.host + "/share" + extra + location.pathname + "#Intent;"
+                            + "scheme=http;"
+                            + "package=" + window.package + ";"
+                            + "end";
+                    console.log("shareIntents " + url);
+                    return url;
+                };
             }
 
         }, 2500); //second waiting share page load
     });
 }
+
+shareIntents.prototype.getUrl = function (extra) {
+    var url = "http://share." + location.host + "#" + extra + location.pathname;
+    console.log("shareIntents " + url);
+    return url;
+};
 
 function askAppInstall() {
     var link = "https://play.google.com/store/apps/details?id=" + window.package;
