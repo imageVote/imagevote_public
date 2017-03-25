@@ -669,6 +669,8 @@ input{
 }
 
 #modal_box, #modal_input{
+    /*block important to show as popup in device*/
+    display: block !important;
     position: fixed;
     top: 0;
     bottom: 0;
