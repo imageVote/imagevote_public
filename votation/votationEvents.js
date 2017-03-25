@@ -98,9 +98,12 @@ function shareIntents(tag, optionsResult) {
         if (optionsResult) {
             for (var n = 0; n < optionsResult.length; n++) {
                 var votes = optionsResult[n][2];
-                var option_number = $(tag).closest(".option").attr("class").split("_")[1];
-                if (option_number == n) {
-                    votes++;
+                var option = $(tag).closest(".option");
+                if (option.length) {
+                    var option_number = option.attr("class").split("_")[1];
+                    if (option_number == n) {
+                        votes++;
+                    }
                 }
                 extra += "_" + votes;
             }
