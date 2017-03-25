@@ -112,7 +112,7 @@ function isUserCountry(country) {
 //DEVICE function!! - global User already exists (providing id, etc..)
 // every time something in Android user updates (Digits, etc..)
 function addUser(id, country) {
-    console.log("addUser start");
+    console.log("addUser start " + id);
 
     if (!id) {
         console.log("not valid id");
