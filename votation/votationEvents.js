@@ -125,8 +125,12 @@ function shareIntents(tag) {
                     i++;
                 }, 500);
 
-            }
-            //else user open app - nothing to do
+            }else{ //else user open app - redirect to intent app
+                url = "intent://" + location.host + "/~share/" +  location.pathname + "#Intent;"
+                + "scheme=http;"
+                + "package=" + window.package + ";"
+                + "end";
+            }            
 
         }, 2500); //second waiting share page load
     });
