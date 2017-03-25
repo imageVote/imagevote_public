@@ -163,7 +163,7 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
         return;
     }
 
-    console.log("parseUserVotes newUser");
+    console.log("parseUserVotes newUser " + window.user.id);
     var user = this.getUser(obj);
     saveDefaultValues(user.vt);
     this.user = user;

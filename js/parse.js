@@ -4,7 +4,6 @@ var canvas, ctx;
 
 //ON CREATE ONLY!
 function getUserArray(user) {
-    
     if (empty(user)) {
         console.log("[" + window.user.id + ", '']");
         return [window.user.id, ""];

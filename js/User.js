@@ -141,6 +141,7 @@ function updateUserId(id) {
     if (!window.user) {
         window.user = new User();
     }
+    
     window.user.id = id;
     localStorage.setItem("userId", id);
 }
@@ -149,6 +150,7 @@ function updateUserName(name) {
     if (!window.user) {
         window.user = new User();
     }
+    
     window.user.nm = name;
     localStorage.setItem("userName", name);
     $("#username input").val(name);
