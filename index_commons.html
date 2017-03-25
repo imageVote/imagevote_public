@@ -146,7 +146,8 @@
     $(document).ready(function () {
         console.log("principal document ready");
 
-        if (!window.user) {
+        if (!window.user) { //if already from device
+            console.log("add first window.user")
             window.user = new User(null, function () {
                 //get userName not Device way (before any return)
                 var userName = localStorage.getItem("userName");
