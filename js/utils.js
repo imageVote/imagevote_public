@@ -401,13 +401,13 @@ function empty(variable) {
     return false;
 }
 
-//http://stackoverflow.com/questions/17233804/how-to-prevent-sticky-hover-effects-for-buttons-on-touch-devices
-function hover_touch() {
-    var el = this;
-    var par = el.parentNode;
-    var next = el.nextSibling;
-    par.removeChild(el);
-    setTimeout(function () {
-        par.insertBefore(el, next);
-    }, 0);
-}
+////http://stackoverflow.com/questions/17233804/how-to-prevent-sticky-hover-effects-for-buttons-on-touch-devices
+//function hover_touch() {
+//    var el = this;
+//    var par = el.parentNode;
+//    var next = el.nextSibling;
+//    par.removeChild(el);
+//    setTimeout(function () {
+//        par.insertBefore(el, next);
+//    }, 0);
+//}
