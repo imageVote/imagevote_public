@@ -440,8 +440,11 @@ input{
     #pollsPage .option {
         display: block;
         width: 98%;
-        margin-bottom: 2% !important;
-        height: 49%;
+        /*margin-bottom: 2% !important;*/
+        height: 48%;
+    }
+    #pollsPage .option:first-child {
+        margin-bottom: 5% !important;
     }
     #pollsPage table {
         width: 100% !important;
