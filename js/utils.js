@@ -30,10 +30,10 @@ function getPathsFromKeyId(keyId) {
     var public = "false";
     var symbol = "-";
     var visible = "private";
-    
+
     var prefix;
     var countryPath = "";
-    
+
     var key = keyId;
     if (keyId.indexOf("-") > 0) {
         public = "true";
@@ -394,9 +394,20 @@ function enableScroll() {
     $('*').off('.disableScroll');
 }
 
-function empty(variable){
-    if(!variable || "null" == variable || "undefined" == variable){
+function empty(variable) {
+    if (!variable || "null" == variable || "undefined" == variable) {
         return true;
     }
     return false;
+}
+
+//http://stackoverflow.com/questions/17233804/how-to-prevent-sticky-hover-effects-for-buttons-on-touch-devices
+function hover_touch() {
+    var el = this;
+    var par = el.parentNode;
+    var next = el.nextSibling;
+    par.removeChild(el);
+    setTimeout(function () {
+        par.insertBefore(el, next);
+    }, 0);
 }

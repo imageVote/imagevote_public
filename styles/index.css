@@ -28,7 +28,8 @@ body{
 /*prevent android screen drag*/
 html, body, .wrapper{
     width: 100%;
-    overflow-x: hidden;
+    /* "overflow-x: hidden" here produces weirds bugs in devices!!! */
+    /*overflow-x: hidden;*/
 }
 
 html.translucent{
@@ -71,6 +72,8 @@ html.translucent #modal_box{
     font-size: 20px;
     box-shadow: 0 3px rgba(0,0,0,0.4), inset 0 -1px rgba(255,255,255,0.05);
     text-shadow: 1px 1px black;
+    /*prevents touch area bug:*/
+    z-index: 1;
 
     /* z-index needed (overflowing polls, etc..) */
     position: relative;
@@ -553,7 +556,7 @@ input{
     background: linear-gradient(top, rgb(150,150,150),rgb(99,99,99));
 }
 #send:not(.share):not(.saveAndShare):disabled em{
-    background-image: url('~img/ajax-loader.gif');    
+    background-image: url('~commons/img/ajax-loader.gif');    
     vertical-align: sub;
     margin-left: -5px;
     margin-right: 5px;
