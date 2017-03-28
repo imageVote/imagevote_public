@@ -87,9 +87,9 @@ function checkShareEnvirontment(tag, optionsResult) {
         console.log("iPhone checkShareEnvirontment");
         $("#linksLink").remove();
         var a = $("<div id='linksLink' class='clickable' style='margin: 7px 0 20px 10px;'>" + transl("downloadAppStore")
-                + "<div id=links class='hide' style='margin-top:5px;'>"
+                + "<a href='#ios_link!' id=links class='hide' style='margin-top:5px;'>"
                 + "<img src='~commons/img/app-store.png' style='max-width:200px;'/>"
-                + "</div>"
+                + "</a>"
                 + "</div>");
         $("#errorLog").append(a);
         $("#errorLog").show();
