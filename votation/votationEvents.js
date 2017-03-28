@@ -77,8 +77,35 @@ function saveToShare() {
 }
 
 function checkShareEnvirontment(tag, optionsResult) {
-    if (window.isAndroid || window.iPhone) {
+    if (window.Device) {
+        return;
+    }
+    if (window.isAndroid) {
         new shareIntents(tag, optionsResult);
+
+    } else if (window.iPhone) {
+        console.log("iPhone checkShareEnvirontment");
+        $("#linksLink").remove();
+        var a = $("<div id='linksLink' class='clickable' style='margin: 7px 0 20px 10px;'>" + transl("downloadAppStore")
+                + "<div id=links class='hide' style='margin-top:5px;'>"
+                + "<img src='~commons/img/appstore.png' style='max-width:200px;'/>"
+                + "</div>"
+                + "</div>");
+        $("#errorLog").append(a);
+        $("#errorLog").show();
+
+        a.click(function () {
+            $(document).off(".links");
+            $("#links").toggleClass("hide");
+
+            setTimeout(function () {
+                $(document).one("click.links", function (e) {
+                    if (!$(e.target).closest("#links").length && $(e.target).attr("id") != "links") {
+                        $("#links").addClass("hide");
+                    }
+                });
+            }, 1);
+        });
     }
 }
 
@@ -178,14 +205,14 @@ function askAppInstall() {
             disableIntent("from modalBox");
         });
     } else {
-        disableIntent("from modalBox");
+        disableIntent("!link");
     }
 }
 
 function disableIntent(why) {
+    $("*").off(".intent");
     console.log("disableIntent(): " + why);
     $(".no_image").removeClass("no_image");
-    $("*").off(".intent");
     window.notAskAppIntent = true;
 }
 
