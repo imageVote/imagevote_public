@@ -88,7 +88,7 @@ function checkShareEnvirontment(tag, optionsResult) {
         $("#linksLink").remove();
         var a = $("<div id='linksLink' class='clickable' style='margin: 7px 0 20px 10px;'>" + transl("downloadAppStore")
                 + "<div id=links class='hide' style='margin-top:5px;'>"
-                + "<img src='~commons/img/appstore.png' style='max-width:200px;'/>"
+                + "<img src='~commons/img/app-store.png' style='max-width:200px;'/>"
                 + "</div>"
                 + "</div>");
         $("#errorLog").append(a);
