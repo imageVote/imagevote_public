@@ -27,7 +27,7 @@ function getUserArray(user) {
     return arr;
 }
 
-function pollToJson(obj) {
+function pollToCSV(obj) {
     var style = window.screenPoll.style;
     if (!style) {
         style = {};
@@ -63,16 +63,21 @@ function pollToJson(obj) {
         }
 
     }
-
-    var arr = [obj.question, options, obj.style];
+    
+    var style = JSON.stringify(obj.style);
+    var arr = [obj.question, JSON.stringify(options), style];
 
     //add user ony if is voting
     var user = getUserArray(window.user);
     if (user.vt) {
+        user = JSON.stringify(user);
         arr.push(user);
     }
-
-    return JSON.stringify(arr).slice(0, -1);
+    
+    //like so: [arr,[1,2]]
+    var csv = CSV.stringify([arr]);
+    console.log("csv: " + csv);
+    return csv;
 }
 
 function parseData(value) {
@@ -90,14 +95,14 @@ function parseData(value) {
     }
 
     var arr;
-    try {
-        arr = JSON.parse(value + "]");
-    } catch (e) {
-        console.log(e + " on " + value);
-        //error("e_votationWithErrors", true);
-        return false;
-    }
-
+//    try {
+        //arr = JSON.parse(value + "]");
+        arr = CSV.parse(value);
+//    } catch (e) {
+//        console.log(e + " on " + value);
+//        //error("e_votationWithErrors", true);
+//        return false;
+//    }
     return toObject(arr);
 }
 

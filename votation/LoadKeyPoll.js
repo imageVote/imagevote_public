@@ -148,7 +148,6 @@ var RequestPollByKeyCallback = function (data) {
 
 //parse ajax by userId
 RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
-//    var _this = this;
     var data = this.data;
 
     console.log(data);

@@ -19,6 +19,7 @@ VotationButtons = function () {
 };
 
 VotationButtons.prototype.VotationButtons_send = function () {
+    console.log("VotationButtons.VotationButtons_send original")
 
     $("#send").click(function (e) {
         if (window.preventSendEvents) {
@@ -201,27 +202,28 @@ VotationButtons.prototype.VotationButtons_users = function () {
     });
 };
 
-var _ajaxKeyWaiting = 0;
+window._ajaxKeyWaiting = 0;
 //not pass obj for function. this is a Device function.
 var votationEvents_shareButton = function (poll, callback) {
+    console.log(poll);
     var _args = arguments;
 
     if (!$("#shareButtonLoading").length) {
         $("body").append("<img from='votationEvents_shareButton' id='shareButtonLoading' class='loading absoluteLoading' src='~img/loader.gif'/>");
     }
 
-    console.log("votationEvents_shareButton " );
+    console.log("votationEvents_shareButton");
     if (!Device.share && !poll.key) {
         //if not seems respond
-        if (_ajaxKeyWaiting > 10) {
-            _ajaxKeyWaiting = 0;
+        if (window._ajaxKeyWaiting > 10) {
+            window._ajaxKeyWaiting = 0;
             error("missingAjaxKey");
             if (callback) {
                 callback(false);
             }
             return;
         }
-        _ajaxKeyWaiting++;
+        window._ajaxKeyWaiting++;
 
         setTimeout(function () {
             console.log("waiting ajax key..");
@@ -229,7 +231,7 @@ var votationEvents_shareButton = function (poll, callback) {
         }, 700);
         return;
     }
-    _ajaxKeyWaiting = 0;
+    window._ajaxKeyWaiting = 0;
 
     console.log("country = " + poll.country);
     var keyId = poll.key;
@@ -337,14 +339,14 @@ var votationEvents_saveButton = function (action, obj, callback) {
         }
     }
 
-    if (!savingPoll) {
+    if (!window.savingPoll) {
         //loading class for group and work with all loadings on page
         if ($(".absoluteLoading").length) {
             $(".absoluteLoading").attr("from", 'votationEvents_saveButton');
         } else {
             $("body").append("<img from='votationEvents_saveButton' class='loading absoluteLoading' src='~img/loader.gif'/>");
         }
-        savingPoll = true;
+        window.savingPoll = true;
     }
 
     //before change anything
@@ -404,12 +406,12 @@ var votationEvents_saveButton = function (action, obj, callback) {
     if ("update" == action) {
         console.log('update" == action');
         var userArr = obj.users[user.id];
-        sendJson = JSON.stringify(userArr);
-//        obj.users[user.id] = userArr;
+        //sendJson = JSON.stringify(userArr);
+        sendJson = CSV.stringify([userArr]);
         saveLocally(poll.key, poll.json + "," + sendJson);
 
     } else if ("create" == action) {
-        sendJson = pollToJson(obj);
+        sendJson = pollToCSV(obj);
 
         //not local stored if not voted by me
         if ("undefined" !== typeof (votes) && "" !== votes) {

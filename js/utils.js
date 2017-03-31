@@ -30,10 +30,10 @@ function getPathsFromKeyId(keyId) {
     var public = "false";
     var symbol = "-";
     var visible = "private";
-    
+
     var prefix;
     var countryPath = "";
-    
+
     var key = keyId;
     if (keyId.indexOf("-") > 0) {
         public = "true";
@@ -349,6 +349,9 @@ function is_touch_device(isTouch) {
         touch = false;
     }
     return touch;
+
+    //http://stackoverflow.com/questions/17233804/how-to-prevent-sticky-hover-effects-for-buttons-on-touch-devices
+    //var isTouch = !!("ontouchstart" in window) || window.navigator.msMaxTouchPoints > 0;
 }
 
 //http://stackoverflow.com/questions/4770025/how-to-disable-scrolling-temporarily
@@ -393,3 +396,60 @@ function enableScroll() {
     //mobile
     $('*').off('.disableScroll');
 }
+
+//http://stackoverflow.com/questions/17233804/how-to-prevent-sticky-hover-effects-for-buttons-on-touch-devices
+//prevents hover stuck click
+function hover_touch() {
+    var el = this;
+    var par = el.parentNode;
+    var next = el.nextSibling;
+    par.removeChild(el);
+    setTimeout(function () {
+        par.insertBefore(el, next);
+    }, 0);
+}
+
+var CSV = {
+    delimiter: "|"
+    ,
+    stringify: function (arr) {
+        var delimiter = this.delimiter;
+
+        var lineArray = [];
+        arr.forEach(function (infoArray, index) {
+            var line;
+            try {
+                line = infoArray.join(delimiter);
+            } catch (e) {
+                console.log("can't join:");
+                console.log(infoArray);
+                line = infoArray.join(delimiter);
+            }
+            //lineArray.push(index == 0 ? "data:text/csv;charset=utf-8," + line : line);
+            lineArray.push(line);
+        });
+        var csv = lineArray.join("\n");
+        console.log("csv stringify: " + csv);
+        return csv;
+    }
+    ,
+    //http://stackoverflow.com/questions/1293147/javascript-code-to-parse-csv-data
+    parse: function (strData) {
+        var res = [];
+        var arr = strData.split("\n");
+        
+        arr[0] = arr[0].split(this.delimiter);
+        res.push(arr[0][0]);
+        res.push(JSON.parse(arr[0][1]));
+        res.push(JSON.parse(arr[0][2]));
+        
+        for(var i = 3; i < arr.length; i++){
+            res.push(arr[i].split(this.delimiter));
+        }
+        
+        console.log("parsed:");
+        console.log(JSON.stringify(res));
+        console.log(res);
+        return res;
+    }
+};
