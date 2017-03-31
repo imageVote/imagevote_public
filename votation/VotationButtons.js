@@ -409,7 +409,7 @@ var votationEvents_saveButton = function (action, obj, callback) {
         saveLocally(poll.key, poll.json + "," + sendJson);
 
     } else if ("create" == action) {
-        sendJson = pollToJson(obj);
+        sendJson = pollToCSV(obj);
 
         //not local stored if not voted by me
         if ("undefined" !== typeof (votes) && "" !== votes) {
