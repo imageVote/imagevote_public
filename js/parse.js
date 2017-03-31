@@ -4,10 +4,12 @@ var canvas, ctx;
 
 //ON CREATE ONLY!
 function getUserArray(user) {
-    console.log("user: " + JSON.stringify(user));
-    if (!user) {
+    if (empty(user)) {
+        console.log("[" + window.user.id + ", '']");
         return [window.user.id, ""];
     }
+//    console.log("user: " + JSON.stringify(user));
+    console.log("user: '" + user + "'");
 
     var arr = [user.id, user.vt];
     //like name on private polls    
@@ -121,7 +123,7 @@ function toObject(arr) {
     }
 
     var style = arr.shift();
-    
+
     var users = {};
     for (var i = 0; i < arr.length; i++) {
         var user = arr[i];

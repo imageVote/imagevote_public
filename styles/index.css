@@ -28,16 +28,35 @@ body{
 /*prevent android screen drag*/
 html, body, .wrapper{
     width: 100%;
+    /* "overflow-x: hidden" here produces weirds bugs in devices!!! */
+    /*overflow-x: hidden;*/
+}
+.wrapper{
     overflow-x: hidden;
+    overflow-y: scroll;
+    
+    position: absolute;
+    width: 100%;
+    top: 0;
+    bottom: 0;
 }
 
 html.translucent{
     background: rgba(255,255,255,0.4);
 }
+html.translucent #modal_box{
+    background: transparent;
+}
 
 #body{
     margin-top: 8px;
     pointer-events: auto;
+    height: 100%;
+
+    /*4 SWIPE BUG*/
+    position: absolute;
+    left: 0;
+    right: 0;
 
     -webkit-transform: translateX(0);
     -ms-transform: translateX(0);
@@ -61,13 +80,18 @@ html.translucent{
 }
 
 #header{
-    padding: 6px 10px;
-    line-height: 36px;
-    height: 38px;
+    /*padding: 6px 10px;*/
+    /*line-height: 36px;*/
+    /*height: 38px;*/
     color: white;
     font-size: 20px;
     box-shadow: 0 3px rgba(0,0,0,0.4), inset 0 -1px rgba(255,255,255,0.05);
     text-shadow: 1px 1px black;
+    /*prevents touch area bug:*/
+    z-index: 1;
+
+    /*4 SWIPE BUG*/
+    width: 100%;
 
     /* z-index needed (overflowing polls, etc..) */
     position: relative;
@@ -81,6 +105,10 @@ html.translucent{
 #header > div{
     margin: auto;
     position: relative;
+
+    /*4 SWIPE BUG*/
+    padding: 6px 10px;
+    /*box-shadow: 0 3px rgba(0,0,0,0.4), inset 0 -1px rgba(255,255,255,0.05);*/
 }
 #header button{
     border: 1px solid rgb(150,150,150);
@@ -412,37 +440,8 @@ input{
     box-shadow: 1px 1px 0 rgba(0,0,0,0.35), inset 1px 1px 0 rgba(255,255,255,0.35), 0 3px 6px black;
     cursor: pointer;
 }
-.option:hover{
+.option.clickable:hover{
     box-shadow: 1px 1px 0 rgba(0,0,0,0.35), inset 1px 1px 0 rgba(255,255,255,0.35), 3px 6px 12px black;
-}
-
-@media screen and (max-width: 480px) {
-    html{
-        background-size: 32px !important;
-    }
-    #pollsPage #polls, #pollsPage .game{
-        /* 28 x 4 */
-        padding-bottom: 128% !important;        
-    }
-    #pollsPage #gameButtons{
-        padding-top: 130% !important;
-    }
-    #pollsPage .options_container{
-        left: 0 !important;
-        right: 0 !important;
-    }
-    #pollsPage .option {
-        display: block;
-        width: 98%;
-        margin-bottom: 2% !important;
-        height: 49%;
-    }
-    #pollsPage table {
-        width: 100% !important;
-    }
-    #pollsPage #gameSkip{
-        zoom: 1.1;
-    }
 }
 
 .option table{    
@@ -550,7 +549,7 @@ input{
     background: linear-gradient(top, rgb(150,150,150),rgb(99,99,99));
 }
 #send:not(.share):not(.saveAndShare):disabled em{
-    background-image: url('~img/ajax-loader.gif');    
+    background-image: url('~commons/img/ajax-loader.gif');    
     vertical-align: sub;
     margin-left: -5px;
     margin-right: 5px;
@@ -626,7 +625,7 @@ input{
     margin-bottom: 15px;
 }
 #linksLink:hover{
-    color: black;
+    color: rgb(80,80,80);
 }
 
 #links{
@@ -669,6 +668,8 @@ input{
 }
 
 #modal_box, #modal_input{
+    /*block important to show as popup in device*/
+    /*display: block !important;*/
     position: fixed;
     top: 0;
     bottom: 0;
@@ -752,6 +753,9 @@ input{
     border: 1px solid rgb(135,135,135);
     border-radius: 5px;
     -webkit-box-shadow: inset -1px 0 4px rgb(150,150,150); 
+}
+.wrapper::-webkit-scrollbar { 
+    display: none; 
 }
 
 #warnMaximumOptions{
@@ -898,12 +902,12 @@ input{
     left: 100%;
     width: 100%;
     bottom: 0;
-    /*padding: 10px;*/
 }
 #pollsPage{
     position: relative;
     margin: auto;
-    padding: 5px !important;
+    padding: 5px;
+    height: 100%;
 
 }
 
@@ -911,13 +915,6 @@ html:not(.withoutHeader) .pollsView{
     -webkit-transform: translateX(-100%) !important;
     -ms-transform: translateX(-100%) !important;
     transform: translateX(-100%) !important;
-}
-
-.wrapper{
-    position: absolute;
-    width: 100%;
-    top: 0;
-    bottom: 0;
 }
 
 .full_screen{

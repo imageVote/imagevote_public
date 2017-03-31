@@ -333,7 +333,7 @@ function getJson(poll, callback) {
     }
 
     //add sorted poll
-    $("#polls").append("<div id='poll_" + keyId + "' class='key'><img src='~img/ajax-loader.gif'/></div>");
+    $("#polls").append("<div id='poll_" + keyId + "' class='key'><img src='~commons/img/ajax-loader.gif'/></div>");
 
     // if was loaded
     if (appCache.downPolls[keyId]) {

@@ -77,46 +77,87 @@ function saveToShare() {
 }
 
 function checkShareEnvirontment(tag, optionsResult) {
-    if (window.isAndroid || window.iPhone) {
-        shareIntents(tag, optionsResult);
+    if (window.Device) {
+        return;
+    }
+    if (window.isAndroid) {
+        new shareIntents(tag, optionsResult);
+
+    } else if (window.iPhone) {
+        console.log("iPhone checkShareEnvirontment");
+        $("#linksLink").remove();
+        var a = $("<div id='linksLink' class='clickable' style='margin: 7px 0 20px 10px;'>" + transl("downloadAppStore")
+                + "<a href='#ios_link!' id=links class='hide' style='margin-top:5px;'>"
+                + "<img src='~commons/img/app-store.png' style='max-width:200px;'/>"
+                + "</a>"
+                + "</div>");
+        $("#errorLog").append(a);
+        $("#errorLog").show();
+
+        a.click(function () {
+            $(document).off(".links");
+            $("#links").toggleClass("hide");
+
+            setTimeout(function () {
+                $(document).one("click.links", function (e) {
+                    if (!$(e.target).closest("#links").length && $(e.target).attr("id") != "links") {
+                        $("#links").addClass("hide");
+                    }
+                });
+            }, 1);
+        });
     }
 }
 
-function shareIntents(tag) {
+function shareIntents(tag, optionsResult) {
+    var _this = this;
     if (window.notAskAppIntent) {
         return;
     }
     window.preventSendEvents = true;
-
-//    var url = "http://share." + location.host + "#" + location.pathname;
-    var url = "http://share." + location.host + "#" + location.pathname;
 
     //remove
     localStorage.setItem("not_installed", "");
     localStorage.setItem("app", "");
 
     $(tag).on("click.intent", function () {
+        var extra = "";
+        if (optionsResult) {
+            for (var n = 0; n < optionsResult.length; n++) {
+                var votes = optionsResult[n][2];
+                var option = $(tag).closest(".option");
+                if (option.length) {
+                    var option_number = option.attr("class").split("_")[1];
+                    if (option_number == n) {
+                        votes++;
+                    }
+                }
+                extra += "_" + votes;
+            }
+        }
+
         $("body").addClass("no_image");
-        window.open(url); //intent
+        window.open(_this.getUrl(extra)); //intent
 
         setTimeout(function () {
             //var myCookie = getCookie("installed");
             var not_installed = localStorage.getItem("not_installed");
             var app = localStorage.getItem("app");
+            console.log("not_installed: '" + not_installed + "', app: '" + app + "'");
 
             if (not_installed && !app) {
-                //flash("App not installed")                
+                //flash("App not installed")
                 askAppInstall();
 
-            } else if (app) {
-                //flash("App in Device")
+            } else if (app) { //but user opened as web
+                //flash("App in Device")                
                 var i = 0;
                 var interval = setInterval(function () {
                     not_installed = localStorage.getItem("not_installed");
                     if (not_installed) {
-                        // user not want open app (w8 interval)                        
+                        // user not want open app (w8 interval)
                         clearTimeout(interval);
-                        disableIntent();
+                        disableIntent("not_installed interval");
                     }
                     //be sure user open app:
                     if (i > 20) { //10 seconds
@@ -125,30 +166,53 @@ function shareIntents(tag) {
                     i++;
                 }, 500);
 
-            } else {
-                //if nothing works!
-                disableIntent();
+            } else { //else user open app or cancel on choose - redirect to intent app
+                _this.getUrl = function (extra) {
+                    var url = "intent://" + location.host + "/share" + extra + location.pathname + "#Intent;"
+                            + "scheme=http;"
+                            + "package=" + window.package + ";"
+                            + "end";
+                    console.log("shareIntents " + url);
+                    return url;
+                };
             }
-        }, 1500); //second waiting share page load
+
+        }, 2500); //second waiting share page load
     });
 }
+
+shareIntents.prototype.getUrl = function (extra) {
+    var url = "http://share." + location.host + "#" + extra + location.pathname;
+    console.log("shareIntents " + url);
+    return url;
+};
 
 function askAppInstall() {
-    var link = "https://play.google.com/store/apps/details?id=" + window.package;
+    var link = "";
+    if (window.isAndroid) {
+        link = "https://play.google.com/store/apps/details?id=" + window.package;
+    }
+    if (window.iPhone) {
+        link = "https://ios_page?id=" + window.package;
+    }
 
-    modalBox("Usa la app para compartir la encuesta!",
-            "Descárgala completamente gratis. <br>No requiere de permisos especiales"
-            , function () {
-                window.open(link, "_blank");
-            }, function () {
-        disableIntent();
-    });
+    if (link) {
+        modalBox("Usa la app para compartir la encuesta!",
+                "Descárgala completamente gratis. <br>No requiere de permisos especiales"
+                , function () {
+                    window.open(link, "_blank");
+                }, function () {
+            disableIntent("from modalBox");
+        });
+    } else {
+        disableIntent("!link");
+    }
 }
 
-function disableIntent() {
-    console.log("disableIntent()");
-    $(".no_image").removeClass("no_image");
+function disableIntent(why) {
     $("*").off(".intent");
+    console.log("disableIntent(): " + why);
+    $(".no_image").removeClass("no_image");
     window.notAskAppIntent = true;
 }
 

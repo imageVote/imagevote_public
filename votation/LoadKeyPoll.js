@@ -162,12 +162,13 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
         return;
     }
 
-    console.log("parseUserVotes newUser");
-    this.user = this.getUser(obj);
-    saveDefaultValues(this.user.vt);
+    console.log("parseUserVotes newUser " + window.user.id);
+    var user = this.getUser(obj);
+    saveDefaultValues(user.vt);
+    this.user = user;
 
     $("#votationOwner").remove();
-    if (obj.style && obj.style.owner) {
+    if (obj.style && !empty(obj.style.owner)) {
         var ownerDiv = $("<div id='votationOwner'><span class='by'>by: </span></div>");
         var text = obj.style.owner;
         text = decode_uri(text);
@@ -255,7 +256,7 @@ function errorParse(code) {
     if (Device.close && $("html").hasClass("translucent")) {
         $(".loading").remove();
         flash(transl(code), null, function () {
-            Device.close();
+            Device.close("errorParse " + code);
         });
         return;
     }

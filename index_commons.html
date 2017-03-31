@@ -112,7 +112,7 @@
         $("html").click(function (e) {
             if (e.target.nodeName == "HTML") {
                 if (Device.close) {
-                    Device.close();
+                    Device.close("e.target.nodeName == HTML");
                 }
             }
         });
@@ -146,18 +146,26 @@
     $(document).ready(function () {
         console.log("principal document ready");
 
-        window.user = new User(null, function () {
-            //get userName not Device way (before any return)
-            var userName = localStorage.getItem("userName");
-            if (userName) {
-                $("#username input").val(userName);
-            }
-
-            //user init needed!
+        if (!window.user) { //if already from device
+            console.log("add first window.user")
+            window.user = new User(null, function () {
+                //get userName not Device way (before any return)
+                var userName = localStorage.getItem("userName");
+                if (userName) {
+                    $("#username input").val(userName);
+                }
+                keyLoad();
+            });
+        } else {
+            keyLoad();
+        }
+        
+        //user init needed!
+        function keyLoad() {            
             if (screenPoll.key) {
                 window.keyPoll = new LoadKeyPoll(screenPoll);
             }
-        });
+        }
 
         translateTags();
     });

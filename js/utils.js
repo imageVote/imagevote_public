@@ -397,17 +397,24 @@ function enableScroll() {
     $('*').off('.disableScroll');
 }
 
-//http://stackoverflow.com/questions/17233804/how-to-prevent-sticky-hover-effects-for-buttons-on-touch-devices
-//prevents hover stuck click
-function hover_touch() {
-    var el = this;
-    var par = el.parentNode;
-    var next = el.nextSibling;
-    par.removeChild(el);
-    setTimeout(function () {
-        par.insertBefore(el, next);
-    }, 0);
+function empty(variable) {
+    if (!variable || "null" == variable || "undefined" == variable) {
+        return true;
+    }
+    return false;
 }
+
+////http://stackoverflow.com/questions/17233804/how-to-prevent-sticky-hover-effects-for-buttons-on-touch-devices
+//function hover_touch() {
+//    var el = this;
+//    var par = el.parentNode;
+//    var next = el.nextSibling;
+//    par.removeChild(el);
+//    setTimeout(function () {
+//        par.insertBefore(el, next);
+//    }, 0);
+//}
+
 
 var CSV = {
     delimiter: "|"
