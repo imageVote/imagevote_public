@@ -21,7 +21,7 @@ function HashManager() {
             //else wrong/old hashes
 //        loadHash("home");
 
-            new VotationButtons();
+            window.screenPoll.buttons = new VotationButtons(screenPoll);
             $("#cancel, #usersButton").hide();
 
             //headers
@@ -36,7 +36,7 @@ function HashManager() {
             $("#showPolls").show();
             $("#stored").show();
 
-            newPollView();
+            _this.newPollView();
         }
     };
 
@@ -54,6 +54,19 @@ function HashManager() {
             }
         }
     })
+}
+
+HashManager.prototype.newPollView = function () {
+    if ($("#body").hasClass("pollsView")) {
+        $("#body").removeClass("pollsView");
+        $("#pollsHeader").hide();
+        $("#voteHeader").show();
+
+        $("#body").addClass("swiping");
+        setTimeout(function () {
+            $("#body").removeClass("swiping");
+        }, 1);
+    }
 }
 
 //prevent large urls and device url confusions

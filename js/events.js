@@ -67,19 +67,6 @@ function notice(text, isError) {
     return err;
 }
 
-function newPollView() {
-    if ($("#body").hasClass("pollsView")) {
-        $("#body").removeClass("pollsView");
-        $("#pollsHeader").hide();
-        $("#voteHeader").show();
-
-        $("#body").addClass("swiping");
-        setTimeout(function () {
-            $("#body").removeClass("swiping");
-        }, 1);
-    }
-}
-
 function pollsView() {
 //    $("#body").addClass("pollsView");
 //    $("#voteHeader").hide();
@@ -223,7 +210,7 @@ $(document).ready(function () {
 
     if (is_touch_device()) {
         $(document).on("swiperight", function (e) {
-//            newPollView();
+//            hashManager.newPollView();
             hashManager.update("home");
 
         }).on("swipeleft", function () {

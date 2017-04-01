@@ -19,19 +19,18 @@ function saveAjax(action, json, callback) {
             key: screenPoll.key,
             value: json
         }
-    }).done(function(res) {
+    }).done(function (res) {
         console.log(res);
         if (!res) {
             error("errorAjaxResponse");
             //TODO ERROR ?
             return;
         }
-        screenPoll.key = res;
-
         if (callback) {
-            callback();
+            callback(res);
         }
-    }).error(function(res) {
+
+    }).error(function (res) {
         console.log(res);
         console.log("can't connect with ajax");
         error("votationNotSaved");
@@ -48,16 +47,16 @@ function saveDevice(action, json, public, country, callback) {
     var key = screenPoll.key;
     //FORCE WAIT KEY
     if (!key && !public && "create" == action) { //check external key!
-        if(window.keyWaiting > 8){
+        if (window.keyWaiting > 8) {
             flash(lang["waitingKeyExpired"]);
             return;
         }
 
         //wait 4 key arrive
-        setTimeout(function() {            
+        setTimeout(function () {
             saveDevice.apply(this, _args);
         }, 700);
-        
+
         console.log("looking for new key");
         window.keyWaiting++;
         return;
@@ -68,13 +67,13 @@ function saveDevice(action, json, public, country, callback) {
     var realKey = "";
     if (key) {
         var urlParts = getPathsFromKeyId(key);
-        realKey = screenPoll.realKey =urlParts.realKey;
+        realKey = screenPoll.realKey = urlParts.realKey;
     }
-    
+
     //key value is only added on create()
-    if(!window.lastKeyAsk){
+    if (!window.lastKeyAsk) {
         window.lastKeyAsk = 0;
-    }    
+    }
     console.log("callback: " + callback);
     Device.save(action, json, lastKeyAsk, realKey, public, country, "" + callback);
 }

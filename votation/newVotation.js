@@ -55,7 +55,7 @@ NewVotation_newKeyAjax = function (id) {
 //    //if wrong hash call
 //    if (!$("#option1 .option_text").text() || !$("#option2 .option_text").text() || (!window.fromCreateFunction && !manually)) {
 //        console.log("wrong values");
-//        newPollView();
+//        hashManager.newPollView();
 //        return;
 //    }
 //

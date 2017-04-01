@@ -5,7 +5,7 @@ function showVotation(users) {
     $("#votation").show();
 
     //public is defined on load html
-    new VotationButtons();
+    window.screenPoll.buttons = new VotationButtons(screenPoll);
     $("#send").hide();
 
     var style = screenPoll.style;
@@ -114,7 +114,6 @@ function shareIntents(tag, optionsResult) {
     if (window.notAskAppIntent) {
         return;
     }
-    window.preventSendEvents = true;
 
     //remove
     localStorage.setItem("not_installed", "");
@@ -183,6 +182,11 @@ function shareIntents(tag, optionsResult) {
 
 shareIntents.prototype.getUrl = function (extra) {
     var url = "http://share." + location.host + "#" + extra + location.pathname;
+    if("localhost" == location.hostname){
+        var path = location.pathname.split("/");
+        path.pop();
+        url = location.origin + path.join("/") + "/~share#" + extra + location.pathname;
+    }
     console.log("shareIntents " + url);
     return url;
 };
@@ -307,4 +311,8 @@ function getCookie(name) {
     //return unescape(dc.substring(begin + prefix.length, end));
     return decodeURI(dc.substring(begin + prefix.length, end));
 }
-
+//device function too !
+var votationEvents_deviceShare = function (keyId, imgData) {
+    //Device.share(imgData.replace("data:image/png;base64,", ""), keyId);
+    return Device.share(imgData.substring(22), keyId);
+}

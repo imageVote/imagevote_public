@@ -109,7 +109,7 @@ function parseData(value) {
 }
 
 function toObject(arr) {
-    console.log(arr)
+    console.log(JSON.stringify(arr));
     if (!$.isArray(arr)) {
         console.log("NOT ARRAY on " + JSON.stringify(arr));
         return false;

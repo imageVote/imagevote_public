@@ -444,19 +444,24 @@ var CSV = {
     parse: function (strData) {
         var res = [];
         var arr = strData.split("\n");
-        
-        arr[0] = arr[0].split(this.delimiter);
-        res.push(arr[0][0]);
-        res.push(JSON.parse(arr[0][1]));
-        res.push(JSON.parse(arr[0][2]));
-        
-        for(var i = 3; i < arr.length; i++){
+
+        var first = arr[0].split(this.delimiter);
+        res.push(first[0]);
+        try {
+            res.push(JSON.parse(first[1]));
+            res.push(JSON.parse(first[2]));
+        } catch (e) {
+            console.log("can't parse " + first[1] + "and " + first[2]);
+            return false;
+        }
+
+        for (var i = 1; i < arr.length; i++) {
             res.push(arr[i].split(this.delimiter));
         }
-        
-        console.log("parsed:");
-        console.log(JSON.stringify(res));
-        console.log(res);
+
+        //console.log("parsed:");
+        //console.log(JSON.stringify(res));
+        //console.log(res);
         return res;
     }
 };

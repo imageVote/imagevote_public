@@ -1,50 +1,63 @@
 
-VotationButtons = function () {
-    var buttonsHTML = "<div id='defaultButtons'>"
-            + "<button id='send' class='share'><em></em><span data-lang='Share'></span></button>"
-            + "<button id='cancel' data-lang='Cancel'></button>"
-            + "</div>"
-            + "<button id='usersButton' data-lang='Voters'></button>";
+var VotationButtons = function (poll, $dom, tpye) {
+    this.poll = poll;
+    this.$dom = $dom;
 
-    //create BUTTONS every time for good reset (class saveAndshare ex.)
-    $("#defaultButtons").remove();
-    $("#usersButton").remove();
-    $("#votationButtons").prepend(buttonsHTML);
+    this.savingPoll = false;
+    this.key_waiting = 0;
+    this._ajaxKeyWaiting = 0;
+
+    this.sendButton = $("<button id='send' class='share'><em></em><span data-lang='Share'></span></button>");
+    this.cancelButton = $("<button id='cancel' data-lang='Cancel'>");
+    this.usersButton = $("<button id='usersButton' data-lang='Voters'>");
+
+    if (!$dom) {
+        $dom = $("#votationButtons");
+        this.$votation = $("#creator");
+    } else {
+        this.$votation = $dom.parent();
+    }
+    $dom.css("z-index", 1);
+    $dom.find("#defaultButtons").remove();
+    $dom.find("#usersButton").remove();
+    
+    $dom.prepend(this.usersButton);
+    var buttonsHTML = $("<div id='defaultButtons'>");
+    buttonsHTML.append(this.sendButton);
+    buttonsHTML.append(this.cancelButton);
+    $dom.prepend(buttonsHTML);
+
     loadTranslations();
 
-    this.VotationButtons_send();
-    this.VotationButtons_cancel();
-    this.VotationButtons_users();
-    $("#buttons").show();
+    this.sendButtonEvent();
+    this.cancelButtonEvent();
+    this.usersButtonEvent();
+    //$("#buttons").show();
 };
 
-VotationButtons.prototype.VotationButtons_send = function () {
-    console.log("VotationButtons.VotationButtons_send original")
+VotationButtons.prototype.sendButtonEvent = function () {
+    var _this = this;
+    console.log("VotationButtons.sendButtonEvent original")
 
-    $("#send").click(function (e) {
-        if (window.preventSendEvents) {
-            console.log("preventSendEvents");
-            return;
-        }
-
+    this.sendButton.click(function (e) {
         //prevent docuble tap save and share ?
         e.stopPropagation();
-        $("body").append("<img from='votationEvents_buttonsEvents' class='loading absoluteLoading' src='~img/loader.gif'/>");
+        $("body").append("<img from='VotationButtons.sendButtonEvent' class='loading absoluteLoading' src='~img/loader.gif'/>");
 
-        var obj = screenPoll.obj;
+        var obj = _this.poll.obj;
         console.log(obj);
 
         //IF SAVE and/or SHARE
         //prevent sav and share if premium cose not key con be loaded!
-        if ($("#send").hasClass("saveAndShare")) {
+        if (_this.sendButton.hasClass("saveAndShare")) {
             if (!obj.users) {
                 obj.users = [];
             }
             //save user on screenPoll 'obj' (1st time)
-            obj.users[window.user.id] = getUserArray(window.user);
+            obj.users[_this.user.id] = getUserArray(_this.user);
 
-            //.SaveAndShare class includes votationEvents_shareButton!
-            votationEvents_saveButton("create", obj, function (done) {
+            //.SaveAndShare class includes VotationButtons.share!
+            _this.save("create", function (done) {
                 if (false === done) {
                     $(".absoluteLoading").remove();
                     return;
@@ -52,9 +65,9 @@ VotationButtons.prototype.VotationButtons_send = function () {
                 localStorage.setItem("unusedKey", "");
             });
 
-        } else if (!$("#send").hasClass("share")) { //class is save
-            $("#send").attr("disabled", "disabled");
-            votationEvents_saveButton("update", obj, function (done) {
+        } else if (!_this.sendButton.hasClass("share")) { //class is save
+            _this.sendButton.attr("disabled", "disabled");
+            _this.save("update", function (done) {
                 $(".absoluteLoading").remove();
                 if (false !== done) {
                     saveToShare();
@@ -62,22 +75,22 @@ VotationButtons.prototype.VotationButtons_send = function () {
             });
 
         } else { //share
-            votationEvents_shareButton(screenPoll, function () {
+            _this.share(function () {
                 $(".absoluteLoading").remove();
             });
         }
     });
 };
 
-VotationButtons.prototype.VotationButtons_cancel = function () {
+VotationButtons.prototype.cancelButtonEvent = function () {
 
-    $("#cancel").click(function () {
+    this.cancelButton.click(function () {
         window.screenPoll = new LoadedPoll();
 
         if (window.isTranslucent) {
             if (Device.close) {
                 console.log("closing.. window.isTranslucent: " + window.isTranslucent);
-                Device.close("VotationButtons_cancel window.isTranslucent");
+                Device.close("cancelButton window.isTranslucent");
                 return;
             }
         }
@@ -107,9 +120,9 @@ VotationButtons.prototype.VotationButtons_cancel = function () {
     });
 };
 
-VotationButtons.prototype.VotationButtons_users = function () {
+VotationButtons.prototype.usersButtonEvent = function () {
     //voters users
-    var obj = window.screenPoll.obj;
+    var obj = this.poll.obj;
     var users = obj.users;
 
     var nameIndex;
@@ -144,11 +157,11 @@ VotationButtons.prototype.VotationButtons_users = function () {
 
     //prevent show voters button if no voters exist
     if (voters.length < 2) {
-        $("#usersButton").hide();
+        this.usersButton.hide();
         return;
     }
 
-    $("#usersButton").click(function () {
+    this.usersButton.click(function () {
         $("#users .list").html("");
 
         //SORT
@@ -195,43 +208,45 @@ VotationButtons.prototype.VotationButtons_users = function () {
             }
 
             $("#mainPage > div").hide();
-            $("#users").show();
+            _this.usersButton.show();
         } else {
             flash(lang["notPublicUsers"]);
         }
     });
 };
 
-window._ajaxKeyWaiting = 0;
 //not pass obj for function. this is a Device function.
-var votationEvents_shareButton = function (poll, callback) {
+//var votationEvents_shareButton = function (poll, callback) {
+VotationButtons.prototype.share = function (callback) {
+    var _this = this;
+    var poll = this.poll;
     console.log(poll);
     var _args = arguments;
 
     if (!$("#shareButtonLoading").length) {
-        $("body").append("<img from='votationEvents_shareButton' id='shareButtonLoading' class='loading absoluteLoading' src='~img/loader.gif'/>");
+        $("body").append("<img from='VotationButtons.share' id='shareButtonLoading' class='loading absoluteLoading' src='~img/loader.gif'/>");
     }
 
-    console.log("votationEvents_shareButton");
+    console.log("VotationButtons.share");
     if (!Device.share && !poll.key) {
         //if not seems respond
-        if (window._ajaxKeyWaiting > 10) {
-            window._ajaxKeyWaiting = 0;
+        if (this._ajaxKeyWaiting > 10) {
+            this._ajaxKeyWaiting = 0;
             error("missingAjaxKey");
             if (callback) {
                 callback(false);
             }
             return;
         }
-        window._ajaxKeyWaiting++;
+        this._ajaxKeyWaiting++;
 
         setTimeout(function () {
             console.log("waiting ajax key..");
-            votationEvents_shareButton.apply(this, _args);
+            _this.share.apply(this, _args);
         }, 700);
         return;
     }
-    window._ajaxKeyWaiting = 0;
+    this._ajaxKeyWaiting = 0;
 
     console.log("country = " + poll.country);
     var keyId = poll.key;
@@ -266,21 +281,18 @@ var votationEvents_shareButton = function (poll, callback) {
             callback(true);
         }
     });
+
+    //at the end
+    console.log("poll.json: " + poll.json)
+    saveLocally(keyId, poll.json);
 };
 
-//device function too !
-var votationEvents_deviceShare = function (keyId, imgData) {
-    //Device.share(imgData.replace("data:image/png;base64,", ""), keyId);
-    return Device.share(imgData.substring(22), keyId);
-}
+//var votationEvents_saveButton = function (poll, callback) {
+VotationButtons.prototype.save = function (action, callback) {
+    var _this = this;
+    console.log("VotationButtons.save screenPoll");
 
-var savingPoll = false;
-var votationEvents_saveButton = function (action, obj, callback) {
-    var _args = arguments;
-    console.log("votationEvents_shareButton screenPoll");
-    console.log(obj);
-
-    var poll = window.screenPoll;
+    var poll = this.poll;
     var user = window.user;
 
     if (!poll.public) {
@@ -307,7 +319,7 @@ var votationEvents_saveButton = function (action, obj, callback) {
             var userName = localStorage.getItem("userName");
             modalInput(transl("myName"), userName, function (val) {
                 updateUserName(val);
-                votationEvents_saveButton(action, obj, callback);
+                _this.save(action, callback);
             });
 
             if (callback) {
@@ -318,17 +330,17 @@ var votationEvents_saveButton = function (action, obj, callback) {
 
         if (!poll.key) {
             if (checkConnection()) {
-                if (window.key_waiting > 10) {
+                if (this.key_waiting > 10) {
                     $(".absoluteLoading").remove();
                     flash("server connection is taking too long");
                 }
 
                 console.log("no key yet");
                 setTimeout(function () {
-                    votationEvents_saveButton.apply(this, _args);
+                    _this.save(action, callback);
                 }, 500);
 
-                window.key_waiting ? window.key_waiting++ : window.key_waiting = 0;
+                this.key_waiting++;
                 return;
             }
             //stop
@@ -339,14 +351,14 @@ var votationEvents_saveButton = function (action, obj, callback) {
         }
     }
 
-    if (!window.savingPoll) {
+    if (!this.savingPoll) {
         //loading class for group and work with all loadings on page
         if ($(".absoluteLoading").length) {
-            $(".absoluteLoading").attr("from", 'votationEvents_saveButton');
+            $(".absoluteLoading").attr("from", 'VotationButtons.save');
         } else {
-            $("body").append("<img from='votationEvents_saveButton' class='loading absoluteLoading' src='~img/loader.gif'/>");
+            $("body").append("<img from='VotationButtons.save' class='loading absoluteLoading' src='~img/loader.gif'/>");
         }
-        window.savingPoll = true;
+        this.savingPoll = true;
     }
 
     //before change anything
@@ -360,11 +372,7 @@ var votationEvents_saveButton = function (action, obj, callback) {
             console.log("not private key: " + poll.key);
             //if create poll
             if (!window.publicId) {
-                votationEvents_notSave(2);
-                if (window.loadingPublicKey) {
-                    flash(transl("loadingPublicKey"));
-                    return;
-                }
+                this.notSave(2);
 
                 //can't save votation if not publicId is working
                 console.log("ASKING PHONE " + poll.key);
@@ -380,43 +388,33 @@ var votationEvents_saveButton = function (action, obj, callback) {
             //public = "true";
             poll.isPublic("true");
             //remove old not-public user
-            if (window.phoneId && obj.users[phoneId]) {
-                delete obj.users[phoneId];
+            if (window.phoneId && poll.obj.users[phoneId]) {
+                delete poll.obj.users[phoneId];
             }
         }
     }
 
-    var votes = obj.users[user.id][1];
+    var votes = poll.obj.users[user.id][1];
 
     $("#image").remove();
     saveDefaultValues(votes);
 
-    //wait callback only if creating poll 4 check that works
-    var saveCallback = "";
-    if ($("#send").hasClass("saveAndShare")) {
-        saveCallback = function () {
-            votationEvents_shareButton(poll, function () {
-                $(".absoluteLoading").remove();
-            });
-        };
-    }
-
-    //update before ask phone
-    var sendJson;
+    //update before ask phone  
+    var sendJson = "";
     if ("update" == action) {
         console.log('update" == action');
-        var userArr = obj.users[user.id];
-        //sendJson = JSON.stringify(userArr);
+        var userArr = poll.obj.users[user.id];
         sendJson = CSV.stringify([userArr]);
-        saveLocally(poll.key, poll.json + "," + sendJson);
+        poll.json += "\n" + sendJson;
+        saveLocally(poll.key, poll.json);
 
     } else if ("create" == action) {
-        sendJson = pollToCSV(obj);
+        sendJson = poll.json = pollToCSV(poll.obj);
 
         //not local stored if not voted by me
-        if ("undefined" !== typeof (votes) && "" !== votes) {
-            saveLocally(poll.key, sendJson);
-        }
+//        if ("undefined" !== typeof (votes) && "" !== votes) {
+//            saveLocally(poll.key, sendJson);
+//        }
 
     } else {
         console.log("error on action: " + action);
@@ -426,38 +424,49 @@ var votationEvents_saveButton = function (action, obj, callback) {
         return;
     }
 
-    //callback
-    var call = true;
-
     //WEB like ios change button now
+    this.saveEventCallback = callback;
     if (!Device.save) {
-        saveAjax(action, sendJson, saveCallback);
+        saveAjax(action, sendJson, function (res) {
+            _this.saveCallback(res);
+        });
 
     } else {
-        saveCallback = "" + saveCallback;
         //only way of public - public-id has to be updated on load
-        console.log("callback: " + saveCallback);
-        saveDevice(action, sendJson, "" + poll.public, poll.country, saveCallback);
+        saveDevice(action, poll.json, "" + poll.public, poll.country, "screenPoll.buttons.saveCallback");
     }
+};
+
+//device calls:
+VotationButtons.prototype.saveCallback = function (res) {
+    console.log("saveCallback " + res);
+    this.poll.key = res;
 
     //remove any stored cache
-    if (poll.key) {
-        var urlParts = getPathsFromKeyId(poll.key);
+    if (this.poll.key) {
+        var urlParts = getPathsFromKeyId(this.poll.key);
         var url = urlParts.realPath + urlParts.realKey;
         //1 DAY with no cache (don't do less, older file could will be cached!)
         var cacheTimeout = (new Date()).getTime() + 86400000;
         localStorage.setItem(url, cacheTimeout);
 
-        if (call) {
-            callback(call);
+        if (this.saveEventCallback) {
+            this.saveEventCallback();
         }
     }
 
-    //$(".absoluteLoading").remove();
-    savingPoll = false;
+    if (this.sendButton.hasClass("saveAndShare")) {
+        this.share(function () {
+            $(".absoluteLoading").remove();
+            this.savingPoll = false;
+        });
+    } else {
+        $(".absoluteLoading").remove();
+        this.savingPoll = false;
+    }
 };
 
-var votationEvents_notSave = function (why) {
-    console.log("votationEvents_notSave: " + why);
-    $("#send").removeAttr("disabled");
+VotationButtons.prototype.notSave = function (why) {
+    console.log("VotationButtons.notSave: " + why);
+    this.sendButton.removeAttr("disabled");
 };

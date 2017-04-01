@@ -23,8 +23,14 @@ function loadStoredPolls() {
     for (var storedKey in localStorage) {
         var arrayKey = storedKey.split("key_");
 
-        //not key stored OR whitespace in -> cause divQuery error
+        //not key stored OR whitespace in -> cause divQuery bug
         if (arrayKey.length != 2 || storedKey.indexOf(' ') != -1) {
+            continue;
+        }
+        try {
+            $(storedKey).length;
+        } catch (e) {
+            console.log("ERROR stored key: " + storedKey);
             continue;
         }
 
@@ -32,10 +38,16 @@ function loadStoredPolls() {
         var keyId = arrayKey[1];
 
         //console.log(localStorage[storedKey])
-        var arrayTimeData = JSON.parse(localStorage[storedKey]);
+        var arrayTimeData;
+        try {
+            arrayTimeData = JSON.parse(localStorage[storedKey]);
+        } catch (e) {
+            console.log("can't parse " + storedKey);
+            continue;
+        }
         var id = "stored_" + keyId.replace(/([^\w\s])/g, '\$1');
         var div = $("<div class='votation' id='" + id + "'>");
-        
+
         var query = "#" + id;
         var obj = parseData(arrayTimeData[1]);
         console.log(obj);
@@ -47,10 +59,10 @@ function loadStoredPolls() {
         }
 
         //add only if I vote it
-        var userVote = obj.users[window.user.id];
-        if ("undefined" === typeof userVote || "" === userVote) {
-            continue;
-        }
+//        var userVote = obj.users[window.user.id];
+//        if ("undefined" === typeof userVote || "" === userVote) {
+//            continue;
+//        }
 
         //all ok:
         stored.append(div);
@@ -68,7 +80,9 @@ function storedPolls_init() {
     window.StoredPolls = {};
 
     StoredPolls._loadWebPoll = function (keyId) {
+        var _this = this;
         console.log("StoredPolls._loadWebPoll");
+        
         var urlParts = getPathsFromKeyId(keyId);
         var realPath = urlParts.realPath;
         var realKey = urlParts.realKey;
@@ -94,7 +108,7 @@ function storedPolls_init() {
             var obj = parseData(data);
 
             window.storedTable = new FillTable(query, obj, {removable: true});
-            StoredPolls._events(keyId);
+            _this._events(keyId);
             $(query + " .loader").hide();
 
             fontSize(query);
@@ -102,15 +116,35 @@ function storedPolls_init() {
     };
 
     StoredPolls._events = function (keyId) {
+        var _this = this;
         var query = "#stored_" + keyId;
 
-        var $div = $(query + " .votation");
+        var $div = $(query + " .stored");
         var remove = $(query + " .removeInfo");
+
+        //enable close button on no-touch disaply
+        var closeButton = true;
+        $div.on("mousemove", function () {
+            if (closeButton && !$div.find(".close").length) {
+                var close = $("<div class='close'"
+                        + " style='position:absolute; top:-3px; right:-7px; width: 20px; height: 20px; background:red; border-radius:99px; border: 1px solid gainsboro; text-align:center; line-height:18px;'>x</div>")
+                $div.append(close);
+                close.click(function (e) {
+                    //e.preventDefault();
+                    e.stopPropagation(); //prevent open votation
+                    _this._remove($div);
+                });
+            }
+            $div.one("mouseleave", function () {
+                $div.find(".close").remove();
+            });
+        });
 
         $div.on("mousedown touchstart", function (e) {
             //prevents pages swipe event bugs:
             e.stopPropagation();
-            //console.log(div)
+
+            console.log("touchstart");
             e = getEvent(e);
 
             var w = $div.width();
@@ -119,6 +153,7 @@ function storedPolls_init() {
             var leftMove, topMove, p = 0;
 
             $(document).on("mousemove.stored touchmove.stored", function (e) {
+                closeButton = false;
                 e = getEvent(e);
 
                 leftMove = e.clientX - left;
@@ -154,19 +189,11 @@ function storedPolls_init() {
             });
 
             $(document).one("mouseup.stored touchend.stored", function (e) {
+                closeButton = true;
                 //e.stopPropagation();
                 $(document).off(".stored");
                 if (p > 0.4) {
-                    //needs animate
-                    $div.animate({
-                        opacity: 0,
-                        left: w,
-//                        transform: "translateX(" + w + "px)"
-//                        height: '40px'
-                    }, 300, function () {
-                        $div.css("transform", "translateX(0)");
-                        StoredPolls._remove($div.parent());
-                    });
+                    _this._remove($div);
 
                 } else {
                     $div.css({
@@ -187,43 +214,53 @@ function storedPolls_init() {
         clickablePoll(query, keyId); //click
     };
 
-    StoredPolls._remove = function (stored) {
-        console.log("StoredPolls._remove")
-        stored.removeClass("clickable");
+    StoredPolls._remove = function ($div) {
+        //needs animate
+        $div.animate({
+            opacity: 0,
+            left: $div.width()
+        }, 300, function () {
+            $div.css("transform", "translateX(0)");
+            var stored = $div.parent();
 
-        $("#undo").remove();
-        var undo = $("<div id='undo' class='hoverUnderline'>" + lang["UNDO"] + "</div>");
-        stored.append(undo);
+            console.log("StoredPolls._remove")
+            stored.removeClass("clickable");
 
-        $(document).one("mousedown.undo touchstart.undo", function (e) {
-            $(document).off(".undo"); //prevent double event (mousedown + touchstart)
-            
-            e.preventDefault();
-            if ($(e.target).attr("id") == "undo") {
-                undo.remove();
-                stored.find(".votation").animate({
-                    left: 0,
-                    opacity: 1,
+            //$("#undo").remove();
+            stored.find(".undo").remove();
+            var undo = $("<div class='undo' class='hoverUnderline'>" + lang["UNDO"] + "</div>");
+            stored.append(undo);
+
+            $(document).off(".undo");
+            $(document).one("mousedown.undo touchstart.undo", function (e) {
+
+                e.preventDefault();
+                if ($(e.target).hasClass("undo")) {
+                    $("#stored .undo").remove();
+                    $("#stored .stored").animate({
+                        left: 0,
+                        opacity: 1,
 //                    height: 'auto'
-                }, 300);
-                stored.addClass("clickable");
+                    }, 300);
+                    $("#stored .stored").addClass("clickable");
 
-            } else {
-                stored.css("height", stored.height() + "px");
-                setTimeout(function () {
-                    stored.css({
-                        height: 0,
-                        margin: 0
-                    });
-                }, 1);
+                } else {
+                    //$("#stored .undo").parent().css("height", stored.height() + "px");
 
-                setTimeout(function () {
-                    stored.remove();
-                }, 300);
+                    var $undos = $("#stored .undo");
+                    for (var i = 0; i < $undos.length; i++) {
+                        (function () {
+                            var $div = $($undos[i]).parent();
+                            var keyId = $div.attr("id").split("_")[1];
+                            localStorage.removeItem("key_" + keyId);
 
-                var keyId = stored.attr("id").split("_")[1];
-                localStorage.removeItem("key_" + keyId);
-            }
+                            setTimeout(function () {
+                                $div.remove();
+                            }, 300);
+                        })();
+                    }
+                }
+            });
         });
     };
 

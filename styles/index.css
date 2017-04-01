@@ -376,6 +376,7 @@ input{
     transform: translateX(-50%);
 }
 #stored .error{
+    position: absolute;
     color: maroon;
     color: yellow;
     font-weight: normal;
@@ -576,7 +577,7 @@ input{
     right: 0;    
 }
 
-.removeInfo, #undo{
+.removeInfo, .undo{
     position: absolute;
     bottom: 0;
     padding: 10px 5px;
@@ -595,7 +596,7 @@ input{
     -o-transition: color 200ms;
     transition: color 200ms;
 }
-#undo{
+.undo{
     right: 0;
     cursor: pointer;
     color: blue;
