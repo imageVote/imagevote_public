@@ -108,9 +108,10 @@ HashManager.prototype.update = function (hash, error) {
             location = location.origin + location.pathname + "#" + hash + error;
             return;
         }
-        if (location.hash == hash) {
+        if (location.hash == "#" + hash + error) {
 //            location.reload();
-            location.href = location.href + error;
+            //location.href = location.href + error;
+            this.load(hash);
             return;
         }
         location.hash = hash;
