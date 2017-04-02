@@ -10,14 +10,14 @@ var VotationButtons = function (poll, $dom, tpye) {
     this.cancelButton = $("<button id='cancel' data-lang='Cancel'>");
     this.usersButton = $("<button id='usersButton' data-lang='Voters'>");
 
-    this.$dom = $dom;
     if (!$dom) {
         this.$dom = $("#votationButtons");
         this.$votation = $("#creator");
     } else {
         this.$votation = $dom.parent();
     }
-    $dom.css("z-index", 1);
+    this.$dom = $dom;
+    
     $dom.find("#defaultButtons").remove();
     $dom.find("#usersButton").remove();
     
