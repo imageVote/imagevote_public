@@ -119,12 +119,12 @@ function shareIntents(tag, optionsResult) {
     localStorage.setItem("not_installed", "");
     localStorage.setItem("app", "");
 
-    $(tag).on("click.intent", function () {
+    tag.on("click.intent", function () {
         var extra = "";
         if (optionsResult) {
             for (var n = 0; n < optionsResult.length; n++) {
                 var votes = optionsResult[n][2];
-                var option = $(tag).closest(".option");
+                var option = tag.closest(".option");
                 if (option.length) {
                     var option_number = option.attr("class").split("_")[1];
                     if (option_number == n) {

@@ -38,7 +38,7 @@ var VotationButtons = function (poll, $dom, tpye) {
 // UNUSED IN WOULD-YOU-RATHER:
 VotationButtons.prototype.sendButtonEvent = function () {
     var _this = this;
-    console.log("VotationButtons.sendButtonEvent original")
+    console.log("VotationButtons.sendButtonEvent original");
 
     this.sendButton.click(function (e) {
         //prevent docuble tap save and share ?
