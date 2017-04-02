@@ -35,6 +35,7 @@ var VotationButtons = function (poll, $dom, tpye) {
     //$("#buttons").show();
 };
 
+// UNUSED IN WOULD-YOU-RATHER:
 VotationButtons.prototype.sendButtonEvent = function () {
     var _this = this;
     console.log("VotationButtons.sendButtonEvent original")
@@ -43,12 +44,8 @@ VotationButtons.prototype.sendButtonEvent = function () {
         //prevent docuble tap save and share ?
         e.stopPropagation();
         $("body").append("<img from='VotationButtons.sendButtonEvent' class='loading absoluteLoading' src='~img/loader.gif'/>");
-
-        _this.$votation.find(".text").removeAttr("contenteditable");
-        _this.$votation.find(".option").css("pointer-events", "none");
-
+        
         var obj = _this.poll.obj;
-        console.log(obj);
 
         //IF SAVE and/or SHARE
         //prevent sav and share if premium cose not key con be loaded!
@@ -84,6 +81,10 @@ VotationButtons.prototype.sendButtonEvent = function () {
         }
     });
 };
+
+VotationButtons.prototype.cancelButtonEvent = function () {
+    
+}
 
 VotationButtons.prototype.cancelButtonEvent = function () {
 
