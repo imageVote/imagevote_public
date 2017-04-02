@@ -43,7 +43,9 @@ VotationButtons.prototype.sendButtonEvent = function () {
         //prevent docuble tap save and share ?
         e.stopPropagation();
         $("body").append("<img from='VotationButtons.sendButtonEvent' class='loading absoluteLoading' src='~img/loader.gif'/>");
-        _this.$votation.find(".text").attr("contenteditable", "");
+        
+        _this.$votation.find(".text").removeAttr("contenteditable");
+        _this.$votation.find(".option").css("pointer-events", "none");
 
         var obj = _this.poll.obj;
         console.log(obj);
@@ -423,6 +425,13 @@ VotationButtons.prototype.save = function (action, callback) {
         }
         return;
     }
+    
+    //is shared before
+    if(this.lastSendJson == sendJson){
+        _this.saveCallback(this.poll.key);
+        return;
+    }
+    this.lastSendJson = sendJson;
 
     //WEB like ios change button now
     this.saveEventCallback = callback;
