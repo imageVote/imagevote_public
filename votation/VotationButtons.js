@@ -17,10 +17,10 @@ var VotationButtons = function (poll, $dom, tpye) {
         this.$votation = $dom.parent();
     }
     this.$dom = $dom;
-    
+
     $dom.find("#defaultButtons").remove();
     $dom.find("#usersButton").remove();
-    
+
     $dom.prepend(this.usersButton);
     var buttonsHTML = $("<div id='defaultButtons'>");
     buttonsHTML.append(this.sendButton);
@@ -43,7 +43,7 @@ VotationButtons.prototype.sendButtonEvent = function () {
         //prevent docuble tap save and share ?
         e.stopPropagation();
         $("body").append("<img from='VotationButtons.sendButtonEvent' class='loading absoluteLoading' src='~img/loader.gif'/>");
-        
+
         _this.$votation.find(".text").removeAttr("contenteditable");
         _this.$votation.find(".option").css("pointer-events", "none");
 
@@ -396,11 +396,6 @@ VotationButtons.prototype.save = function (action, callback) {
         }
     }
 
-    var votes = poll.obj.users[user.id][1];
-
-    $("#image").remove();
-    saveDefaultValues(votes);
-
     //update before ask phone  
     var sendJson = "";
     if ("update" == action) {
@@ -413,11 +408,6 @@ VotationButtons.prototype.save = function (action, callback) {
     } else if ("create" == action) {
         sendJson = poll.json = pollToCSV(poll.obj);
 
-        //not local stored if not voted by me
-//        if ("undefined" !== typeof (votes) && "" !== votes) {
-//            saveLocally(poll.key, sendJson);
-//        }
-
     } else {
         console.log("error on action: " + action);
         if (callback) {
@@ -425,13 +415,18 @@ VotationButtons.prototype.save = function (action, callback) {
         }
         return;
     }
-    
+
     //is shared before
-    if(this.lastSendJson == sendJson){
+    if (this.lastSendJson == sendJson) {
         _this.saveCallback(this.poll.key);
         return;
     }
     this.lastSendJson = sendJson;
+    
+    //if new
+    $("#image").remove();
+    var votes = poll.obj.users[user.id][1];
+    saveDefaultValues(votes);
 
     //WEB like ios change button now
     this.saveEventCallback = callback;
@@ -447,7 +442,7 @@ VotationButtons.prototype.save = function (action, callback) {
 };
 
 //device calls:
-VotationButtons.prototype.saveCallback = function (res) {        
+VotationButtons.prototype.saveCallback = function (res) {
     console.log("saveCallback " + res);
     this.poll.key = res;
 
@@ -473,7 +468,7 @@ VotationButtons.prototype.saveCallback = function (res) {
         $(".absoluteLoading").remove();
         this.savingPoll = false;
     }
-    
+
     //saveLocally(key, this.poll.json);
 };
 

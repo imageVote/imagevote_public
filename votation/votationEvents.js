@@ -51,10 +51,10 @@ function backVotation() {
 // VOTATION EVENTS
 
 function saveDefaultValues(votes) {
-    if (!votes) {
-        votes = [];
-    }
-    //window.originalVotes = votes.toString();
+//    if (!votes) {
+//        votes = [];
+//    }
+//    window.originalVotes = votes.toString();
 
     window.originalPublic = $("#p_makePublic input").is(':checked');
     window.originalCountry = $("#countrySelect select").val();
