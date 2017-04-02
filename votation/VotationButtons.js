@@ -216,7 +216,6 @@ VotationButtons.prototype.usersButtonEvent = function () {
 };
 
 //not pass obj for function. this is a Device function.
-//var votationEvents_shareButton = function (poll, callback) {
 VotationButtons.prototype.share = function (callback) {
     var _this = this;
     var poll = this.poll;
@@ -287,7 +286,6 @@ VotationButtons.prototype.share = function (callback) {
     saveLocally(keyId, poll.json);
 };
 
-//var votationEvents_saveButton = function (poll, callback) {
 VotationButtons.prototype.save = function (action, callback) {
     var _this = this;
     console.log("VotationButtons.save screenPoll");
@@ -328,27 +326,28 @@ VotationButtons.prototype.save = function (action, callback) {
             return;
         }
 
-        if (!poll.key) {
-            if (checkConnection()) {
-                if (this.key_waiting > 10) {
-                    $(".absoluteLoading").remove();
-                    flash("server connection is taking too long");
-                }
-
-                console.log("no key yet");
-                setTimeout(function () {
-                    _this.save(action, callback);
-                }, 500);
-
-                this.key_waiting++;
-                return;
-            }
-            //stop
-            if (callback) {
-                callback(false);
-            }
-            return;
-        }
+//        if (!poll.key) {
+//            if (checkConnection()) {
+//                if (this.key_waiting > 10) {
+//                    $(".absoluteLoading").remove();
+//                    flash("server connection is taking too long");
+//                    return;
+//                }
+//
+//                console.log("no key yet");
+//                setTimeout(function () {
+//                    _this.save(action, callback);
+//                }, 500);
+//
+//                this.key_waiting++;
+//                return;
+//            }
+//            //stop
+//            if (callback) {
+//                callback(false);
+//            }
+//            return;
+//        }
     }
 
     if (!this.savingPoll) {
@@ -427,18 +426,18 @@ VotationButtons.prototype.save = function (action, callback) {
     //WEB like ios change button now
     this.saveEventCallback = callback;
     if (!Device.save) {
-        saveAjax(action, sendJson, function (res) {
+        this.saveAjax(action, sendJson, function (res) {
             _this.saveCallback(res);
         });
 
     } else {
         //only way of public - public-id has to be updated on load
-        saveDevice(action, poll.json, "" + poll.public, poll.country, "screenPoll.buttons.saveCallback");
+        this.saveDevice(action, "screenPoll.buttons.saveCallback");
     }
 };
 
 //device calls:
-VotationButtons.prototype.saveCallback = function (res) {
+VotationButtons.prototype.saveCallback = function (res) {        
     console.log("saveCallback " + res);
     this.poll.key = res;
 
@@ -464,6 +463,8 @@ VotationButtons.prototype.saveCallback = function (res) {
         $(".absoluteLoading").remove();
         this.savingPoll = false;
     }
+    
+    //saveLocally(key, this.poll.json);
 };
 
 VotationButtons.prototype.notSave = function (why) {

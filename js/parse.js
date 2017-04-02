@@ -82,56 +82,6 @@ function pollToCSV(obj) {
     return csv;
 }
 
-function pollToCSV(obj) {
-    var style = window.screenPoll.style;
-    if (!style) {
-        style = {};
-    }
-    if (!obj.style) {
-        obj.style = style;
-        if (!obj.style) {
-            obj.style = {};
-        }
-    }
-    if (window.user && window.user.nm) {
-        obj.style.owner = window.user.nm;
-    }
-
-    //remove default styles
-    for (var key in obj.style) {
-        if (obj.style[key] == window.defaultStyle[key]) {
-            delete obj.style[key];
-        }
-    }
-
-    if (!obj.question) {
-        obj.question = "";
-    }
-
-    var options_obj = obj.options;
-    var options = [];
-    for (var i = 0; i < options_obj.length; i++) {
-        if (options_obj[i] && options_obj[i][1]) {
-            options.push(options_obj[i][1]);
-        } else {
-            options.push(options_obj);
-        }
-
-    }
-
-    var arr = [obj.question, options, obj.style];
-
-    //add user ony if is voting
-    var user = getUserArray(window.user);
-    if (user.vt) {
-        arr.push(user);
-    }
-    
-    var csv = arr.join(",");
-    console.log("csv: " + csv);
-    return csv;
-}
-
 function parseData(value) {
     //data errors
     if (!value) {

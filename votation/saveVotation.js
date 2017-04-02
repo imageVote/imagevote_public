@@ -1,8 +1,8 @@
 
 // CONNECTIVITY
 
-function saveAjax(action, json, callback) {
-    if ("true" == screenPoll.public) {
+VotationButtons.prototype.saveAjax = function(action, json, callback) {
+    if ("true" == this.poll.public) {
         //but let share!
         //error("Vote on public polls whithout APP is forbidden.");
         error("PublicOnlyFromApp");
@@ -15,8 +15,8 @@ function saveAjax(action, json, callback) {
         cache: false,
         data: {
             action: action,
-            id: user.id,
-            key: screenPoll.key,
+            id: window.user.id,
+            key: this.poll.key,
             value: json
         }
     }).done(function (res) {
@@ -37,37 +37,45 @@ function saveAjax(action, json, callback) {
 
         //debug
         saveToShare();
-        screenPoll.key = " ";
+        this.poll.key = " ";
     });
 }
 
-var keyWaiting = 0;
-function saveDevice(action, json, public, country, callback) {
-    var _args = arguments;
-    var key = screenPoll.key;
+VotationButtons.prototype.saveDevice = function(action, callback) {
+    var _this = this;
+    
+    var json = this.poll.json;
+    var public = "" + this.poll.public;
+    var country = this.poll.country;
+    var key = this.poll.key;
+    
+    if(!this.keyWaiting){
+        this.keyWaiting = 0;
+    }
+    
     //FORCE WAIT KEY
     if (!key && !public && "create" == action) { //check external key!
-        if (window.keyWaiting > 8) {
-            flash(lang["waitingKeyExpired"]);
+        if (this.keyWaiting > 8) {
+            flash(transl("waitingKeyExpired"));
             return;
         }
 
         //wait 4 key arrive
         setTimeout(function () {
-            saveDevice.apply(this, _args);
+            _this.saveDevice(action, callback);
         }, 700);
 
         console.log("looking for new key");
-        window.keyWaiting++;
+        this.keyWaiting++;
         return;
     }
-    window.keyWaiting = 0;
+    this.keyWaiting = 0;
 
     //localStorage.setItem("unusedKey", "");
     var realKey = "";
     if (key) {
         var urlParts = getPathsFromKeyId(key);
-        realKey = screenPoll.realKey = urlParts.realKey;
+        realKey = this.poll.realKey = urlParts.realKey;
     }
 
     //key value is only added on create()
@@ -75,8 +83,8 @@ function saveDevice(action, json, public, country, callback) {
         window.lastKeyAsk = 0;
     }
     console.log("callback: " + callback);
-    Device.save(action, json, lastKeyAsk, realKey, public, country, "" + callback);
-}
+    Device.save(action, json, window.lastKeyAsk, realKey, public, country, callback);
+};
 
 function saveLocally(key, data) {
     //console.log(data);

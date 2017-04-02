@@ -25,10 +25,10 @@ NewVotation_newKeyAjax = function (id) {
             action: "newkey",
             id: window.user.id
         }
-    }).done(function (res) {
-        console.log("NewVotation_newKeyAjax: " + res);
-        //loadKey(id, res);
-        loadKey(res);
+    }).done(function (key) {
+        console.log("NewVotation_newKeyAjax: " + key);
+        //loadKey(id, key);
+        loadKey(key);
 
     }).error(function (res) {
         console.log(res);

@@ -440,6 +440,8 @@ input{
     margin: 0 0.5%;
     box-shadow: 1px 1px 0 rgba(0,0,0,0.35), inset 1px 1px 0 rgba(255,255,255,0.35), 0 3px 6px black;
     cursor: pointer;
+    /*prevent wrong touch area (like overflowing margin symbols inside)*/
+    overflow: hidden;
 }
 .option.clickable:hover{
     box-shadow: 1px 1px 0 rgba(0,0,0,0.35), inset 1px 1px 0 rgba(255,255,255,0.35), 3px 6px 12px black;
