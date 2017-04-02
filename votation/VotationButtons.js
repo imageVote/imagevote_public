@@ -1,7 +1,6 @@
 
 var VotationButtons = function (poll, $dom, tpye) {
     this.poll = poll;
-    this.$dom = $dom;
 
     this.savingPoll = false;
     this.key_waiting = 0;
@@ -11,8 +10,9 @@ var VotationButtons = function (poll, $dom, tpye) {
     this.cancelButton = $("<button id='cancel' data-lang='Cancel'>");
     this.usersButton = $("<button id='usersButton' data-lang='Voters'>");
 
+    this.$dom = $dom;
     if (!$dom) {
-        $dom = $("#votationButtons");
+        this.$dom = $("#votationButtons");
         this.$votation = $("#creator");
     } else {
         this.$votation = $dom.parent();
@@ -43,6 +43,7 @@ VotationButtons.prototype.sendButtonEvent = function () {
         //prevent docuble tap save and share ?
         e.stopPropagation();
         $("body").append("<img from='VotationButtons.sendButtonEvent' class='loading absoluteLoading' src='~img/loader.gif'/>");
+        _this.$votation.find(".text").attr("contenteditable", "");
 
         var obj = _this.poll.obj;
         console.log(obj);
