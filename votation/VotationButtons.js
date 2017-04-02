@@ -11,7 +11,7 @@ var VotationButtons = function (poll, $dom, tpye) {
     this.usersButton = $("<button id='usersButton' data-lang='Voters'>");
 
     if (!$dom) {
-        this.$dom = $("#votationButtons");
+        $dom = $("#votationButtons");
         this.$votation = $("#creator");
     } else {
         this.$votation = $dom.parent();
