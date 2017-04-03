@@ -11,21 +11,23 @@ var VotationButtons = function (poll, $dom, tpye) {
     this.usersButton = $("<button id='usersButton' data-lang='Voters'>");
 
     if (!$dom) {
-        $dom = $("#votationButtons");
+        $dom = $("#buttons");
         this.$votation = $("#creator");
     } else {
         this.$votation = $dom.parent();
     }
     this.$dom = $dom;
 
-    $dom.find("#defaultButtons").remove();
-    $dom.find("#usersButton").remove();
-
-    $dom.prepend(this.usersButton);
+    $dom.find(".votationButtons").remove();
+    
+    var votationBuutons = $("<div class='votationButtons'>");
+    votationBuutons.prepend(this.usersButton);
     var buttonsHTML = $("<div id='defaultButtons'>");
     buttonsHTML.append(this.sendButton);
     buttonsHTML.append(this.cancelButton);
-    $dom.prepend(buttonsHTML);
+    votationBuutons.prepend(buttonsHTML);
+    
+     $dom.append(votationBuutons);
 
     loadTranslations();
 
