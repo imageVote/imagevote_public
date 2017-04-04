@@ -17,6 +17,7 @@
 <script type="text/javascript" src="~commons/libs/modernizr-touch.js"></script>
 
 <script type="text/javascript" src="~commons/votation/votationEvents.js"></script>
+<script type="text/javascript" src="~commons/votation/ShareIntent.js"></script>
 <script type="text/javascript" src="~commons/votation/VotationButtons.js"></script>
 <script type="text/javascript" src="~commons/votation/newVotation.js"></script>  
 <script type="text/javascript" src="~commons/votation/LoadKeyPoll.js"></script>        
@@ -84,6 +85,11 @@
     // INIT GLOBALS
     window.localhost = document.location.hostname == "localhost";
     window.hashManager = new HashManager();
+
+    //INIT CLASSES:
+    if (!window.Device) {
+        window.shareIntent = new ShareIntent();
+    }
 
     //window.Device
     if (!window.Device) {
@@ -159,18 +165,18 @@
         } else {
             keyLoad();
         }
-        
-        //user init needed!
-        function keyLoad() {            
-            if (screenPoll.key) {
-                window.keyPoll = new LoadKeyPoll(screenPoll);
-            }
-        }
 
         translateTags();
     });
 
     // GLOBAL FUNCTIONS
+
+    //user init needed!
+    function keyLoad() {
+        if (screenPoll.key) {
+            window.keyPoll = new LoadKeyPoll(screenPoll);
+        }
+    }
 
     function reset() {
         console.log("reset");

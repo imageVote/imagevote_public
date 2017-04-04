@@ -1,14 +1,15 @@
 
 var VotationButtons = function (poll, $dom, tpye) {
     this.poll = poll;
+    this.$imageDOM = $("#mainPage");
 
     this.savingPoll = false;
     this.key_waiting = 0;
     this._ajaxKeyWaiting = 0;
 
-    this.sendButton = $("<button id='send' class='share'><em></em><span data-lang='Share'></span></button>");
-    this.cancelButton = $("<button id='cancel' data-lang='Cancel'>");
-    this.usersButton = $("<button id='usersButton' data-lang='Voters'>");
+    this.$sendButton = $("<button id='send' class='share'><em></em><span data-lang='Share'></span></button>");
+    this.$cancelButton = $("<button id='cancel' data-lang='Cancel'>");
+    this.$usersButton = $("<button id='usersButton' data-lang='Voters'>");
 
     if (!$dom) {
         $dom = $("#buttons");
@@ -21,10 +22,10 @@ var VotationButtons = function (poll, $dom, tpye) {
     $dom.find(".votationButtons").remove();
     
     var votationBuutons = $("<div class='votationButtons'>");
-    votationBuutons.prepend(this.usersButton);
+    votationBuutons.prepend(this.$usersButton);
     var buttonsHTML = $("<div id='defaultButtons'>");
-    buttonsHTML.append(this.sendButton);
-    buttonsHTML.append(this.cancelButton);
+    buttonsHTML.append(this.$sendButton);
+    buttonsHTML.append(this.$cancelButton);
     votationBuutons.prepend(buttonsHTML);
     
      $dom.append(votationBuutons);
@@ -42,7 +43,7 @@ VotationButtons.prototype.sendButtonEvent = function () {
     var _this = this;
     console.log("VotationButtons.sendButtonEvent original");
 
-    this.sendButton.click(function (e) {
+    this.$sendButton.click(function (e) {
         //prevent docuble tap save and share ?
         e.stopPropagation();
         $("body").append("<img from='VotationButtons.sendButtonEvent' class='loading absoluteLoading' src='~img/loader.gif'/>");
@@ -51,7 +52,7 @@ VotationButtons.prototype.sendButtonEvent = function () {
 
         //IF SAVE and/or SHARE
         //prevent sav and share if premium cose not key con be loaded!
-        if (_this.sendButton.hasClass("saveAndShare")) {
+        if (_this.$sendButton.hasClass("saveAndShare")) {
             if (!obj.users) {
                 obj.users = [];
             }
@@ -67,8 +68,8 @@ VotationButtons.prototype.sendButtonEvent = function () {
                 localStorage.setItem("unusedKey", "");
             });
 
-        } else if (!_this.sendButton.hasClass("share")) { //class is save
-            _this.sendButton.attr("disabled", "disabled");
+        } else if (!_this.$sendButton.hasClass("share")) { //class is save
+            _this.$sendButton.attr("disabled", "disabled");
             _this.save("update", function (done) {
                 $(".absoluteLoading").remove();
                 if (false !== done) {
@@ -85,12 +86,8 @@ VotationButtons.prototype.sendButtonEvent = function () {
 };
 
 VotationButtons.prototype.cancelButtonEvent = function () {
-    
-}
 
-VotationButtons.prototype.cancelButtonEvent = function () {
-
-    this.cancelButton.click(function () {
+    this.$cancelButton.click(function () {
         window.screenPoll = new LoadedPoll();
 
         if (window.isTranslucent) {
@@ -116,7 +113,7 @@ VotationButtons.prototype.cancelButtonEvent = function () {
 //            hashManager.defaultPage();
 //            $("html").removeClass("withoutHeader");
 //            //reset main but not show
-//            $("#mainPage > div").hide();
+//            _this.$imageDOM.find("> div").hide();
 //            $("#creator").show();
 //            location.hash = "polls";
             hashManager.update("");
@@ -127,6 +124,8 @@ VotationButtons.prototype.cancelButtonEvent = function () {
 };
 
 VotationButtons.prototype.usersButtonEvent = function () {
+    var _this = this;
+    
     //voters users
     var obj = this.poll.obj;
     var users = obj.users;
@@ -163,11 +162,11 @@ VotationButtons.prototype.usersButtonEvent = function () {
 
     //prevent show voters button if no voters exist
     if (voters.length < 2) {
-        this.usersButton.hide();
+        this.$usersButton.hide();
         return;
     }
 
-    this.usersButton.click(function () {
+    this.$usersButton.click(function () {
         $("#users .list").html("");
 
         //SORT
@@ -213,10 +212,10 @@ VotationButtons.prototype.usersButtonEvent = function () {
                 $("#users table").append(tr);
             }
 
-            $("#mainPage > div").hide();
-            _this.usersButton.show();
+            _this.$imageDOM.find("> div").hide();
+            _this.$usersButton.show();
         } else {
-            flash(lang["notPublicUsers"]);
+            flash(transl("notPublicUsers"));
         }
     });
 };
@@ -259,7 +258,7 @@ VotationButtons.prototype.share = function (callback) {
 
     $("#image").remove();
     var div = $("<div id='image'><hr/><div class='image'></div></div>");
-    $("#mainPage").append(div);
+    this.$imageDOM.append(div);
 
     var type = "";
     if ($(poll.divQuery).hasClass("show")) {
@@ -462,7 +461,7 @@ VotationButtons.prototype.saveCallback = function (res) {
         }
     }
 
-    if (this.sendButton.hasClass("saveAndShare")) {
+    if (this.$sendButton.hasClass("saveAndShare")) {
         this.share(function () {
             $(".absoluteLoading").remove();
             this.savingPoll = false;
@@ -477,5 +476,32 @@ VotationButtons.prototype.saveCallback = function (res) {
 
 VotationButtons.prototype.notSave = function (why) {
     console.log("VotationButtons.notSave: " + why);
-    this.sendButton.removeAttr("disabled");
+    this.$sendButton.removeAttr("disabled");
+};
+
+VotationButtons.prototype.saveToShare = function() {
+    if (this.$sendButton.hasClass("saveAndShare")) {
+        //not change if first time
+        return;
+    }
+
+    if (!this.$sendButton.hasClass("share") && !$("#send").hasClass("saveAndShare")) {
+        this.$sendButton.removeAttr("disabled");
+    }
+    this.$sendButton.attr("class", "share");
+    this.$sendButton.find("span").text(lang["Share"]);
+
+    //hide public options to show share image?
+    $("#publicMessage").hide();
+};
+
+VotationButtons.prototype.shareToSave = function() {
+    if (this.$sendButton.hasClass("saveAndShare")) {
+        //not change if first time
+        return;
+    }
+
+    this.$sendButton.removeAttr("disabled");
+    this.$sendButton.removeClass();
+    this.$sendButton.find("span").text(transl("Save"));
 };

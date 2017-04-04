@@ -107,14 +107,14 @@ function stopFlash(callback) {
 //if public poll, add options
 function noticePublic() {
     $("#linksLink").remove();
-    var a = $("<div id='linksLink' class='clickable'>" + lang["PublicOnlyFromApp"] + "</u></div>");
+    var a = $("<div id='linksLink' class='clickable'>" + transl("PublicOnlyFromApp") + "</u></div>");
     $("#errorLog").append(a);
     $("#errorLog").show();
 
     var appsLinks = "<div id=links class='hide'>"
             + "<div>"
             + "<img src='~commons/img/googleplay.png'"
-            + " onclick=\"location.href = 'https://play.google.com/store/apps/details?id=" + window.package + "'\"/>"
+            + " onclick=\"location.href = '" + window.androidURL + window.package + "'\"/>"
             + "</div>"
             + "<div>"
             + "<img src='~commons/img/appstore.png' class='disabled'/>"

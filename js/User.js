@@ -44,7 +44,7 @@ User.prototype.userIP = function (callback) {
     }
 
     $.ajax({
-        url: window.urlPath + "/core/getIP.php"
+        url: window.corePath + "getIP.php"
     }).success(function (ipData) {
         console.log(ipData);
 

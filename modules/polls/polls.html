@@ -669,7 +669,7 @@
             return;
         }
 
-        $.post(window.urlPath + "/core/find.php", {
+        $.post(window.corePath + "find.php", {
             url: window.keysPath + url,
             string: string.replace(" ", ",")
         }, function (files) {

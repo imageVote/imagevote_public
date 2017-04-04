@@ -49,7 +49,7 @@ function error(txt, f) {
 
     //send
     if (!Device.error) {
-        $.post(window.urlPath + "/core/error.php", {
+        $.post(window.corePath + "error.php", {
             error: text
         });
     } else {
