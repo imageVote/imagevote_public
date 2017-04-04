@@ -105,7 +105,7 @@ function storedPolls_init() {
 
             //update new!
             saveLocally(keyId, data);
-            var obj = parseData(data);
+            var obj = parseData(data, true);
 
             window.storedTable = new FillTable(query, obj, {removable: true});
             _this._events(keyId);

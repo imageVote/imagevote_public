@@ -65,7 +65,7 @@ function pollToCSV(obj) {
         }
 
     }
-    
+
     var style = JSON.stringify(obj.style);
     var arr = [obj.question, JSON.stringify(options), style];
 
@@ -75,31 +75,35 @@ function pollToCSV(obj) {
         user = JSON.stringify(user);
         arr.push(user);
     }
-    
+
     //like so: [arr,[1,2]]
     var csv = CSV.stringify([arr]);
     console.log("csv: " + csv);
     return csv;
 }
 
-function parseData(value) {
+function parseData(value, ignore) {
     //data errors
     if (!value) {
-        error("e_votationRemoved");
-        reset();
+        if (!ignore) {
+            error("e_votationRemoved");
+            reset();
+        }
         return false;
     }
     //not tested rule
     else if ("null" == value) {
-        error("e_connectionLost");
-        reset();
+        if (!ignore) {
+            error("e_connectionLost");
+            reset();
+        }
         return false;
     }
 
     var arr;
 //    try {
-        //arr = JSON.parse(value + "]");
-        arr = CSV.parse(value);
+    //arr = JSON.parse(value + "]");
+    arr = CSV.parse(value);
 //    } catch (e) {
 //        console.log(e + " on " + value);
 //        //error("e_votationWithErrors", true);
