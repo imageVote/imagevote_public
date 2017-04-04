@@ -20,18 +20,20 @@ var VotationButtons = function (poll, $dom, tpye) {
     this.$dom = $dom;
 
     $dom.find(".votationButtons").remove();
-    
+
     var votationBuutons = $("<div class='votationButtons'>");
     votationBuutons.prepend(this.$usersButton);
     var buttonsHTML = $("<div id='defaultButtons'>");
     buttonsHTML.append(this.$sendButton);
     buttonsHTML.append(this.$cancelButton);
     votationBuutons.prepend(buttonsHTML);
-    
-     $dom.append(votationBuutons);
+
+    $dom.append(votationBuutons);
 
     loadTranslations();
+};
 
+VotationButtons.prototype.init = function () {
     this.sendButtonEvent();
     this.cancelButtonEvent();
     this.usersButtonEvent();
@@ -47,7 +49,7 @@ VotationButtons.prototype.sendButtonEvent = function () {
         //prevent docuble tap save and share ?
         e.stopPropagation();
         $("body").append("<img from='VotationButtons.sendButtonEvent' class='loading absoluteLoading' src='~img/loader.gif'/>");
-        
+
         var obj = _this.poll.obj;
 
         //IF SAVE and/or SHARE
@@ -125,7 +127,7 @@ VotationButtons.prototype.cancelButtonEvent = function () {
 
 VotationButtons.prototype.usersButtonEvent = function () {
     var _this = this;
-    
+
     //voters users
     var obj = this.poll.obj;
     var users = obj.users;
@@ -287,7 +289,7 @@ VotationButtons.prototype.share = function (callback) {
     });
 
     //at the end
-    console.log("poll.json: " + poll.json)
+    console.log("poll.json: " + poll.json);
     saveLocally(keyId, poll.json);
 };
 
@@ -424,7 +426,7 @@ VotationButtons.prototype.save = function (action, callback) {
         return;
     }
     this.lastSendJson = sendJson;
-    
+
     //if new
     $("#image").remove();
     var votes = poll.obj.users[user.id][1];
@@ -479,7 +481,7 @@ VotationButtons.prototype.notSave = function (why) {
     this.$sendButton.removeAttr("disabled");
 };
 
-VotationButtons.prototype.saveToShare = function() {
+VotationButtons.prototype.saveToShare = function () {
     if (this.$sendButton.hasClass("saveAndShare")) {
         //not change if first time
         return;
@@ -495,7 +497,7 @@ VotationButtons.prototype.saveToShare = function() {
     $("#publicMessage").hide();
 };
 
-VotationButtons.prototype.shareToSave = function() {
+VotationButtons.prototype.shareToSave = function () {
     if (this.$sendButton.hasClass("saveAndShare")) {
         //not change if first time
         return;

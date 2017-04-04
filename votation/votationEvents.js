@@ -6,6 +6,7 @@ function showVotation(users) {
 
     //public is defined on load html
     window.screenPoll.buttons = new VotationButtons(screenPoll);
+    window.screenPoll.buttons.init();
     $("#send").hide();
 
     var style = screenPoll.style;

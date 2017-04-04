@@ -22,6 +22,7 @@ function HashManager() {
 //        loadHash("home");
 
             window.screenPoll.buttons = new VotationButtons(screenPoll);
+            window.screenPoll.buttons.init();
             $("#cancel, #usersButton").hide();
 
             //headers
