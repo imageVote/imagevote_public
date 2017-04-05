@@ -84,9 +84,12 @@
 
     // INIT GLOBALS
     window.localhost = document.location.hostname == "localhost";
+    
+    //INIT CLASSES:
+    window.settings = new Settings();
+    window.language = new Language();
     window.hashManager = new HashManager();
 
-    //INIT CLASSES:
     if (!window.Device) {
         window.shareIntent = new ShareIntent();
     }

@@ -1,5 +1,8 @@
 
 var Language = function (query) {
+    if(!query){
+        query = "body";
+    }
     this.query = query;
 
     //data
