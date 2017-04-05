@@ -1,5 +1,6 @@
 
 var Language = function (query) {
+    console.log("new Language() load");
     if(!query){
         query = "body";
     }
