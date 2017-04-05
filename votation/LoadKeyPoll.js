@@ -1,6 +1,7 @@
 
 var LoadKeyPoll = function (poll) {
     console.log("LoadKeyPoll " + poll.key);
+    $("html").addClass("loadKeyPoll"); //removes on hashManager
 
     this.poll = window.screenPoll = poll;
     this.key = this.poll.key;
@@ -21,11 +22,6 @@ var LoadKeyPoll = function (poll) {
     }
 
     this.requestPollByKey();
-
-    //prevent swipe events
-    $(document).on("swiperight.swipePrevent swipeleft.swipePrevent touchstart.swipePrevent touchend.swipePrevent touchup.swipePrevent", function (e) {
-        e.stopPropagation();
-    });
 };
 
 LoadKeyPoll.prototype.requestPollByKey = function () {

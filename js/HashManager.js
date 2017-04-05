@@ -68,13 +68,15 @@ HashManager.prototype.newPollView = function () {
             $("#body").removeClass("swiping");
         }, 1);
     }
-}
+};
 
 //prevent large urls and device url confusions
 HashManager.prototype.update = function (hash, error) {
     console.log("loadHash: " + hash + " : " + error);
     //remove all loadings
     $(".loading").remove();
+    //remove loadKeyPoll CSS status
+    $(".loadKeyPoll").removeClass("loadKeyPoll");
 
     //need trigger hashchange
     $(document).trigger("urlUpdate", [hash]);
