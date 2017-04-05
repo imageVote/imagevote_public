@@ -45,12 +45,12 @@ function getPathsFromKeyId(keyId) {
         key = arr.join("-");
     }
 
-    if (keyId.indexOf("$") > -1) {
-        symbol = "$";
+    if (keyId.indexOf("_") > -1) {
+        symbol = "_";
         visible = "";
-        var arr = keyId.split("$");
+        var arr = keyId.split("_");
         prefix = arr.shift();
-        key = arr.join("$");
+        key = arr.join("_");
     }
 
     screenPoll.isPublic(public);

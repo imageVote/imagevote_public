@@ -121,7 +121,10 @@ AskUserName.prototype.no_requiredName = function () {
 };
 
 //device function too !
-var votationEvents_deviceShare = function (keyId, imgData) {
+var votationEvents_deviceShare = function (imgData, keyId, path) {
     //Device.share(imgData.replace("data:image/png;base64,", ""), keyId);
-    return Device.share(imgData.substring(22), keyId);
+    if (!path) {
+        path = "";
+    }
+    return Device.share(imgData.substring(22), keyId, path);
 }

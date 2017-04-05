@@ -9,7 +9,7 @@ var LoadKeyPoll = function (poll) {
     loading();
 
     var isCountry = poll.key.indexOf("-") > 0;
-    if ((poll.key[0] != "-" || isCountry) && poll.key.indexOf("$") == -1) {
+    if ((poll.key[0] != "-" || isCountry) && poll.key.indexOf("_") == -1) {
         poll.isPublic("true");
         if (isCountry) {
             poll.country = poll.key.split("-").shift();

@@ -275,7 +275,11 @@ VotationButtons.prototype.share = function (callback) {
         }
         if (Device.share) {
             div.hide();
-            votationEvents_deviceShare(keyId, imgData);
+            var path = "";
+            if(window.language){
+                path = language.shareUrl + "/";
+            }            
+            votationEvents_deviceShare(imgData, keyId, path); //TODO: when not send default location?
 
         } else {
             $("#stored").addClass("hidden");
