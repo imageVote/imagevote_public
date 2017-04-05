@@ -71,7 +71,7 @@ function getPathsFromKeyId(keyId) {
 }
 
 function getPathsFromRealKey(key, public, country) {
-    var realPath = appPath + "/";
+    var realPath = settings.appPath + "/";
     var keyId = key;
 
     if (public) {
@@ -86,7 +86,7 @@ function getPathsFromRealKey(key, public, country) {
 
     var res = {
         realPath: realPath,
-//        simplePath: appPath + "/" + keyId,
+//        simplePath: settings.appPath + "/" + keyId,
         keyId: keyId,
         key: key
     };

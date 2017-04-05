@@ -114,7 +114,7 @@ function noticePublic() {
     var appsLinks = "<div id=links class='hide'>"
             + "<div>"
             + "<img src='~commons/img/googleplay.png'"
-            + " onclick=\"location.href = '" + window.androidURL + window.package + "'\"/>"
+            + " onclick=\"location.href = '" + settings.androidURL + settings.package + "'\"/>"
             + "</div>"
             + "<div>"
             + "<img src='~commons/img/appstore.png' class='disabled'/>"

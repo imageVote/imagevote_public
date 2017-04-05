@@ -110,8 +110,8 @@ var RequestPollByKeyCallback = function (data) {
     $("#errorLog").html("");
 
     if (!data) {
-        if (alternative.keysPath && keysPath != alternative.keysPath) {
-            keysPath = alternative.keysPath;
+        if (alternative.keysPath && settings.keysPath != alternative.keysPath) {
+            settings.keysPath = alternative.keysPath;
             console.log("requestPollByKey again");
             new requestPollByKey();
             return;

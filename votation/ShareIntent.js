@@ -9,15 +9,15 @@ var ShareIntent = function () {
 };
 
 ShareIntent.prototype.checkShareEnvirontment = function (tag, optionsResult) {
-    if (window.isAndroid) {
+    if (settings.isAndroid) {
         console.log(tag);
         this.intent(tag, optionsResult);
 
-    } else if (window.iPhone) {
+    } else if (settings.iPhone) {
         console.log("iPhone ShareIntent.checkShareEnvirontment");
         $("#linksLink").remove();
         var a = $("<div id='linksLink' class='clickable' style='margin: 7px 0 20px 10px;'>" + transl("downloadAppStore")
-                + "<a href='" + window.iosURL + window.package + "' id=links class='hide' style='margin-top:5px;'>"
+                + "<a href='" + settings.iosURL + settings.package + "' id=links class='hide' style='margin-top:5px;'>"
                 + "<img src='~commons/img/app-store.png' style='max-width:200px;'/>"
                 + "</a>"
                 + "</div>");
@@ -100,7 +100,7 @@ ShareIntent.prototype.intent = function (tag, optionsResult) {
                 _this.getUrl = function (extra) {
                     var url = "intent://" + location.host + "/share" + extra + location.pathname + "#Intent;"
                             + "scheme=http;"
-                            + "package=" + window.package + ";"
+                            + "package=" + settings.package + ";"
                             + "end";
                     console.log("intent " + url);
                     return url;
@@ -133,10 +133,10 @@ ShareIntent.prototype.askAppInstall = function () {
 
     var link = "";
     if (window.isAndroid) {
-        link = window.androidURL + window.package;
+        link = settings.androidURL + settings.package;
     }
     if (window.iPhone) {
-        link = window.iosURL + window.package;
+        link = settings.iosURL + settings.package;
     }
 
     if (link) {

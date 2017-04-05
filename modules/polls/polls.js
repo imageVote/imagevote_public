@@ -65,7 +65,7 @@ function getUrlPolls(country, callback) {
     }
 
     var _args = arguments;
-    var url = keysPath + "public/";
+    var url = settings.keysPath + "public/";
 
     if (country) {
         url += "~" + country.toLowerCase() + "/";
@@ -125,8 +125,8 @@ function getUrlPolls(country, callback) {
             return;
         }
         //else main public folder change server
-        if (alternative.keysPath && keysPath != alternative.keysPath) {
-            keysPath = alternative.keysPath;
+        if (alternative.keysPath && settings.keysPath != alternative.keysPath) {
+            settings.keysPath = alternative.keysPath;
             getUrlPolls.apply(this, _args);
         } else {
             $("#polls").html("<span class='log'>" + transl("e_publicPolls") + "</span>");
@@ -216,7 +216,7 @@ function showAll() {
     }
 
     //resetPollList(); //in stopPollsRequests
-    var url = keysPath + "public/";
+    var url = settings.keysPath + "public/";
 
     $.ajax({
         crossOrigin: true,
@@ -437,7 +437,7 @@ function loadJsonPoll(keyPaths, country) {
 
     getCanvasImage("#poll_" + keyId + " .canvas", obj, keyId, canvasWith, "list", function (canvas) {
         //wait canvas load to specify poll height on click
-        var simpleUrl = appPath + "/" + keyId;
+        var simpleUrl = settings.appPath + "/" + keyId;
         clickablePoll("#poll_" + keyId + " .canvas", keyId, simpleUrl);
     });
 
