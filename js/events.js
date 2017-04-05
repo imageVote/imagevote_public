@@ -208,7 +208,7 @@ $(document).ready(function () {
         hashManager.update("home");
     });
 
-    if (is_touch_device()) {
+    if (is_touch_device() && !$(".translucent").length) {
         $(document).on("swiperight", function (e) {
 //            hashManager.newPollView();
             hashManager.update("home");

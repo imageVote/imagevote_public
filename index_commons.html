@@ -84,7 +84,7 @@
 
     // INIT GLOBALS
     window.localhost = document.location.hostname == "localhost";
-    
+
     //INIT CLASSES:
     window.settings = new Settings();
     window.hashManager = new HashManager();
@@ -145,7 +145,9 @@
 
         if (screenPoll.key && !location.hash) {
             //header could be Twitter header webview
-            $("html").addClass("withoutHeader");
+            if ($(".translucent").length) {
+                $("html").addClass("withoutHeader");
+            }
             window.keyLinkPage = true;
         }
     })();

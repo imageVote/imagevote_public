@@ -131,7 +131,9 @@ HashManager.prototype.load = function (hash) {
 
     if (hash.search(/^key=/i) > -1) {
         screenPoll.key = hash.split("=")[1];
-        $("html").addClass("withoutHeader");
+        if ($(".translucent").length) {
+            $("html").addClass("withoutHeader");
+        }
         window.keyPoll = new LoadKeyPoll(screenPoll);
 
     } else {
