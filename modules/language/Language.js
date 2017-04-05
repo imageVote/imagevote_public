@@ -28,9 +28,9 @@ var Language = function (query) {
     //load stored
     var userLang = this.userLang();
     if (userLang) {
-        this.url = "would-you-rather.tk";
+        this.shareUrl = "would-you-rather.tk";
         if (this.languageURL[userLang]) {
-            this.url = this.languageURL[userLang];
+            this.shareUrl = this.languageURL[userLang];
         }
         return;
     }
@@ -41,7 +41,7 @@ var Language = function (query) {
         if (location.hostname.indexOf(lang_url) > -1) {
             var lang_array = this.languages[key];
             this.loadLanguage(lang_array);
-            this.url = lang_url;
+            this.shareUrl = lang_url;
             return;
         }
     }
