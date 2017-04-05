@@ -12,7 +12,7 @@ var Language = function (query) {
         'pt': ["pt", "PT", "Português", "preguntasPT"]
     };
 
-    //urls
+    //urls:
     this.languageURL = {
         'es': "queprefieres.online",
         'de': "wurdestdulieber.online",
@@ -24,11 +24,14 @@ var Language = function (query) {
     //load stored
     var userLang = this.userLang();
     if (userLang) {
-        this.url = this.languageURL[userLang];
+        this.url = "would-you-rather.tk";
+        if (this.languageURL[userLang]) {
+            this.url = this.languageURL[userLang];
+        }
         return;
     }
 
-    //filter by url
+    //filter by loaded url
     for (var key in this.languageURL) {
         var lang_url = this.languageURL[key];
         if (location.hostname.indexOf(lang_url) > -1) {
@@ -38,7 +41,7 @@ var Language = function (query) {
             return;
         }
     }
-    
+
     this.loadHtml();
 };
 
@@ -46,7 +49,9 @@ Language.prototype.loadHtml = function (callback) {
     var _this = this;
     this.callback = callback;
 
+    //remove other
     $("#languages").remove();
+
     this.$lang_dom = $("<div id='languages'>");
     $(this.query).append(this.$lang_dom);
 
@@ -55,7 +60,7 @@ Language.prototype.loadHtml = function (callback) {
         var lang_div = $("<div><div class='img'>"
                 + "<img src='~commons/img/flags/48/" + language[1] + ".png'>"
                 + "</div><div class='text'>" + language[2] + "</div></div>");
-        if(language[0] == this.userLang()){
+        if (language[0] == this.userLang()) {
             lang_div.css("background", "rgba(255,255,255,0.15)");
         }
         this.$lang_dom.append(lang_div);
@@ -85,13 +90,15 @@ Language.prototype.loadLanguage = function (lang) {
     }
 };
 
-Language.prototype.userLang = function(){
+Language.prototype.userLang = function () {
     return localStorage.getItem("userLang");
 };
 
 Language.prototype.remove = function () {
     var _this = this;
     setTimeout(function () {
-        _this.$lang_dom.remove();
+        if (_this.$lang_dom) {
+            _this.$lang_dom.remove();
+        }
     }, 100);
 };

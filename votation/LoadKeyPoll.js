@@ -39,7 +39,7 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
     var url = realPath + this.poll.realKey;
     var params = "";
     if ("public" == urlParts.visible) {
-        url = window.keysPath + "get.php";
+        url = settings.keysPath + "get.php";
         params = "url=public/" + urlParts.countryPath + this.poll.realKey;
     }
 

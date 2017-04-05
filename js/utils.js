@@ -25,7 +25,7 @@ function getPathsFromKeyId(keyId) {
         }
     }
 
-    var realPath = window.keysPath;
+    var realPath = settings.keysPath;
 
     var public = "false";
     var symbol = "-";
@@ -128,7 +128,7 @@ function getCountryArray(callback) {
     }
 
     //add organizations
-    $.getJSON(window.urlPath + "/core/orgs.json", function (orgs) {
+    $.getJSON(settings.urlPath + "/core/orgs.json", function (orgs) {
         for (var org in orgs) {
             var list = orgs[org];
             for (var ISO in list) {

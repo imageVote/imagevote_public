@@ -10,7 +10,7 @@ VotationButtons.prototype.saveAjax = function(action, json, callback) {
     }
 
     $.ajax({
-        url: window.corePath + "update.php",
+        url: settings.corePath + "update.php",
         method: "POST",
         cache: false,
         data: {

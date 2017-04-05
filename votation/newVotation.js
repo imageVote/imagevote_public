@@ -18,7 +18,7 @@ NewVotation_newKeyAjax = function (id) {
         beforeSend: function (jqXHR, settings) {
             xhr = jqXHR;  // To get the ajax XmlHttpRequest 
         },
-        url: window.corePath + "update.php",
+        url: settings.corePath + "update.php",
         method: "POST",
         cache: false,
         data: {

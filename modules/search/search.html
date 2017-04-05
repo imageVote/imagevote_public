@@ -115,7 +115,7 @@
                     $("#polls").html("");
                 }
 
-                var url = window.keysPath + "public/";
+                var url = settings.keysPath + "public/";
 
                 //for multiple values
                 if ("0" == ISO) {
@@ -151,8 +151,8 @@
             return;
         }
 
-        $.post(window.corePath + "find.php", {
-            url: window.keysPath + url,
+        $.post(settings.corePath + "find.php", {
+            url: settings.keysPath + url,
             string: string.replace(" ", ",")
         }, function (files) {
             if (files) {
