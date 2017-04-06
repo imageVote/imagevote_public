@@ -69,7 +69,7 @@ html.translucent #modal_box{
     -o-transition: all 300ms;
     transition: all 300ms;
 }
-.withoutHeader #body{
+.translucent #body{
     /*margin-top: 0;*/
     margin-top: 36px !important;
     /*top: 35px !important;*/
@@ -828,10 +828,7 @@ input{
     display: block !important;
 }
 
-.withoutHeader #header{
-    display: none;
-}
-.withoutHeader .wrapper{
+.translucent .wrapper{
     top: 0 !important;
     /*padding-top: 20px;*/
     padding-top: 7px;
@@ -916,7 +913,7 @@ input{
     /*height: 100%;*/
 }
 
-html:not(.withoutHeader) .pollsView{
+html:not(.translucent) .pollsView{
     -webkit-transform: translateX(-100%) !important;
     -ms-transform: translateX(-100%) !important;
     transform: translateX(-100%) !important;

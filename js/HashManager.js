@@ -26,7 +26,7 @@ function HashManager() {
             $("#cancel, #usersButton").hide();
 
             //headers
-            $("html").removeClass("withoutHeader");
+            //$("html").removeClass("withoutHeader");
             $("#pollsHeader").hide();
             $("#voteHeader").show();
             //view
@@ -133,9 +133,6 @@ HashManager.prototype.load = function (hash) {
 
     if (hash.search(/^key=/i) > -1) {
         screenPoll.key = hash.split("=")[1];
-        if ($(".translucent").length) {
-            $("html").addClass("withoutHeader");
-        }
         window.keyPoll = new LoadKeyPoll(screenPoll);
 
     } else {

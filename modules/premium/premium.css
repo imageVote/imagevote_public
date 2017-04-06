@@ -189,7 +189,7 @@ input[type=color]{
 
 /*STYLES MENU*/
 
-html:not(.withoutHeader) .p_show{
+html:not(.translucent) .p_show{
     left: 0 !important;
 }
 
