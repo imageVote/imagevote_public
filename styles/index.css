@@ -52,6 +52,7 @@ html.translucent #modal_box{
     margin-top: 8px;
     pointer-events: auto;
     height: 100%;
+    height: calc(100% - 54px);
 
     /*4 SWIPE BUG*/
     position: absolute;
