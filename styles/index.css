@@ -913,7 +913,8 @@ input{
     /*height: 100%;*/
 }
 
-html:not(.translucent) .pollsView{
+/*html:not(.translucent) .pollsView{*/
+.pollsView{
     -webkit-transform: translateX(-100%) !important;
     -ms-transform: translateX(-100%) !important;
     transform: translateX(-100%) !important;
