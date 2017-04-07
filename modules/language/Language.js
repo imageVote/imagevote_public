@@ -1,7 +1,7 @@
 
 var Language = function (query) {
     console.log("new Language() load");
-    if(!query){
+    if (!query) {
         query = "body";
     }
     this.query = query;
@@ -79,7 +79,10 @@ Language.prototype.loadHtml = function (callback) {
 };
 
 Language.prototype.loadLanguage = function (lang) {
-    if (this.userLang() == lang[0].toLowerCase()) {
+    var userLang = this.userLang();
+    
+    //if selected same
+    if (userLang == lang[0].toLowerCase()) {
         this.remove();
         return;
     }
@@ -91,6 +94,11 @@ Language.prototype.loadLanguage = function (lang) {
     this.remove();
     if (this.callback) {
         this.callback();
+    }
+    
+    //update url
+    if (this.languageURL[userLang]) {
+        this.shareUrl = this.languageURL[userLang];
     }
 };
 
