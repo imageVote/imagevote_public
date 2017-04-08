@@ -8,14 +8,12 @@ var ShareIntent = function () {
     localStorage.setItem("app", "");
 };
 
-ShareIntent.prototype.checkShareEnvirontment = function (tag, optionsResult) {
-    console.log("checkShareEnvirontment");
-    
-    if (settings.isAndroid) {
+ShareIntent.prototype.checkShareEnvirontment = function (tag, optionsResult) {   
+    if (window.isAndroid) {
         console.log(tag);
         this.intent(tag, optionsResult);
 
-    } else if (settings.iPhone) {
+    } else if (window.iPhone) {
         console.log("iPhone ShareIntent.checkShareEnvirontment");
         $("#linksLink").remove();
         var a = $("<div id='linksLink' class='clickable' style='margin: 7px 0 20px 10px;'>" + transl("downloadAppStore")
@@ -38,6 +36,8 @@ ShareIntent.prototype.checkShareEnvirontment = function (tag, optionsResult) {
                 });
             }, 1);
         });
+    }else{
+        console.log("!checkShareEnvirontment");
     }
 };
 
