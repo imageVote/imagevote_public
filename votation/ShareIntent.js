@@ -8,7 +8,7 @@ var ShareIntent = function () {
     localStorage.setItem("app", "");
 };
 
-ShareIntent.prototype.checkShareEnvirontment = function (tag, optionsResult) {   
+ShareIntent.prototype.checkShareEnvirontment = function (tag, optionsResult) {
     if (window.isAndroid) {
         console.log(tag);
         this.intent(tag, optionsResult);
@@ -17,8 +17,9 @@ ShareIntent.prototype.checkShareEnvirontment = function (tag, optionsResult) {
         console.log("iPhone ShareIntent.checkShareEnvirontment");
         $("#linksLink").remove();
         var a = $("<div id='linksLink' class='clickable' style='margin: 7px 0 20px 10px;'>" + transl("downloadAppStore")
-                + "<a href='" + settings.iosURL + settings.package + "' id=links class='hide' style='margin-top:5px;'>"
-                + "<img src='~commons/img/app-store.png' style='max-width:200px;'/>"
+                + "<a href='" + settings.iosURL + "' id=links class='hide' style='margin-top:5px;'>"
+                //+ "<img src='~commons/img/appstore.png' style='max-width:200px;'/>"
+                + "<img src='~commons/img/appstore_comming.png' style='max-width:200px; opacity:0.7'/>"
                 + "</a>"
                 + "</div>");
         $(this.log_div_query).append(a);
@@ -36,12 +37,12 @@ ShareIntent.prototype.checkShareEnvirontment = function (tag, optionsResult) {
                 });
             }, 1);
         });
-    }else{
+    } else {
         console.log("!checkShareEnvirontment");
     }
 };
 
-ShareIntent.prototype.intent = function (tag, optionsResult) {    
+ShareIntent.prototype.intent = function (tag, optionsResult) {
     var _this = this;
     if (this.notAskAppIntent) {
         console.log("notAskAppIntent");
@@ -136,10 +137,10 @@ ShareIntent.prototype.askAppInstall = function () {
 
     var link = "";
     if (window.isAndroid) {
-        link = settings.androidURL + settings.package;
+        link = settings.androidURL;
     }
     if (window.iPhone) {
-        link = settings.iosURL + settings.package;
+        link = settings.iosURL;
     }
 
     if (link) {
