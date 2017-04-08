@@ -96,6 +96,8 @@ var RequestPollByKeyCallback = function (data) {
     this.data = data;
     this.query = "#votation .votationBox";
 
+    console.log(data);
+
     this.user = window.user;
     this.poll = window.screenPoll;
 
@@ -145,8 +147,6 @@ var RequestPollByKeyCallback = function (data) {
 //parse ajax by userId
 RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
     var data = this.data;
-
-    console.log(data);
     var obj = this.poll.obj = parseData(data);
 
     this.poll.json = data;
@@ -221,7 +221,7 @@ RequestPollByKeyCallback.prototype.getUser = function (obj) {
     return userObj;
 };
 
-RequestPollByKeyCallback.prototype.checkCountry = function(keyId) {
+RequestPollByKeyCallback.prototype.checkCountry = function (keyId) {
     if (keyId[0] == "-") {
         return;
     }

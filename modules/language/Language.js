@@ -79,10 +79,10 @@ Language.prototype.loadHtml = function (callback) {
 };
 
 Language.prototype.loadLanguage = function (lang) {
-    var userLang = this.userLang();
+    var userLang = lang[0].toLowerCase();
     
     //if selected same
-    if (userLang == lang[0].toLowerCase()) {
+    if (this.userLang() == userLang) {
         this.remove();
         return;
     }
