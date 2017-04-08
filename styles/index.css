@@ -75,10 +75,10 @@ html.translucent #modal_box{
     /*top: 35px !important;*/
 }
 
-/*.translucent #header, .translucent #image, .translucent #mainPage > div, .no_image #image{
+/*.translucent #mainPage > div{
     display: none !important;
 }*/
-.translucent #header{
+.translucent #header, .translucent #image, .no_image #image{
     display: none !important;
 }
 
