@@ -9,6 +9,8 @@ var ShareIntent = function () {
 };
 
 ShareIntent.prototype.checkShareEnvirontment = function (tag, optionsResult) {
+    console.log("checkShareEnvirontment");
+    
     if (settings.isAndroid) {
         console.log(tag);
         this.intent(tag, optionsResult);
@@ -39,9 +41,10 @@ ShareIntent.prototype.checkShareEnvirontment = function (tag, optionsResult) {
     }
 };
 
-ShareIntent.prototype.intent = function (tag, optionsResult) {
+ShareIntent.prototype.intent = function (tag, optionsResult) {    
     var _this = this;
     if (this.notAskAppIntent) {
+        console.log("notAskAppIntent");
         return;
     }
 
