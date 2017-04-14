@@ -32,7 +32,7 @@
 <script type="text/javascript" src="~commons/libs/wrapText.js"></script>
 
 <script type="text/javascript" src="~commons/js/interface.js"></script>
-<script type="text/javascript" src="~commons/js/events.js"></script>
+<script type="text/javascript" src="~commons/js/Events.js"></script>
 
 <script type="text/javascript" src="~commons/getCountryName.js"></script>
 
@@ -40,6 +40,45 @@
 <script src="~commons/libs/overthrow/overthrow-init.js"></script>
 <script src="~commons/libs/overthrow/overthrow-polyfill.js"></script>
 <script src="~commons/libs/overthrow/overthrow-toss.js"></script>
+
+
+<div class="wrapper">
+    <div id="header">
+        <!--VOTE-->
+        <div id="voteHeader">
+            <table>
+                <tr>
+                    <td class="title">
+                        <span id="headerTitle" data-lang="Title"></span>
+                    </td>
+                    <td width="1%">
+                        <button id="toPolls" data-lang="SecondPageButton"></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!--POLLS-->
+        <div id="pollsHeader" style="display:none">
+            <table id="search">
+                <tr>
+                    <td class="input title">
+                        <span data-lang="PopularPolls"></span>
+                    </td>
+                    <td width="1%">
+                        <button id="newPoll" data-lang="New"></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--/POLLS-->
+    </div>
+
+    <p id="errorLog"></p>
+
+    <div id="body" class="body"></div>
+
+</div>
 
 <script>
 
@@ -88,6 +127,10 @@
     //INIT CLASSES:
     window.settings = new Settings();
     window.hashManager = new HashManager();
+    
+    $(document).ready(function () {
+        window.events = new Events();
+    });
 
     if (!window.Device) {
         window.shareIntent = new ShareIntent();

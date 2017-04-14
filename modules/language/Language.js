@@ -18,17 +18,18 @@ var Language = function (query) {
 
     //urls:
     this.languageURL = {
-        'es': "queprefieres.online",
-        'de': "wurdestdulieber.online",
-        'fr': "tupreferes.online",
-        'it': "tucosapreferiresti.online",
-        'pt': "voceprefere.online"
+        'en': "WouldYouRather.co",
+        'es': "QuePrefieres.online",
+        'de': "WurdestDuLieber.online",
+        'fr': "TuPreferes.online",
+        'it': "TuCosaPreferiresti.online",
+        'pt': "VocePrefere.online"
     };
 
     //load stored
     var userLang = this.userLang();
     if (userLang) {
-        this.shareUrl = "would-you-rather.tk";
+        this.shareUrl = settings.appPath;
         if (this.languageURL[userLang]) {
             this.shareUrl = this.languageURL[userLang];
         }

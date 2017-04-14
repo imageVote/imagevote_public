@@ -58,6 +58,7 @@ function HashManager() {
 }
 
 HashManager.prototype.newPollView = function () {
+    console.log("newPollView")
     if ($("#body").hasClass("pollsView")) {
         $("#body").removeClass("pollsView");
         $("#pollsHeader").hide();

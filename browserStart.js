@@ -31,7 +31,7 @@
 //            + "package=" + settings.package + ";"
 //            + "end";
 ////    var url = "http://would-you-rather-exists.info"
-//    var url = "http://keys.would-you-rather.tk";
+//    var url = "http://keys.wouldyourather.co";
 //
 //    this.ifr.src = url;
 ////    this.ifr.src = "about:blank";
