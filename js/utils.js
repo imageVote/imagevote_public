@@ -451,7 +451,7 @@ var CSV = {
             res.push(JSON.parse(first[1]));
             res.push(JSON.parse(first[2]));
         } catch (e) {
-            console.log("can't parse " + first[1] + "and " + first[2]);
+            console.log("can't parse " + first[1] + " and " + first[2]);
             return false;
         }
 
