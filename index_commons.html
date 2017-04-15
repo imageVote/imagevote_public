@@ -131,11 +131,11 @@
 
     $(document).ready(function () {
         window.events = new Events();
-    });
 
-    if (!window.Device) {
-        window.shareIntent = new ShareIntent();
-    }
+        if (!window.Device) {
+            window.shareIntent = new ShareIntent();
+        }
+    });
 
     //window.Device
     if (!window.Device) {
