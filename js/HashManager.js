@@ -108,8 +108,9 @@ HashManager.prototype.update = function (hash, error) {
         }
     } else {
         //keep complete url for assets
-        if (location.search) {
-            location = location.origin + location.pathname + "#" + hash + error;
+        if (location.search) { // keep '?key' format from Device
+            //location = location.origin + location.pathname + "#" + hash + error;
+            location.hash = hash;
             return;
         }
         if (location.hash == "#" + hash + error) {
