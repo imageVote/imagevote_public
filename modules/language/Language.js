@@ -19,11 +19,11 @@ var Language = function (query) {
     //urls:
     this.languageURL = {
         'en': "WouldYouRather.co",
-        'es': "QuePrefieres.online",
-        'de': "WurdestDuLieber.online",
-        'fr': "TuPreferes.online",
-        'it': "TuCosaPreferiresti.online",
-        'pt': "VocePrefere.online"
+//        'es': "QuePrefieres.online",
+//        'de': "WurdestDuLieber.online",
+//        'fr': "TuPreferes.online",
+//        'it': "TuCosaPreferiresti.online",
+//        'pt': "VocePrefere.online"
     };
 
     //load stored
