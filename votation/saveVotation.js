@@ -2,7 +2,7 @@
 // CONNECTIVITY
 
 VotationButtons.prototype.saveAjax = function(action, json, callback) {
-    if ("true" == this.poll.public) {
+    if ("true" == this.poll.isPublic) {
         //but let share!
         //error("Vote on public polls whithout APP is forbidden.");
         error("PublicOnlyFromApp");
@@ -45,7 +45,7 @@ VotationButtons.prototype.saveDevice = function(action, callback) {
     var _this = this;
     
     var json = this.poll.json;
-    var public = "" + this.poll.public;
+    var isPublic = "" + this.poll.isPublic;
     var country = this.poll.country;
     var key = this.poll.key;
     
@@ -54,7 +54,7 @@ VotationButtons.prototype.saveDevice = function(action, callback) {
     }
     
     //FORCE WAIT KEY
-    if (!key && !public && "create" == action) { //check external key!
+    if (!key && !isPublic && "create" == action) { //check external key!
         if (this.keyWaiting > 8) {
             flash(transl("waitingKeyExpired"));
             return;
@@ -83,7 +83,7 @@ VotationButtons.prototype.saveDevice = function(action, callback) {
         window.lastKeyAsk = 0;
     }
     console.log("callback: " + callback);
-    Device.save(action, json, window.lastKeyAsk, realKey, public, country, callback);
+    Device.save(action, json, window.lastKeyAsk, realKey, isPublic, country, callback);
 };
 
 function saveLocally(key, data) {

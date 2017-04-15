@@ -139,7 +139,7 @@ function noticePublic() {
 
 function noticeBrowser() {
     //not backend security - not rly important
-    if (screenPoll.obj.style && screenPoll.obj.style.onlyDevice && !screenPoll.public) {
+    if (screenPoll.obj.style && screenPoll.obj.style.onlyDevice && !screenPoll.isPublic) {
         disableVotation();
         notice(lang["onlyDevice"]);
     }

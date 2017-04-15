@@ -104,7 +104,7 @@ ShareIntent.prototype.intent = function (tag, optionsResult) {
                 _this.getUrl = function (extra) {
                     var url = "intent://" + location.host + "/share" + extra + location.pathname + "#Intent;"
                             + "scheme=http;"
-                            + "package=" + settings.package + ";"
+                            + "package=" + settings.app_package + ";"
                             + "end";
                     console.log("intent " + url);
                     return url;

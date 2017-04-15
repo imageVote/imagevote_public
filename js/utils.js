@@ -27,7 +27,7 @@ function getPathsFromKeyId(keyId) {
 
     var realPath = settings.keysPath;
 
-    var public = "false";
+    var isPublic = "false";
     var symbol = "-";
     var visible = "private";
 
@@ -36,7 +36,7 @@ function getPathsFromKeyId(keyId) {
 
     var key = keyId;
     if (keyId.indexOf("-") > 0) {
-        public = "true";
+        isPublic = "true";
         visible = "public";
         var arr = keyId.split("-");
         prefix = arr.shift();
@@ -53,7 +53,7 @@ function getPathsFromKeyId(keyId) {
         key = arr.join("_");
     }
 
-    screenPoll.isPublic(public);
+    screenPoll.isPublic(isPublic);
     if (visible == "public" || visible == "private") {
         realPath += visible + "/";
     }
@@ -70,11 +70,11 @@ function getPathsFromKeyId(keyId) {
     return res;
 }
 
-function getPathsFromRealKey(key, public, country) {
+function getPathsFromRealKey(key, isPublic, country) {
     var realPath = settings.appPath + "/";
     var keyId = key;
 
-    if (public) {
+    if (isPublic) {
         realPath += "public/";
     } else {
         realPath += "private/";

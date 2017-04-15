@@ -129,7 +129,7 @@ var RequestPollByKeyCallback = function (data) {
         //TODO: or iPhone on future
         if (!window.isAndroid) {
             noticeBrowser();
-            if ("true" == _this.poll.public) {
+            if ("true" == _this.poll.isPublic) {
                 disableVotation();
                 noticePublic();
             }

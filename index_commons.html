@@ -9,12 +9,12 @@
 <link rel="stylesheet" type="text/css" href="~commons/styles/index.css"> 
 <link rel="stylesheet" type="text/css" href="~commons/styles/index_big_screen.css"> 
 
-<!--settings first -> injects in language files-->
-<script type="text/javascript" src="Settings.js"></script> 
-
 <!--        <script type="text/javascript" src="~commons/libs/jquery-1.11.0.min.js"></script>-->
 <script type="text/javascript" src="~commons/libs/jquery.mobile.events.min.js"></script>
 <script type="text/javascript" src="~commons/libs/modernizr-touch.js"></script>
+
+<!--settings first -> injects in language files-->
+<!--<script type="text/javascript" src="Settings.js"></script> 
 
 <script type="text/javascript" src="~commons/votation/votationEvents.js"></script>
 <script type="text/javascript" src="~commons/votation/ShareIntent.js"></script>
@@ -34,7 +34,8 @@
 <script type="text/javascript" src="~commons/js/interface.js"></script>
 <script type="text/javascript" src="~commons/js/Events.js"></script>
 
-<script type="text/javascript" src="~commons/getCountryName.js"></script>
+<script type="text/javascript" src="~commons/getCountryName.js"></script>-->
+<script src="~commons/commons.min.js.js"></script>
 
 <script src="~commons/libs/overthrow/overthrow-detect.js"></script>
 <script src="~commons/libs/overthrow/overthrow-init.js"></script>
@@ -88,7 +89,7 @@
         var _this = this;
         this.key = null;
         this.realKey = null;
-        this.public = "";
+        this.isPublic = "";
         this.country = "";
         this.json = "";
         this.obj = {};
@@ -108,13 +109,13 @@
                 //ask
             } else {
                 if ("-" == value[0]) {
-                    _this.public = "";
+                    _this.isPublic = "";
                 } else {
-                    _this.public = "true";
+                    _this.isPublic = "true";
                 }
             }
-            _this.public = value;
-            return _this.public;
+            _this.isPublic = value;
+            return _this.isPublic;
         };
     };
     window.screenPoll = new LoadedPoll();
@@ -127,7 +128,7 @@
     //INIT CLASSES:
     window.settings = new Settings();
     window.hashManager = new HashManager();
-    
+
     $(document).ready(function () {
         window.events = new Events();
     });

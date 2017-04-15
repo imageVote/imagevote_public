@@ -2,7 +2,7 @@
 var User = function (voting, callback) {
     console.log("new User()");
     //NOT VOTING ANYMORE (IN WOULD-YOU-RATHER)
-//    if (window.public && window.publicId) {
+//    if (window.isPublic && window.publicId) {
 //        if (window.user) {
 //            phoneId = window.user.id;
 //        }

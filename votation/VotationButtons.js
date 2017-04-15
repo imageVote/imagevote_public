@@ -304,7 +304,7 @@ VotationButtons.prototype.save = function (action, callback) {
     var poll = this.poll;
     var user = window.user;
 
-    if (!poll.public) {
+    if (!poll.isPublic) {
         //name is mandatory for prevent troll's confusion votes, and disagree results
         var inputName = $("#userNamePoll").val() || localStorage.getItem("userName");
 
@@ -395,7 +395,7 @@ VotationButtons.prototype.save = function (action, callback) {
                 return;
             }
 
-            //public = "true";
+            //isPublic = "true";
             poll.isPublic("true");
             //remove old not-public user
             if (window.phoneId && poll.obj.users[phoneId]) {

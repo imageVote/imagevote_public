@@ -90,7 +90,7 @@ function AskUserName() {
     $("#votationButtons").prepend(userName);
 
     //if public poll
-    if (screenPoll.public) {
+    if (screenPoll.isPublic) {
         _this.no_requiredName();
     }
 

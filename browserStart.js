@@ -28,7 +28,7 @@
 ////    var url = "http://" + location.host + "/~share";
 //    var url = "intent://" + location.host + "/~share/#Intent;"
 //            + "scheme=http;"
-//            + "package=" + settings.package + ";"
+//            + "package=" + settings.app_package + ";"
 //            + "end";
 ////    var url = "http://would-you-rather-exists.info"
 //    var url = "http://keys.wouldyourather.co";
