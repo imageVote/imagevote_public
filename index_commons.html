@@ -89,7 +89,7 @@
         var _this = this;
         this.key = null;
         this.realKey = null;
-        this.isPublic = "";
+        this._public = "";
         this.country = "";
         this.json = "";
         this.obj = {};
@@ -109,13 +109,13 @@
                 //ask
             } else {
                 if ("-" == value[0]) {
-                    _this.isPublic = "";
+                    _this._public = "";
                 } else {
-                    _this.isPublic = "true";
+                    _this._public = "true";
                 }
             }
-            _this.isPublic = value;
-            return _this.isPublic;
+            _this._public = value;
+            return _this._public;
         };
     };
     window.screenPoll = new LoadedPoll();
