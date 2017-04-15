@@ -26,7 +26,7 @@ function HashManager() {
             $("#cancel, #usersButton").hide();
 
             //headers
-            $("html").removeClass("withoutHeader");
+            //$("html").removeClass("withoutHeader");
             $("#pollsHeader").hide();
             $("#voteHeader").show();
             //view
@@ -58,6 +58,7 @@ function HashManager() {
 }
 
 HashManager.prototype.newPollView = function () {
+    console.log("newPollView")
     if ($("#body").hasClass("pollsView")) {
         $("#body").removeClass("pollsView");
         $("#pollsHeader").hide();
@@ -68,13 +69,15 @@ HashManager.prototype.newPollView = function () {
             $("#body").removeClass("swiping");
         }, 1);
     }
-}
+};
 
 //prevent large urls and device url confusions
 HashManager.prototype.update = function (hash, error) {
     console.log("loadHash: " + hash + " : " + error);
     //remove all loadings
     $(".loading").remove();
+    //remove loadKeyPoll CSS status
+    $(".loadKeyPoll").removeClass("loadKeyPoll");
 
     //need trigger hashchange
     $(document).trigger("urlUpdate", [hash]);
@@ -105,8 +108,9 @@ HashManager.prototype.update = function (hash, error) {
         }
     } else {
         //keep complete url for assets
-        if (location.search) {
-            location = location.origin + location.pathname + "#" + hash + error;
+        if (location.search) { // keep '?key' format from Device
+            //location = location.origin + location.pathname + "#" + hash + error;
+            location.hash = hash;
             return;
         }
         if (location.hash == "#" + hash + error) {
@@ -131,7 +135,6 @@ HashManager.prototype.load = function (hash) {
 
     if (hash.search(/^key=/i) > -1) {
         screenPoll.key = hash.split("=")[1];
-        $("html").addClass("withoutHeader");
         window.keyPoll = new LoadKeyPoll(screenPoll);
 
     } else {

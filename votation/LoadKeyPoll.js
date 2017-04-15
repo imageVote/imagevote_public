@@ -1,6 +1,7 @@
 
 var LoadKeyPoll = function (poll) {
     console.log("LoadKeyPoll " + poll.key);
+    $("html").addClass("loadKeyPoll"); //removes on hashManager
 
     this.poll = window.screenPoll = poll;
     this.key = this.poll.key;
@@ -21,11 +22,6 @@ var LoadKeyPoll = function (poll) {
     }
 
     this.requestPollByKey();
-
-    //prevent swipe events
-    $(document).on("swiperight.swipePrevent swipeleft.swipePrevent touchstart.swipePrevent touchend.swipePrevent touchup.swipePrevent", function (e) {
-        e.stopPropagation();
-    });
 };
 
 LoadKeyPoll.prototype.requestPollByKey = function () {
@@ -49,7 +45,7 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
             //return on dataIsReady
             //console.log("Device.loadKeyData(" + key + ")");
             //Device.loadKeyData(key);            
-            Device.simpleRequest(url, params, "new RequestPollByKeyCallback");
+            Device.simpleRequest(url, params, "new RequestPollByKeyCallback", "\\n");
 
         } else {
             loadAjaxKey(url, params, function (data) {
@@ -100,6 +96,8 @@ var RequestPollByKeyCallback = function (data) {
     this.data = data;
     this.query = "#votation .votationBox";
 
+    console.log(data);
+
     this.user = window.user;
     this.poll = window.screenPoll;
 
@@ -131,7 +129,7 @@ var RequestPollByKeyCallback = function (data) {
         //TODO: or iPhone on future
         if (!window.isAndroid) {
             noticeBrowser();
-            if ("true" == _this.poll.public) {
+            if ("true" == _this.poll._public) {
                 disableVotation();
                 noticePublic();
             }
@@ -149,8 +147,6 @@ var RequestPollByKeyCallback = function (data) {
 //parse ajax by userId
 RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
     var data = this.data;
-
-    console.log(data);
     var obj = this.poll.obj = parseData(data);
 
     this.poll.json = data;
@@ -225,7 +221,7 @@ RequestPollByKeyCallback.prototype.getUser = function (obj) {
     return userObj;
 };
 
-RequestPollByKeyCallback.prototype.checkCountry = function(keyId) {
+RequestPollByKeyCallback.prototype.checkCountry = function (keyId) {
     if (keyId[0] == "-") {
         return;
     }

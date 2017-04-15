@@ -27,7 +27,7 @@ function getPathsFromKeyId(keyId) {
 
     var realPath = settings.keysPath;
 
-    var public = "false";
+    var _public = "false";
     var symbol = "-";
     var visible = "private";
 
@@ -36,7 +36,7 @@ function getPathsFromKeyId(keyId) {
 
     var key = keyId;
     if (keyId.indexOf("-") > 0) {
-        public = "true";
+        _public = "true";
         visible = "public";
         var arr = keyId.split("-");
         prefix = arr.shift();
@@ -53,7 +53,7 @@ function getPathsFromKeyId(keyId) {
         key = arr.join("_");
     }
 
-    screenPoll.isPublic(public);
+    screenPoll.isPublic(_public);
     if (visible == "public" || visible == "private") {
         realPath += visible + "/";
     }
@@ -70,11 +70,11 @@ function getPathsFromKeyId(keyId) {
     return res;
 }
 
-function getPathsFromRealKey(key, public, country) {
+function getPathsFromRealKey(key, _public, country) {
     var realPath = settings.appPath + "/";
     var keyId = key;
 
-    if (public) {
+    if (_public) {
         realPath += "public/";
     } else {
         realPath += "private/";
@@ -443,7 +443,7 @@ var CSV = {
     //http://stackoverflow.com/questions/1293147/javascript-code-to-parse-csv-data
     parse: function (strData) {
         var res = [];
-        var arr = strData.split("\n");
+        var arr = strData.split(/\n|\\n/);
 
         var first = arr[0].split(this.delimiter);
         res.push(first[0]);
@@ -451,7 +451,7 @@ var CSV = {
             res.push(JSON.parse(first[1]));
             res.push(JSON.parse(first[2]));
         } catch (e) {
-            console.log("can't parse " + first[1] + "and " + first[2]);
+            console.log("can't parse " + first[1] + " and " + first[2]);
             return false;
         }
 

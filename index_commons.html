@@ -9,12 +9,12 @@
 <link rel="stylesheet" type="text/css" href="~commons/styles/index.css"> 
 <link rel="stylesheet" type="text/css" href="~commons/styles/index_big_screen.css"> 
 
-<!--settings first -> injects in language files-->
-<script type="text/javascript" src="Settings.js"></script> 
-
 <!--        <script type="text/javascript" src="~commons/libs/jquery-1.11.0.min.js"></script>-->
 <script type="text/javascript" src="~commons/libs/jquery.mobile.events.min.js"></script>
 <script type="text/javascript" src="~commons/libs/modernizr-touch.js"></script>
+
+<!--settings first -> injects in language files-->
+<!--<script type="text/javascript" src="Settings.js"></script> 
 
 <script type="text/javascript" src="~commons/votation/votationEvents.js"></script>
 <script type="text/javascript" src="~commons/votation/ShareIntent.js"></script>
@@ -32,14 +32,54 @@
 <script type="text/javascript" src="~commons/libs/wrapText.js"></script>
 
 <script type="text/javascript" src="~commons/js/interface.js"></script>
-<script type="text/javascript" src="~commons/js/events.js"></script>
+<script type="text/javascript" src="~commons/js/Events.js"></script>
 
-<script type="text/javascript" src="~commons/getCountryName.js"></script>
+<script type="text/javascript" src="~commons/getCountryName.js"></script>-->
+<script src="~commons/commons.min.js"></script>
 
 <script src="~commons/libs/overthrow/overthrow-detect.js"></script>
 <script src="~commons/libs/overthrow/overthrow-init.js"></script>
 <script src="~commons/libs/overthrow/overthrow-polyfill.js"></script>
 <script src="~commons/libs/overthrow/overthrow-toss.js"></script>
+
+
+<div class="wrapper">
+    <div id="header">
+        <!--VOTE-->
+        <div id="voteHeader">
+            <table>
+                <tr>
+                    <td class="title">
+                        <span id="headerTitle" data-lang="Title"></span>
+                    </td>
+                    <td width="1%">
+                        <button id="toPolls" data-lang="SecondPageButton"></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!--POLLS-->
+        <div id="pollsHeader" style="display:none">
+            <table id="search">
+                <tr>
+                    <td class="input title">
+                        <span data-lang="PopularPolls"></span>
+                    </td>
+                    <td width="1%">
+                        <button id="newPoll" data-lang="New"></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--/POLLS-->
+    </div>
+
+    <p id="errorLog"></p>
+
+    <div id="body" class="body"></div>
+
+</div>
 
 <script>
 
@@ -49,7 +89,7 @@
         var _this = this;
         this.key = null;
         this.realKey = null;
-        this.public = "";
+        this._public = "";
         this.country = "";
         this.json = "";
         this.obj = {};
@@ -69,13 +109,13 @@
                 //ask
             } else {
                 if ("-" == value[0]) {
-                    _this.public = "";
+                    _this._public = "";
                 } else {
-                    _this.public = "true";
+                    _this._public = "true";
                 }
             }
-            _this.public = value;
-            return _this.public;
+            _this._public = value;
+            return _this._public;
         };
     };
     window.screenPoll = new LoadedPoll();
@@ -84,14 +124,18 @@
 
     // INIT GLOBALS
     window.localhost = document.location.hostname == "localhost";
-    
+
     //INIT CLASSES:
     window.settings = new Settings();
     window.hashManager = new HashManager();
 
-    if (!window.Device) {
-        window.shareIntent = new ShareIntent();
-    }
+    $(document).ready(function () {
+        window.events = new Events();
+
+        if (!window.Device) {
+            window.shareIntent = new ShareIntent();
+        }
+    });
 
     //window.Device
     if (!window.Device) {
@@ -137,7 +181,8 @@
                 //from app
             }
         }
-        //deprecated?
+        
+        //rly needed? ('?' actually used by android app)
         if (!screenPoll.key && location.search) { //before the ?
             screenPoll.key = location.search.substr(1);
             console.log("before the ? KEY = " + screenPoll.key);
@@ -145,7 +190,6 @@
 
         if (screenPoll.key && !location.hash) {
             //header could be Twitter header webview
-            $("html").addClass("withoutHeader");
             window.keyLinkPage = true;
         }
     })();

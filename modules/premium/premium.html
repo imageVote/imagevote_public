@@ -122,7 +122,7 @@
             $("#p_makePublic").removeClass("p_checked");
 
             screenPoll.key = this.tempKey;
-            screenPoll.public = "";
+            screenPoll._public = "";
 
             screenPoll.obj.users[user.id] = screenPoll.obj.users[publicId];
             delete screenPoll.obj.users[publicId];
@@ -147,7 +147,7 @@
 
             this.tempKey = screenPoll.key;
             screenPoll.key = "";
-            screenPoll.public = "true";
+            screenPoll._public = "true";
 
             screenPoll.obj.users[publicId] = screenPoll.obj.users[user.id];
             delete screenPoll.obj.users[user.id];
@@ -186,7 +186,7 @@
 
             $("#cancel").click(function () {
                 //reset
-                screenPoll.public = "";
+                screenPoll._public = "";
                 $("#p_makePublic").removeClass("p_checked");
                 $("#p_makePublic input").removeAttr("disabled");
                 $("#p_makePublic input").prop('checked', false);

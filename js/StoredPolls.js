@@ -49,7 +49,7 @@ function loadStoredPolls() {
         var div = $("<div class='votation' id='" + id + "'>");
 
         var query = "#" + id;
-        var obj = parseData(arrayTimeData[1]);
+        var obj = parseData(arrayTimeData[1], true);
         console.log(obj);
         //remove wrong parse        
         if (!obj) {

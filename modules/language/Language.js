@@ -1,7 +1,7 @@
 
 var Language = function (query) {
     console.log("new Language() load");
-    if(!query){
+    if (!query) {
         query = "body";
     }
     this.query = query;
@@ -18,17 +18,18 @@ var Language = function (query) {
 
     //urls:
     this.languageURL = {
-        'es': "queprefieres.online",
-        'de': "wurdestdulieber.online",
-        'fr': "tupreferes.online",
-        'it': "tucosapreferiresti.online",
-        'pt': "voceprefere.online"
+        'en': "WouldYouRather.co",
+//        'es': "QuePrefieres.online",
+//        'de': "WurdestDuLieber.online",
+//        'fr': "TuPreferes.online",
+//        'it': "TuCosaPreferiresti.online",
+//        'pt': "VocePrefere.online"
     };
 
     //load stored
     var userLang = this.userLang();
     if (userLang) {
-        this.shareUrl = "would-you-rather.tk";
+        this.shareUrl = settings.appPath;
         if (this.languageURL[userLang]) {
             this.shareUrl = this.languageURL[userLang];
         }
@@ -79,10 +80,10 @@ Language.prototype.loadHtml = function (callback) {
 };
 
 Language.prototype.loadLanguage = function (lang) {
-    var userLang = this.userLang();
+    var userLang = lang[0].toLowerCase();
     
     //if selected same
-    if (userLang == lang[0].toLowerCase()) {
+    if (this.userLang() == userLang) {
         this.remove();
         return;
     }

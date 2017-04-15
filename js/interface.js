@@ -114,7 +114,7 @@ function noticePublic() {
     var appsLinks = "<div id=links class='hide'>"
             + "<div>"
             + "<img src='~commons/img/googleplay.png'"
-            + " onclick=\"location.href = '" + settings.androidURL + settings.package + "'\"/>"
+            + " onclick=\"location.href = '" + settings.androidURL + "'\"/>"
             + "</div>"
             + "<div>"
             + "<img src='~commons/img/appstore.png' class='disabled'/>"
@@ -139,7 +139,7 @@ function noticePublic() {
 
 function noticeBrowser() {
     //not backend security - not rly important
-    if (screenPoll.obj.style && screenPoll.obj.style.onlyDevice && !screenPoll.public) {
+    if (screenPoll.obj.style && screenPoll.obj.style.onlyDevice && !screenPoll._public) {
         disableVotation();
         notice(lang["onlyDevice"]);
     }
