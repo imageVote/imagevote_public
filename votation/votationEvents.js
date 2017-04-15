@@ -128,3 +128,13 @@ var votationEvents_deviceShare = function (imgData, keyId, path) {
     }
     return Device.share(imgData.substring(22), keyId, path);
 }
+
+function saveLocally(key, data) {
+    //console.log(data);
+    if (key) { //check is correct stores query
+        var time = (new Date()).getTime();
+        localStorage.setItem("key_" + key, JSON.stringify([time, data]));
+    } else {
+        console.log("WRONG KEY TO STORE: " + key);
+    }
+}

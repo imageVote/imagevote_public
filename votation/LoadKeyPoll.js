@@ -141,6 +141,8 @@ var RequestPollByKeyCallback = function (data) {
 
         var keyId = _this.poll.key;
         _this.checkCountry(keyId);
+
+        //this.uploadImage(keyId, obj);
     });
 };
 
@@ -244,7 +246,23 @@ RequestPollByKeyCallback.prototype.checkCountry = function (keyId) {
             }
         }
     }
-}
+};
+
+//on load:
+RequestPollByKeyCallback.prototype.uploadImage = function (keyId, obj) {
+    var _this = this;
+
+    var div = $("<div style='display:none'>");
+    $("body").append(div);
+    getCanvasImage(div, obj, keyId, 506, "", function (base64) {
+        $.post(settings.imagesURL, {
+            name: _this.poll.key,
+            base64: base64
+        }, function (data) {
+            console.log(data);
+        });
+    });
+};
 
 //device call
 function errorParse(code) {

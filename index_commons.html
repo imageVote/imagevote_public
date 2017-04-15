@@ -10,8 +10,8 @@
 <link rel="stylesheet" type="text/css" href="~commons/styles/index_big_screen.css"> 
 
 <!--        <script type="text/javascript" src="~commons/libs/jquery-1.11.0.min.js"></script>-->
-<script type="text/javascript" src="~commons/libs/jquery.mobile.events.min.js"></script>
-<script type="text/javascript" src="~commons/libs/modernizr-touch.js"></script>
+<!--<script type="text/javascript" src="~commons/libs/jquery.mobile.events.min.js"></script>
+<script type="text/javascript" src="~commons/libs/modernizr-touch.js"></script>-->
 
 <!--settings first -> injects in language files-->
 <!--<script type="text/javascript" src="Settings.js"></script> 
@@ -35,12 +35,12 @@
 <script type="text/javascript" src="~commons/js/Events.js"></script>
 
 <script type="text/javascript" src="~commons/getCountryName.js"></script>-->
-<script src="~commons/commons.min.js"></script>
+<!--<script src="~commons/commons.min.js"></script>-->
 
-<script src="~commons/libs/overthrow/overthrow-detect.js"></script>
+<!--<script src="~commons/libs/overthrow/overthrow-detect.js"></script>
 <script src="~commons/libs/overthrow/overthrow-init.js"></script>
 <script src="~commons/libs/overthrow/overthrow-polyfill.js"></script>
-<script src="~commons/libs/overthrow/overthrow-toss.js"></script>
+<script src="~commons/libs/overthrow/overthrow-toss.js"></script>-->
 
 
 <div class="wrapper">
@@ -125,18 +125,6 @@
     // INIT GLOBALS
     window.localhost = document.location.hostname == "localhost";
 
-    //INIT CLASSES:
-    window.settings = new Settings();
-    window.hashManager = new HashManager();
-
-    $(document).ready(function () {
-        window.events = new Events();
-
-        if (!window.Device) {
-            window.shareIntent = new ShareIntent();
-        }
-    });
-
     //window.Device
     if (!window.Device) {
         window.Device = false;
@@ -148,6 +136,38 @@
     } else {
         $("html").addClass("Device");
     }
+
+//    function commons_init() {
+        //INIT CLASSES:
+        window.settings = new Settings();
+        window.hashManager = new HashManager();
+
+        $(document).ready(function () {
+            window.events = new Events();
+
+            if (!window.Device) {
+                window.shareIntent = new ShareIntent();
+            }
+        });
+
+        //
+
+        if (!window.user) { //if already from device
+            console.log("add first window.user")
+            window.user = new User(null, function () {
+                //get userName not Device way (before any return)
+                var userName = localStorage.getItem("userName");
+                if (userName) {
+                    $("#username input").val(userName);
+                }
+                keyLoad();
+            });
+        } else {
+            keyLoad();
+        }
+
+        translateTags();
+//    }
 
     //window.fromDeviceTranslucent
     if (Device.isTranslucent) {
@@ -181,7 +201,7 @@
                 //from app
             }
         }
-        
+
         //rly needed? ('?' actually used by android app)
         if (!screenPoll.key && location.search) { //before the ?
             screenPoll.key = location.search.substr(1);
@@ -193,27 +213,6 @@
             window.keyLinkPage = true;
         }
     })();
-
-    // ON DOCUMENT READY:
-    $(document).ready(function () {
-        console.log("principal document ready");
-
-        if (!window.user) { //if already from device
-            console.log("add first window.user")
-            window.user = new User(null, function () {
-                //get userName not Device way (before any return)
-                var userName = localStorage.getItem("userName");
-                if (userName) {
-                    $("#username input").val(userName);
-                }
-                keyLoad();
-            });
-        } else {
-            keyLoad();
-        }
-
-        translateTags();
-    });
 
     // GLOBAL FUNCTIONS
 
