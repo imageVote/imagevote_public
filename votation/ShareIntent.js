@@ -51,6 +51,7 @@ ShareIntent.prototype.intent = function (tag, optionsResult) {
 
     console.log("intent init");
     tag.on("click.intent", function () {
+        console.log("click.intent");
         var extra = "";
         if (optionsResult) {
             for (var n = 0; n < optionsResult.length; n++) {
@@ -68,10 +69,11 @@ ShareIntent.prototype.intent = function (tag, optionsResult) {
 
         $("body").addClass("no_image");
         var url = _this.getUrl(extra);
-        if (!url) {
-            return;
-        }
-        window.open(url); //intent
+        var timeout = 0;
+        if (url) {
+            window.open(url); //intent
+            timeout = 2500; //second waiting share page load
+        }        
 
         setTimeout(function () {
             //var myCookie = getCookie("installed");
@@ -111,7 +113,7 @@ ShareIntent.prototype.intent = function (tag, optionsResult) {
                 };
             }
 
-        }, 2500); //second waiting share page load
+        }, timeout);
     });
 };
 
