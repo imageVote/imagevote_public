@@ -72,10 +72,6 @@
         define("commons_dependencies", ["~commons/commons.min.js"]);
     }
 
-    require(["commons_dependencies"], function () {
-        commons_init();
-    });
-
     //before js imports
     window.LoadedPoll = function () {
         console.log("new LoadedPoll");
@@ -130,23 +126,20 @@
         $("html").addClass("Device");
     }
 
-    function commons_init() {
-        //INIT CLASSES:
+    require(["commons_dependencies"], function () { //dependencies needed
         window.settings = new Settings();
         window.hashManager = new HashManager();
+        window.events = new Events();
 
-        $(document).ready(function () {
-            window.events = new Events();
+        if (!window.Device) {
+            window.shareIntent = new ShareIntent();
+        }
+    });
 
-            if (!window.Device) {
-                window.shareIntent = new ShareIntent();
-            }
-        });
-
-        //
-
+    function document_ready() {  //custom needed (before keyLoad)
         if (!window.user) { //if already from device
             console.log("add first window.user")
+            //user id callback needed
             window.user = new User(null, function () {
                 //get userName not Device way (before any return)
                 var userName = localStorage.getItem("userName");
