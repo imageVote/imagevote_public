@@ -29,9 +29,13 @@ var Language = function (query) {
     //load stored
     var userLang = this.userLang();
     if (userLang) {
-        this.shareUrl = settings.appPath;
+        this.shareUrl = this.languageURL['en'];
         if (this.languageURL[userLang]) {
             this.shareUrl = this.languageURL[userLang];
+        }
+        
+        if("localhost" == location.hostname){
+            this.shareUrl = settings.appPath;
         }
         return;
     }

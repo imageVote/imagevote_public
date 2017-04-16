@@ -9,40 +9,6 @@
 <link rel="stylesheet" type="text/css" href="~commons/styles/index.css"> 
 <link rel="stylesheet" type="text/css" href="~commons/styles/index_big_screen.css"> 
 
-<!--        <script type="text/javascript" src="~commons/libs/jquery-1.11.0.min.js"></script>-->
-<!--<script type="text/javascript" src="~commons/libs/jquery.mobile.events.min.js"></script>
-<script type="text/javascript" src="~commons/libs/modernizr-touch.js"></script>-->
-
-<!--settings first -> injects in language files-->
-<!--<script type="text/javascript" src="Settings.js"></script> 
-
-<script type="text/javascript" src="~commons/votation/votationEvents.js"></script>
-<script type="text/javascript" src="~commons/votation/ShareIntent.js"></script>
-<script type="text/javascript" src="~commons/votation/VotationButtons.js"></script>
-<script type="text/javascript" src="~commons/votation/newVotation.js"></script>  
-<script type="text/javascript" src="~commons/votation/LoadKeyPoll.js"></script>        
-<script type="text/javascript" src="~commons/votation/saveVotation.js"></script>
-
-<script type="text/javascript" src="~commons/js/User.js"></script>
-<script type="text/javascript" src="~commons/js/StoredPolls.js"></script>
-<script type="text/javascript" src="~commons/js/HashManager.js"></script>
-<script type="text/javascript" src="~commons/js/utils.js"></script>
-<script type="text/javascript" src="~commons/js/parse.js"></script>
-
-<script type="text/javascript" src="~commons/libs/wrapText.js"></script>
-
-<script type="text/javascript" src="~commons/js/interface.js"></script>
-<script type="text/javascript" src="~commons/js/Events.js"></script>
-
-<script type="text/javascript" src="~commons/getCountryName.js"></script>-->
-<!--<script src="~commons/commons.min.js"></script>-->
-
-<!--<script src="~commons/libs/overthrow/overthrow-detect.js"></script>
-<script src="~commons/libs/overthrow/overthrow-init.js"></script>
-<script src="~commons/libs/overthrow/overthrow-polyfill.js"></script>
-<script src="~commons/libs/overthrow/overthrow-toss.js"></script>-->
-
-
 <div class="wrapper">
     <div id="header">
         <!--VOTE-->
@@ -82,6 +48,33 @@
 </div>
 
 <script>
+
+    //require
+    if (location.hostname == "localhost") {
+        define("commons_dependencies", [
+            "Settings.js",
+            "~commons/votation/votationEvents.js",
+            "~commons/votation/ShareIntent.js",
+            "~commons/votation/VotationButtons.js",
+            "~commons/votation/newVotation.js",
+            "~commons/votation/LoadKeyPoll.js",
+            "~commons/js/User.js",
+            "~commons/js/StoredPolls.js",
+            "~commons/js/HashManager.js",
+            "~commons/js/utils.js",
+            "~commons/js/parse.js",
+            "~commons/libs/wrapText.js",
+            "~commons/js/interface.js",
+            "~commons/js/Events.js",
+            "~commons/getCountryName.js"
+        ]);
+    } else {
+        define("commons_dependencies", ["~commons/commons.min.js"]);
+    }
+
+    require(["commons_dependencies"], function () {
+        commons_init();
+    });
 
     //before js imports
     window.LoadedPoll = function () {
@@ -137,7 +130,7 @@
         $("html").addClass("Device");
     }
 
-//    function commons_init() {
+    function commons_init() {
         //INIT CLASSES:
         window.settings = new Settings();
         window.hashManager = new HashManager();
@@ -167,7 +160,7 @@
         }
 
         translateTags();
-//    }
+    }
 
     //window.fromDeviceTranslucent
     if (Device.isTranslucent) {

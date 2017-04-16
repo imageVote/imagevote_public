@@ -1,6 +1,5 @@
 
 var VotationButtons = function (poll, $dom, tpye) {
-    this.
     this.poll = poll;
     this.$imageDOM = $("#mainPage");
 

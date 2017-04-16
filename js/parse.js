@@ -250,9 +250,10 @@ function clickablePoll(query, keyId, url) {
 
             //link
             var link = "http://" + settings.appPath + "/" + keyId;
-            if (window.Device || window.localhost) {
+            if (window.Device && !window.localhost) {
                 //prevent hash change event
-                link = location.href.split("#")[0].split("?")[0] + "#key=" + keyId;
+                //link = location.href.split("#")[0].split("?")[0] + "#key=" + keyId;
+                link = "/" + keyId;
             }
 
 //            if (!Device) {
