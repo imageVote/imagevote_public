@@ -513,7 +513,7 @@ VotationButtons.prototype.shareToSave = function () {
 
 // CONNECTIVITY:
 
-VotationButtons.prototype.saveAjax = function(action, json, callback) {
+VotationButtons.prototype.saveAjax = function(action, sendJson, callback) {
     if ("true" == this.poll._public) {
         //but let share!
         //error("Vote on public polls whithout APP is forbidden.");
@@ -529,7 +529,7 @@ VotationButtons.prototype.saveAjax = function(action, json, callback) {
             action: action,
             id: window.user.id,
             key: this.poll.key,
-            value: json
+            value: sendJson
         }
     }).done(function (res) {
         console.log(res);
@@ -553,10 +553,9 @@ VotationButtons.prototype.saveAjax = function(action, json, callback) {
     });
 };
 
-VotationButtons.prototype.saveDevice = function(action, callback) {
+VotationButtons.prototype.saveDevice = function(action, sendJson, callback) {
     var _this = this;
     
-    var json = this.poll.json;
     var _public = "" + this.poll._public;
     var country = this.poll.country;
     var key = this.poll.key;
@@ -595,5 +594,5 @@ VotationButtons.prototype.saveDevice = function(action, callback) {
         window.lastKeyAsk = 0;
     }
     console.log("callback: " + callback);
-    Device.save(action, json, window.lastKeyAsk, realKey, _public, country, callback);
+    Device.save(action, sendJson, window.lastKeyAsk, realKey, _public, country, callback);
 };
