@@ -82,7 +82,7 @@ function storedPolls_init() {
     StoredPolls._loadWebPoll = function (keyId) {
         var _this = this;
         console.log("StoredPolls._loadWebPoll");
-        
+
         var urlParts = getPathsFromKeyId(keyId);
         var realPath = urlParts.realPath;
         var realKey = urlParts.realKey;
@@ -266,3 +266,51 @@ function storedPolls_init() {
 
 }
 
+function clickablePoll(query, keyId, url) {
+    var div = $(query);
+    div.addClass("clickable");
+
+    //if is in polls list page:
+    if (div.closest("#polls").hasClass("reduced")) {
+        div.addClass("hidden");
+        //var height = $(query).height() + 2;
+        var reducedHeight = $(query).width() * 0.314;
+        div.css("max-height", reducedHeight);
+    }
+
+    //events
+    div.off(".event");
+    div.on("click.event", function (e) {
+        //find again from query:
+        if (!$(query).hasClass("clickable")) {
+            return;
+        }
+
+        //setTimeout: let last hidePollEvent call first        
+        setTimeout(function () {
+            //if is canvas
+            if (div.hasClass("hidden")) {
+                //complete height
+                div.css("max-height", (div.find("canvas, img").height() + 50) + "px");
+                div.removeClass("hidden");
+
+                hidePollEvent(query, reducedHeight);
+                return;
+            }
+
+            //link
+            var link = "http://" + settings.appPath + "/" + keyId;
+            if (window.Device && !window.localhost) {
+                //needs remove all after 'index.html'
+                link = location.href.split("#")[0].split("?")[0] + "#key=" + keyId;
+            }
+
+//            if (!Device) {
+//                if (url) {
+//                    link = url;
+//                }                
+//            }
+            location.href = link;
+        }, 1);
+    });
+}
