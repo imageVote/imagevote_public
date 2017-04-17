@@ -444,7 +444,7 @@ VotationButtons.prototype.save = function (action, callback) {
 
     } else {
         //only way of public - public-id has to be updated on load
-        this.saveDevice(action, "screenPoll.buttons.saveCallback");
+        this.saveDevice(action, sendJson, "screenPoll.buttons.saveCallback");
     }
 };
 
