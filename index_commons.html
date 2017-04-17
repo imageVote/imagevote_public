@@ -138,9 +138,11 @@
 
     function document_ready() {  //custom needed (before keyLoad)
         //load stored code (never inside a requirejs)
-        if (Device.documentReady) {
-            Device.documentReady();
-        }
+        setTimeout(function () {
+            if (Device.documentReady) {
+                Device.documentReady();
+            }
+        }, 1);
 
         if (!window.user) { //if already from device
             console.log("add first window.user")
