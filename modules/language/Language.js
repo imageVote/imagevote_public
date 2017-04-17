@@ -89,6 +89,7 @@ Language.prototype.loadLanguage = function (lang) {
     //if selected same
     if (this.userLang() == userLang) {
         this.remove();
+        location.href = location.origin + "/#polls";
         return;
     }
 
