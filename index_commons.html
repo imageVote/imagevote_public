@@ -137,7 +137,7 @@
     });
 
     function document_ready() {  //custom needed (before keyLoad)
-        //load stored code (never inside a requirejs)
+        //load stored code - first (loas user, etc.. before keyLoad() !!)
         if (Device.documentReady) {
             Device.documentReady();
         }
