@@ -573,7 +573,7 @@ VotationButtons.prototype.saveDevice = function(action, sendJson, callback) {
 
         //wait 4 key arrive
         setTimeout(function () {
-            _this.saveDevice(action, callback);
+            _this.saveDevice(action, sendJson, callback);
         }, 700);
 
         console.log("looking for new key");
