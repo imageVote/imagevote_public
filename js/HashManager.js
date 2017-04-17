@@ -54,7 +54,7 @@ function HashManager() {
                 _this.defaultPage();
             }
         }
-    })
+    });
 }
 
 HashManager.prototype.newPollView = function () {
