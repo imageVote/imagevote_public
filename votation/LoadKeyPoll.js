@@ -96,7 +96,7 @@ var RequestPollByKeyCallback = function (data) {
     this.data = data;
     this.query = "#votation .votationBox";
 
-    console.log(data);
+    console.log("RequestPollByKeyCallback " + data);
 
     this.user = window.user;
     this.poll = window.screenPoll;
