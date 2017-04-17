@@ -105,6 +105,9 @@ Language.prototype.loadLanguage = function (lang) {
     if (this.languageURL[userLang]) {
         this.shareUrl = this.languageURL[userLang];
     }
+    
+    //force language reload
+    location.href = location.origin + "/#polls";
 };
 
 Language.prototype.userLang = function () {
