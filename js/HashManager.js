@@ -1,5 +1,5 @@
 
-function HashManager() {
+var HashManager = function() {
     var _this = this;
 
     $(window).on('hashchange', function () {
@@ -177,4 +177,18 @@ HashManager.prototype.resume = function () {
         this.defaultPage();
     }
     $("#send").removeAttr("disabled");
+};
+
+//like '#polls'
+HashManager.prototype.href = function (url) {
+    if (Device) {
+        this.deviceURL(url);
+    } else {
+        location.href = location.origin + "/" + url;
+    }
+};
+
+HashManager.prototype.deviceURL = function (url) {
+    //return location.href = location.origin + location.pathname + "?" + keyId;
+    return location.origin + location.pathname + url;
 };

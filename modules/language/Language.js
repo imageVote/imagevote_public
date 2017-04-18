@@ -33,8 +33,8 @@ var Language = function (query) {
         if (this.languageURL[userLang]) {
             this.shareUrl = this.languageURL[userLang];
         }
-        
-        if("localhost" == location.hostname){
+
+        if ("localhost" == location.hostname) {
             this.shareUrl = settings.appPath;
         }
         return;
@@ -85,11 +85,11 @@ Language.prototype.loadHtml = function (callback) {
 
 Language.prototype.loadLanguage = function (lang) {
     var userLang = lang[0].toLowerCase();
-    
+
     //if selected same
     if (this.userLang() == userLang) {
         this.remove();
-        location.href = location.origin + "/#polls"; //TODO
+        hashManager.href("#polls");
         return;
     }
 
@@ -101,14 +101,14 @@ Language.prototype.loadLanguage = function (lang) {
     if (this.callback) {
         this.callback();
     }
-    
+
     //update url
     if (this.languageURL[userLang]) {
         this.shareUrl = this.languageURL[userLang];
     }
-    
+
     //force language reload
-    location.href = location.origin + "/#polls";
+    hashManager.href("#polls");
 };
 
 Language.prototype.userLang = function () {
