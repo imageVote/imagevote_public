@@ -48,7 +48,7 @@
 #language_icon img{
     position: absolute;
     /*height: 35px;*/
-    height: 27px;
+    width: 27px;
     top: 48%;   
     margin-left: 10px;
     cursor: pointer;
