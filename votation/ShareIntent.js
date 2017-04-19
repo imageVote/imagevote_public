@@ -105,17 +105,21 @@ ShareIntent.prototype.intent = function (tag, optionsResult) {
 
                     } else { //else user open app or cancel on choose - redirect to intent app
                         _this.getUrl = function (extra) {
-                            var url = "intent://" + location.host + "/share" + extra + location.pathname + "#Intent;"
-                                    + "scheme=http;"
-                                    + "package=" + settings.app_package + ";"
-                                    + "end";
-                            console.log("intent " + url);
-                            return url;
+                            return _this.intentUrl(extra);
                         };
                     }
 
                 }, timeout);
             });
+};
+
+ShareIntent.prototype.intentUrl = function (extra) {
+    var url = "intent://" + location.host + "/share" + extra + location.pathname + "#Intent;"
+            + "scheme=http;"
+            + "package=" + settings.app_package + ";"
+            + "end";
+    console.log("intent " + url);
+    return url;
 };
 
 ShareIntent.prototype.getUrl = function (extra) {
@@ -126,13 +130,13 @@ ShareIntent.prototype.getUrl = function (extra) {
     }
     this.shareCheckCalled = true;
 
-    this.shareUrl = "http://share." + location.host + "#" + extra + location.pathname;
+    var shareUrl = "http://share." + location.host + "#" + extra + location.pathname;
     if ("localhost" == location.hostname) {
         var path = location.pathname.split("/");
         path.pop();
-        this.shareUrl = location.origin + path.join("/") + "/~share#" + extra + location.pathname;
+        shareUrl = location.origin + path.join("/") + "/~share#" + extra + location.pathname;
     }
-    return this.shareUrl;
+    return shareUrl;
 };
 
 ShareIntent.prototype.askAppInstall = function () {
@@ -147,14 +151,13 @@ ShareIntent.prototype.askAppInstall = function () {
     }
 
     if (link) {
-        modalBox("Usa la app para compartir la encuesta!",
-                "Descárgala completamente gratis. <br>No requiere de permisos especiales"
+        modalBox(transl("installApp"),
+                transl("installAppComments")
                 , function () {
                     window.open(link, "_blank");
                 }, function () {
-//            if (_this.shareUrl) {
-//                window.open(_this.shareUrl);
-//            }
+                    
+            window.open(_this.intentUrl(""));
             _this.disableIntent("from modalBox");
         });
     } else {
