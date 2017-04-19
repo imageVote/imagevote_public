@@ -154,7 +154,7 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
     this.poll.json = data;
     saveLocally(this.poll.key, this.poll.json);
 
-    if (!this.poll.obj) {
+    if (!obj) {
         console.log("error parsing object: " + this.poll.json);
         errorParse("e_votationWithErrors");
         return;
@@ -195,7 +195,7 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
     window.loadedTable = new FillTable(this.query, obj);
     if (!window.Device) {
         //add sharing in browser:
-        shareIntent.checkShareEnvirontment(loadedTable.$div.find(".option"), this.obj.options);
+        shareIntent.checkShareEnvirontment(loadedTable.$div.find(".option"), obj.options);
     }
 
     callback(obj);
