@@ -43,10 +43,10 @@
 
     <p id="errorLog"></p>
 
-    <!-- pre load -->
-    <!--    <div class='loader'>
-            <img src='~img/loader.gif'/>
-        </div>-->
+    <!-- tested pre load -->
+    <div class='loader' style="display:none">
+        <img src='~img/loader.gif'/>
+    </div>
 
     <div id="body" class="body"></div>
 
@@ -248,7 +248,7 @@
             loading = $("<div class='loader'><img src='~img/loader.gif'/></div>");
             $(div).append(loading);
         }
-        
+
         //DEBUG:
         var from = "";
         if (arguments.callee.caller) {
