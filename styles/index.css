@@ -618,6 +618,10 @@ input{
     text-align: center;
     zoom: 1.5;
     padding-top: 80px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 .loader img{
     max-width: 50%;
