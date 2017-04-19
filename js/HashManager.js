@@ -179,11 +179,12 @@ HashManager.prototype.resume = function () {
     $("#send").removeAttr("disabled");
 };
 
-//like '#polls'
+//example: '#polls'
 HashManager.prototype.href = function (url) {
-    if (Device) {
+    if (Device || "localhost" == location.hostname) {
+        //keep pathname:
         this.deviceURL(url);
-    } else {
+    }else{
         location.href = location.origin + "/" + url;
     }
 };
