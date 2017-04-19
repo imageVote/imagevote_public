@@ -169,9 +169,9 @@ ShareIntent.prototype.askAppInstall = function (appWebview) {
                 _this.disableIntent("from modalBox");
             }
         });
-        
+
         //allow "have the app"
-        var haveApp = $("<a href='" + _this.intentUrl("") + "'><button>I've the App!</button></a>");
+        var haveApp = $("<a href='" + _this.intentUrl("") + "'><button>" + transl("haveApp") + "</button></a>");
         $("#modal_ok").after(haveApp);
         $("#modal_ok").after("<br/>");
         haveApp.click(function () {
