@@ -152,9 +152,9 @@ ShareIntent.prototype.askAppInstall = function () {
                 , function () {
                     window.open(link, "_blank");
                 }, function () {
-            if (_this.shareUrl) {
-                window.open(_this.shareUrl);
-            }
+//            if (_this.shareUrl) {
+//                window.open(_this.shareUrl);
+//            }
             _this.disableIntent("from modalBox");
         });
     } else {
