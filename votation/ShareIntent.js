@@ -126,13 +126,13 @@ ShareIntent.prototype.getUrl = function (extra) {
     }
     this.shareCheckCalled = true;
 
-    var url = "http://share." + location.host + "#" + extra + location.pathname;
+    this.shareUrl = "http://share." + location.host + "#" + extra + location.pathname;
     if ("localhost" == location.hostname) {
         var path = location.pathname.split("/");
         path.pop();
-        url = location.origin + path.join("/") + "/~share#" + extra + location.pathname;
+        this.shareUrl = location.origin + path.join("/") + "/~share#" + extra + location.pathname;
     }
-    return url;
+    return this.shareUrl;
 };
 
 ShareIntent.prototype.askAppInstall = function () {
@@ -152,6 +152,9 @@ ShareIntent.prototype.askAppInstall = function () {
                 , function () {
                     window.open(link, "_blank");
                 }, function () {
+            if (_this.shareUrl) {
+                window.open(_this.shareUrl);
+            }
             _this.disableIntent("from modalBox");
         });
     } else {
