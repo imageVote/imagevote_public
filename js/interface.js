@@ -92,7 +92,7 @@ function flash(text, persist, callback) {
             clearTimeout(window.flashTimeout);
             stopFlash(callback);
         });
-        $(".absoluteLoading").remove();
+        loaded();
     }, 1);
     console.log("flash: " + text);
 }

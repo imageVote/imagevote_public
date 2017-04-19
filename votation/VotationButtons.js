@@ -48,7 +48,7 @@ VotationButtons.prototype.sendButtonEvent = function () {
     this.$sendButton.click(function (e) {
         //prevent docuble tap save and share ?
         e.stopPropagation();
-        $("body").append("<img from='VotationButtons.sendButtonEvent' class='loading absoluteLoading' src='~img/loader.gif'/>");
+        loading(null, "VotationButtons.sendButtonEvent");
 
         var obj = _this.poll.obj;
 
@@ -64,7 +64,7 @@ VotationButtons.prototype.sendButtonEvent = function () {
             //.SaveAndShare class includes VotationButtons.share!
             _this.save("create", function (done) {
                 if (false === done) {
-                    $(".absoluteLoading").remove();
+                    loaded();
                     return;
                 }
                 localStorage.setItem("unusedKey", "");
@@ -73,7 +73,7 @@ VotationButtons.prototype.sendButtonEvent = function () {
         } else if (!_this.$sendButton.hasClass("share")) { //class is save
             _this.$sendButton.attr("disabled", "disabled");
             _this.save("update", function (done) {
-                $(".absoluteLoading").remove();
+                loaded();
                 if (false !== done) {
                     saveToShare();
                 }
@@ -81,7 +81,7 @@ VotationButtons.prototype.sendButtonEvent = function () {
 
         } else { //share
             _this.share(function () {
-                $(".absoluteLoading").remove();
+                loaded();
             });
         }
     });
@@ -228,10 +228,7 @@ VotationButtons.prototype.share = function (callback) {
     var poll = this.poll;
     console.log(poll);
     var _args = arguments;
-
-    if (!$("#shareButtonLoading").length) {
-        $("body").append("<img from='VotationButtons.share' id='shareButtonLoading' class='loading absoluteLoading' src='~img/loader.gif'/>");
-    }
+    loading(null, "VotationButtons.share");
 
     console.log("VotationButtons.share");
     if (!Device.share && !poll.key) {
@@ -276,9 +273,9 @@ VotationButtons.prototype.share = function (callback) {
         if (Device.share) {
             div.hide();
             var path = "";
-            if(window.language){
+            if (window.language) {
                 path = language.shareUrl + "/";
-            }            
+            }
             votationEvents_deviceShare(imgData, keyId, path); //TODO: when not send default location?
 
         } else {
@@ -340,7 +337,7 @@ VotationButtons.prototype.save = function (action, callback) {
 //        if (!poll.key) {
 //            if (checkConnection()) {
 //                if (this.key_waiting > 10) {
-//                    $(".absoluteLoading").remove();
+//                    loaded();
 //                    flash("server connection is taking too long");
 //                    return;
 //                }
@@ -363,11 +360,7 @@ VotationButtons.prototype.save = function (action, callback) {
 
     if (!this.savingPoll) {
         //loading class for group and work with all loadings on page
-        if ($(".absoluteLoading").length) {
-            $(".absoluteLoading").attr("from", 'VotationButtons.save');
-        } else {
-            $("body").append("<img from='VotationButtons.save' class='loading absoluteLoading' src='~img/loader.gif'/>");
-        }
+        loading(null, "VotationButtons.save");
         this.savingPoll = true;
     }
 
@@ -468,11 +461,11 @@ VotationButtons.prototype.saveCallback = function (res) {
 
     if (this.$sendButton.hasClass("saveAndShare")) {
         this.share(function () {
-            $(".absoluteLoading").remove();
+            loaded();
             this.savingPoll = false;
         });
     } else {
-        $(".absoluteLoading").remove();
+        loaded();
         this.savingPoll = false;
     }
 
@@ -513,7 +506,7 @@ VotationButtons.prototype.shareToSave = function () {
 
 // CONNECTIVITY:
 
-VotationButtons.prototype.saveAjax = function(action, sendJson, callback) {
+VotationButtons.prototype.saveAjax = function (action, sendJson, callback) {
     if ("true" == this.poll._public) {
         //but let share!
         //error("Vote on public polls whithout APP is forbidden.");
@@ -553,17 +546,17 @@ VotationButtons.prototype.saveAjax = function(action, sendJson, callback) {
     });
 };
 
-VotationButtons.prototype.saveDevice = function(action, sendJson, callback) {
+VotationButtons.prototype.saveDevice = function (action, sendJson, callback) {
     var _this = this;
-    
+
     var _public = "" + this.poll._public;
     var country = this.poll.country;
     var key = this.poll.key;
-    
-    if(!this.keyWaiting){
+
+    if (!this.keyWaiting) {
         this.keyWaiting = 0;
     }
-    
+
     //FORCE WAIT KEY
     if (!key && !_public && "create" == action) { //check external key!
         if (this.keyWaiting > 8) {

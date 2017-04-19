@@ -806,16 +806,16 @@ input{
     -webkit-backface-visibility: hidden;
 }
 
-.absoluteLoading{
+/*.absoluteLoading{
     position: absolute;
     left: 50%;
     top: 35%;
-    /*width: 24px;*/
+    width: 24px;
 
     transform: translateX(-50%) translateY(-50%);
-    -ms-transform: translateX(-50%) translateY(-50%); /* IE 9 */
-    -webkit-transform: translateX(-50%) translateY(-50%); /* Chrome, Safari, Opera */ 
-}
+    -ms-transform: translateX(-50%) translateY(-50%);  IE 9 
+    -webkit-transform: translateX(-50%) translateY(-50%);  Chrome, Safari, Opera  
+}*/
 
 #send small{
     display: none;

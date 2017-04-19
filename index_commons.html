@@ -42,6 +42,11 @@
     </div>
 
     <p id="errorLog"></p>
+    
+    <!-- pre load -->
+<!--    <div class='loader'>
+        <img src='~img/loader.gif'/>
+    </div>-->
 
     <div id="body" class="body"></div>
 
@@ -227,11 +232,34 @@
         screenPoll = new LoadedPoll();
     }
 
-    //device function!
-    function loading() {
+    //device function too!
+    function loading(div, from) {
         console.log("loading");
-        $("#mainPage > div").hide();
-        $("#loading").show();
+        if (!div) {
+            div = "#body";
+        }
+
+        $(div + " > *").hide();
+        var loading = $(div + " > .loading");
+        if(!loading.length){
+            loading = $("<div class='loader'><img src='~img/loader.gif'/></div>");
+            $(div).append(loading);
+        }
+        loading.show()
+                .attr("data-from", from);
+    }
+
+    function loaded(div, all) {
+        var where = "#body > ";
+        var show = "#body > ";
+        if (div) {
+            show = where = div + " > ";
+        }
+        if(all){
+            where = "";
+        }
+        $(where + "#loading").hide();
+        $(show + "*").show();
     }
 
     //device function! (preload key only)

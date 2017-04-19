@@ -65,7 +65,7 @@
 
     var lastValue = "";
     function searchAction() {
-        $("body").append("<img from='searchAction' class='loading absoluteLoading' src='~img/loader.gif'/>");
+        loading(null, "searchAction");
 
         var value = $("#search input").val();
         lastValue = value;
@@ -73,7 +73,7 @@
         if (!value) {
             $("#header").removeClass("search");
             loadDefault(function () {
-                $(".absoluteLoading").remove();
+                loaded();
             });
             return;
         }
@@ -87,7 +87,7 @@
                 console.log("loaded: " + loaded);
                 if (ISOS.length == loaded) {
                     search();
-                    $(".absoluteLoading").remove();
+                    loaded();
                 }
             });
         }

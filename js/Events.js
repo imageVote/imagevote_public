@@ -162,7 +162,7 @@ Events.prototype.pollsEvents = function () {
 //        if (!$("#pollsPage > div").length) {
 ////        window.game = new GamePoll("#pollsPage", null, "game");
 //        }
-//        $("#loading").hide();
+//        loaded();
 //    }
 };
 

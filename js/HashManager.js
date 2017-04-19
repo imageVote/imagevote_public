@@ -75,7 +75,7 @@ HashManager.prototype.newPollView = function () {
 HashManager.prototype.update = function (hash, error) {
     console.log("loadHash: " + hash + " : " + error);
     //remove all loadings
-    $(".loading").remove();
+    loaded();
     //remove loadKeyPoll CSS status
     $(".loadKeyPoll").removeClass("loadKeyPoll");
 

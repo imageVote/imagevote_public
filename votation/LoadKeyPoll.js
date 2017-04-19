@@ -273,7 +273,7 @@ RequestPollByKeyCallback.prototype.uploadImage = function (keyId, obj) {
 function errorParse(code) {
     console.log("errorParse " + $("html").hasClass("translucent").toString());
     if (Device.close && $("html").hasClass("translucent")) {
-        $(".loading").remove();
+        loaded();
         flash(transl(code), null, function () {
             Device.close("errorParse " + code);
         });
