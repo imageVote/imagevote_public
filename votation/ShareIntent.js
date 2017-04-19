@@ -83,8 +83,11 @@ ShareIntent.prototype.intent = function (tag, optionsResult) {
                     console.log("not_installed: '" + not_installed + "', app: '" + app + "'");
 
                     if (not_installed && !app) {
-                        //flash("App not installed")
-                        _this.askAppInstall();
+                        var appWebview = _this.isWebview();
+                        if (appWebview) {
+                            location.href = _this.intentUrl("");
+                        }
+                        _this.askAppInstall(appWebview);
 
                     } else if (app) { //but user opened as web
                         //flash("App in Device")                
@@ -118,7 +121,7 @@ ShareIntent.prototype.intentUrl = function (extra) {
             + "scheme=http;"
             + "package=" + settings.app_package + ";"
             + "end";
-    console.log("intent " + url);
+    console.log("intent: " + url);
     return url;
 };
 
@@ -139,8 +142,13 @@ ShareIntent.prototype.getUrl = function (extra) {
     return shareUrl;
 };
 
-ShareIntent.prototype.askAppInstall = function () {
+ShareIntent.prototype.askAppInstall = function (appWebview) {
     var _this = this;
+    //not ask twice in same session
+    if (this.appIntallAsked) {
+        return;
+    }
+    this.appIntallAsked = true;
 
     var link = "";
     if (window.isAndroid) {
@@ -156,12 +164,15 @@ ShareIntent.prototype.askAppInstall = function () {
                 , function () {
                     window.open(link, "_blank");
                 }, function () {
-                    
-            window.open(_this.intentUrl(""));
-            _this.disableIntent("from modalBox");
+
+            if (!appWebview) {
+                _this.disableIntent("from modalBox");
+            }
         });
     } else {
-        this.disableIntent("!link");
+        if (!appWebview) {
+            this.disableIntent("!link");
+        }
     }
 };
 
@@ -170,4 +181,27 @@ ShareIntent.prototype.disableIntent = function (why) {
     console.log("disableIntent(): " + why);
     $(".no_image").removeClass("no_image");
     this.notAskAppIntent = true;
+};
+
+//https://medium.com/@_alastair/sharing-in-the-world-of-the-in-app-web-view-c54bfa40cdd4
+ShareIntent.prototype.isWebview = function () {
+    var app = null;
+    if (/\/FBIOS/i.test(navigator.userAgent) === true) {
+        app = 'facebook';
+    }
+    if (/Twitter for/i.test(navigator.userAgent) === true) {
+        app = 'twitter';
+    }
+    if (/Pinterest\//.test(navigator.userAgent) === true) {
+        app = 'pinterest';
+    }
+    if (/\/\/t.co\//i.test(document.referrer) === true && /Safari\//.test(navigator.userAgent) === false) {
+        app = 'twitter';
+    }
+    if (/tumblr.com\//i.test(document.referrer) === true && /Safari\//.test(navigator.userAgent) === false) {
+        app = 'tumblr';
+    }
+
+    console.log("app: " + app);
+    return app;
 };
