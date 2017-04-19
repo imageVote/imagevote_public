@@ -169,7 +169,7 @@ ShareIntent.prototype.askAppInstall = function (appWebview) {
                 _this.disableIntent("from modalBox");
             }
         });
-        $("#modal_box").wrap("<a href=''>" + _this.intentUrl("") + "</a>");
+        $("#modal_box").wrap("<a href='" + _this.intentUrl("") + "'></a>");
     } else {
         if (!appWebview) {
             this.disableIntent("!link");
