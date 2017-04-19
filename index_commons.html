@@ -50,27 +50,27 @@
 <script>
 
     //require
-    if (location.hostname == "localhost") {
-        define("commons_dependencies", [
-            "Settings.js",
-            "~commons/votation/votationEvents.js",
-            "~commons/votation/ShareIntent.js",
-            "~commons/votation/VotationButtons.js",
-            "~commons/votation/newVotation.js",
-            "~commons/votation/LoadKeyPoll.js",
-            "~commons/js/User.js",
-            "~commons/js/StoredPolls.js",
-            "~commons/js/HashManager.js",
-            "~commons/js/utils.js",
-            "~commons/js/parse.js",
-            "~commons/libs/wrapText.js",
-            "~commons/js/interface.js",
-            "~commons/js/Events.js",
-            "~commons/getCountryName.js"
-        ]);
-    } else {
-        define("commons_dependencies", ["~commons/commons.min.js"]);
-    }
+//    if (location.hostname == "localhost") {
+    define("commons_dependencies", [
+        "Settings.js",
+        "~commons/votation/votationEvents.js",
+        "~commons/votation/ShareIntent.js",
+        "~commons/votation/VotationButtons.js",
+        "~commons/votation/newVotation.js",
+        "~commons/votation/LoadKeyPoll.js",
+        "~commons/js/User.js",
+        "~commons/js/StoredPolls.js",
+        "~commons/js/HashManager.js",
+        "~commons/js/utils.js",
+        "~commons/js/parse.js",
+        "~commons/libs/wrapText.js",
+        "~commons/js/interface.js",
+        "~commons/js/Events.js",
+        "~commons/getCountryName.js"
+    ]);
+//    } else {
+//        define("commons_dependencies", ["~commons/commons.min.js"]);
+//    }
 
     //before js imports
     window.LoadedPoll = function () {
