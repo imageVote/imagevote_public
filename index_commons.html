@@ -233,7 +233,7 @@
     }
 
     //device function too!
-    function loading(div, hide, from) {
+    function loading(div, hide) {
         console.log("loading");
         if (!div) {
             div = "#body";
@@ -249,9 +249,12 @@
             $(div).append(loading);
         }
         
-        if(arguments.callee.caller){
-            from = arguments.callee.caller.name;
+        //DEBUG:
+        var from = "";
+        if (arguments.callee.caller) {
+            from = arguments.callee.caller.toString();
         }
+
         loading.show()
                 .attr("data-from", from);
     }

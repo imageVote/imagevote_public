@@ -48,7 +48,7 @@ VotationButtons.prototype.sendButtonEvent = function () {
     this.$sendButton.click(function (e) {
         //prevent docuble tap save and share ?
         e.stopPropagation();
-        loading(null, "VotationButtons.sendButtonEvent");
+        loading();
 
         var obj = _this.poll.obj;
 
@@ -228,7 +228,7 @@ VotationButtons.prototype.share = function (callback) {
     var poll = this.poll;
     console.log(poll);
     var _args = arguments;
-    loading(null, "VotationButtons.share");
+    loading();
 
     console.log("VotationButtons.share");
     if (!Device.share && !poll.key) {
@@ -360,7 +360,7 @@ VotationButtons.prototype.save = function (action, callback) {
 
     if (!this.savingPoll) {
         //loading class for group and work with all loadings on page
-        loading(null, "VotationButtons.save");
+        loading();
         this.savingPoll = true;
     }
 
