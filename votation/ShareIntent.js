@@ -84,9 +84,9 @@ ShareIntent.prototype.intent = function (tag, optionsResult) {
 
                     if (not_installed && !app) {
                         var appWebview = _this.isWebview();
-                        if (appWebview) {
-                            location.href = _this.intentUrl("");
-                        }
+                        //if (appWebview) {
+                        location.href = _this.intentUrl("");
+                        //}
                         _this.askAppInstall(appWebview);
 
                     } else if (app) { //but user opened as web
