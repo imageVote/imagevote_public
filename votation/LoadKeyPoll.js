@@ -193,6 +193,11 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
     }
 
     window.loadedTable = new FillTable(this.query, obj);
+    if (!window.Device) {
+        //add sharing in browser:
+        shareIntent.checkShareEnvirontment(loadedTable.$div.find(".option"), this.obj.options);
+    }
+
     callback(obj);
 };
 
