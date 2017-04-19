@@ -42,11 +42,11 @@
     </div>
 
     <p id="errorLog"></p>
-    
+
     <!-- pre load -->
-<!--    <div class='loader'>
-        <img src='~img/loader.gif'/>
-    </div>-->
+    <!--    <div class='loader'>
+            <img src='~img/loader.gif'/>
+        </div>-->
 
     <div id="body" class="body"></div>
 
@@ -233,18 +233,23 @@
     }
 
     //device function too!
-    function loading(div, from) {
+    function loading(div, hide, from) {
         console.log("loading");
         if (!div) {
             div = "#body";
         }
 
-        $(div + " > *").hide();
+        if (hide) {
+            $(div + " > *").hide();
+        }
+
         var loading = $(div + " > .loader");
-        if(!loading.length){
+        if (!loading.length) {
             loading = $("<div class='loader'><img src='~img/loader.gif'/></div>");
             $(div).append(loading);
         }
+
+        from = arguments.callee.caller.toString();
         loading.show()
                 .attr("data-from", from);
     }
@@ -255,9 +260,9 @@
         if (div) {
             show = where = div + " > ";
         }
-        if(all){
+        if (all) {
             where = "";
-        }        
+        }
         $(show + "*").show();
         $(where + ".loader").hide();
     }
