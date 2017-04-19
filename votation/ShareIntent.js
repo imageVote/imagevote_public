@@ -85,7 +85,7 @@ ShareIntent.prototype.intent = function (tag, optionsResult) {
                     if (not_installed && !app) {
                         var appWebview = _this.isWebview();
                         //if (appWebview) {
-                        location.href = _this.intentUrl("");
+                        //location.href = _this.intentUrl("");
                         //}
                         _this.askAppInstall(appWebview);
 
@@ -145,10 +145,10 @@ ShareIntent.prototype.getUrl = function (extra) {
 ShareIntent.prototype.askAppInstall = function (appWebview) {
     var _this = this;
     //not ask twice in same session
-    if (this.appIntallAsked) {
-        return;
-    }
-    this.appIntallAsked = true;
+//    if (this.appIntallAsked) {
+//        return;
+//    }
+//    this.appIntallAsked = true;
 
     var link = "";
     if (window.isAndroid) {
@@ -169,6 +169,7 @@ ShareIntent.prototype.askAppInstall = function (appWebview) {
                 _this.disableIntent("from modalBox");
             }
         });
+        $("#modal_box").wrap("<a href=''>" + _this.intentUrl("") + "</a>");
     } else {
         if (!appWebview) {
             this.disableIntent("!link");
