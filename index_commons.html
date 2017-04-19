@@ -240,7 +240,7 @@
         }
 
         $(div + " > *").hide();
-        var loading = $(div + " > .loading");
+        var loading = $(div + " > .loader");
         if(!loading.length){
             loading = $("<div class='loader'><img src='~img/loader.gif'/></div>");
             $(div).append(loading);
@@ -257,9 +257,9 @@
         }
         if(all){
             where = "";
-        }
-        $(where + "#loading").hide();
+        }        
         $(show + "*").show();
+        $(where + ".loader").hide();
     }
 
     //device function! (preload key only)
