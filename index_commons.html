@@ -248,8 +248,10 @@
             loading = $("<div class='loader'><img src='~img/loader.gif'/></div>");
             $(div).append(loading);
         }
-
-        from = arguments.callee.caller.toString();
+        
+        if(arguments.callee.caller){
+            from = arguments.callee.caller.name;
+        }
         loading.show()
                 .attr("data-from", from);
     }
