@@ -17,19 +17,28 @@ function translateTags(refresh) {
 function loadLanguage(path, callback) {
     var userLang = getUserLang();
 
-    $.getScript(path + "/" + userLang + ".js", function () {
-        if (callback) {
-            callback();
-        }
+//    $.getScript(path + "/" + userLang + ".js", function () {
+//        if (callback) {
+//            callback();
+//        }
+//
+//    }).fail(function () {
+//        console.log(path + " lang failed!");
+//        $.getScript(path + "/en.js", function () {
+//            if (callback) {
+//                callback();
+//            }
+//        });
+//    });
 
-    }).fail(function () {
-        console.log(path + " lang failed!");
-        $.getScript(path + "/en.js", function () {
-            if (callback) {
-                callback();
-            }
-        });
+    // Stream big file in worker thread
+    Papa.parse(path + "/lang.csv", {
+        worker: true,
+        step: function (results) {
+            console.log("Row:", results.data);
+        }
     });
+
 }
 
 function loadTranslations(refresh) {
