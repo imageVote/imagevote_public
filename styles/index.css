@@ -949,9 +949,9 @@ body > .option > *{
 }
 /*continue in index_not_ie*/
 
-#buttons{
+/*#buttons{
     min-height: 54px;
-}
+}*/
 
 [contenteditable]{
     -webkit-user-select: text;
