@@ -6,14 +6,17 @@
 
 <script>
 
-    (function () {
-        var userLang = getUserLang();
-
-        $.getScript("~commons/modules/tutorial/lang/" + userLang + ".js")
-                .fail(function () {
-                    console.log("tutorial lang failed!");
-                    $.getScript("~commons/modules/tutorial/lang/en.js");
-                });
-    })();
+//    (function () {
+//        var userLang = getUserLang();
+//
+//        $.getScript("~commons/modules/tutorial/lang/" + userLang + ".js")
+//                .fail(function () {
+//                    console.log("tutorial lang failed!");
+//                    $.getScript("~commons/modules/tutorial/lang/en.js");
+//                });
+//    })();
+    
+    //generic only
+    loadLanguage("~commons/modules/tutorial/lang/");
 
 </script>

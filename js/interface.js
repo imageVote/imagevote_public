@@ -9,13 +9,27 @@ function translateTags(refresh) {
         window.lang = {};
     }
 
+    var loaded = 0;
+    for (var i = 0; i < window.languagePaths.length; i++) {
+        var path = window.languagePaths[i];
+        loadLanguage(path, function () {
+            loaded++;
+            if (window.languagePaths.length == loaded) {
+                loadTranslations(refresh);
+            }
+        });
+    }
     loadLanguage("~lang", function () {
         loadTranslations(refresh);
     });
 }
 
+window.languagePaths = {'~lang': 1};
 function loadLanguage(path, callback) {
+    window.languagePaths[path] = 1;
+
     var userLang = getUserLang();
+    console.log("userLang: " + userLang + " - " + path);
 
 //    $.getScript(path + "/" + userLang + ".js", function () {
 //        if (callback) {
@@ -31,11 +45,32 @@ function loadLanguage(path, callback) {
 //        });
 //    });
 
-    // Stream big file in worker thread
+    //http://papaparse.com/
+    var first = true;
+    var pos = 1;
     Papa.parse(path + "/lang.csv", {
-        worker: true,
+        download: true,
         step: function (results) {
-            console.log("Row:", results.data);
+            if (first) {
+                for (var i = 1; i < results.data[0].length; i++) {
+                    if (userLang.toLowerCase() == results.data[0][i].toLowerCase()) {
+                        pos = i;
+                        break;
+                    }
+                }
+                first = false;
+                return;
+            }
+
+            var key = results.data[0][0];
+            if (key && key[0] !== "/") {
+                lang[key] = results.data[0][pos];
+            }
+        },
+        complete: function () {
+            if (callback) {
+                callback();
+            }
         }
     });
 

@@ -9,7 +9,7 @@ Tutorial.prototype.start = function () {
     var _this = this;
 
     var helpStop = $("<div id='helpStop'>");
-    var stop = $("<span style='display:inline-block' data-lang='helpStop'></span>");
+    var stop = $("<span style='display:inline-block' data-lang='helpStop'>" + transl("helpStop") + "</span>");
     helpStop.append(stop);
     var left = $("<div style='float:left;padding: 0 25px'><</div>");
     helpStop.append(left);
@@ -62,14 +62,15 @@ Tutorial.prototype.stop = function () {
 };
 
 Tutorial.prototype.locateHelper = function (queryDiv, value, target, func) {
-    var help = $("<div class='tutorial_helpDiv tutorial_selectable'>");
+    var text = transl(value);
+
+    var help = $("<div class='tutorial_helpDiv tutorial_selectable' data-lang='" + text + "'>");
     var helpContainer = $("<div id='tutorial_helpFilter'>");
     helpContainer.append(help);
 
-    var text = transl(value);
     //text = text.replace(/\. /g, '.<br/><br/>').replace(/! /g, '.<br/><br/>');
     help.html(text);
-    
+
     $("#tutorial_helpFilter").remove();
 
     $("body").append(helpContainer);
@@ -90,7 +91,7 @@ Tutorial.prototype.targetEvent = function (target, help, func) {
                     //.addClass("smltown_userSelectable")
                     .on("click.help", function (e) {
                         e.preventDefault();
-                        
+
                         console.log("click")
                         if (!canClick) {
                             return;
@@ -191,11 +192,11 @@ Tutorial.prototype.placeHelper = function (queryDiv, callback) {
     }
 
 //    if (y + divHeight / 2 <= height / 2) {
-        if (!divHeight) {
-            divHeight = 20;
-        }
-        help.css("top", y + divHeight + 10);
-        help.addClass("tutorial_top");
+    if (!divHeight) {
+        divHeight = 20;
+    }
+    help.css("top", y + divHeight + 10);
+    help.addClass("tutorial_top");
 //    } else {
 //    //BOTTOM CAUSES BAD MOVES ON WINDOW RESIZE
 //        help.css("bottom", height - y + 10);
