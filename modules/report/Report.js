@@ -1,0 +1,4 @@
+
+var Report = function(pollDiv){
+
+};
