@@ -83,10 +83,12 @@ function loadLanguage(path, callback) {
                     if (callback) {
                         callback();
                     }
+                }, error: function (e, file) {
+                    console.log(e.code + " in " + file);
                 }
             });
         } catch (e) {
-            console.log("PAPAPARSE ERROR!");
+            console.log("PAPAPARSE ERROR! " + e.message);
         }
     });
 }
