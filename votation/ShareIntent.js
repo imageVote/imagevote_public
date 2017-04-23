@@ -204,9 +204,11 @@ ShareIntent.prototype.askAppInstall = function (appWebview) {
 //not seems to work :(
 ShareIntent.prototype.toBackground = function (callback) {
     console.log("toBackground()");
-    
+
     //https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
     var hidden, visibilityChange;
+    hidden = "hidden";
+    visibilityChange = "visibilitychange";
     if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
         hidden = "hidden";
         visibilityChange = "visibilitychange";
@@ -223,7 +225,7 @@ ShareIntent.prototype.toBackground = function (callback) {
         console.log("WARNING: visibility handle not works in this browser!");
         return;
     }
-    
+
     // Handle page visibility change        
     document.addEventListener(visibilityChange, function () {
         console.log("visibilityChange: " + document[hidden]);
