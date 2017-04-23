@@ -152,6 +152,22 @@
             Device.documentReady();
         }
 
+        //TRANSLATIONS:
+        var translations = 0;
+        loadLanguage("~lang", function () {
+            translations++;
+            if (translations >= 2) {
+                translateTags();
+            }
+        });
+        loadLanguage("~commons/lang", function () {
+            translations++;
+            if (translations >= 2) {
+                translateTags();
+            }
+        });
+        
+        //KEY LOAD
         if (!window.user) { //if already from device
             console.log("add first window.user")
             //user id callback needed
@@ -166,9 +182,6 @@
         } else {
             keyLoad();
         }
-
-        loadLanguage("~lang");
-        loadLanguage("~commons/lang");
     }
 
     //window.fromDeviceTranslucent

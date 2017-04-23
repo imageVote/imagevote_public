@@ -447,13 +447,18 @@ var CSV = {
 
         var first = arr[0].split(this.delimiter);
         res.push(first[0]);
+        
+        var questions;
+        var styles;
         try {
-            res.push(JSON.parse(first[1]));
-            res.push(JSON.parse(first[2]));
+            questions = JSON.parse(first[1]);
+            styles = JSON.parse(first[2]);
         } catch (e) {
             console.log("can't parse " + first[1] + " and " + first[2]);
             return false;
         }
+        res.push(questions);
+        res.push(styles);
 
         for (var i = 1; i < arr.length; i++) {
             res.push(arr[i].split(this.delimiter));

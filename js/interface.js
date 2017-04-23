@@ -1,23 +1,31 @@
 
 function translateTags(refresh) {
     if (window.lang && !refresh) {
+        console.log("!refresh translateTags");
         loadTranslations();
         return;
     }
 
+    console.log("translateTags() " + obj_size(window.languagePaths));
     var loaded = 0;
-    for (var i = 0; i < window.languagePaths.length; i++) {
-        var path = window.languagePaths[i];
+    for (var path in window.languagePaths) {
         loadLanguage(path, function () {
             loaded++;
-            if (window.languagePaths.length == loaded) {
+            console.log("loaded " + loaded);
+            if (obj_size(window.languagePaths) == loaded) {
                 loadTranslations(refresh);
             }
         });
     }
-//    loadLanguage("~lang", function () {
-//        loadTranslations(refresh);
-//    });
+}
+
+function obj_size(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key))
+            size++;
+    }
+    return size;
 }
 
 window.languagePaths = {'~lang': 1};
@@ -31,72 +39,61 @@ function loadLanguage(path, callback) {
     var userLang = getUserLang();
     console.log("userLang: " + userLang + " - " + path);
 
-//    $.getScript(path + "/" + userLang + ".js", function () {
-//        if (callback) {
-//            callback();
-//        }
-//
-//    }).fail(function () {
-//        console.log(path + " lang failed!");
-//        $.getScript(path + "/en.js", function () {
-//            if (callback) {
-//                callback();
-//            }
-//        });
-//    });
-
     //http://papaparse.com/
     var first = true;
     var pos = 1;
     requirejs(["text!" + path + "/lang.csv"], function (data) {
         if (!data) {
-            console.log("NOT DATA IN " + path + "/lang.csv");
+            console.log("ERROR NOT DATA IN " + path + "/lang.csv");
             return;
         }
 
-        try {
-            //console.log(data)
-            Papa.parse(data, {
-                step: function (results) {
-                    if (first) {
-                        for (var i = 1; i < results.data[0].length; i++) {
-                            if (userLang.toLowerCase() == results.data[0][i].toLowerCase()) {
-                                pos = i;
-                                break;
-                            }
+//        try {
+        //console.log(data)
+        Papa.parse(data, {
+            step: function (results) {
+                if (first) {
+                    for (var i = 1; i < results.data[0].length; i++) {
+                        if (userLang.toLowerCase() == results.data[0][i].toLowerCase()) {
+                            pos = i;
+                            break;
                         }
-                        first = false;
-                        return;
                     }
-
-                    var key = results.data[0][0];
-                    if (key && key[0] !== "/") {
-                        var result = results.data[0][pos];
-                        //english[1] if not found language:
-                        if (!result) {
-                            result = results.data[0][1];
-                        }
-                        lang[key] = result;
-                    }
-                },
-                complete: function () {
-                    if (callback) {
-                        callback();
-                    }
-                }, error: function (e, file) {
-                    console.log(e.code + " in " + file);
+                    first = false;
+                    return;
                 }
-            });
-        } catch (e) {
-            console.log("PAPAPARSE ERROR! " + e.message);
-        }
+
+                var key = results.data[0][0];
+                if (key && key[0] !== "/") {
+                    var result = results.data[0][pos];
+                    //english[1] if not found language:
+                    if (!result) {
+                        result = results.data[0][1];
+                    }
+                    lang[key] = result;
+                }
+            },
+            complete: function () {
+                if (callback) {
+                    callback();
+                }
+            }, error: function (e, file) {
+                console.log("PAPA.PARSE ERROR: " + e.code + " in " + file);
+            }
+        });
+//        } catch (e) {
+//            console.log("CATCH PAPA.PARSE ERROR: " + e.message);
+//        }
     });
 }
 
 function loadTranslations(refresh) {
+    console.log("loadTranslations() " + refresh)
     if (!window.lang) {
+        console.log("!window.lang");
         return;
     }
+
     $("[data-lang]").each(function () {
         var textKey = $(this).attr("data-lang");
 
@@ -105,7 +102,6 @@ function loadTranslations(refresh) {
             //console.log($(this).text() + " != " + textKey)
             return true; //continue
         }
-
 
         var translation = window.lang[textKey];
         if (translation) {
@@ -117,6 +113,7 @@ function loadTranslations(refresh) {
         //remove lang 4 prevent re-translate
         //$(this).removeAttr("data-lang");
     });
+
     $("[data-placeholder]").each(function () {
         var textKey = $(this).attr("data-placeholder");
         var translation = window.lang[textKey];

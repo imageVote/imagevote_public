@@ -3,8 +3,9 @@
 function showVotation(users) {
     $("#mainPage > div").hide();
     $("#votation").show();
-
+    
     //public is defined on load html
+    //VOTATION BUTTONS:
     window.screenPoll.buttons = new VotationButtons(screenPoll);
     window.screenPoll.buttons.init();
     $("#send").hide();

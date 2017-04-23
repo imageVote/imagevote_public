@@ -46,11 +46,10 @@ var HashManager = function () {
             //$("html").removeClass("withoutHeader");
             $("#pollsHeader").hide();
             $("#voteHeader").show();
+
             //view
             $("#mainPage > div").hide();
             $("#creator").show();
-
-            $("#buttons").show();
             $("#showPolls").show();
 
             _this.newPollView();
