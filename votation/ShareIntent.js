@@ -79,8 +79,10 @@ ShareIntent.prototype.intent = function (tag, optionsResult) {
                 var url = _this.getUrl(extra);
                 var timeout = 0;
                 if (url) {
+                    //check app choose interference:
+                    localStorage.setItem("timeIntent", (new Date()).getTime());
                     window.open(url); //'http://share.' or 'intent://'
-                    timeout = 2500; //second waiting share page load
+                    timeout = 2000; //second waiting share page load
                 }
 
                 setTimeout(function () {
@@ -113,7 +115,7 @@ ShareIntent.prototype.intent = function (tag, optionsResult) {
                             i++;
                         }, 500);
 
-                    } else { //else user open app or cancel on choose - redirect to intent app
+                    } else { //else user open app or cancel on choose -> redirect to intent app
                         _this.getUrl = function (extra) {
                             return _this.intentUrl(extra);
                         };
@@ -190,7 +192,8 @@ ShareIntent.prototype.askAppInstall = function (appWebview) {
         });
 
         //if hide by something don't ask!
-        this.toBackground(function () {
+        this.toBackground(function (bool) {
+            console.log("toBackground " + bool);
             $modalBox.remove();
         });
 
@@ -273,7 +276,7 @@ ShareIntent.prototype.toBackground = function (callback) {
     // BROWSER PREFIX (browserPrefix):
     var hiddenPropertyName = "";
     var browserPrefix = "";
-    
+
     var browserPrefixes = ['moz', 'ms', 'o', 'webkit'];
     for (var i = 0; i < browserPrefixes.length; i++) {
         var hidden = (browserPrefixes[i] ? browserPrefixes[i] + "Hidden" : "hidden");
@@ -303,4 +306,11 @@ ShareIntent.prototype.toBackground = function (callback) {
     window.addEventListener('blur', function () {
         callback(false);
     }, false);
+    
+    //w8
+    setTimeout(function () {
+        if(document[hiddenPropertyName]){
+            callback(true);
+        }
+    }, 1);
 };
