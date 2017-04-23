@@ -1,23 +1,31 @@
 
 function translateTags(refresh) {
     if (window.lang && !refresh) {
+        console.log("!refresh translateTags");
         loadTranslations();
         return;
     }
 
+    console.log("translateTags() " + obj_size(window.languagePaths));
     var loaded = 0;
-    for (var i = 0; i < window.languagePaths.length; i++) {
-        var path = window.languagePaths[i];
+    for (var path in window.languagePaths) {
         loadLanguage(path, function () {
             loaded++;
-            if (window.languagePaths.length == loaded) {
+            console.log("loaded " + loaded);
+            if (obj_size(window.languagePaths) == loaded) {
                 loadTranslations(refresh);
             }
         });
     }
-//    loadLanguage("~lang", function () {
-//        loadTranslations(refresh);
-//    });
+}
+
+function obj_size(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key))
+            size++;
+    }
+    return size;
 }
 
 window.languagePaths = {'~lang': 1};
@@ -30,20 +38,6 @@ function loadLanguage(path, callback) {
 
     var userLang = getUserLang();
     console.log("userLang: " + userLang + " - " + path);
-
-//    $.getScript(path + "/" + userLang + ".js", function () {
-//        if (callback) {
-//            callback();
-//        }
-//
-//    }).fail(function () {
-//        console.log(path + " lang failed!");
-//        $.getScript(path + "/en.js", function () {
-//            if (callback) {
-//                callback();
-//            }
-//        });
-//    });
 
     //http://papaparse.com/
     var first = true;
@@ -94,9 +88,12 @@ function loadLanguage(path, callback) {
 }
 
 function loadTranslations(refresh) {
+    console.log("loadTranslations() " + refresh)
     if (!window.lang) {
+        console.log("!window.lang");
         return;
     }
+
     $("[data-lang]").each(function () {
         var textKey = $(this).attr("data-lang");
 
@@ -105,7 +102,6 @@ function loadTranslations(refresh) {
             //console.log($(this).text() + " != " + textKey)
             return true; //continue
         }
-
 
         var translation = window.lang[textKey];
         if (translation) {
@@ -117,6 +113,7 @@ function loadTranslations(refresh) {
         //remove lang 4 prevent re-translate
         //$(this).removeAttr("data-lang");
     });
+
     $("[data-placeholder]").each(function () {
         var textKey = $(this).attr("data-placeholder");
         var translation = window.lang[textKey];

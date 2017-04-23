@@ -111,7 +111,7 @@ Language.prototype.loadLanguage = function (lang) {
         this.shareUrl = this.languageURL[userLang];
     }
 
-    //FORCE GAME RELOAD
+    //FORCE GAME RELOAD ??
     hashManager.href("#polls");
 };
 
