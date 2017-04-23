@@ -50,46 +50,46 @@ function loadLanguage(path, callback) {
     var pos = 1;
     requirejs(["text!" + path + "/lang.csv"], function (data) {
         if (!data) {
-            console.log("NOT DATA IN " + path + "/lang.csv");
+            console.log("ERROR NOT DATA IN " + path + "/lang.csv");
             return;
         }
 
-        try {
-            //console.log(data)
-            Papa.parse(data, {
-                step: function (results) {
-                    if (first) {
-                        for (var i = 1; i < results.data[0].length; i++) {
-                            if (userLang.toLowerCase() == results.data[0][i].toLowerCase()) {
-                                pos = i;
-                                break;
-                            }
+//        try {
+        //console.log(data)
+        Papa.parse(data, {
+            step: function (results) {
+                if (first) {
+                    for (var i = 1; i < results.data[0].length; i++) {
+                        if (userLang.toLowerCase() == results.data[0][i].toLowerCase()) {
+                            pos = i;
+                            break;
                         }
-                        first = false;
-                        return;
                     }
-
-                    var key = results.data[0][0];
-                    if (key && key[0] !== "/") {
-                        var result = results.data[0][pos];
-                        //english[1] if not found language:
-                        if (!result) {
-                            result = results.data[0][1];
-                        }
-                        lang[key] = result;
-                    }
-                },
-                complete: function () {
-                    if (callback) {
-                        callback();
-                    }
-                }, error: function (e, file) {
-                    console.log(e.code + " in " + file);
+                    first = false;
+                    return;
                 }
-            });
-        } catch (e) {
-            console.log("PAPAPARSE ERROR! " + e.message);
-        }
+
+                var key = results.data[0][0];
+                if (key && key[0] !== "/") {
+                    var result = results.data[0][pos];
+                    //english[1] if not found language:
+                    if (!result) {
+                        result = results.data[0][1];
+                    }
+                    lang[key] = result;
+                }
+            },
+            complete: function () {
+                if (callback) {
+                    callback();
+                }
+            }, error: function (e, file) {
+                console.log("PAPA.PARSE ERROR: " + e.code + " in " + file);
+            }
+        });
+//        } catch (e) {
+//            console.log("CATCH PAPA.PARSE ERROR: " + e.message);
+//        }
     });
 }
 
