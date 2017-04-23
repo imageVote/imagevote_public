@@ -1,5 +1,5 @@
 
-var HashManager = function() {
+var HashManager = function () {
     var _this = this;
 
     $(window).on('hashchange', function () {
@@ -22,6 +22,23 @@ var HashManager = function() {
 //        loadHash("home");
 
             window.screenPoll.buttons = new VotationButtons(screenPoll);
+
+            // PUBLIC CHECKBOX:
+            var ignore = ["en", "es", "fr", "de", "it", "pt"];
+            var lang = localStorage.getItem("userLang").toLowerCase();
+            if (window.userLang && ignore.indexOf(lang) === -1) {
+                var makePublic = $("<div class='button publicCheckbox'>"
+                        + "<input type='checkbox'><span data-lang='MakePublic'></span>"
+                        + "</div>");
+                $("#buttons .votationButtons").prepend(makePublic);
+                makePublic.click(function () {
+                    var checkbox = $(this).parent().find("input");
+                    checkbox.prop("checked", !checkbox.prop("checked"));
+                    screenPoll._public = checkbox.prop("checked");
+                    checkbox.parent().toggleClass("publicCheck", screenPoll._public);
+                });
+            }
+
             window.screenPoll.buttons.init();
             $("#cancel, #usersButton").hide();
 
@@ -35,7 +52,6 @@ var HashManager = function() {
 
             $("#buttons").show();
             $("#showPolls").show();
-            $("#stored").show();
 
             _this.newPollView();
         }
@@ -184,7 +200,7 @@ HashManager.prototype.href = function (url) {
     if (Device || "localhost" == location.hostname) {
         //keep pathname:
         this.deviceURL(url);
-    }else{
+    } else {
         location.href = location.origin + "/" + url;
     }
 };

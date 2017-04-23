@@ -5,10 +5,6 @@ function translateTags(refresh) {
         return;
     }
 
-    if (!window.lang) {
-        window.lang = {};
-    }
-
     var loaded = 0;
     for (var i = 0; i < window.languagePaths.length; i++) {
         var path = window.languagePaths[i];
@@ -19,13 +15,17 @@ function translateTags(refresh) {
             }
         });
     }
-    loadLanguage("~lang", function () {
-        loadTranslations(refresh);
-    });
+//    loadLanguage("~lang", function () {
+//        loadTranslations(refresh);
+//    });
 }
 
 window.languagePaths = {'~lang': 1};
 function loadLanguage(path, callback) {
+    if (!window.lang) {
+        window.lang = {};
+    }
+
     window.languagePaths[path] = 1;
 
     var userLang = getUserLang();
@@ -49,6 +49,10 @@ function loadLanguage(path, callback) {
     var first = true;
     var pos = 1;
     requirejs(["text!" + path + "/lang.csv"], function (data) {
+        if(!data){
+            console.log("NOT DATA IN " + path + "/lang.csv");
+            return;
+        }
         //console.log(data)
         Papa.parse(data, {
             step: function (results) {
@@ -67,7 +71,7 @@ function loadLanguage(path, callback) {
                 if (key && key[0] !== "/") {
                     var result = results.data[0][pos];
                     //english[1] if not found language:
-                    if(!result){
+                    if (!result) {
                         result = results.data[0][1];
                     }
                     lang[key] = result;
@@ -141,7 +145,7 @@ function flash(text, persist, callback) {
         $(document).one("mousedown.search touchstart.search", function (e) {
             e.stopPropagation();
             e.preventDefault();
-            
+
             clearTimeout(window.flashTimeout);
             stopFlash(callback);
         });

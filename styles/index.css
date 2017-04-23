@@ -242,15 +242,18 @@ td{
     line-height: 22px;
 }
 
-button, input, select{
-    line-height: 30px; 
+button, input, select, .button{
+    font: 13px Arial;
     height: 44px;
+    /*line-height: 30px;*/ 
+    line-height: 44px; /*.button 'Public' needs*/ 
+    vertical-align: middle; /*'Public' checkbox*/ 
 }
 button{
     /*button wrong click on safari with padding*/
     /*    padding-top: 5px;
         padding-bottom: 5px;*/
-    min-height: 40px;
+    /*min-height: 40px;*/
     padding: 0;
     min-width: 90px;
     cursor: pointer;
@@ -977,4 +980,23 @@ body > .option > *{
 }
 #stored .option:after{
     font-size: 60px !important; 
+}
+
+.publicCheckbox{
+    position: absolute; 
+    color:gainsboro; 
+    font-weight:bold;
+    /*color: rgb(150,150,150);*/
+    opacity: 0.4;
+}
+.publicCheckbox input{
+    pointer-events:none;    
+}
+
+.publicCheckbox.publicCheck{
+    opacity: 1;
+    color: gold;
+}
+.publicCheckbox > *{
+    vertical-align: middle;
 }
