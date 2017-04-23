@@ -49,40 +49,45 @@ function loadLanguage(path, callback) {
     var first = true;
     var pos = 1;
     requirejs(["text!" + path + "/lang.csv"], function (data) {
-        if(!data){
+        if (!data) {
             console.log("NOT DATA IN " + path + "/lang.csv");
             return;
         }
-        //console.log(data)
-        Papa.parse(data, {
-            step: function (results) {
-                if (first) {
-                    for (var i = 1; i < results.data[0].length; i++) {
-                        if (userLang.toLowerCase() == results.data[0][i].toLowerCase()) {
-                            pos = i;
-                            break;
-                        }
-                    }
-                    first = false;
-                    return;
-                }
 
-                var key = results.data[0][0];
-                if (key && key[0] !== "/") {
-                    var result = results.data[0][pos];
-                    //english[1] if not found language:
-                    if (!result) {
-                        result = results.data[0][1];
+        try {
+            //console.log(data)
+            Papa.parse(data, {
+                step: function (results) {
+                    if (first) {
+                        for (var i = 1; i < results.data[0].length; i++) {
+                            if (userLang.toLowerCase() == results.data[0][i].toLowerCase()) {
+                                pos = i;
+                                break;
+                            }
+                        }
+                        first = false;
+                        return;
                     }
-                    lang[key] = result;
+
+                    var key = results.data[0][0];
+                    if (key && key[0] !== "/") {
+                        var result = results.data[0][pos];
+                        //english[1] if not found language:
+                        if (!result) {
+                            result = results.data[0][1];
+                        }
+                        lang[key] = result;
+                    }
+                },
+                complete: function () {
+                    if (callback) {
+                        callback();
+                    }
                 }
-            },
-            complete: function () {
-                if (callback) {
-                    callback();
-                }
-            }
-        });
+            });
+        } catch (e) {
+            console.log("PAPAPARSE ERROR!");
+        }
     });
 }
 

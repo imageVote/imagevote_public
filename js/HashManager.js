@@ -25,8 +25,8 @@ var HashManager = function () {
 
             // PUBLIC CHECKBOX:
             var ignore = ["en", "es", "fr", "de", "it", "pt"];
-            var lang = localStorage.getItem("userLang").toLowerCase();
-            if (window.userLang && ignore.indexOf(lang) === -1) {
+            var lang = localStorage.getItem("userLang");
+            if (lang && ignore.indexOf(lang.toLowerCase()) === -1) {
                 var makePublic = $("<div class='button publicCheckbox'>"
                         + "<input type='checkbox'><span data-lang='MakePublic'></span>"
                         + "</div>");
