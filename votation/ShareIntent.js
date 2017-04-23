@@ -236,8 +236,8 @@ ShareIntent.prototype.isPopularWebview = function () {
 
 //not seems to work :(
 ShareIntent.prototype.toBackground = function (callback) {
-//    console.log("toBackground()");
-//
+    console.log("toBackground()");
+
 //    //https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
 //    var hidden, visibilityChange;
 //    hidden = "hidden";
@@ -309,6 +309,7 @@ ShareIntent.prototype.toBackground = function (callback) {
     
     //w8
     setTimeout(function () {
+        console.log(hiddenPropertyName + ": " + document[hiddenPropertyName]);
         if(document[hiddenPropertyName]){
             callback(true);
         }
