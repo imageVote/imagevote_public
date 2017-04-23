@@ -172,15 +172,14 @@ ShareIntent.prototype.askAppInstall = function (appWebview) {
         if ($("#modal_box").length) {
             return;
         }
-        var $modalBox = modalBox.ask(transl("installApp"),
-                transl("installAppComments")
-                , function () {
-                    window.open(link, "_blank");
-                }, function () {
-
-            if (!appWebview) {
-                _this.disableIntent("from modalBox");
-            }
+        var $modalBox = modalBox.ask(transl("installApp"), transl("installAppComments"), function () {
+            window.open(link, "_blank");
+            
+        }, function () {
+            //never disable last install question, only browser is neves user friendly!
+//            if (!appWebview) {
+//                _this.disableIntent("from modalBox");
+//            }
         });
 
         //allow "have the app"
@@ -306,11 +305,11 @@ ShareIntent.prototype.toBackground = function (callback) {
     window.addEventListener('blur', function () {
         callback(false);
     }, false);
-    
+
     //w8
     setTimeout(function () {
         console.log(hiddenPropertyName + ": " + document[hiddenPropertyName]);
-        if(document[hiddenPropertyName]){
+        if (document[hiddenPropertyName]) {
             callback(true);
         }
     }, 1);
