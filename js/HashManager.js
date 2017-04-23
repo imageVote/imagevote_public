@@ -1,5 +1,5 @@
 
-var HashManager = function() {
+var HashManager = function () {
     var _this = this;
 
     $(window).on('hashchange', function () {
@@ -21,21 +21,21 @@ var HashManager = function() {
             //else wrong/old hashes
 //        loadHash("home");
 
-            window.screenPoll.buttons = new VotationButtons(screenPoll);
-            window.screenPoll.buttons.init();
-            $("#cancel, #usersButton").hide();
-
             //headers
             //$("html").removeClass("withoutHeader");
             $("#pollsHeader").hide();
             $("#voteHeader").show();
+
             //view
             $("#mainPage > div").hide();
             $("#creator").show();
-
-            $("#buttons").show();
             $("#showPolls").show();
             $("#stored").show();
+
+            //CREATOR BUTTONS:
+            window.screenPoll.buttons = new VotationButtons(screenPoll);            
+            window.screenPoll.buttons.init();            
+            $("#cancel, #usersButton").hide();
 
             _this.newPollView();
         }
@@ -184,7 +184,7 @@ HashManager.prototype.href = function (url) {
     if (Device || "localhost" == location.hostname) {
         //keep pathname:
         this.deviceURL(url);
-    }else{
+    } else {
         location.href = location.origin + "/" + url;
     }
 };

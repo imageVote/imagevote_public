@@ -1,5 +1,7 @@
 
-var VotationButtons = function (poll, $dom, tpye) {
+var VotationButtons = function (poll, $dom) {
+    console.log("VotationButtons()")
+    
     this.poll = poll;
     this.$imageDOM = $("#mainPage");
 
@@ -21,19 +23,19 @@ var VotationButtons = function (poll, $dom, tpye) {
 
     $dom.find(".votationButtons").remove();
 
-    var votationBuutons = $("<div class='votationButtons'>");
-    votationBuutons.prepend(this.$usersButton);
+    var votationButtons = $("<div class='votationButtons'>");
+    votationButtons.prepend(this.$usersButton);
     var buttonsHTML = $("<div id='defaultButtons'>");
     buttonsHTML.append(this.$sendButton);
     buttonsHTML.append(this.$cancelButton);
-    votationBuutons.prepend(buttonsHTML);
+    votationButtons.prepend(buttonsHTML);
 
-    $dom.append(votationBuutons);
+    $dom.append(votationButtons);
 
     loadTranslations();
 };
 
-VotationButtons.prototype.init = function () {
+VotationButtons.prototype.init = function () {    
     this.sendButtonEvent();
     this.cancelButtonEvent();
     this.usersButtonEvent();
