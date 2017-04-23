@@ -58,6 +58,8 @@ ModalBox.prototype.ask = function (txt, comment, callback, cancelCallback) {
         _this.remove(html_modal);
         callback();
     });
+    
+    return $html;
 };
 
 ModalBox.prototype.input = function (txt, nameValue, callback) {

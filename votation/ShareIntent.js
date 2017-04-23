@@ -170,7 +170,7 @@ ShareIntent.prototype.askAppInstall = function (appWebview) {
         if ($("#modal_box").length) {
             return;
         }
-        modalBox.ask(transl("installApp"),
+        var $modalBox= modalBox.ask(transl("installApp"),
                 transl("installAppComments")
                 , function () {
                     window.open(link, "_blank");
@@ -188,10 +188,41 @@ ShareIntent.prototype.askAppInstall = function (appWebview) {
         haveApp.click(function () {
             $("#modal_box").remove();
         });
+        
+        //if hide by something don't ask!
+        handleVisibilityChange(function(){
+            $modalBox.remove();
+        });
+        
     } else {
         if (!appWebview) {
             this.disableIntent("!link");
         }
+    }
+};
+
+ShareIntent.prototype.handleVisibilityChange = function (callback) {
+    //https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
+    var hidden, visibilityChange;
+    if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
+        hidden = "hidden";
+        visibilityChange = "visibilitychange";
+    } else if (typeof document.msHidden !== "undefined") {
+        hidden = "msHidden";
+        visibilityChange = "msvisibilitychange";
+    } else if (typeof document.webkitHidden !== "undefined") {
+        hidden = "webkitHidden";
+        visibilityChange = "webkitvisibilitychange";
+    }
+
+    // Warn if the browser doesn't support addEventListener or the Page Visibility API
+    if (typeof document.addEventListener !== "undefined" && typeof document[hidden] !== "undefined") {
+        // Handle page visibility change        
+        document.addEventListener(visibilityChange, function () {
+            if (document[hidden] && !window.timeoutEnd) {
+                callback();
+            }
+        }, false);
     }
 };
 
