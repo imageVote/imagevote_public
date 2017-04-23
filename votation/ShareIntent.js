@@ -170,7 +170,7 @@ ShareIntent.prototype.askAppInstall = function (appWebview) {
         if ($("#modal_box").length) {
             return;
         }
-        var $modalBox= modalBox.ask(transl("installApp"),
+        var $modalBox = modalBox.ask(transl("installApp"),
                 transl("installAppComments")
                 , function () {
                     window.open(link, "_blank");
@@ -188,12 +188,12 @@ ShareIntent.prototype.askAppInstall = function (appWebview) {
         haveApp.click(function () {
             $("#modal_box").remove();
         });
-        
+
         //if hide by something don't ask!
-        this.toBackground(function(){
+        this.toBackground(function () {
             $modalBox.remove();
         });
-        
+
     } else {
         if (!appWebview) {
             this.disableIntent("!link");
@@ -223,6 +223,11 @@ ShareIntent.prototype.toBackground = function (callback) {
                 callback();
             }
         }, false);
+        
+        //or already hide
+        if (document[hidden] && !window.timeoutEnd) {
+            callback();
+        }
     }
 };
 
