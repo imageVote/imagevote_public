@@ -48,32 +48,38 @@ function loadLanguage(path, callback) {
     //http://papaparse.com/
     var first = true;
     var pos = 1;
-    Papa.parse(path + "/lang.csv", {
-        download: true,
-        step: function (results) {
-            if (first) {
-                for (var i = 1; i < results.data[0].length; i++) {
-                    if (userLang.toLowerCase() == results.data[0][i].toLowerCase()) {
-                        pos = i;
-                        break;
+    requirejs(["text!" + path + "/lang.csv"], function (data) {
+        //console.log(data)
+        Papa.parse(data, {
+            step: function (results) {
+                if (first) {
+                    for (var i = 1; i < results.data[0].length; i++) {
+                        if (userLang.toLowerCase() == results.data[0][i].toLowerCase()) {
+                            pos = i;
+                            break;
+                        }
                     }
+                    first = false;
+                    return;
                 }
-                first = false;
-                return;
-            }
 
-            var key = results.data[0][0];
-            if (key && key[0] !== "/") {
-                lang[key] = results.data[0][pos];
+                var key = results.data[0][0];
+                if (key && key[0] !== "/") {
+                    var result = results.data[0][pos];
+                    //english[1] if not found language:
+                    if(!result){
+                        result = results.data[0][1];
+                    }
+                    lang[key] = result;
+                }
+            },
+            complete: function () {
+                if (callback) {
+                    callback();
+                }
             }
-        },
-        complete: function () {
-            if (callback) {
-                callback();
-            }
-        }
+        });
     });
-
 }
 
 function loadTranslations(refresh) {
@@ -132,7 +138,10 @@ function flash(text, persist, callback) {
     }, 500 + text.length * 50);
 
     setTimeout(function () {
-        $(document).one("mousedown.search touchstart.search", function () {
+        $(document).one("mousedown.search touchstart.search", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            
             clearTimeout(window.flashTimeout);
             stopFlash(callback);
         });
@@ -189,95 +198,12 @@ function noticeBrowser() {
     }
 }
 
-function modalInput(txt, nameValue, callback) {
-    var divBackground = $("<div id='modal_input'>");
-    var divContainer = $("<div>");
-    divContainer.append("<b style='line-height:50px; font-size: 18px;'>" + txt + "</b>");
-
-    var input = $("<input style='width:100%; text-align: center;' type='text' data-placeholder='myName' />");
-    if (nameValue) {
-        input.attr("value", nameValue);
-    }
-    divContainer.append(input);
-
-    var button = $("<button style='width:100%'>");
-    button.text(transl("Ok"));
-    button.click(function () {
-        if (callback) {
-            callback(input.val());
-        }
-        divBackground.remove();
-    });
-    divContainer.append(button);
-
-    divBackground.append(divContainer);
-
-    //animation
-    setTimeout(function () {
-        divBackground.css("opacity", 1);
-        divContainer.css({
-            '-webkit-transform': "translate(-50%, -64%)",
-            '-ms-transform': "translate(-50%, -64%)",
-            'transform': "translate(-50%, -64%)"
-        });
-    }, 100);
-
-    $("body").append(divBackground);
-    input.focus();
-}
-
-function modalBox(txt, comment, callback, cancelCallback) {
-    $("#modal_box").remove();
-    var divBackground = $("<div id='modal_box'>");
-    var divContainer = $("<div id='modal_box_note'>"
-            + "<p>" + txt + "</p>"
-            + "<button id='modal_ok'>" + transl("Ok") + "</button><br/>"
-            + "<small>" + comment + "</small><br/>"
-            + "</div>");
-    divBackground.append(divContainer);
-    $("body").append(divBackground);
-
-    setTimeout(function () {
-        $(document).on("click.modal", function (e) {
-            var target = $(e.target);
-
-            if ("modal_ok" == target.attr("id")) {
-                divBackground.remove();
-                $(document).off(".modal");
-
-                //let phone popup remove - apps resume looks clear after
-                if (callback) {
-                    callback();
-                }
-
-            } else if ("modal_box_note" != target.attr("id") && !target.closest("#modal_box_note").length) {
-                divBackground.remove();
-                $(document).off(".modal");
-                if (cancelCallback) {
-                    cancelCallback();
-                }
-            }
-            //else nothing!;
-        });
-
-        //animation
-        setTimeout(function () {
-            divBackground.css("opacity", 1);
-            divContainer.css({
-                '-webkit-transform': "translate(-50%, -64%)",
-                '-ms-transform': "translate(-50%, -64%)",
-                'transform': "translate(-50%, -64%)"
-            });
-        }, 100);
-    }, 1);
-}
-
 //
 function askPhone(callback_device) {
     if (window.phoneAlreadyAsked) {
         error("e_phoneValidationNotWork");
     }
-    modalBox(transl("needsPhone"), transl("needsPhoneComment"), function () {
+    modalBox.ask(transl("needsPhone"), transl("needsPhoneComment"), function () {
         window.phoneAlreadyAsked = true;
         setTimeout(function () {
             if (Device.askPhone) {

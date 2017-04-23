@@ -53,6 +53,13 @@ ShareIntent.prototype.intent = function (tag, optionsResult) {
     tag.off(".intent")
             .on("click.intent", function () {
                 console.log("click.intent");
+
+                //needs paralelly prevent at least 1 empty message here!
+                if ($(".option_text .text:empty").length) {
+                    console.log("!option_text");
+                    return;
+                }
+
                 var extra = "";
                 if (optionsResult) {
                     for (var n = 0; n < optionsResult.length; n++) {
@@ -159,7 +166,11 @@ ShareIntent.prototype.askAppInstall = function (appWebview) {
     }
 
     if (link) {
-        modalBox(transl("installApp"),
+        //not override asking name modalBox:
+        if ($("#modal_box").length) {
+            return;
+        }
+        modalBox.ask(transl("installApp"),
                 transl("installAppComments")
                 , function () {
                     window.open(link, "_blank");

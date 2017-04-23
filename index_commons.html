@@ -70,6 +70,7 @@
         "~commons/js/parse.js",
         "~commons/libs/wrapText.js",
         "~commons/js/interface.js",
+        "~commons/js/ModalBox.js",
         "~commons/js/Events.js",
         "~commons/getCountryName.js"
     ]);
@@ -132,6 +133,7 @@
     }
 
     require(["commons_dependencies"], function () { //dependencies needed
+        window.modalBox = new ModalBox();
         window.settings = new Settings();
         window.hashManager = new HashManager();
         window.events = new Events();

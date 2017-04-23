@@ -45,7 +45,7 @@ VotationButtons.prototype.sendButtonEvent = function () {
     var _this = this;
     console.log("VotationButtons.sendButtonEvent original");
 
-    this.$sendButton.click(function (e) {
+    this.$sendButton.click(function (e) {        
         //prevent docuble tap save and share ?
         e.stopPropagation();
         loading();
@@ -323,7 +323,7 @@ VotationButtons.prototype.save = function (action, callback) {
 
         } else {
             var userName = localStorage.getItem("userName");
-            modalInput(transl("myName"), userName, function (val) {
+            modalBox.input(transl("myName"), userName, function (val) {
                 updateUserName(val);
                 _this.save(action, callback);
             });

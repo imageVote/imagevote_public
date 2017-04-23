@@ -1,0 +1,40 @@
+<link rel="stylesheet" type="text/css" href="~commons/modules/like/like.css">
+
+<div class="like clickable">
+    <i class="fa fa-star" aria-hidden="true"></i>
+</div>
+
+<script>
+
+    var Like = function (keyId, json) {
+        var _this = this;
+        if (null != localStorage.getItem("key_" + keyId)) {
+            //w8 swipe polls
+            setTimeout(function () {
+                $(".like").addClass("liked");
+            }, 200);
+
+        }
+
+        $(".like").click(function (e) {
+            console.log("like click");
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (_this.callback) {
+                _this.callback();
+            }
+
+            localStorage.setItem("key_" + keyId, json);
+            flash(transl("favouritesAdded"));
+        });
+
+        loadLanguage("~commons/modules/like");
+    };
+
+    //defining click callback
+    Like.prototype.click = function (callback) {
+        this.callback = callback;
+    };
+
+</script>

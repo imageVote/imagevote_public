@@ -200,38 +200,6 @@ linksLink:hover{
     font-size: 15px;        
 }
 
-#gameSkip, #gameSkip span{
-    position: absolute;   
-    top: 50%;
-    left: 50%; 
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-}
-#gameSkip{     
-    background: rgba(0,0,0,0.7);
-    width: 60px;
-    /*max-width: 11%;*/
-    border-radius: 99px;    
-    text-align: center;
-    font-weight: bold;
-    border: 1px solid rgba(0,0,0,0.5);    
-    box-shadow: inset 1px 1px 0 rgba(255,255,255,0.3), 1px 1px 0 rgba(0,0,0,0.3), 0 0 0 5px rgba(0,0,0,0.2);
-    cursor: pointer;
-    z-index: 1;
-    margin: 0 !important;
-}
-#gameSkip:after {
-    content: "";
-    display: block;
-    padding-bottom: 100%;
-}
-
-#gameSkip:hover{
-    box-shadow: 1px 1px 1px rgba(255,255,255,0.3), inset 1px 1px 0 rgba(0,0,0,0.5), 0 0 0 5px rgba(0,0,0,0.2);
-    /*box-shadow: 1px 1px 1px rgba(255,255,255,0.3), inset 1px 1px 0 rgba(0,0,0,0.5), 0 0 0 5px rgba(255,255,255,0.2);*/
-}
-
 #pollsPage{
     /*    overflow-x: hidden;
         this prevents ie bug:
