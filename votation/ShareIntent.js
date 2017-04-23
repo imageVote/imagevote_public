@@ -79,7 +79,7 @@ ShareIntent.prototype.intent = function (tag, optionsResult) {
                 var url = _this.getUrl(extra);
                 var timeout = 0;
                 if (url) {
-                    window.open(url); //intent
+                    window.open(url); //'http://share.' or 'intent://'
                     timeout = 2500; //second waiting share page load
                 }
 
@@ -90,11 +90,11 @@ ShareIntent.prototype.intent = function (tag, optionsResult) {
                     console.log("not_installed: '" + not_installed + "', app: '" + app + "'");
 
                     if (not_installed && !app) {
-                        var appWebview = _this.isWebview();
+                        var popularWebview = _this.isPopularWebview();
                         //if (appWebview) {
                         //location.href = _this.intentUrl("");
                         //}
-                        _this.askAppInstall(appWebview);
+                        _this.askAppInstall(popularWebview);
 
                     } else if (app) { //but user opened as web
                         //flash("App in Device")                
@@ -201,45 +201,6 @@ ShareIntent.prototype.askAppInstall = function (appWebview) {
     }
 };
 
-//not seems to work :(
-ShareIntent.prototype.toBackground = function (callback) {
-    console.log("toBackground()");
-
-    //https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
-    var hidden, visibilityChange;
-    hidden = "hidden";
-    visibilityChange = "visibilitychange";
-    if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
-        hidden = "hidden";
-        visibilityChange = "visibilitychange";
-    } else if (typeof document.msHidden !== "undefined") {
-        hidden = "msHidden";
-        visibilityChange = "msvisibilitychange";
-    } else if (typeof document.webkitHidden !== "undefined") {
-        hidden = "webkitHidden";
-        visibilityChange = "webkitvisibilitychange";
-    }
-
-    // Warn if the browser doesn't support addEventListener or the Page Visibility API
-    if (typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined") {
-        console.log("WARNING: visibility handle not works in this browser!");
-        return;
-    }
-
-    // Handle page visibility change        
-    document.addEventListener(visibilityChange, function () {
-        console.log("visibilityChange: " + document[hidden]);
-        if (document[hidden]) {
-            callback();
-        }
-    }, false);
-
-    //or already hide
-    if (document[hidden]) {
-        callback();
-    }
-};
-
 ShareIntent.prototype.disableIntent = function (why) {
     $("*").off(".intent");
     console.log("disableIntent(): " + why);
@@ -248,7 +209,7 @@ ShareIntent.prototype.disableIntent = function (why) {
 };
 
 //https://medium.com/@_alastair/sharing-in-the-world-of-the-in-app-web-view-c54bfa40cdd4
-ShareIntent.prototype.isWebview = function () {
+ShareIntent.prototype.isPopularWebview = function () {
     var app = null;
     if (/\/FBIOS/i.test(navigator.userAgent) === true) {
         app = 'facebook';
@@ -268,4 +229,78 @@ ShareIntent.prototype.isWebview = function () {
 
     console.log("app: " + app);
     return app;
+};
+
+//not seems to work :(
+ShareIntent.prototype.toBackground = function (callback) {
+//    console.log("toBackground()");
+//
+//    //https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
+//    var hidden, visibilityChange;
+//    hidden = "hidden";
+//    visibilityChange = "visibilitychange";
+//    if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
+//        hidden = "hidden";
+//        visibilityChange = "visibilitychange";
+//    } else if (typeof document.msHidden !== "undefined") {
+//        hidden = "msHidden";
+//        visibilityChange = "msvisibilitychange";
+//    } else if (typeof document.webkitHidden !== "undefined") {
+//        hidden = "webkitHidden";
+//        visibilityChange = "webkitvisibilitychange";
+//    }
+//
+//    // Warn if the browser doesn't support addEventListener or the Page Visibility API
+//    if (typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined") {
+//        console.log("WARNING: visibility handle not works in this browser!");
+//        return;
+//    }
+//
+//    // Handle page visibility change        
+//    document.addEventListener(visibilityChange, function () {
+//        console.log("visibilityChange: " + document[hidden]);
+//        if (document[hidden]) {
+//            callback();
+//        }
+//    }, false);
+//
+//    //or already hide
+//    if (document[hidden]) {
+//        callback();
+//    }
+
+
+    // BROWSER PREFIX (browserPrefix):
+    var hiddenPropertyName = "";
+    var browserPrefix = "";
+    
+    var browserPrefixes = ['moz', 'ms', 'o', 'webkit'];
+    for (var i = 0; i < browserPrefixes.length; i++) {
+        var hidden = (browserPrefixes[i] ? browserPrefixes[i] + "Hidden" : "hidden");
+        if (hidden in document) {
+            // vendor prefix
+            hiddenPropertyName = hidden;
+            browserPrefix = browserPrefixes[i];
+            break;
+        }
+    }
+
+    var visibilityEventName = (browserPrefix ? browserPrefix : '') + 'visibilitychange';
+
+    document.addEventListener(visibilityEventName, function () {
+        callback(document[hiddenPropertyName]);
+    }, false);
+    // extra event listeners for better behaviour
+    document.addEventListener('focus', function () {
+        callback(true);
+    }, false);
+    document.addEventListener('blur', function () {
+        callback(false);
+    }, false);
+    window.addEventListener('focus', function () {
+        callback(true);
+    }, false);
+    window.addEventListener('blur', function () {
+        callback(false);
+    }, false);
 };
