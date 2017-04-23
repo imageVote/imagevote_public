@@ -21,6 +21,27 @@ var HashManager = function () {
             //else wrong/old hashes
 //        loadHash("home");
 
+            window.screenPoll.buttons = new VotationButtons(screenPoll);
+
+            // PUBLIC CHECKBOX:
+            var ignore = ["en", "es", "fr", "de", "it", "pt"];
+            var lang = localStorage.getItem("userLang");
+            if (lang && ignore.indexOf(lang.toLowerCase()) === -1) {
+                var makePublic = $("<div class='button publicCheckbox'>"
+                        + "<input type='checkbox'><span data-lang='MakePublic'></span>"
+                        + "</div>");
+                $("#buttons .votationButtons").prepend(makePublic);
+                makePublic.click(function () {
+                    var checkbox = $(this).parent().find("input");
+                    checkbox.prop("checked", !checkbox.prop("checked"));
+                    screenPoll._public = checkbox.prop("checked");
+                    checkbox.parent().toggleClass("publicCheck", screenPoll._public);
+                });
+            }
+
+            window.screenPoll.buttons.init();
+            $("#cancel, #usersButton").hide();
+
             //headers
             //$("html").removeClass("withoutHeader");
             $("#pollsHeader").hide();
@@ -30,12 +51,6 @@ var HashManager = function () {
             $("#mainPage > div").hide();
             $("#creator").show();
             $("#showPolls").show();
-            $("#stored").show();
-
-            //CREATOR BUTTONS:
-            window.screenPoll.buttons = new VotationButtons(screenPoll);            
-            window.screenPoll.buttons.init();            
-            $("#cancel, #usersButton").hide();
 
             _this.newPollView();
         }

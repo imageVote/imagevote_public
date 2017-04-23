@@ -1,12 +1,66 @@
+<link rel="stylesheet" type="text/css" href="~commons/modules/report/report.css">
 
-<style>
-    
-</style>
-
-<div class="report">!</div>
+<div class="report clickable">
+    <!--<i class='fa fa-thumbs-down'></i>-->
+    <i>+</i>
+</div>
 
 <script>
-    require(["~commons/modules/report/Report.js"], function () {
-        
-    });
+
+    var Report = function () {
+        var _this = this;
+        $(".report").click(function () {
+            _this.list();
+        });
+
+        loadLanguage("~commons/modules/report");
+    };
+
+    Report.prototype.list = function () {
+        var _this = this;
+
+        var heart = " <i class='fa fa-heart-o' aria-hidden='true'></i> ";
+        var warning = " <i class='fa fa-exclamation-triangle' aria-hidden='true'></i> ";
+
+        var niceQuestion = $("<button>" + heart + transl("niceQuestion") + "</button>");
+        var badGramar = $("<button>" + warning + transl("badGrammar") + "</button>");
+        var vulgarWords = $("<button>" + warning + transl("vulgarWords") + "</button>");
+
+        var $html = $("<div>");
+        $html.append("<p>" + transl("Feedback") + "</p><br>");
+        $html.append(niceQuestion);
+        $html.append("<br>");
+        $html.append(badGramar);
+        $html.append("<br>");
+        $html.append(vulgarWords);
+
+        var modal = modalBox.modal($html);
+
+        niceQuestion.click(function () {
+            _this.feedback(modal, "niceQuestion");
+        });
+        badGramar.click(function () {
+            _this.feedback(modal, "badGramar");
+        });
+        vulgarWords.click(function () {
+            _this.feedback(modal, "vulgarWords");
+        });
+    };
+
+    Report.prototype.feedback = function (modal, type) {
+        var _this = this;
+        setTimeout(function () {
+            modalBox.remove(modal);
+            flash(transl("thanksFeedback") + "<br>(" + transl(type) + " )");
+            if(_this.callback){
+                _this.callback(type);
+            }
+        }, 300);
+    };
+    
+    //defining click callback
+    Report.prototype.click = function (callback) {
+        this.callback = callback;
+    };
+    
 </script>

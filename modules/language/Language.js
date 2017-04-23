@@ -15,6 +15,10 @@ var Language = function (query) {
         'it': ["it", "IT", "Italiano", "preguntasIT"],
         'pt': ["pt", "PT", "Português", "preguntasPT"]
     };
+    
+    if("localhost" == location.hostname){
+        this.languages['in'] = ["in", "IN", "हिंदी (अल्फा)"];
+    }
 
     //urls:
     this.languageURL = {
@@ -107,7 +111,7 @@ Language.prototype.loadLanguage = function (lang) {
         this.shareUrl = this.languageURL[userLang];
     }
 
-    //force language reload
+    //FORCE GAME RELOAD
     hashManager.href("#polls");
 };
 
