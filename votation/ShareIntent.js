@@ -190,7 +190,7 @@ ShareIntent.prototype.askAppInstall = function (appWebview) {
         });
         
         //if hide by something don't ask!
-        handleVisibilityChange(function(){
+        this.toBackground(function(){
             $modalBox.remove();
         });
         
@@ -201,7 +201,7 @@ ShareIntent.prototype.askAppInstall = function (appWebview) {
     }
 };
 
-ShareIntent.prototype.handleVisibilityChange = function (callback) {
+ShareIntent.prototype.toBackground = function (callback) {
     //https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
     var hidden, visibilityChange;
     if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
