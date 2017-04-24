@@ -17,7 +17,13 @@ Tutorial.prototype.start = function () {
         e.stopPropagation();
         _this.helperPosition--;
         console.log("_this.helperPosition: " + _this.helperPosition);
-        var func = _this.helps[_this.helperPosition][3];
+        if (_this.helperPosition < 0) {
+            _this.helperPosition = 0;
+            return;
+        }
+
+        var helper = _this.helps[_this.helperPosition];
+        var func = helper[3];
         if (func) {
             func();
         }
@@ -29,6 +35,11 @@ Tutorial.prototype.start = function () {
     right.click(function (e) {
         e.stopPropagation();
         _this.helperPosition++;
+        if (_this.helperPosition < 0) {
+            _this.helperPosition = 0;
+            return;
+        }
+
         var func = _this.helps[_this.helperPosition - 1][3];
         if (func) {
             func();
@@ -64,7 +75,7 @@ Tutorial.prototype.stop = function () {
 Tutorial.prototype.locateHelper = function (queryDiv, value, target, func) {
     var text = transl(value);
 
-    var help = $("<div class='tutorial_helpDiv tutorial_selectable' data-lang='" + text + "'>");
+    var help = $("<div class='tutorial_helpDiv tutorial_selectable'><div data-lang='" + text + "'></div></div>");
     var helpContainer = $("<div id='tutorial_helpFilter'>");
     helpContainer.append(help);
 
@@ -128,10 +139,11 @@ Tutorial.prototype.targetEvent = function (target, help, func) {
                 $this.nextHelp();
             });
         }
+        
     } else {
         $("#tutorial_helpFilter").addClass("tutorial_filter");
-        var button = $("<button>");
-        button.text("next");
+        var button = $("<button>next</button>");        
+        help.append(button);
         button.on("click", function () {
             $("#tutorial_helpFilter").remove();
 
@@ -143,7 +155,6 @@ Tutorial.prototype.targetEvent = function (target, help, func) {
             $this.helperPosition++;
             $this.nextHelp();
         });
-        help.append(button);
     }
 };
 
