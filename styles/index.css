@@ -747,7 +747,7 @@ input{
     background: black;
     border: 1px solid rgb(150,150,150);
     line-height: 28px;
-    height: auto;
+    /*height: auto;*/
     color: white;
     font-weight: bold;
     padding: 0 8px;
