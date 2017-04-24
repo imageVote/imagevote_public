@@ -10,9 +10,9 @@ define(['propertyParser'], function (propertyParser) {
 
     function parseName(name) {
         var data = {},
-            vendors = name.split('|'),
-            n = vendors.length,
-            match;
+                vendors = name.split('|'),
+                n = vendors.length,
+                match;
 
         while (n--) {
             match = rParts.exec(vendors[n]);
@@ -25,16 +25,19 @@ define(['propertyParser'], function (propertyParser) {
     return {
 
         //example: font!google,families:[Tangerine,Cantarell,Yanone Kaffeesatz:700]
-        load : function(name, req, onLoad, config){
+        load: function (name, req, onLoad, config) {
             if (config.isBuild) {
                 onLoad(null); //avoid errors on the optimizer
             } else {
                 var data = parseName(name);
                 data.active = onLoad;
-                data.inactive = function(){
+                data.inactive = function () {
                     onLoad(false);
                 };
-                req([(document.location.protocol === 'https:'? 'https' : 'http') +'://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js'], function(){
+                //http://stackoverflow.com/questions/35641422/how-do-you-set-up-requirejs-and-google-web-fonts
+                //req([(document.location.protocol === 'https:'? 'https' : 'http') +'://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js'], function(){
+                req([(document.location.protocol === 'https:' ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js'], function (WebFont) {
+
                     WebFont.load(data);
                 });
             }

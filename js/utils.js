@@ -493,13 +493,13 @@ function getCookie(name) {
     return decodeURI(dc.substring(begin + prefix.length, end));
 }
 
-function loadFont(fonts, callback) {
-    WebFont.load({
-        google: {
-            families: fonts
-        },
-        active: function () {
-            callback();
-        }
-    });
-}
+//function loadFont(fonts, callback) {
+//    WebFont.load({
+//        google: {
+//            families: fonts
+//        },
+//        active: function () {
+//            callback();
+//        }
+//    });
+//}
