@@ -50,7 +50,10 @@ var HashManager = function () {
             //view
             $("#mainPage > div").hide();
             $("#creator").show();
+
+            $("#buttons").show();
             $("#showPolls").show();
+            $("#stored").show();
 
             _this.newPollView();
         }
