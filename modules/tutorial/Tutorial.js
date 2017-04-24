@@ -93,7 +93,7 @@ Tutorial.prototype.locateHelper = function (queryDiv, value, target, func) {
 Tutorial.prototype.targetEvent = function (target, help, func) {
     var $this = this;
 
-    if (target) {
+    if (target) {        
         if (typeof target != "function") {
             $("*").off(".help");
             var canClick = true;

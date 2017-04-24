@@ -174,12 +174,13 @@ ShareIntent.prototype.askAppInstall = function (appWebview) {
         }
         var $modalBox = modalBox.ask(transl("installApp"), transl("installAppComments"), function () {
             window.open(link, "_blank");
-            
+
         }, function () {
             //never disable last install question, only browser is neves user friendly!
 //            if (!appWebview) {
 //                _this.disableIntent("from modalBox");
 //            }
+            $(".no_image").removeClass("no_image"); //but this yes!
         });
 
         //allow "have the app"
