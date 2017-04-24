@@ -15,8 +15,8 @@ var Language = function (query) {
         'it': ["it", "IT", "Italiano", "preguntasIT"],
         'pt': ["pt", "PT", "Português", "preguntasPT"]
     };
-    
-    if("localhost" == location.hostname){
+
+    if ("localhost" == location.hostname) {
         this.languages['in'] = ["in", "IN", "हिंदी (अल्फा)"];
     }
 
@@ -93,7 +93,7 @@ Language.prototype.loadLanguage = function (lang) {
     //if selected same
     if (this.userLang() == userLang) {
         this.remove();
-        hashManager.href("#polls");
+        this.redirection();
         return;
     }
 
@@ -111,8 +111,14 @@ Language.prototype.loadLanguage = function (lang) {
         this.shareUrl = this.languageURL[userLang];
     }
 
+    this.redirection();
+};
+
+Language.prototype.redirection = function () {
     //FORCE GAME RELOAD ??
-    hashManager.href("#polls");
+    if (location.pathname && "/" != location.pathname) {
+        hashManager.href("#polls");
+    }
 };
 
 Language.prototype.userLang = function () {
