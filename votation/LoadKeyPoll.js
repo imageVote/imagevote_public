@@ -66,7 +66,7 @@ function loadAjaxKey(url, params, callback, findCache) {
     if (!findCache) {
         params += "nocache=" + (new Date()).getTime();
     }
-    xhr.open('POST', url); //absolute no cache
+    xhr.open('GET', url); //absolute no cache
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {

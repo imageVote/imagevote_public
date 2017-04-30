@@ -26,6 +26,7 @@ function getPathsFromKeyId(keyId) {
     }
 
     var realPath = settings.keysPath;
+    var subdomain = "wouldyourather";
 
     var _public = "false";
     var symbol = "-";
@@ -56,6 +57,13 @@ function getPathsFromKeyId(keyId) {
     screenPoll.isPublic(_public);
     if (visible == "public" || visible == "private") {
         realPath += visible + "/";
+        subdomain += "-" + visible;
+    }
+
+    //alibaba
+    var realPath = "http://" + subdomain + ".oss-eu-central-1-internal.aliyuncs.com/";
+    if ("localhost" == location.hostname) {
+        realPath = "http://" + subdomain + "-test.oss-eu-central-1.aliyuncs.com/";
     }
 
     var res = {

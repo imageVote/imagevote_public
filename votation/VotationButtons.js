@@ -1,7 +1,7 @@
 
 var VotationButtons = function (poll, $dom) {
     console.log("VotationButtons()")
-    
+
     this.poll = poll;
     this.$imageDOM = $("#mainPage");
 
@@ -35,7 +35,7 @@ var VotationButtons = function (poll, $dom) {
     loadTranslations();
 };
 
-VotationButtons.prototype.init = function () {    
+VotationButtons.prototype.init = function () {
     this.sendButtonEvent();
     this.cancelButtonEvent();
     this.usersButtonEvent();
@@ -47,7 +47,7 @@ VotationButtons.prototype.sendButtonEvent = function () {
     var _this = this;
     console.log("VotationButtons.sendButtonEvent original");
 
-    this.$sendButton.click(function (e) {        
+    this.$sendButton.click(function (e) {
         //prevent docuble tap save and share ?
         e.stopPropagation();
         loading();
@@ -296,7 +296,7 @@ VotationButtons.prototype.share = function (callback) {
     saveLocally(keyId, poll.json);
 };
 
-VotationButtons.prototype.save = function (action, callback) {
+VotationButtons.prototype.save = function (action, callback, add, remove) {
     var _this = this;
     console.log("VotationButtons.save screenPoll");
 
@@ -398,24 +398,29 @@ VotationButtons.prototype.save = function (action, callback) {
         }
     }
 
-    //update before ask phone  
+    this.saveEventCallback = callback;
+    console.log(action + ' == action');
+
+    //update before ask phone
     var sendJson = "";
-    if ("update" == action) {
-        console.log('update" == action');
-        var userArr = poll.obj.users[user.id];
-        sendJson = CSV.stringify([userArr]);
-        poll.json += "\n" + sendJson;
-        saveLocally(poll.key, poll.json);
+    switch (action) {
+        case "update":
+            var userArr = poll.obj.users[user.id];
+            sendJson = CSV.stringify([userArr]);
+            poll.json += "\n" + sendJson;
+            saveLocally(poll.key, poll.json);
+            break;
 
-    } else if ("create" == action) {
-        sendJson = poll.json = pollToCSV(poll.obj);
+        case "create":
+            sendJson = poll.json = pollToCSV(poll.obj);
+            break;
 
-    } else {
-        console.log("error on action: " + action);
-        if (callback) {
-            callback(false);
-        }
-        return;
+        default:
+            console.log("error on action: " + action);
+            if (callback) {
+                callback(false);
+            }
+            return;
     }
 
     //is shared before
@@ -425,22 +430,37 @@ VotationButtons.prototype.save = function (action, callback) {
     }
     this.lastSendJson = sendJson;
 
+    //AJAX
+    switch (action) {
+        case "update":
+            if (!Device.save) {
+                this.addAjax(sendJson, function (res) {
+                    _this.saveCallback(res);
+                }, add, remove);
+
+            } else {
+                //only way of public - public-id has to be updated on load
+                this.saveDevice(action, sendJson, "screenPoll.buttons.saveCallback");
+            }
+            break;
+
+        case "create":
+            if (!Device.save) {
+                this.createAjax(sendJson, function (res) {
+                    _this.saveCallback(res);
+                });
+
+            } else {
+                //only way of public - public-id has to be updated on load
+                this.saveDevice(action, sendJson, "screenPoll.buttons.saveCallback");
+            }
+            break;
+    }
+
     //if new
     $("#image").remove();
     var votes = poll.obj.users[user.id][1];
     saveDefaultValues(votes);
-
-    //WEB like ios change button now
-    this.saveEventCallback = callback;
-    if (!Device.save) {
-        this.saveAjax(action, sendJson, function (res) {
-            _this.saveCallback(res);
-        });
-
-    } else {
-        //only way of public - public-id has to be updated on load
-        this.saveDevice(action, sendJson, "screenPoll.buttons.saveCallback");
-    }
 };
 
 //device calls:
@@ -508,44 +528,106 @@ VotationButtons.prototype.shareToSave = function () {
 
 // CONNECTIVITY:
 
-VotationButtons.prototype.saveAjax = function (action, sendJson, callback) {
+//VotationButtons.prototype.saveAjax = function (action, sendJson, callback, add, remove) {
+//    if ("true" == this.poll._public) {
+//        //but let share!
+//        //error("Vote on public polls whithout APP is forbidden.");
+//        error("PublicOnlyFromApp");
+//        return;
+//    }
+//
+//    $.ajax({
+//        url: settings.corePath + "update.php",
+//        method: "POST",
+//        cache: false,
+//        data: {
+//            action: action,
+//            id: window.user.id,
+//            key: this.poll.key,
+//            value: sendJson,
+//            add: JSON.stringify(add),
+//            remove: JSON.stringify(remove)
+//        }
+//    }).done(function (res) {
+//        console.log(res);
+//        if (!res) {
+//            error("errorAjaxResponse");
+//            //TODO ERROR ?
+//            return;
+//        }
+//        if (callback) {
+//            callback(res);
+//        }
+//
+//    }).error(function (res) {
+//        console.log(res);
+//        console.log("can't connect with ajax");
+//        error("votationNotSaved");
+//
+//        //debug
+//        saveToShare();
+//        this.poll.key = " ";
+//    });
+//};
+
+VotationButtons.prototype.createAjax = function (sendJson, callback) {
+    var _this = this;
     if ("true" == this.poll._public) {
-        //but let share!
-        //error("Vote on public polls whithout APP is forbidden.");
         error("PublicOnlyFromApp");
         return;
     }
 
-    $.ajax({
-        url: settings.corePath + "update.php",
-        method: "POST",
-        cache: false,
-        data: {
-            action: action,
-            id: window.user.id,
-            key: this.poll.key,
-            value: sendJson
-        }
+    $.post(settings.corePath + "create.php", {
+        id: window.user.id,
+        key: this.poll.key,
+        value: sendJson
     }).done(function (res) {
-        console.log(res);
-        if (!res) {
-            error("errorAjaxResponse");
-            //TODO ERROR ?
-            return;
-        }
-        if (callback) {
-            callback(res);
-        }
-
+        _this.ajaxDone(res, callback);
     }).error(function (res) {
-        console.log(res);
-        console.log("can't connect with ajax");
-        error("votationNotSaved");
-
-        //debug
-        saveToShare();
-        this.poll.key = " ";
+        _this.ajaxError(res);
     });
+};
+
+VotationButtons.prototype.addAjax = function (sendJson, callback, add, remove) {
+    var _this = this;
+    if ("true" == this.poll._public) {
+        error("PublicOnlyFromApp");
+        return;
+    }
+
+    $.post(settings.corePath + "add.php", {
+        id: window.user.id,
+        key: this.poll.key,
+        value: sendJson,
+        add: JSON.stringify(add),
+        remove: JSON.stringify(remove)
+    }).done(function (res) {
+        _this.ajaxDone(res, callback);
+    }).error(function (res) {
+        _this.ajaxError(res);
+    });
+};
+
+VotationButtons.prototype.ajaxDone = function (res, callback) {
+    console.log(res);
+    if (!res) {
+        error("errorAjaxResponse");
+        //TODO ERROR ?
+        return;
+    }
+    if (callback) {
+        callback(res);
+    }
+};
+
+VotationButtons.prototype.ajaxError = function (res) {
+    console.log(res);
+    console.log("can't connect with ajax");
+    error("votationNotSaved");
+
+    //debug
+    saveToShare();
+    this.poll.key = " ";
 };
 
 VotationButtons.prototype.saveDevice = function (action, sendJson, callback) {

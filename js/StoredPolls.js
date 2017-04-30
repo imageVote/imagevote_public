@@ -88,7 +88,7 @@ function storedPolls_init() {
         var realKey = urlParts.realKey;
 
         var cache = true;
-        loadAjaxKey(realPath + realKey, "", function (data) {
+        loadAjaxKey(realPath + realKey, "", function (data) {            
             var query = "#stored_" + keyId;
             $("#stored_" + keyId + " .loader").hide();
 
