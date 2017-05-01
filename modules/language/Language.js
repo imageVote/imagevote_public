@@ -28,12 +28,12 @@ var Language = function (query) {
 //        'fr': "TuPreferes.online",
 //        'it': "TuCosaPreferiresti.online",
 //        'pt': "VocePrefere.online"
-    };
-
+    };    
+    this.shareUrl = this.languageURL['en'];
+    
     //load stored
     var userLang = this.userLang();
-    if (userLang) {
-        this.shareUrl = this.languageURL['en'];
+    if (userLang) {        
         if (this.languageURL[userLang]) {
             this.shareUrl = this.languageURL[userLang];
         }
