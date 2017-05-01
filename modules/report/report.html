@@ -1,13 +1,15 @@
 <!--<link rel="stylesheet" type="text/css" href="~commons/modules/report/report.css">-->
 
-<div class="report clickable">
+<div class="report clickable" style="display:none">
     <!--<i class='fa fa-thumbs-down'></i>-->
     <span>+</span>
 </div>
 
 <script>
 
-    require(['css!~commons/modules/report/report.css']);
+    require(['css!~commons/modules/report/report.css'], function () {
+        $(".report").show();
+    });
 
     var Report = function () {
         var _this = this;
