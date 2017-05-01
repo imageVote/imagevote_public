@@ -59,7 +59,7 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
 
 //ON LOAD VOTATION AND STORED
 function loadAjaxKey(url, params, callback, findCache) {
-    url = url.slice(0, -1);
+//    url = url.slice(0, -1);
     console.log("url: " + url + " on loadAjaxKey()");
     
     // jquery not allows overrideMimeType
