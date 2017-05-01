@@ -452,7 +452,7 @@ var CSV = {
     //http://stackoverflow.com/questions/1293147/javascript-code-to-parse-csv-data
     parse: function (strData) {
         var res = [];
-        var arr = strData.split(/\n|\\n/);
+        var arr = strData.split(/\n|\\n|\r/);
 
         var first = arr[0].split(this.delimiter);
         res.push(first[0]);
