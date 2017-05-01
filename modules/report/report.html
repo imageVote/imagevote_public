@@ -8,8 +8,10 @@
 <script>
 
     require(['css!~commons/modules/report/report.css'], function () {
-        $(".report").show();
-        $(".report").css("opacity", 1);
+        setTimeout(function () {
+            $(".report").show();
+            $(".report").css("opacity", 1);
+        }, 1);
     });
 
     var Report = function () {
