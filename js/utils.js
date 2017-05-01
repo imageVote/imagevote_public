@@ -61,10 +61,10 @@ function getPathsFromKeyId(keyId) {
     }
 
     //alibaba
-    var realPath = "http://" + subdomain + ".oss-eu-central-1-internal.aliyuncs.com/";
-    if ("localhost" == location.hostname) {
+//    var realPath = "http://" + subdomain + ".oss-eu-central-1-internal.aliyuncs.com/";
+//    if ("localhost" == location.hostname) {
         realPath = "http://" + subdomain + "-test.oss-eu-central-1.aliyuncs.com/";
-    }
+//    }
 
     var res = {
         realPath: realPath,
