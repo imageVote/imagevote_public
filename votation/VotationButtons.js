@@ -268,6 +268,7 @@ VotationButtons.prototype.share = function (callback) {
 
     var width = null;
     getCanvasImage(divQuery, poll.obj, keyId, width, type, function (imgData) {
+        loaded();
         if (!imgData) {
             error("!imgData on getCanvasImage");
             return;
@@ -594,7 +595,7 @@ VotationButtons.prototype.addAjax = function (sendJson, callback, add, remove) {
         error("PublicOnlyFromApp");
         return;
     }
-
+        
     $.post(settings.corePath + "add.php", {
         id: window.user.id,
         key: this.poll.key,
