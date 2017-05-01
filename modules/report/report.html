@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="~commons/modules/report/report.css">
+<!--<link rel="stylesheet" type="text/css" href="~commons/modules/report/report.css">-->
 
 <div class="report clickable">
     <!--<i class='fa fa-thumbs-down'></i>-->
@@ -6,6 +6,8 @@
 </div>
 
 <script>
+
+    require(['css!~commons/modules/report/report.css']);
 
     var Report = function () {
         var _this = this;
@@ -52,15 +54,15 @@
         setTimeout(function () {
             modalBox.remove(modal);
             flash(transl("thanksFeedback") + "<br>(" + transl(type) + " )");
-            if(_this.callback){
+            if (_this.callback) {
                 _this.callback(type);
             }
         }, 300);
     };
-    
+
     //defining click callback
     Report.prototype.click = function (callback) {
         this.callback = callback;
     };
-    
+
 </script>
