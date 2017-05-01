@@ -1,6 +1,6 @@
 <!--<link rel="stylesheet" type="text/css" href="~commons/modules/report/report.css">-->
 
-<div class="report clickable" style="display:none">
+<div class="report clickable" style="display:none; opacity:0">
     <!--<i class='fa fa-thumbs-down'></i>-->
     <span>+</span>
 </div>
@@ -9,6 +9,7 @@
 
     require(['css!~commons/modules/report/report.css'], function () {
         $(".report").show();
+        $(".report").css("opacity", 1);
     });
 
     var Report = function () {

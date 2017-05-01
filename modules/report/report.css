@@ -18,6 +18,8 @@
     box-shadow: inset 1px 1px 0 rgba(255,255,255,0.3), 1px 1px 0 rgba(0,0,0,0.3), 0 0 0 5px rgba(0,0,0,0.2);
     z-index: 1;
     margin: 0 !important;
+    
+    transition: opacity 300ms;
 }
 .report:after {
     content: "";
