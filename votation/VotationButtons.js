@@ -650,22 +650,22 @@ VotationButtons.prototype.saveDevice = function (action, sendJson, callback) {
     }
 
     //FORCE WAIT KEY
-    if (!key && !_public && "create" == action) { //check external key!
-        if (this.keyWaiting > 8) {
-            flash(transl("waitingKeyExpired"));
-            return;
-        }
-
-        //wait 4 key arrive
-        setTimeout(function () {
-            _this.saveDevice(action, sendJson, callback);
-        }, 700);
-
-        console.log("looking for new key");
-        this.keyWaiting++;
-        return;
-    }
-    this.keyWaiting = 0;
+//    if (!key && !_public && "create" == action) { //check external key!
+//        if (this.keyWaiting > 8) {
+//            flash(transl("waitingKeyExpired"));
+//            return;
+//        }
+//
+//        //wait 4 key arrive
+//        setTimeout(function () {
+//            _this.saveDevice(action, sendJson, callback);
+//        }, 700);
+//
+//        console.log("looking for new key");
+//        this.keyWaiting++;
+//        return;
+//    }
+//    this.keyWaiting = 0;
 
     //localStorage.setItem("unusedKey", "");
     var realKey = "";
