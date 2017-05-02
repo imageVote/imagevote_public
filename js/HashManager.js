@@ -28,7 +28,7 @@ var HashManager = function () {
             var lang = localStorage.getItem("userLang");
             if (lang && ignore.indexOf(lang.toLowerCase()) === -1) {
                 var makePublic = $("<div class='button publicCheckbox'>"
-                        + "<input type='checkbox'><span data-lang='MakePublic'></span>"
+                        + "<input type='checkbox'><span data-lang='MakePublic'>" + transl("MakePublic") + "</span>"
                         + "</div>");
                 $("#buttons .votationButtons").prepend(makePublic);
                 makePublic.click(function () {

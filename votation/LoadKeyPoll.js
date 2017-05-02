@@ -32,12 +32,12 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
     var realPath = urlParts.realPath;
     this.poll.realKey = urlParts.realKey;
 
-    var url = realPath + this.poll.realKey;
+    var url = realPath + key;
     var params = "";
-    if ("public" == urlParts.visible) {
-        url = settings.keysPath + "get.php";
-        params = "url=public/" + urlParts.countryPath + this.poll.realKey;
-    }
+//    if ("public" == urlParts.visible) {
+//        url = settings.keysPath + "get.php";
+//        params = "url=public/" + urlParts.countryPath + this.poll.realKey;
+//    }
 
     if ("private" == urlParts.visible || "public" == urlParts.visible) {
         console.log("url: " + realPath + " + " + this.poll.realKey);
@@ -61,7 +61,7 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
 function loadAjaxKey(url, params, callback, findCache) {
 //    url = url.slice(0, -1);
     console.log("url: " + url + " on loadAjaxKey()");
-    
+
     // jquery not allows overrideMimeType
     var xhr = new XMLHttpRequest();
     if (!findCache) {
@@ -130,10 +130,10 @@ var RequestPollByKeyCallback = function (data) {
         //TODO: or iPhone on future
         if (!window.isAndroid) {
             noticeBrowser();
-            if ("true" == _this.poll._public) {
-                disableVotation();
-                noticePublic();
-            }
+//            if ("true" == _this.poll._public) {
+//                disableVotation();
+//                noticePublic();
+//            }
         }
 
         // + buttons
@@ -230,9 +230,9 @@ RequestPollByKeyCallback.prototype.getUser = function (obj) {
 };
 
 RequestPollByKeyCallback.prototype.checkCountry = function (keyId) {
-    if (keyId[0] == "-") {
-        return;
-    }
+//    if (keyId[0] == "-") {
+    return;
+//    }
     var country = keyId.split("-").shift();
 
     if (country) { //then is public

@@ -988,6 +988,7 @@ body > .option > *{
     font-weight:bold;
     /*color: rgb(150,150,150);*/
     opacity: 0.4;
+    cursor: pointer;
 }
 .publicCheckbox input{
     pointer-events:none;    

@@ -53,11 +53,13 @@ function getPathsFromKeyId(keyId) {
         prefix = arr.shift();
         key = arr.join("_");
     }
-
+    
     screenPoll.isPublic(_public);
-    if (visible == "public" || visible == "private") {
+    if (visible == "private") {
         realPath += visible + "/";
         subdomain += "-" + visible;
+    } else {
+        subdomain += "-" + prefix;
     }
 
     //alibaba
@@ -451,23 +453,16 @@ var CSV = {
     ,
     //http://stackoverflow.com/questions/1293147/javascript-code-to-parse-csv-data
     parse: function (strData) {
-        var res = [];
+        if (!strData) {
+            return;
+        }
+        console.log("strData: " + strData)
+
         var arr = strData.split(/\n|\\n|\r/);
 
-        var first = arr[0].split(this.delimiter);
-        res.push(first[0]);
-
-        var questions;
-        var styles;
-        try {
-            questions = JSON.parse(first[1]);
-            styles = JSON.parse(first[2]);
-        } catch (e) {
-            console.log("can't parse " + first[1] + " and " + first[2]);
-            return false;
-        }
-        res.push(questions);
-        res.push(styles);
+        var first = arr[0];
+        console.log(first);
+        var res = this.parseFirst(first);
 
         for (var i = 1; i < arr.length; i++) {
             res.push(arr[i].split(this.delimiter));
@@ -476,6 +471,28 @@ var CSV = {
         //console.log("parsed:");
         //console.log(JSON.stringify(res));
         //console.log(res);
+        return res;
+    }
+    ,
+    parseFirst: function (data) {
+        console.log(data);
+        var arr = data.split(this.delimiter);
+
+        var res = [];
+        res.push(arr[0]); //0.  question
+
+        var answers;
+        var styles;
+        try {
+            answers = JSON.parse(arr[1]);
+            styles = JSON.parse(arr[2]);
+        } catch (e) {
+            console.log("can't parse " + arr[1] + " and " + arr[2]);
+            return false;
+        }
+        res.push(answers); //1. answers
+        res.push(styles); //2. styles
+
         return res;
     }
 };
@@ -527,3 +544,55 @@ Array.prototype.equals = function (array) {
 };
 // Hide method from for-in loops
 Object.defineProperty(Array.prototype, "equals", {enumerable: false});
+
+//http://stackoverflow.com/questions/4432100/how-does-prototype-extend-objects
+//for prototype extend
+function extend(destination, source) {
+    for (var property in source.prototype) {
+        destination.prototype[property] = source.prototype[property];
+    }
+    return destination;
+}
+
+function toBase(x) {
+    var r = 1, i = 0, s = '';
+    var radix = 10; // case no radix
+    var A = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split(''); // case no alphabet
+
+    // test if radix is a power of 2
+    while (radix > r) {
+        r = r * 2;
+        i = i + 1;
+    }
+    if (r === radix) { // radix = 2 ^ i; fast method
+        r = r - 1; // Math.pow(2, i) - 1;
+        while (x > 0) {
+            s = A[x & r] + s;
+            x >>= i; // shift binary
+        }
+        return s; // done
+    }
+    return methodInOriginalQuestion(x, radix, A); // else not a power of 2, slower method
+}
+
+function convertBase(value) {
+    var from_range = "0123456789".split('');
+    var to_range = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+    var from_base = from_range.length;
+    var to_base = to_range.length;
+
+    value = value + "";
+
+    var dec_value = value.split('').reverse().reduce(function (carry, digit, index) {
+        if (from_range.indexOf(digit) === -1)
+            throw new Error('Invalid digit `' + digit + '` for base ' + from_base + '.');
+        return carry += from_range.indexOf(digit) * (Math.pow(from_base, index));
+    }, 0);
+
+    var new_value = '';
+    while (dec_value > 0) {
+        new_value = to_range[dec_value % to_base] + new_value;
+        dec_value = (dec_value - (dec_value % to_base)) / to_base;
+    }
+    return new_value || '0';
+}

@@ -297,7 +297,7 @@ VotationButtons.prototype.share = function (callback) {
     saveLocally(keyId, poll.json);
 };
 
-VotationButtons.prototype.save = function (action, callback, add, remove) {
+VotationButtons.prototype.save = function (action, callback, add, sub) {
     var _this = this;
     console.log("VotationButtons.save screenPoll");
 
@@ -437,7 +437,7 @@ VotationButtons.prototype.save = function (action, callback, add, remove) {
             if (!Device.save) {
                 this.addAjax(sendJson, function (res) {
                     _this.saveCallback(res);
-                }, add, remove);
+                }, add, sub);
 
             } else {
                 //only way of public - public-id has to be updated on load
@@ -573,15 +573,22 @@ VotationButtons.prototype.shareToSave = function () {
 
 VotationButtons.prototype.createAjax = function (sendJson, callback) {
     var _this = this;
-    if ("true" == this.poll._public) {
-        error("PublicOnlyFromApp");
-        return;
+//    if ("true" == this.poll._public) {
+//        error("PublicOnlyFromApp");
+//        return;
+//    }
+    
+    var table = "private";
+    var val = $(".publicCheck input").val();
+    if(val){
+        table = localStorage.getItem("userLang");
     }
 
     $.post(settings.corePath + "create.php", {
         id: window.user.id,
         key: this.poll.key,
-        value: sendJson
+        value: sendJson,
+        table: table
     }).done(function (res) {
         _this.ajaxDone(res, callback);
     }).error(function (res) {
@@ -589,19 +596,19 @@ VotationButtons.prototype.createAjax = function (sendJson, callback) {
     });
 };
 
-VotationButtons.prototype.addAjax = function (sendJson, callback, add, remove) {
+VotationButtons.prototype.addAjax = function (sendJson, callback, add, sub) {
     var _this = this;
-    if ("true" == this.poll._public) {
-        error("PublicOnlyFromApp");
-        return;
-    }
+//    if ("true" == this.poll._public) {
+//        error("PublicOnlyFromApp");
+//        return;
+//    }
         
     $.post(settings.corePath + "add.php", {
-        id: window.user.id,
+        userId: window.user.id,
         key: this.poll.key,
-        value: sendJson,
+        data: sendJson,
         add: JSON.stringify(add),
-        remove: JSON.stringify(remove)
+        sub: JSON.stringify(sub)
     }).done(function (res) {
         _this.ajaxDone(res, callback);
     }).error(function (res) {
