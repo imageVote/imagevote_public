@@ -241,19 +241,27 @@ function voteArray(arr) {
             arr = [];
         }
     }
+
+    for (var i = arr.length - 1; i > -1; i--) {
+        var value = arr[i];
+        if (isNaN(value)) {
+            arr.splice(i, 1);
+        }
+    }
+
     return arr;
 }
 
 function parseSQL(obj, prefix) {
     console.log(obj);
     var all = [];
-    for (var i = 0; i < obj.length; i++) {        
+    for (var i = 0; i < obj.length; i++) {
         var row = obj[i];
         var data = row.data;
         var res = CSV.parseFirst(data);
         //all[row.id] = [row.id, row.id, res[1][0], res[1][1], row.answer0, row.answer1];
         var key = convertBase(row.id);
-        if(prefix){
+        if (prefix) {
             key = prefix + "-" + convertBase(row.id);
         }
         all.push([key, row.id, res[1][0], res[1][1], 0, 0]);
