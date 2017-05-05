@@ -31,8 +31,8 @@ var GamePoll = function (query, idQ, window_name, lang) {
     console.log("new GamePoll " + idQ + " " + lang);
 
     //default (in case server data failed)
-    this.interstitial_frequency = 5;
-    this.stars_frequency = 8;
+    this.interstitial_frequency = 4;
+    this.stars_frequency = 6;
     this.update_frequency = false; // '= 1' to update allways 
 
     this.query = query; //#pollsPageContainer
@@ -494,7 +494,7 @@ GamePoll.prototype.load = function (poll, individual, back) {
             }
         }
 
-        if (_this.interstitial_frequency && _this.answers % _this.interstitial_frequency == 0) {
+        if (_this.interstitial_frequency && _this.answers % _this.interstitial_frequency == 2) { //0 + 2(starting interstitial allways after 1st answer)
             console.log("Device.loadAd()");
             if (Device.loadAd) {
                 Device.loadAd();
