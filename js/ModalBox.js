@@ -62,7 +62,7 @@ ModalBox.prototype.ask = function (txt, comment, callback, cancelCallback) {
     return html_modal;
 };
 
-ModalBox.prototype.input = function (txt, nameValue, callback) {
+ModalBox.prototype.input = function (txt, nameValue, callback, buttonText) {
     var _this = this;
     
     var divContainer = $("<div>");
@@ -76,12 +76,26 @@ ModalBox.prototype.input = function (txt, nameValue, callback) {
 
 //    var button = $("<button style='width:100%'>");
     var button = $("<button>");
-    button.text(transl("Ok"));
+    
+    if(!buttonText){
+        buttonText = "Ok";
+    }
+    button.text(transl(buttonText));
+    divContainer.append("<br><br><br>");
     divContainer.append(button);
 
     var html_modal = this.modal(divContainer);
     html_modal.addClass("modal_input");
     input.focus();
+        
+    //disable/enable button
+//    input.on("keyup", function(){
+//        if(input.val()){
+//            button.css({'opacity': 0.5, 'pointer-events': "none"});
+//        }else{
+//            button.css({'opacity': 1, 'pointer-events': "inherit"});
+//        }
+//    });
 
     button.click(function () {
         if (callback) {
@@ -91,9 +105,9 @@ ModalBox.prototype.input = function (txt, nameValue, callback) {
     });
 };
 
-ModalBox.prototype.remove = function (html) {
-    var box = html.find("> div");
-    html.css("opacity", 0);
+ModalBox.prototype.remove = function ($dom) {
+    var box = $dom.find("> div");
+    $dom.css("opacity", 0);
     box.css({
         '-webkit-transform': "translate(-50%, -50%)",
         '-ms-transform': "translate(-50%, -50%)",
@@ -101,6 +115,6 @@ ModalBox.prototype.remove = function (html) {
     });
 
     setTimeout(function () {
-        html.remove();
+        $dom.remove();
     }, 150);
 };

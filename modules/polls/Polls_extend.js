@@ -382,8 +382,13 @@ Polls.prototype.load = function (poll, individual, back) {
         if (!stars_done && _this.stars_frequency && _this.answers > _this.stars_frequency) {
             console.log("STARS DONE!");
             localStorage.setItem("stars_rate", "done");
-            if (Device.showStars) {
-                Device.showStars();
+//            if (Device.showStars) {
+//                Device.showStars();
+//            }
+            if (Device) {
+                $("<div>").appendTo("body").load("~commons/modules/rate/rate.html", function () {
+                    new Rate();
+                });
             }
         }
 

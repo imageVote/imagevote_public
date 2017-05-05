@@ -71,6 +71,7 @@ function loadLanguage(path, callback) {
                         result = results.data[0][1];
                     }
                     lang[key] = result;
+                    $("[data-lang='" + key + "']").html(result); //translate them!
                 }
             },
             complete: function () {
@@ -132,9 +133,15 @@ function flash(text, persist, callback) {
     $(document).off(".search");
     text += ""; //text.length not work eith numbers
 
-    stopFlash();
+    if ($("#flash").length) {
+        stopFlash();
+    }
+
     var div = $("<flash id='flash'>" + text + "</flash>"); //flash = prevent global div hide
     $("body").append(div);
+    setTimeout(function () {
+        div.css({opacity: 1, top: "30%"});
+    }, 1);
 
     if (persist) {
         return;
@@ -143,7 +150,7 @@ function flash(text, persist, callback) {
     clearTimeout(window.flashTimeout);
     window.flashTimeout = setTimeout(function () {
         stopFlash(callback);
-    }, 500 + text.length * 50);
+    }, 800 + text.length * 50);
 
     setTimeout(function () {
         $(document).one("mousedown.search touchstart.search", function (e) {
@@ -159,10 +166,14 @@ function flash(text, persist, callback) {
 }
 
 function stopFlash(callback) {
-    if (callback) {
-        callback();
-    }
-    $("#flash").remove();
+    var flash = $("#flash");
+    flash.css({opacity: 0, top: "35%"});
+    setTimeout(function () {
+        flash.remove();
+        if (callback) {
+            callback();
+        }
+    }, 175);
 }
 
 //if public poll, add options
