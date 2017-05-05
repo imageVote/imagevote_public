@@ -1,0 +1,173 @@
+<style>
+
+    #rate{
+        display: inline-block;
+        cursor: default;
+        width: 360px;
+    }
+
+    #rate p{
+        font-size: 18px;
+    }
+
+    #rate i {
+        font-size: 50px;
+        padding: 0 1px;
+        cursor: pointer;
+        color: #5f5f5f;
+    }
+
+    #rate .fa-star{
+        color: #0f9d58;
+    }
+
+    #rate .comment{
+        color: rgb(50,50,50);
+        font-size: 14px;
+    }
+    #rate .rate_buttons button{
+        font-size: 12px;
+    }
+
+    #rate .disabled{
+        pointer-events: none;
+        opacity: 0.5;
+    }
+
+    #rate_message input{
+        width:100%;
+        background: transparent;
+        border: none;
+        box-shadow: inset 0 -1px rgb(180,180,180);
+        outline: none;
+        height: inherit;
+        line-height: 0;
+        font-size: 14px;
+    }
+    #rate_message input:hover, #rate_message input:focus{
+        box-shadow: inset 0 -2px #0f9d58;
+    }
+    #rate_message button{
+        font-size: 13px;
+    }
+
+</style>
+
+<div id="rate" style="display:none">
+    <p data-lang="rate_title"></p>
+    <br>
+    <div class="rate_container">
+        <i class="fa fa-star-o"></i>
+        <i class="fa fa-star-o"></i>
+        <i class="fa fa-star-o"></i>
+        <i class="fa fa-star-o"></i>
+        <i class="fa fa-star-o"></i>
+    </div>
+    <br>
+    <span class="comment"></span>
+    <br><br><br>
+    <div class="rate_buttons">
+        <button data-lang="rate_SUBMITLATER" style="float:left"></button>
+        <div style="float:right">
+            <button data-lang="rate_NOSUBMIT" style="margin-right:5px;"></button>
+            <button data-lang="rate_SUBMIT" class="disabled"></button>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var Rate = function () {
+        var _this = this;
+        loadLanguage("~commons/modules/rate", function () {
+            var dom = $("#rate");
+            _this.modal = modalBox.modal(dom);
+            _this.events();
+            dom.show();
+        });
+    };
+
+    Rate.prototype.events = function () {
+        var _this = this;
+
+        $("#rate .rate_container").off(".stars_out").on("mouseleave.stars_out", function () {
+            $("#rate i").removeClass("fa-star").addClass("fa-star-o");
+            $("#rate .selected").removeClass("fa-star-o").addClass("fa-star");
+
+            $("#rate .comment").text("");
+            if (_this.index) {
+                $("#rate .comment").text(transl("rate_star" + _this.index));
+            }
+        });
+
+        $("#rate i").off(".stars_hover").on("mouseover.stars_hover", function () {
+            $("#rate i").removeClass("fa-star").addClass("fa-star-o");
+
+            var index = $(this).index() + 1;
+            for (var i = 0; i < index; i++) {
+                var star = $("#rate i")[i];
+                $(star).removeClass("fa-star-o").addClass("fa-star");
+            }
+
+            $("#rate .comment").text(transl("rate_star" + i));
+        });
+
+        $("#rate i").off(".stars").on("click.stars", function () {
+            $("#rate i").removeClass("fa-star selected").addClass("fa-star-o");
+
+            _this.index = $(this).index() + 1;
+            for (var i = 0; i < _this.index; i++) {
+                var star = $("#rate i")[i];
+                $(star).removeClass("fa-star-o").addClass("fa-star selected");
+            }
+
+            $("#rate .comment").text(transl("rate_star" + i));
+            $("#rate .disabled").removeClass("disabled");
+        });
+
+        $("#rate button").click(function () {
+            if (!_this.index) {
+                return;
+            }
+            if (_this.index >= 4) {
+                modalBox.remove(_this.modal);
+                setTimeout(function () {
+                    if (window.isAndroid) {
+                        //location.href = "market://details?id=" + settings.app_package;
+                        window.open("http://play.google.com/store/apps/details?id=" + settings.app_package);
+                    } else if(window.iPhone){
+                        window.open("https://itunes.apple.com/us/app/would-you-rather-friends/id1226455878?mt=8");
+                    }else{
+                        console.log("ERROR URL RATING!?");
+                    }
+
+                }, 200);
+
+            } else {
+                _this.message();
+            }
+        });
+    };
+
+    Rate.prototype.message = function () {
+//        modalBox.input(transl("rate_messageTitle"), null, function () {
+//            flash(transl("rate_thanks"));
+//            //TODO: send bad rate message
+//        }, "rate_FINISH");
+
+        var $message_dom = $("<div id='rate_message'>"
+                + "<span style='line-height:50px; font-size: 18px;'>" + transl("rate_messageTitle") + "</span>"
+                + "<br><br>"
+                + "<input type='text' placeholder='" + transl("rate_placeholder") + "'>"
+                + "<br><br><br><br>"
+                + "<button>" + transl("rate_FINISH") + "</button>"
+                + "</div>");
+        var modal = modalBox.modal($message_dom);
+        $message_dom.find("input").focus();
+        $message_dom.find("button").click(function () {
+            modalBox.remove(modal);
+            flash(transl("rate_thanks"));
+        });
+    };
+
+</script>

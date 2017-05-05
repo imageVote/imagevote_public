@@ -1,0 +1,17 @@
+;EN;ES
+rate_title;Rate this app;Valora esta aplicación
+
+rate_star1;Hated it;No me ha gustado nada
+rate_star2;Disliked it;No me ha gustado
+rate_star3;It's OK;Está bien
+rate_star4;Liked it;Me ha gustado
+rate_star5;Loved it;Me ha encantado
+
+rate_NOSUBMIT;NO, THAMKS;NO, GRACIAS
+rate_SUBMIT;SUBMIT;ENVIAR
+rate_SUBMITLATER;LATER;LUEGO
+
+rate_messageTitle;Write a short review;Escribe una opinión breve
+rate_thanks;Thank you for the Feedback;Gracias por el Feedback
+rate_FINISH;FINISH;FINALIZAR
+rate_placeholder;Tell us what you think;Danos tu opinión
