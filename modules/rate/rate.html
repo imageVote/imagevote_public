@@ -3,7 +3,7 @@
     #rate{
         display: inline-block;
         cursor: default;
-        width: 360px;
+        width: 95%;
     }
 
     #rate p{
@@ -51,6 +51,10 @@
         font-size: 13px;
     }
 
+    #rate button{
+        min-width: inherit !important;  
+    }
+
 </style>
 
 <div id="rate" style="display:none">
@@ -78,6 +82,12 @@
 <script>
 
     var Rate = function () {
+        if (localStorage.setItem("rate")) {
+            console.log("already rated");
+            return;
+        }
+        console.log("RATE");
+
         var _this = this;
         loadLanguage("~commons/modules/rate", function () {
             var dom = $("#rate");
@@ -125,7 +135,9 @@
             $("#rate .disabled").removeClass("disabled");
         });
 
-        $("#rate button").click(function () {
+        $("#rate .rate_SUBMIT").click(function () {
+            localStorage.setItem("rate", "done");
+
             if (!_this.index) {
                 return;
             }
@@ -135,9 +147,10 @@
                     if (window.isAndroid) {
                         //location.href = "market://details?id=" + settings.app_package;
                         window.open("http://play.google.com/store/apps/details?id=" + settings.app_package);
-                    } else if(window.iPhone){
-                        window.open("https://itunes.apple.com/us/app/would-you-rather-friends/id1226455878?mt=8");
-                    }else{
+                    } else if (window.iPhone) {
+                        //http://stackoverflow.com/questions/3124080/app-store-link-for-rate-review-this-app
+                        window.open("itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=1226455878&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software&action=write-review");
+                    } else {
                         console.log("ERROR URL RATING!?");
                     }
 
@@ -146,6 +159,14 @@
             } else {
                 _this.message();
             }
+        });
+
+        $("#rate .rate_NOSUBMIT").click(function () {
+            localStorage.setItem("rate", "done");
+            modalBox.remove(_this.modal);
+        });
+        $("#rate .rate_SUBMITLATER").click(function () {
+            modalBox.remove(_this.modal);
         });
     };
 

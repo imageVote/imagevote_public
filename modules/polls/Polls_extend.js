@@ -127,7 +127,6 @@ Polls.prototype.request = function (idQ, individual) {
 };
 
 Polls.prototype.requestCallback = function (json) {
-    console.log(777);
     //console.log(json);
     this.loaded("requestCallback");
     if (!json) {
@@ -192,7 +191,6 @@ Polls.prototype.requestCallback = function (json) {
 };
 
 Polls.prototype.next = function (idQ, anyone) {
-    console.log(111)
     console.log("anyone: " + anyone)
     var storedPolls = gamePolls;
     //console.log(storedPolls);
@@ -272,7 +270,6 @@ Polls.prototype.previous = function (idQ) {
 };
 
 Polls.prototype.load = function (poll, individual, back) {
-    console.log(222)
     if (!poll) {
 //        this.request(poll[1]);
         return false;
@@ -378,10 +375,8 @@ Polls.prototype.load = function (poll, individual, back) {
         _this.answers++;
 
         //TODO: save stars done
-        var stars_done = localStorage.getItem("stars_rate");
+        var stars_done = localStorage.getItem("rate");
         if (!stars_done && _this.stars_frequency && _this.answers > _this.stars_frequency) {
-            console.log("STARS DONE!");
-            localStorage.setItem("stars_rate", "done");
 //            if (Device.showStars) {
 //                Device.showStars();
 //            }
@@ -392,7 +387,7 @@ Polls.prototype.load = function (poll, individual, back) {
             }
         }
 
-        if (_this.interstitial_frequency && _this.answers % _this.interstitial_frequency == 0) {
+        if (_this.interstitial_frequency && _this.answers % _this.interstitial_frequency == 2) {
             console.log("Device.loadAd()");
             if (Device.loadAd) {
                 Device.loadAd();
@@ -491,6 +486,7 @@ Polls.prototype.share = function (obj, idQ) {
 
 Polls.prototype.loadAnimation = function (back) {
     var _this = this;
+    var width = $(document).width();
 
     var $container = $(_this.query + " .gameContainer:not(.game_clone)");
     var $clone = $container.clone();
@@ -504,7 +500,9 @@ Polls.prototype.loadAnimation = function (back) {
         } else {
             _this.updateTransform($container, "100%");
         }
-        $container.css("opacity", 0);
+        if (width > 480) {
+            $container.css("opacity", 0);
+        }
     }
 
     //prevent swipe event before reset animation
@@ -523,7 +521,9 @@ Polls.prototype.loadAnimation = function (back) {
                 } else {
                     _this.updateTransform($clone, "-100%");
                 }
-                $clone.css("opacity", 0);
+                if (width > 480) {
+                    $clone.css("opacity", 0);
+                }
             }
 
             //end animation

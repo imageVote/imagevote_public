@@ -124,14 +124,14 @@
     //window.Device
     if (!window.Device) {
         window.Device = false;
-//        $.getScript("~commons/browserStart.js");
-        var ua = navigator.userAgent.toLowerCase();
-        window.isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
-        window.iPhone = ua.indexOf("iPhone") > -1 || ua.indexOf("iPod") > -1;
-
     } else {
         $("html").addClass("Device");
     }
+
+    //$.getScript("~commons/browserStart.js");
+    var ua = navigator.userAgent.toLowerCase();
+    window.isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+    window.iPhone = ua.indexOf("iPhone") > -1 || ua.indexOf("iPod") > -1;
 
     require(["commons_dependencies"], function () { //dependencies needed
         window.modalBox = new ModalBox();
@@ -164,7 +164,7 @@
                 translateTags();
             }
         });
-        
+
         //KEY LOAD
         if (!window.user) { //if already from device
             console.log("add first window.user")
