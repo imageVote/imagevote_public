@@ -3,6 +3,72 @@ var Polls = function () {
 
 };
 
+Polls.prototype.construct = function (query, idQ, window_name, lang) {
+    console.log("new Poll " + idQ + " " + lang);
+
+    //default (in case server data failed)
+    this.interstitial_start = 2;
+    this.interstitial_frequency = 4;
+    this.stars_frequency = 8;
+
+    this.query = query; //#pollsPageContainer
+    this.window_name = window_name;
+
+    this.answers = 0;
+    this.voted = {};
+    $(this.query).html("<div class='gameContainer'><div class='game'></div></div>");
+
+    //header
+    $("#voteHeader").hide();
+    $("#pollsHeader").show();
+
+    //share button
+    this.buttons = $("<div id='gameButtons'>");
+//    this.$sendButton = $("<button id='gameShare'><em style='height:15px'></em><span data-lang='Share'></span></button>");
+//    this.buttons.append(this.share);
+    $(this.query).append(this.buttons);
+    //window.screenPoll.buttons = this.votationButtons = new VotationButtons(screenPoll, this.buttons); //game can't be screenPoll ???
+    this.votationButtons = new VotationButtons(screenPoll, this.buttons);
+    this.votationButtons.$usersButton.remove();
+
+    this.navigationEvents();
+
+    loadLanguage("~commons/modules/polls/lang", function () {
+        translateTags();
+        fontSize(); //TODO: stydy where call this
+    });
+
+    if (!window.gamePolls) {
+        console.log("get stored " + lang);
+        window.gamePolls = this.stored(lang);
+    }
+
+    this.individual = false;
+    if (!idQ) {
+        var table = this.gameDB();
+        idQ = localStorage.getItem("idQ_" + table);
+        if (!idQ || "undefined" == idQ) {
+            idQ = 0;
+        }
+
+    } else {
+        console.log("SHARED");
+        this.individual = true;
+        this.nextPoll = gamePolls[idQ];
+    }
+
+    //this info needs to be in server to update all devices in realtime!
+    this.idQ = parseInt(idQ);
+    this.game_config();
+
+    if (this.nextPoll) {
+        this.load(this.nextPoll, this.individual);
+    } else {
+        console.log("request " + this.idQ);
+        this.request(this.idQ, this.individual, lang);
+    }
+}
+
 Polls.prototype.navigationEvents = function () {
     var _this = this;
 
@@ -387,7 +453,7 @@ Polls.prototype.load = function (poll, individual, back) {
             }
         }
 
-        if (_this.interstitial_frequency && _this.answers % _this.interstitial_frequency == 2) {
+        if (_this.interstitial_frequency && _this.answers % _this.interstitial_frequency == _this.interstitial_start) {
             console.log("Device.loadAd()");
             if (Device.loadAd) {
                 Device.loadAd();
