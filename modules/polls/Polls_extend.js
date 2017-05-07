@@ -127,7 +127,6 @@ Polls.prototype.request = function (idQ, individual) {
 };
 
 Polls.prototype.requestCallback = function (json) {
-    console.log(777);
     //console.log(json);
     this.loaded("requestCallback");
     if (!json) {
