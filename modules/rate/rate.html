@@ -71,10 +71,10 @@
     <span class="comment"></span>
     <br><br><br>
     <div class="rate_buttons">
-        <button data-lang="rate_SUBMITLATER" style="float:left"></button>
+        <button id="rate_SUBMITLATER" data-lang="rate_SUBMITLATER" style="float:left"></button>
         <div style="float:right">
-            <button data-lang="rate_NOSUBMIT" style="margin-right:5px;"></button>
-            <button data-lang="rate_SUBMIT" class="disabled"></button>
+            <button id="rate_NOSUBMIT" data-lang="rate_NOSUBMIT" style="margin-right:5px;"></button>
+            <button id="rate_SUBMIT" data-lang="rate_SUBMIT" class="disabled"></button>
         </div>
     </div>
 </div>
@@ -82,7 +82,7 @@
 <script>
 
     var Rate = function () {
-        if (localStorage.setItem("rate")) {
+        if (localStorage.getItem("rate")) {
             console.log("already rated");
             return;
         }
@@ -135,7 +135,7 @@
             $("#rate .disabled").removeClass("disabled");
         });
 
-        $("#rate .rate_SUBMIT").click(function () {
+        $("#rate #rate_SUBMIT").click(function () {
             localStorage.setItem("rate", "done");
 
             if (!_this.index) {
@@ -161,11 +161,11 @@
             }
         });
 
-        $("#rate .rate_NOSUBMIT").click(function () {
+        $("#rate #rate_NOSUBMIT").click(function () {
             localStorage.setItem("rate", "done");
             modalBox.remove(_this.modal);
         });
-        $("#rate .rate_SUBMITLATER").click(function () {
+        $("#rate #rate_SUBMITLATER").click(function () {
             modalBox.remove(_this.modal);
         });
     };
@@ -175,7 +175,8 @@
 //            flash(transl("rate_thanks"));
 //            //TODO: send bad rate message
 //        }, "rate_FINISH");
-
+        modalBox.remove(this.modal);
+        
         var $message_dom = $("<div id='rate_message'>"
                 + "<span style='line-height:50px; font-size: 18px;'>" + transl("rate_messageTitle") + "</span>"
                 + "<br><br>"
