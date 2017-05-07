@@ -10,6 +10,7 @@
 .report{     
     background: rgba(0,0,0,0.7);
     width: 60px;
+    width: 56px;
     /*max-width: 11%;*/
     border-radius: 99px;    
     text-align: center;
@@ -18,7 +19,7 @@
     box-shadow: inset 1px 1px 0 rgba(255,255,255,0.3), 1px 1px 0 rgba(0,0,0,0.3), 0 0 0 5px rgba(0,0,0,0.2);
     z-index: 1;
     margin: 0 !important;
-    
+
     transition: opacity 300ms;
 }
 .report:after {
@@ -39,8 +40,22 @@
 
     font-size: 52px;
     font-weight: normal;
-    
-    -webkit-transform: translate(-54%, -54%);
-    -ms-transform: translate(-54%, -54%);
-    transform: translate(-54%, -54%);
+
+    -webkit-transform: translate(-53%, -53%);
+    -ms-transform: translate(-53%, -53%);
+    transform: translate(-53%, -53%);
+}
+
+/*less resources:*/
+@media screen and (max-width: 480px) {
+    .report{
+        transition: opacity 0ms !important;
+    }
+    .report{   
+        background: rgb(27,27,27) !important;
+    }
+    .report i, .report span{
+        color: rgb(85,85,85) !important;
+        text-shadow: 1px 1px rgb(120,120,120) !important;
+    }
 }

@@ -587,7 +587,7 @@ VotationButtons.prototype.createAjax = function (sendJson, callback) {
     $.post(settings.corePath + "create.php", {
         id: window.user.id,
         key: this.poll.key,
-        value: sendJson,
+        data: sendJson,
         table: table
     }).done(function (res) {
         _this.ajaxDone(res, callback);

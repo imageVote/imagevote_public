@@ -41,17 +41,17 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
 
     if ("private" == urlParts.visible || "public" == urlParts.visible) {
         console.log("url: " + realPath + " + " + this.poll.realKey);
-        if (Device.simpleRequest) {
-            //return on dataIsReady
-            //console.log("Device.loadKeyData(" + key + ")");
-            //Device.loadKeyData(key);            
-            Device.simpleRequest(url, params, "new RequestPollByKeyCallback", "\\n");
-
-        } else {
-            loadAjaxKey(url, params, function (data) {
-                new RequestPollByKeyCallback(data);
-            });
-        }
+//        if (Device.simpleRequest) {
+//            //return on dataIsReady
+//            //console.log("Device.loadKeyData(" + key + ")");
+//            //Device.loadKeyData(key);            
+//            Device.simpleRequest(url, params, "new RequestPollByKeyCallback", "\\n");
+//
+//        } else {
+        loadAjaxKey(url, params, function (data) {
+            new RequestPollByKeyCallback(data);
+        });
+//        }
     }
 };
 
