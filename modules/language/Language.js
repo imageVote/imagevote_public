@@ -116,7 +116,7 @@ Language.prototype.loadLanguage = function (lang) {
 
 Language.prototype.redirection = function () {
     //FORCE GAME RELOAD ??
-    if (location.pathname && "/" != location.pathname) {
+    if (location.pathname && "/" != location.pathname && !location.hash) {
         hashManager.href("#polls");
     }
 };

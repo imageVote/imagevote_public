@@ -75,7 +75,7 @@ Tutorial.prototype.stop = function () {
 Tutorial.prototype.locateHelper = function (queryDiv, value, target, func) {
     var text = transl(value);
 
-    var help = $("<div class='tutorial_helpDiv tutorial_selectable'><div data-lang='" + text + "'></div></div>");
+    var help = $("<div class='tutorial_helpDiv tutorial_selectable'><div data-lang='" + value + "'>" + text + "</div></div>");
     var helpContainer = $("<div id='tutorial_helpFilter'>");
     helpContainer.append(help);
 
@@ -93,7 +93,7 @@ Tutorial.prototype.locateHelper = function (queryDiv, value, target, func) {
 Tutorial.prototype.targetEvent = function (target, help, func) {
     var $this = this;
 
-    if (target) {        
+    if (target) {
         if (typeof target != "function") {
             $("*").off(".help");
             var canClick = true;
@@ -139,10 +139,10 @@ Tutorial.prototype.targetEvent = function (target, help, func) {
                 $this.nextHelp();
             });
         }
-        
+
     } else {
         $("#tutorial_helpFilter").addClass("tutorial_filter");
-        var button = $("<button>next</button>");        
+        var button = $("<button>next</button>");
         help.append(button);
         button.on("click", function () {
             $("#tutorial_helpFilter").remove();
