@@ -339,6 +339,11 @@ Polls.prototype.previous = function (idQ) {
         return storedPolls[i];
     }
 
+    if (idQ > 10) {
+        this.request(idQ - 100);
+        return;
+    }
+
     return false;
 };
 
