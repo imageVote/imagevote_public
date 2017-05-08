@@ -144,9 +144,14 @@
             if (_this.index >= 4) {
                 modalBox.remove(_this.modal);
                 setTimeout(function () {
+                    if(Device.rate){
+                        Device.rate();
+                        return;
+                    }
+                    
                     if (window.isAndroid) {
                         //location.href = "market://details?id=" + settings.app_package;
-                        window.open("http://play.google.com/store/apps/details?id=" + settings.app_package);
+                        window.open("http://play.google.com/store/apps/details?id=" + settings.app_package); //not work properly :(
                     } else if (window.iPhone) {
                         //http://stackoverflow.com/questions/3124080/app-store-link-for-rate-review-this-app
                         window.open("itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=1226455878&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software&action=write-review");
