@@ -57,6 +57,7 @@ function loadStoredPolls() {
             localStorage.removeItem(storedKey);
             continue;
         }
+        //prevent wrong version bugs
         if(!obj.options || !obj.options[0][1] || !obj.options[1][1]){
             continue;
         }
