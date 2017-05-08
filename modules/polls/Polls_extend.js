@@ -338,7 +338,8 @@ Polls.prototype.previous = function (idQ) {
         this.idQ = i; //not save locally when 'previous'
         return storedPolls[i];
     }
-
+    
+    //get previous polls
     if (idQ > 10) {
         this.request(idQ - 100);
         return;
