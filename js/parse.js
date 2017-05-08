@@ -82,35 +82,35 @@ function pollToCSV(obj) {
     return csv;
 }
 
-function parseData(value, ignore) {
-    //data errors
-    if (!value) {
-        if (!ignore) {
-            error("e_votationRemoved");
-            reset();
-        }
-        return false;
-    }
-    //not tested rule
-    else if ("null" == value) {
-        if (!ignore) {
-            error("e_connectionLost");
-            reset();
-        }
-        return false;
-    }
-
-    var arr;
-//    try {
-    //arr = JSON.parse(value + "]");
-    arr = CSV.parse(value);
-//    } catch (e) {
-//        console.log(e + " on " + value);
-//        //error("e_votationWithErrors", true);
+//function parseData(value, ignore) {
+//    //data errors
+//    if (!value) {
+//        if (!ignore) {
+//            error("e_votationRemoved");
+//            reset();
+//        }
 //        return false;
 //    }
-    return toObject(arr);
-}
+//    //not tested rule
+//    else if ("null" == value) {
+//        if (!ignore) {
+//            error("e_connectionLost");
+//            reset();
+//        }
+//        return false;
+//    }
+//
+//    var arr;
+////    try {
+//    //arr = JSON.parse(value + "]");
+//    arr = CSV.parse(value);
+////    } catch (e) {
+////        console.log(e + " on " + value);
+////        //error("e_votationWithErrors", true);
+////        return false;
+////    }
+//    return toObject(arr);
+//}
 
 function toObject(arr) {
     console.log(JSON.stringify(arr));
@@ -155,7 +155,7 @@ function parseOptions(obj, opts) {
         }
         optionsResult.push([
             i, //position
-            opts[i], //value
+            opts[i], //name
             0 //value
         ]);
     }
@@ -250,21 +250,4 @@ function voteArray(arr) {
     }
 
     return arr;
-}
-
-function parseSQL(obj, prefix) {
-    console.log(obj);
-    var all = [];
-    for (var i = 0; i < obj.length; i++) {
-        var row = obj[i];
-        var data = row.data;
-        var res = CSV.parseFirst(data);
-        //all[row.id] = [row.id, row.id, res[1][0], res[1][1], row.answer0, row.answer1];
-        var key = convertBase(row.id);
-        if (prefix) {
-            key = prefix + "-" + convertBase(row.id);
-        }
-        all.push([key, row.id, res[1][0], res[1][1], 0, 0]);
-    }
-    return all;
 }

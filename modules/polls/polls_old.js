@@ -96,7 +96,7 @@ function getUrlPolls(country, callback) {
 
             for (var i = 0; i < table.length; i++) {
                 var tds = $(table[i]).find("td");
-                var size = parseInt(tds.eq(3).text());
+                var size = +tds.eq(3).text();
 
                 //if is folder like
                 if (!size) {

@@ -53,11 +53,11 @@ function getPathsFromKeyId(keyId) {
         prefix = arr.shift();
         key = arr.join("_");
     }
-    
+
     screenPoll.isPublic(_public);
-    if (visible == "private") {
+    if (visible == "private" || !prefix) {
         realPath += visible + "/";
-        subdomain += "-" + visible;
+        subdomain += "-private";
     } else {
         subdomain += "-" + prefix;
     }
@@ -67,7 +67,9 @@ function getPathsFromKeyId(keyId) {
 //    if ("localhost" == location.hostname) {
 //        realPath = "http://" + subdomain + "-test.oss-eu-central-1.aliyuncs.com/";
 //    }
-    realPath = "http://" + subdomain + ".oss-eu-central-1.aliyuncs.com/";
+//    if (keyId.indexOf("-") > -1) {
+//        realPath = "http://" + subdomain + ".oss-eu-central-1.aliyuncs.com/";
+//    }
 
     var res = {
         realPath: realPath,
@@ -451,29 +453,29 @@ var CSV = {
         return csv;
     }
     ,
-    //http://stackoverflow.com/questions/1293147/javascript-code-to-parse-csv-data
-    parse: function (strData) {
-        if (!strData) {
-            return;
-        }
-        console.log("strData: " + strData)
-
-        var arr = strData.split(/\n|\\n|\r/);
-
-        var first = arr[0];
-        console.log(first);
-        var res = this.parseFirst(first);
-
-        for (var i = 1; i < arr.length; i++) {
-            res.push(arr[i].split(this.delimiter));
-        }
-
-        //console.log("parsed:");
-        //console.log(JSON.stringify(res));
-        //console.log(res);
-        return res;
-    }
-    ,
+//    //http://stackoverflow.com/questions/1293147/javascript-code-to-parse-csv-data
+//    parse: function (strData) {
+//        if (!strData) {
+//            return;
+//        }
+//        console.log("strData: " + strData)
+//
+//        var arr = strData.split(/\n|\\n|\r/);
+//
+//        var first = arr[0];
+//        console.log(first);
+//        var res = this.parseFirst(first);
+//
+//        for (var i = 1; i < arr.length; i++) {
+//            res.push(arr[i].split(this.delimiter));
+//        }
+//
+//        //console.log("parsed:");
+//        //console.log(JSON.stringify(res));
+//        //console.log(res);
+//        return res;
+//    }
+//    ,
     parseFirst: function (data) {
         console.log(data);
         var arr = data.split(this.delimiter);
@@ -575,9 +577,12 @@ function toBase(x) {
     return methodInOriginalQuestion(x, radix, A); // else not a power of 2, slower method
 }
 
-function convertBase(value) {
-    var from_range = "0123456789".split('');
-    var to_range = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+window.base10 = "0123456789".split('');
+window.base62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split('');
+
+function convertBase(value, from_range, to_range) {
+//    var from_range = "0123456789".split('');
+//    var to_range = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
     var from_base = from_range.length;
     var to_base = to_range.length;
 
@@ -585,7 +590,7 @@ function convertBase(value) {
 
     var dec_value = value.split('').reverse().reduce(function (carry, digit, index) {
         if (from_range.indexOf(digit) === -1)
-            throw new Error('Invalid digit `' + digit + '` for base ' + from_base + '.');
+            throw new Error('Invalid digit `' + digit + '` for base ' + from_base + ' in ' + value);
         return carry += from_range.indexOf(digit) * (Math.pow(from_base, index));
     }, 0);
 

@@ -3,7 +3,7 @@
 function showVotation(users) {
     $("#mainPage > div").hide();
     $("#votation").show();
-    
+
     //public is defined on load html
     //VOTATION BUTTONS:
     window.screenPoll.buttons = new VotationButtons(screenPoll);
@@ -130,11 +130,16 @@ var votationEvents_deviceShare = function (imgData, keyId, path) {
     return Device.share(imgData.substring(22), keyId, path);
 }
 
-function saveLocally(key, data) {
-    //console.log(data);
-    if (key) { //check is correct stores query
-        var time = (new Date()).getTime();
-        localStorage.setItem("key_" + key, JSON.stringify([time, data]));
+function saveLocally(key, obj) {
+    console.log("saveLocally " + key);
+    if (key) { //check is correct stores query        
+        if (key == screenPoll.key) {
+            for (var user in screenPoll.obj.users) {
+                obj.users[user] = screenPoll.obj.users[user];
+            }
+        }
+        
+        localStorage.setItem("key_" + key, JSON.stringify(obj));
     } else {
         console.log("WRONG KEY TO STORE: " + key);
     }

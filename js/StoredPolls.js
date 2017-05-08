@@ -38,9 +38,9 @@ function loadStoredPolls() {
         var keyId = arrayKey[1];
 
         //console.log(localStorage[storedKey])
-        var arrayTimeData;
+        var obj;
         try {
-            arrayTimeData = JSON.parse(localStorage[storedKey]);
+            obj = JSON.parse(localStorage.getItem(storedKey));
         } catch (e) {
             console.log("can't parse " + storedKey);
             continue;
@@ -49,12 +49,15 @@ function loadStoredPolls() {
         var div = $("<div class='votation' id='" + id + "'>");
 
         var query = "#" + id;
-        var obj = parseData(arrayTimeData[1], true);
+
         console.log(obj);
         //remove wrong parse        
         if (!obj) {
             $(query + " .loader").text(lang["error"]);
             localStorage.removeItem(storedKey);
+            continue;
+        }
+        if(!obj.options[0][1] || !obj.options[1][1]){
             continue;
         }
 
@@ -65,12 +68,13 @@ function loadStoredPolls() {
 //        }
 
         //all ok:
-        stored.append(div);
+        stored.append(div);        
         window.storedTable = new FillTable(query, obj, {removable: true});
         StoredPolls._events(keyId); //swipe events
 
         //TRY LOAD NOW FROM INTERNET
-        StoredPolls._loadWebPoll(keyId);
+        //StoredPolls._loadWebPoll(keyId); //load from internet ??
+        $("#stored_" + keyId + " .loader").hide();
 
         fontSize(query);
     }
@@ -83,36 +87,40 @@ function storedPolls_init() {
         var _this = this;
         console.log("StoredPolls._loadWebPoll");
 
-        var urlParts = getPathsFromKeyId(keyId);
-        var realPath = urlParts.realPath;
-        var realKey = urlParts.realKey;
+//        var urlParts = getPathsFromKeyId(keyId);
+//        var realPath = urlParts.realPath;
+//        var realKey = urlParts.realKey;
 
-        var cache = true;
-        loadAjaxKey(realPath + realKey, "", function (data) {            
+        loadAjaxKey(keyId, function (obj) {
+//        loadAjaxKey(realPath + realKey, "", function (obj) {
             var query = "#stored_" + keyId;
             $("#stored_" + keyId + " .loader").hide();
 
-            if (!data) {
+            if (!obj) {
                 console.log("error retrieving data");
-                var div = $(query);
-                div.off(".poll");
-                div.removeClass("votation clickable");
-                div.off("click");
-                div.css("opacity", 0.5);
-                div.prepend("<small class='error'>" + transl("e_retrievingData") + "</small>");
+//                var div = $(query);
+//                div.off(".poll");
+//                div.removeClass("votation clickable");
+//                div.off("click");
+//                div.css("opacity", 0.5);
+//                div.prepend("<small class='error'>" + transl("e_retrievingData") + "</small>");
+                console.log(query);
+                $(query).hide();
+
                 return;
             }
 
-            //update new!
-            saveLocally(keyId, data);
-            var obj = parseData(data, true);
+            //update new!            
+//            var obj = parseData(data, true);
+
+            saveLocally(keyId, obj);
 
             window.storedTable = new FillTable(query, obj, {removable: true});
             _this._events(keyId);
             $(query + " .loader").hide();
 
             fontSize(query);
-        }, cache);
+        });
     };
 
     StoredPolls._events = function (keyId) {

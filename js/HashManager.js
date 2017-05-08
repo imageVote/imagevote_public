@@ -201,7 +201,7 @@ HashManager.prototype.resume = function () {
 HashManager.prototype.href = function (url) {
     if (Device || "localhost" == location.hostname) {
         //keep pathname:
-        this.deviceURL(url);
+        location.href = this.deviceURL(url);
     } else {
         location.href = location.origin + "/" + url;
     }

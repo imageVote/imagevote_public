@@ -294,7 +294,7 @@ VotationButtons.prototype.share = function (callback) {
 
     //at the end
     console.log("poll.json: " + poll.json);
-    saveLocally(keyId, poll.json);
+    saveLocally(keyId, poll.obj);
 };
 
 VotationButtons.prototype.save = function (action, callback, add, sub) {
@@ -407,9 +407,10 @@ VotationButtons.prototype.save = function (action, callback, add, sub) {
     switch (action) {
         case "update":
             var userArr = poll.obj.users[user.id];
-            sendJson = CSV.stringify([userArr]);
+            //sendJson = CSV.stringify([userArr]);
+            sendJson = user.id + "|" + JSON.stringify([userArr[1]]);
             poll.json += "\n" + sendJson;
-            saveLocally(poll.key, poll.json);
+            saveLocally(poll.key, poll.obj);
             break;
 
         case "create":
@@ -577,10 +578,10 @@ VotationButtons.prototype.createAjax = function (sendJson, callback) {
 //        error("PublicOnlyFromApp");
 //        return;
 //    }
-    
+
     var table = "private";
     var val = $(".publicCheck input").val();
-    if(val){
+    if (val) {
         table = localStorage.getItem("userLang");
     }
 
@@ -602,7 +603,7 @@ VotationButtons.prototype.addAjax = function (sendJson, callback, add, sub) {
 //        error("PublicOnlyFromApp");
 //        return;
 //    }
-        
+
     $.post(settings.corePath + "add.php", {
         userId: window.user.id,
         key: this.poll.key,
