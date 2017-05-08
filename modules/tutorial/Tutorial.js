@@ -75,12 +75,12 @@ Tutorial.prototype.stop = function () {
 Tutorial.prototype.locateHelper = function (queryDiv, value, target, func) {
     var text = transl(value);
 
-    var help = $("<div class='tutorial_helpDiv tutorial_selectable'><div data-lang='" + value + "'>" + text + "</div></div>");
+    var help = $("<div class='tutorial_helpDiv tutorial_selectable' data-lang='" + value + "'><div >" + text + "</div></div>");
     var helpContainer = $("<div id='tutorial_helpFilter'>");
     helpContainer.append(help);
 
     //text = text.replace(/\. /g, '.<br/><br/>').replace(/! /g, '.<br/><br/>');
-    help.html(text);
+    //help.html(text);
 
     $("#tutorial_helpFilter").remove();
 
