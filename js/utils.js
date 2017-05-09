@@ -111,7 +111,7 @@ function transl(txt) {
         //$("#errorLog").append("<div>lang function missing with: '" + txt + "'</div>");
         return txt;
     }
-    var res = lang[txt];
+    var res = (new TextFormat).decode(lang[txt]);
     if (!res) {
         res = txt;
     }
