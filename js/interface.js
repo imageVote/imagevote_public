@@ -50,6 +50,7 @@ function loadLanguage(path, callback) {
 
 //        try {
         //console.log(data)
+        var textFormat = new TextFormat();
         Papa.parse(data, {
             step: function (results) {
                 if (first) {
@@ -71,7 +72,7 @@ function loadLanguage(path, callback) {
                         result = results.data[0][1];
                     }
                     lang[key] = result;
-                    $("[data-lang='" + key + "']").html(result); //translate them!
+                    $("[data-lang='" + key + "']").html(textFormat.decode(result)); //translate them!
                 }
             },
             complete: function () {
