@@ -71,8 +71,8 @@ function loadLanguage(path, callback) {
                     if (!result) {
                         result = results.data[0][1];
                     }
-                    lang[key] = result;
-                    $("[data-lang='" + key + "']").html(textFormat.decode(result)); //translate them!
+                    lang[key] = textFormat.decode(result);
+                    $("[data-lang='" + key + "']").html(lang[key]); //translate them!
                 }
             },
             complete: function () {
@@ -95,7 +95,8 @@ function loadTranslations(refresh) {
         console.log("!window.lang");
         return;
     }
-
+    
+    var textFormat = new TextFormat();
     $("[data-lang]").each(function () {
         var textKey = $(this).attr("data-lang");
 
@@ -107,7 +108,7 @@ function loadTranslations(refresh) {
 
         var translation = window.lang[textKey];
         if (translation) {
-            $(this).html(translation);
+            $(this).html(textFormat.decode(translation));
         } else {
             $(this).html(textKey);
             console.log(textKey + " not have translation!");
