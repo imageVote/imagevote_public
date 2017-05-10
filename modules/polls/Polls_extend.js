@@ -180,11 +180,9 @@ Polls.prototype.request = function (idQ, individual) {
     console.log("post select " + table + " " + params);
     this.loading();
 
-    if (Device.simpleRequest) {
-        //prevent object not exists error
-        var func = this.window_name + ".requestCallback";
-        //Device.simpleRequest("parseSelect.php", params, "if(window." + func + ") " + func);
-        Device.parseSelect(table, lastId, id, "if(window." + func + ") " + func);
+    if (Device.parseSelect) {
+        var func = this.window_name + ".requestCallback"; //prevent object not exists error
+        Device.parseSelect(table, lastId, id, "if(window." + func + ") " + func); //prevent server usage for parse!
     } else {
         $.post(this.coreSelect, params, function (json) {
             _this.requestCallback(json);
@@ -338,7 +336,7 @@ Polls.prototype.previous = function (idQ) {
         this.idQ = i; //not save locally when 'previous'
         return storedPolls[i];
     }
-    
+
     //get previous polls
     if (idQ > 10) {
         this.request(idQ - 100);
@@ -429,7 +427,7 @@ Polls.prototype.load = function (poll, individual, back) {
 
         if (window.update_frequency && Math.random() * window.update_frequency < 1) {
             console.log("post update " + window.update_frequency);
-            if (Device.simpleRequest) {
+            if (Device.parseUpdate) {
                 //Device.simpleRequest("parseUpdate.php", params, _this.window_name + ".updateCallback");
                 Device.parseUpdate(table, poll.key, option, poll.key, idQ, _this.window_name + ".updateCallback");
             } else {
