@@ -63,7 +63,7 @@ function loadLanguage(path, callback) {
                     first = false;
                     return;
                 }
-
+                
                 var key = results.data[0][0];
                 if (key && key[0] !== "/") {
                     var result = results.data[0][pos];
