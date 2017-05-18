@@ -70,14 +70,19 @@ function loadAjaxKey(keyId, callback) {
         id = keyId.split("_")[1];
     }
 
-    $.post(url, {
-        id: id,
-        key: keyId,
-        table: table
-    }, function (json) {
-        console.log(json);
-        callback(json);
-    });
+    if (Device.simpleRequest) {
+        Device.simpleRequest(url, "id=" + id + "&key=" + keyId + "&table=" + table, "RequestPollByKeyCallback", "");
+
+    } else {
+        $.post(url, {
+            id: id,
+            key: keyId,
+            table: table
+        }, function (json) {
+            console.log(json);
+            callback(json);
+        });
+    }
 }
 
 function parseKeyPoll(json, keyId) {
