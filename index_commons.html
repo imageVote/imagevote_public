@@ -5,9 +5,10 @@
 <meta name="author" content="" />
 <!--<meta name="copyright" content="" />-->
 
-<link rel="stylesheet" type="text/css" href="~commons/libs/font-awesome/css/font-awesome.min.css">     
+<link rel="stylesheet" type="text/css" href="~commons/libs/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="~commons/styles/index.css"> 
 <link rel="stylesheet" type="text/css" href="~commons/styles/index_big_screen.css"> 
+<link rel="stylesheet" type="text/css" href="~commons/modules/modalBox/modalBox.css"> 
 
 <div class="wrapper">
     <div id="header">
@@ -70,7 +71,8 @@
         "~commons/js/parse.js",
         "~commons/libs/wrapText.js",
         "~commons/js/interface.js",
-        "~commons/js/ModalBox.js",
+        "~commons/modules/translate/Translate.js",
+        "~commons/modules/modalBox/ModalBox.js",
         "~commons/js/Events.js",
         "~commons/getCountryName.js",
         "~commons/modules/polls/Polls_extend.js",
@@ -135,6 +137,8 @@
     window.iPhone = ua.indexOf("iPhone") > -1 || ua.indexOf("iPod") > -1;
 
     require(["commons_dependencies"], function () { //dependencies needed
+        window.languagePaths = {'~lang': 1};
+        window.translate = new Translate();
         window.modalBox = new ModalBox();
         window.settings = new Settings();
         window.hashManager = new HashManager();
@@ -151,18 +155,18 @@
             Device.documentReady();
         }
 
-        //TRANSLATIONS:
+        //Languages
         var translations = 0;
-        loadLanguage("~lang", function () {
+        translate.loadLanguage("~lang", function () {
             translations++;
             if (translations >= 2) {
-                translateTags();
+                translate.translateTags();
             }
         });
-        loadLanguage("~commons/lang", function () {
+        translate.loadLanguage("~commons/lang", function () {
             translations++;
             if (translations >= 2) {
-                translateTags();
+                translate.translateTags();
             }
         });
 

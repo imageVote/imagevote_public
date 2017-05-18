@@ -58,7 +58,7 @@ function loadStoredPolls() {
             continue;
         }
         //prevent wrong version bugs
-        if(!obj.options || !obj.options[0][1] || !obj.options[1][1]){
+        if (!obj.options || !obj.options[0][1] || !obj.options[1][1]) {
             continue;
         }
 
@@ -69,7 +69,7 @@ function loadStoredPolls() {
 //        }
 
         //all ok:
-        stored.append(div);        
+        stored.append(div);
         window.storedTable = new FillTable(query, obj, {removable: true});
         StoredPolls._events(keyId); //swipe events
 
@@ -88,31 +88,19 @@ function storedPolls_init() {
         var _this = this;
         console.log("StoredPolls._loadWebPoll");
 
-//        var urlParts = getPathsFromKeyId(keyId);
-//        var realPath = urlParts.realPath;
-//        var realKey = urlParts.realKey;
+        loadAjaxKey(keyId, function (json) {
+            var obj = parseKeyPoll(json, keyId);
 
-        loadAjaxKey(keyId, function (obj) {
-//        loadAjaxKey(realPath + realKey, "", function (obj) {
             var query = "#stored_" + keyId;
             $("#stored_" + keyId + " .loader").hide();
 
             if (!obj) {
                 console.log("error retrieving data");
-//                var div = $(query);
-//                div.off(".poll");
-//                div.removeClass("votation clickable");
-//                div.off("click");
-//                div.css("opacity", 0.5);
-//                div.prepend("<small class='error'>" + transl("e_retrievingData") + "</small>");
                 console.log(query);
                 $(query).hide();
 
                 return;
             }
-
-            //update new!            
-//            var obj = parseData(data, true);
 
             saveLocally(keyId, obj);
 

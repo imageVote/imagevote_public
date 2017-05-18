@@ -29,59 +29,19 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
     console.log("requestPollByKey " + key);
 
     var urlParts = getPathsFromKeyId(key);
-//    var realPath = urlParts.realPath;
     this.poll.realKey = urlParts.realKey;
 
-//    var url = realPath + key;
-//    var params = "";
-//    if ("public" == urlParts.visible) {
-//        url = settings.keysPath + "get.php";
-//        params = "url=public/" + urlParts.countryPath + this.poll.realKey;
-//    }
-
-//    if ("private" == urlParts.visible || "public" == urlParts.visible) {
-//        console.log("url: " + realPath + " + " + this.poll.realKey);
-//        if (Device.simpleRequest) {
-//            //return on dataIsReady
-//            //console.log("Device.loadKeyData(" + key + ")");
-//            //Device.loadKeyData(key);            
-//            Device.simpleRequest(url, params, "new RequestPollByKeyCallback", "\\n");
-//
-//        } else {
-
-    loadAjaxKey(key, function (data) {
-//    loadAjaxKey(url, params, function (data) {
-        new RequestPollByKeyCallback(data);
+    loadAjaxKey(key, function (json) {
+        new RequestPollByKeyCallback(json);
     });
-//        }
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 
 //ON LOAD VOTATION AND STORED
+//only ajax, not Device
 function loadAjaxKey(keyId, callback) {
-//function loadAjaxKey(url, params, callback, findCache) {
-//    url = url.slice(0, -1);
-
-    // jquery not allows overrideMimeType
-//    var xhr = new XMLHttpRequest();
-//    if (!findCache) {
-//        params += "nocache=" + (new Date()).getTime();
-//    }
-//    xhr.open('GET', url); //absolute no cache
-//    xhr.onreadystatechange = function () {
-//        if (xhr.readyState === 4) {
-//            if (xhr.status === 200) {
-//                callback(xhr.responseText);
-//            } else {
-//                console.log("Error " + xhr.status + " occurred uploading your file.");
-//                callback(false);
-//            }
-//        }
-//    };
-//    // important 4 accents and, ñ, etc..
-//    xhr.overrideMimeType('text/plain; charset=ISO-8859-1');
-//    xhr.send(params);
 
 //    TODO: FROM SELECT.PHP
     var table = "";
@@ -115,59 +75,37 @@ function loadAjaxKey(keyId, callback) {
         key: keyId,
         table: table
     }, function (json) {
-        console.log(json)
+        console.log(json);
+        callback(json);
+    });
+}
 
-        var arr;
-        try {
-            arr = JSON.parse(json);
-        } catch (e) {
-            console.log("ERROR PARSING " + json);
-            callback(false);
-            return;
-        }
-        var res = arr[0];
+function parseKeyPoll(json, keyId) {
+    var arr;
+    try {
+        arr = JSON.parse(json);
+    } catch (e) {
+        console.log("ERROR PARSING " + json);
+        return false;
+    }
+    var res = arr[0];
 
-        //CASE PARSE 
-        if (!res && arr.results) {
-            console.log(arr);
-            var data = arr.results[0];
-            
-            if(!data){
-                callback(false);
-                return;
-            }
+    //CASE PARSE 
+    if (!res && arr.results) {
+        console.log(arr);
+        var data = arr.results[0];
 
-            var users = {};
-            var saved = localStorage.getItem("key_" + keyId);
-            if (saved) {
-                var saved_obj = JSON.parse(saved);
-                for (var user in saved_obj.users) {
-                    users[user] = saved_obj.users[user];
-                }
-            }
-
-            var obj = {
-                question: "",
-                options: [
-                    [0, data.first, data.first_nvotes],
-                    [1, data.second, data.second_nvotes]
-                ],
-                style: {},
-                users: users
-            };
-
-            callback(obj);
-            saveLocally(keyId, obj);
-            return;
+        if (!data) {
+            return false;
         }
 
-        if (!res) {
-            callback(false);
-            return;
+        var table = "";
+        if (keyId.indexOf("_") > -1) {
+            var lang = keyId.split("_")[0];
+            table = "preguntas" + lang.toUpperCase();
+        } else if (keyId.indexOf("-") > -1) {
+            table = keyId.split("-")[0];
         }
-
-        var data = res.data.split("|");
-        var opts = JSON.parse(data[1]);
 
         var users = {};
         var saved = localStorage.getItem("key_" + keyId);
@@ -176,34 +114,61 @@ function loadAjaxKey(keyId, callback) {
             for (var user in saved_obj.users) {
                 users[user] = saved_obj.users[user];
             }
+        } else if (table) {
+            var votes = JSON.parse(localStorage.getItem(table))[data.idQ].a;
+            console.log("votes?: " + votes);
+            users[window.user.id] = votes;
         }
+        console.log(users);
 
         var obj = {
-            question: data[0],
+            question: "",
             options: [
-                [0, opts[0], res.v0],
-                [1, opts[1], res.v1]
+                [0, data.first, data.first_nvotes],
+                [1, data.second, data.second_nvotes]
             ],
-            style: data[2],
+            style: {},
             users: users
         };
 
-        callback(obj);
+        return obj;
         saveLocally(keyId, obj);
-    });
+        return;
+    }
 
+    if (!res) {
+        return false;
+    }
+
+    var data = res.data.split("|");
+    var opts = JSON.parse(data[1]);
+
+    var users = {};
+    var saved = localStorage.getItem("key_" + keyId);
+    if (saved) {
+        var saved_obj = JSON.parse(saved);
+        for (var user in saved_obj.users) {
+            users[user] = saved_obj.users[user];
+        }
+    }
+
+    var obj = {
+        question: data[0],
+        options: [
+            [0, opts[0], res.v0],
+            [1, opts[1], res.v1]
+        ],
+        style: data[2],
+        users: users
+    };
+
+    return obj;
+    saveLocally(keyId, obj);
 }
-
-////device (allow run directly from android url scratch)
-//function dataIsReady(keyId) {
-//    //huge js codes cant be sent with loadUrl, only Device function
-//    var data = window.Device.getKeyData(keyId);
-//    new RequestPollByKeyCallback(keyId, data);
-//}
 
 ///////////////////////////////////////////////////////////////////////////////
 
-var RequestPollByKeyCallback = function (obj) {
+var RequestPollByKeyCallback = function (json) {
     var _this = this;
 //    this.data = data;
     this.query = "#votation .votationBox";
@@ -215,8 +180,10 @@ var RequestPollByKeyCallback = function (obj) {
     if (!this.poll) {
         this.poll = new LoadedPoll();
     }
+    console.log(this.poll);
 
     $("#errorLog").html("");
+    var obj = parseKeyPoll(json, this.poll.key);
 
     if (!obj) {
         if (alternative.keysPath && settings.keysPath != alternative.keysPath) {

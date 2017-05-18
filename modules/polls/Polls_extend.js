@@ -33,8 +33,8 @@ Polls.prototype.construct = function (query, idQ, window_name, lang) {
 
     this.navigationEvents();
 
-    loadLanguage("~commons/modules/polls/lang", function () {
-        translateTags();
+    translate.loadLanguage("~commons/modules/polls/lang", function () {
+        translate.translateTags();
         fontSize(); //TODO: stydy where call this
     });
 
@@ -145,6 +145,7 @@ Polls.prototype.game_config = function () {
 };
 
 Polls.prototype.request = function (idQ, individual) {
+    console.log("idQ: " + idQ + ", individual: " + individual);
     if ("undefined" == typeof idQ || isNaN(idQ)) {
         console.log("!request() " + idQ);
         return;
@@ -164,25 +165,71 @@ Polls.prototype.request = function (idQ, individual) {
         return false;
     }
 
-    var id = "";
-    var lastId = "";
-
-    var params = "table=" + table;
-    if (individual) {
-        id = idQ;
-        params += "&id=" + idQ;
-    } else {
-        lastId = idQ;
-        params += "&lastId=" + idQ;
+    if (!individual) {
+        this.getSortedPolls(table);
+        return;
     }
+
+    var params = "table=" + table + "&id=" + idQ;
     this.idQ = idQ;
 
-    console.log("post select " + table + " " + params);
+    console.log("post select " + params);
     this.loading();
 
     if (Device.parseSelect) {
         var func = this.window_name + ".requestCallback"; //prevent object not exists error
-        Device.parseSelect(table, lastId, id, "if(window." + func + ") " + func); //prevent server usage for parse!
+        Device.parseSelect(table, "", idQ, "if(window." + func + ") " + func); //prevent server usage for parse!
+    } else {
+        $.post(this.coreSelect, params, function (json) {
+            _this.requestCallback(json);
+        });
+    }
+};
+
+Polls.prototype.getSortedPolls = function (table, file) {
+    var _this = this;
+    var params = "table=" + table;
+    if (file > 1) {
+        params += "&file=" + file;
+    }
+    $.post("core/sql_sort.php", params, function (json) {
+        _this.requests(json);
+    });
+};
+
+Polls.prototype.requests = function (json_arr) {
+    var arr = json_arr.split(",").filter(String);
+    var length = arr.length;
+    for (var key in gamePolls) {
+        var index = arr.indexOf(gamePolls[key].id);
+        if (index > -1) {
+            arr.split(index, 1);
+            continue;
+        }
+    }
+
+    var table = this.gameDB();
+
+    //get next file keys
+    if (!arr.length) {
+        if (length < 99) {
+            return false;
+        }
+        if (!this.file) {
+            this.file = 1;
+        }
+        this.file++;
+        getSortedPolls(table, this.file);
+        return;
+    }
+
+    //request
+    var params = "table=" + table + "&arrIds=" + arr.join(",");
+
+    var _this = this;
+    if (Device.parseSelect) {
+        var func = this.window_name + ".requestCallback"; //prevent object not exists error
+        Device.parseSelect(table, "", idQ, "if(window." + func + ") " + func); //prevent server usage for parse!
     } else {
         $.post(this.coreSelect, params, function (json) {
             _this.requestCallback(json);
@@ -406,6 +453,14 @@ Polls.prototype.load = function (poll, individual, back) {
             return;
         }
 
+        //MIX (ON TRANSITION):
+        if (table.indexOf("preguntas") > -1) {
+            table = table.replace("preguntas", "");
+            if (!table) {
+                table = "es";
+            }
+        }
+
         var idQ = poll.id;
         var options = JSON.stringify([option]);
         var params = "table=" + table + "&id=" + poll.key + "&add=" + options + "&idQ=" + idQ + "&userId=" + window.user.id + "&data=" + options;
@@ -425,17 +480,17 @@ Polls.prototype.load = function (poll, individual, back) {
 
         _this.update_idQ(idQ + 1);
 
-        if (window.update_frequency && Math.random() * window.update_frequency < 1) {
-            console.log("post update " + window.update_frequency);
-            if (Device.parseUpdate) {
-                //Device.simpleRequest("parseUpdate.php", params, _this.window_name + ".updateCallback");
-                Device.parseUpdate(table, poll.key, option, poll.key, idQ, _this.window_name + ".updateCallback");
-            } else {
-                $.post(_this.coreUpdate, params, function (json) {
-                    _this.updateCallback(json);
-                });
-            }
+        //if (window.update_frequency && Math.random() * window.update_frequency < 1) {
+        //console.log("post update " + window.update_frequency);
+        if (Device.parseUpdate) {
+            //Device.simpleRequest("parseUpdate.php", params, _this.window_name + ".updateCallback");
+            Device.parseUpdate(table, poll.key, option, poll.key, idQ, _this.window_name + ".updateCallback");
+        } else {
+            $.post(_this.coreUpdate, params, function (json) {
+                _this.updateCallback(json);
+            });
         }
+        //}
 
         //Stars:
         _this.answers++;
@@ -740,6 +795,16 @@ Polls.prototype.gameDB = function () {
     if (this.request_db) {
         table = this.request_db;
     }
+
+//    //repare: only on transition!
+//    if(table.indexOf("preguntas") > -1){
+//        table = table.replace("preguntas", "");
+//        if(!table){
+//            table = "es";
+//        }
+//    }
+
+    console.log("gameDB: " + table);
     return table;
 };
 

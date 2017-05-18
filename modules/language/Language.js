@@ -98,8 +98,9 @@ Language.prototype.loadLanguage = function (lang) {
     }
 
     localStorage.setItem("userLang", lang[0].toLowerCase());
-    localStorage.setItem("game_db", lang[3]);
-    translateTags(true);
+    //localStorage.setItem("game_db", lang[3]);
+    localStorage.setItem("game_db", lang[0]);
+    translate.translateTags(true);
 
     this.remove();
     if (this.callback) {

@@ -32,7 +32,7 @@ var VotationButtons = function (poll, $dom) {
 
     $dom.append(votationButtons);
 
-    loadTranslations();
+    translate.loadTranslations();
 };
 
 VotationButtons.prototype.init = function () {
