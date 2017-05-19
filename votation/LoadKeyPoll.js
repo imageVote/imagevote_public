@@ -68,11 +68,7 @@ function loadPollByKey(keyId, callback) {
     }
 
     if (Device.simpleRequest) {
-<<<<<<< HEAD
-        Device.simpleRequest(url, "id=" + id + "&key=" + keyId + "&table=" + table, callback, "");
-=======
         Device.simpleRequest(url, "id=" + id + "&key=" + keyId + "&table=" + table, "new " + callback, "");
->>>>>>> origin/master
 
     } else {
         $.post("core/" + url, {
@@ -236,7 +232,7 @@ var RequestPollByKeyCallback = function (json) {
         _this.checkCountry(keyId);
 
         //this.uploadImage(keyId, obj);
-        
+
         if (location.hash.indexOf("/share_")) {
             var share = new Share(poll);
             share.do();
