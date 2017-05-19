@@ -234,7 +234,7 @@ var RequestPollByKeyCallback = function (json) {
         //this.uploadImage(keyId, obj);
 
         if (location.hash.indexOf("/share_")) {
-            var share = new Share(poll);
+            var share = new Share(_this.poll);
             share.do();
         } else {
             loaded();
