@@ -1,13 +1,12 @@
 
 var VotationButtons = function (poll, $dom) {
+    var _this = this;
     console.log("VotationButtons()")
 
     this.poll = poll;
     this.$imageDOM = $("#mainPage");
 
-    this.savingPoll = false;
     this.key_waiting = 0;
-    this._ajaxKeyWaiting = 0;
 
     this.$sendButton = $("<button id='send' class='share'><em></em><span data-lang='Share'></span></button>");
     this.$cancelButton = $("<button id='cancel' data-lang='Cancel'>");
@@ -33,6 +32,14 @@ var VotationButtons = function (poll, $dom) {
     $dom.append(votationButtons);
 
     translate.loadTranslations();
+
+    this.save = new Save(poll, this.$imageDOM, function () {
+        //done
+        
+    }, function () {
+        //fail
+        _this.$sendButton.removeAttr("disabled");
+    });
 };
 
 VotationButtons.prototype.init = function () {
@@ -64,7 +71,7 @@ VotationButtons.prototype.sendButtonEvent = function () {
             obj.users[_this.user.id] = getUserArray(_this.user);
 
             //.SaveAndShare class includes VotationButtons.share!
-            _this.save("create", function (done) {
+            _this.save.do("create", function (done) {
                 if (false === done) {
                     loaded();
                     return;
@@ -74,15 +81,15 @@ VotationButtons.prototype.sendButtonEvent = function () {
 
         } else if (!_this.$sendButton.hasClass("share")) { //class is save
             _this.$sendButton.attr("disabled", "disabled");
-            _this.save("update", function (done) {
+            _this.save.do("update", function (done) {
                 loaded();
                 if (false !== done) {
-                    saveToShare();
+                    _this.saveToShare();
                 }
             });
 
         } else { //share
-            _this.share(function () {
+            _this.share.do(function () {
                 loaded();
             });
         }
@@ -224,282 +231,6 @@ VotationButtons.prototype.usersButtonEvent = function () {
     });
 };
 
-//not pass obj for function. this is a Device function.
-VotationButtons.prototype.share = function (callback) {
-    var _this = this;
-    var poll = this.poll;
-    console.log(poll);
-    var _args = arguments;
-    loading();
-
-    console.log("VotationButtons.share");
-    if (!Device.share && !poll.key) {
-        //if not seems respond
-        if (this._ajaxKeyWaiting > 10) {
-            this._ajaxKeyWaiting = 0;
-            error("missingAjaxKey");
-            if (callback) {
-                callback(false);
-            }
-            return;
-        }
-        this._ajaxKeyWaiting++;
-
-        setTimeout(function () {
-            console.log("waiting ajax key..");
-            _this.share.apply(this, _args);
-        }, 700);
-        return;
-    }
-    this._ajaxKeyWaiting = 0;
-
-    console.log("country = " + poll.country);
-    var keyId = poll.key;
-    var divQuery = "#image .image";
-
-    $("#image").remove();
-    var div = $("<div id='image'><hr/><div class='image'></div></div>");
-    this.$imageDOM.append(div);
-
-    var type = "";
-    if ($(poll.divQuery).hasClass("show")) {
-        type = "show";
-    }
-
-    var width = null;
-    getCanvasImage(divQuery, poll.obj, keyId, width, type, function (imgData) {
-        loaded();
-        if (!imgData) {
-            error("!imgData on getCanvasImage");
-            return;
-        }
-        if (Device.share) {
-            div.hide();
-            var path = "";
-            if (window.language) {
-                path = language.shareUrl + "/";
-            }
-            votationEvents_deviceShare(imgData, keyId, path); //TODO: when not send default location?
-
-        } else {
-            $("#stored").addClass("hidden");
-            div.show();
-            //votationEvents_saveImageLocally(keyId, imgData);
-        }
-
-        if (callback) {
-            callback(true);
-        }
-    });
-
-    //at the end
-    console.log("poll.json: " + poll.json);
-    saveLocally(keyId, poll.obj);
-};
-
-VotationButtons.prototype.save = function (action, callback, add, sub) {
-    var _this = this;
-    console.log("VotationButtons.save screenPoll");
-
-    var poll = this.poll;
-    var user = window.user;
-
-    if (!poll._public) {
-        //name is mandatory for prevent troll's confusion votes, and disagree results
-        var inputName = $("#userNamePoll").val() || localStorage.getItem("userName");
-
-        if (inputName) {
-            if (!user) {
-                user = {};
-            }
-            user.nm = inputName;
-            if (window.Device) {
-                if (window.isAndroid) {
-                    user.from = "android";
-                } else {
-                    user.from = "device";
-                }
-            } else {
-                user.from = browser();
-            }
-            updateUserName(inputName);
-
-        } else {
-            var userName = localStorage.getItem("userName");
-            modalBox.input(transl("myName"), userName, function (val) {
-                updateUserName(val);
-                _this.save(action, callback);
-            });
-
-            if (callback) {
-                callback(false);
-            }
-            return;
-        }
-
-//        if (!poll.key) {
-//            if (checkConnection()) {
-//                if (this.key_waiting > 10) {
-//                    loaded();
-//                    flash("server connection is taking too long");
-//                    return;
-//                }
-//
-//                console.log("no key yet");
-//                setTimeout(function () {
-//                    _this.save(action, callback);
-//                }, 500);
-//
-//                this.key_waiting++;
-//                return;
-//            }
-//            //stop
-//            if (callback) {
-//                callback(false);
-//            }
-//            return;
-//        }
-    }
-
-    if (!this.savingPoll) {
-        //loading class for group and work with all loadings on page
-        loading();
-        this.savingPoll = true;
-    }
-
-    //before change anything
-    //if existing votation is public
-    console.log("saving key: '" + poll.key + "'");
-    if (window.Device && poll.key) {
-        if ("_" == poll.key[0]) { //error
-            notice(poll.key);
-
-        } else if (!poll.key[0] == "-") { //not private key
-            console.log("not private key: " + poll.key);
-            //if create poll
-            if (!window.publicId) {
-                this.notSave(2);
-
-                //can't save votation if not publicId is working
-                console.log("ASKING PHONE " + poll.key);
-                askPhone();
-
-                //stop
-                if (callback) {
-                    callback(false);
-                }
-                return;
-            }
-
-            poll.isPublic("true");
-            //remove old not-public user
-            if (window.phoneId && poll.obj.users[phoneId]) {
-                delete poll.obj.users[phoneId];
-            }
-        }
-    }
-
-    this.saveEventCallback = callback;
-    console.log(action + ' == action');
-
-    //update before ask phone
-    var sendJson = "";
-    switch (action) {
-        case "update":
-            var userArr = poll.obj.users[user.id];
-            //sendJson = CSV.stringify([userArr]);
-            sendJson = user.id + "|" + JSON.stringify([userArr[1]]);
-            poll.json += "\n" + sendJson;
-            saveLocally(poll.key, poll.obj);
-            break;
-
-        case "create":
-            sendJson = poll.json = pollToCSV(poll.obj);
-            break;
-
-        default:
-            console.log("error on action: " + action);
-            if (callback) {
-                callback(false);
-            }
-            return;
-    }
-
-    //is shared before
-    if (this.lastSendJson == sendJson) {
-        _this.saveCallback(this.poll.key);
-        return;
-    }
-    this.lastSendJson = sendJson;
-
-    //AJAX
-    switch (action) {
-        case "update":
-            if (!Device.save) {
-                this.addAjax(sendJson, function (res) {
-                    _this.saveCallback(res);
-                }, add, sub);
-
-            } else {
-                //only way of public - public-id has to be updated on load
-                this.saveDevice(action, sendJson, "screenPoll.buttons.saveCallback");
-            }
-            break;
-
-        case "create":
-            if (!Device.save) {
-                this.createAjax(sendJson, function (res) {
-                    _this.saveCallback(res);
-                });
-
-            } else {
-                //only way of public - public-id has to be updated on load
-                this.saveDevice(action, sendJson, "screenPoll.buttons.saveCallback");
-            }
-            break;
-    }
-
-    //if new
-    $("#image").remove();
-    var votes = poll.obj.users[user.id][1];
-    saveDefaultValues(votes);
-};
-
-//device calls:
-VotationButtons.prototype.saveCallback = function (res) {
-    console.log("saveCallback " + res);
-    this.poll.key = res;
-
-    //remove any stored cache
-    if (this.poll.key) {
-        var urlParts = getPathsFromKeyId(this.poll.key);
-        var url = urlParts.realPath + urlParts.realKey;
-        //1 DAY with no cache (don't do less, older file could will be cached!)
-        var cacheTimeout = (new Date()).getTime() + 86400000;
-        localStorage.setItem(url, cacheTimeout);
-
-        if (this.saveEventCallback) {
-            this.saveEventCallback();
-        }
-    }
-
-    if (this.$sendButton.hasClass("saveAndShare")) {
-        this.share(function () {
-            loaded();
-            this.savingPoll = false;
-        });
-    } else {
-        loaded();
-        this.savingPoll = false;
-    }
-
-    //saveLocally(key, this.poll.json);
-};
-
-VotationButtons.prototype.notSave = function (why) {
-    console.log("VotationButtons.notSave: " + why);
-    this.$sendButton.removeAttr("disabled");
-};
 
 VotationButtons.prototype.saveToShare = function () {
     if (this.$sendButton.hasClass("saveAndShare")) {
@@ -526,159 +257,4 @@ VotationButtons.prototype.shareToSave = function () {
     this.$sendButton.removeAttr("disabled");
     this.$sendButton.removeClass();
     this.$sendButton.find("span").text(transl("Save"));
-};
-
-// CONNECTIVITY:
-
-//VotationButtons.prototype.saveAjax = function (action, sendJson, callback, add, remove) {
-//    if ("true" == this.poll._public) {
-//        //but let share!
-//        //error("Vote on public polls whithout APP is forbidden.");
-//        error("PublicOnlyFromApp");
-//        return;
-//    }
-//
-//    $.ajax({
-//        url: settings.corePath + "update.php",
-//        method: "POST",
-//        cache: false,
-//        data: {
-//            action: action,
-//            id: window.user.id,
-//            key: this.poll.key,
-//            value: sendJson,
-//            add: JSON.stringify(add),
-//            remove: JSON.stringify(remove)
-//        }
-//    }).done(function (res) {
-//        console.log(res);
-//        if (!res) {
-//            error("errorAjaxResponse");
-//            //TODO ERROR ?
-//            return;
-//        }
-//        if (callback) {
-//            callback(res);
-//        }
-//
-//    }).error(function (res) {
-//        console.log(res);
-//        console.log("can't connect with ajax");
-//        error("votationNotSaved");
-//
-//        //debug
-//        saveToShare();
-//        this.poll.key = " ";
-//    });
-//};
-
-VotationButtons.prototype.createAjax = function (sendJson, callback) {
-    var _this = this;
-//    if ("true" == this.poll._public) {
-//        error("PublicOnlyFromApp");
-//        return;
-//    }
-
-    var table = "private";
-    var val = $(".publicCheck input").val();
-    if (val) {
-        table = localStorage.getItem("userLang");
-    }
-
-    $.post(settings.corePath + "create.php", {
-        id: window.user.id,
-        key: this.poll.key,
-        data: sendJson,
-        table: table
-    }).done(function (res) {
-        _this.ajaxDone(res, callback);
-    }).error(function (res) {
-        _this.ajaxError(res);
-    });
-};
-
-VotationButtons.prototype.addAjax = function (sendJson, callback, add, sub) {
-    var _this = this;
-//    if ("true" == this.poll._public) {
-//        error("PublicOnlyFromApp");
-//        return;
-//    }
-
-    $.post(settings.corePath + "add.php", {
-        userId: window.user.id,
-        key: this.poll.key,
-        data: sendJson,
-        add: JSON.stringify(add),
-        sub: JSON.stringify(sub)
-    }).done(function (res) {
-        _this.ajaxDone(res, callback);
-    }).error(function (res) {
-        _this.ajaxError(res);
-    });
-};
-
-VotationButtons.prototype.ajaxDone = function (res, callback) {
-    console.log(res);
-    if (!res) {
-        error("errorAjaxResponse");
-        //TODO ERROR ?
-        return;
-    }
-    if (callback) {
-        callback(res);
-    }
-};
-
-VotationButtons.prototype.ajaxError = function (res) {
-    console.log(res);
-    console.log("can't connect with ajax");
-    error("votationNotSaved");
-
-    //debug
-    saveToShare();
-    this.poll.key = " ";
-};
-
-VotationButtons.prototype.saveDevice = function (action, sendJson, callback) {
-    var _this = this;
-
-    var _public = "" + this.poll._public;
-    var country = this.poll.country;
-    var key = this.poll.key;
-
-    if (!this.keyWaiting) {
-        this.keyWaiting = 0;
-    }
-
-    //FORCE WAIT KEY
-//    if (!key && !_public && "create" == action) { //check external key!
-//        if (this.keyWaiting > 8) {
-//            flash(transl("waitingKeyExpired"));
-//            return;
-//        }
-//
-//        //wait 4 key arrive
-//        setTimeout(function () {
-//            _this.saveDevice(action, sendJson, callback);
-//        }, 700);
-//
-//        console.log("looking for new key");
-//        this.keyWaiting++;
-//        return;
-//    }
-//    this.keyWaiting = 0;
-
-    //localStorage.setItem("unusedKey", "");
-    var realKey = "";
-    if (key) {
-        var urlParts = getPathsFromKeyId(key);
-        realKey = this.poll.realKey = urlParts.realKey;
-    }
-
-    //key value is only added on create()
-    if (!window.lastKeyAsk) {
-        window.lastKeyAsk = 0;
-    }
-    console.log("callback: " + callback);
-    Device.save(action, sendJson, window.lastKeyAsk, realKey, _public, country, callback);
 };

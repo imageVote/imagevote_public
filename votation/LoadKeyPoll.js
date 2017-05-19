@@ -31,17 +31,14 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
     var urlParts = getPathsFromKeyId(key);
     this.poll.realKey = urlParts.realKey;
 
-    loadAjaxKey(key, function (json) {
-        new RequestPollByKeyCallback(json);
-    });
-
+    loadPollByKey(key, "RequestPollByKeyCallback");
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 
 //ON LOAD VOTATION AND STORED
 //only ajax, not Device
-function loadAjaxKey(keyId, callback) {
+function loadPollByKey(keyId, callback) {
 
 //    TODO: FROM SELECT.PHP
     var table = "";
@@ -63,24 +60,25 @@ function loadAjaxKey(keyId, callback) {
     console.log("key64: " + key64)
     var id = convertBase(key64, window.base62, window.base10);
 
-    var url = "core/select.php";
+    var url = "select.php";
     if (keyId.indexOf("_") > -1) {
-        url = "core/parseSelect.php";
+        url = "parseSelect.php";
         table = "preguntas" + keyId.split("_")[0];
         id = keyId.split("_")[1];
     }
 
     if (Device.simpleRequest) {
-        Device.simpleRequest(url, "id=" + id + "&key=" + keyId + "&table=" + table, "RequestPollByKeyCallback", "");
+        Device.simpleRequest(url, "id=" + id + "&key=" + keyId + "&table=" + table, "new " + callback, "");
 
     } else {
-        $.post(url, {
+        $.post("core/" + url, {
             id: id,
             key: keyId,
             table: table
         }, function (json) {
             console.log(json);
-            callback(json);
+//            callback(json);
+            new window[callback](json);
         });
     }
 }
@@ -119,10 +117,16 @@ function parseKeyPoll(json, keyId) {
             for (var user in saved_obj.users) {
                 users[user] = saved_obj.users[user];
             }
+
         } else if (table) {
-            var votes = JSON.parse(localStorage.getItem(table))[data.idQ].a;
-            console.log("votes?: " + votes);
-            users[window.user.id] = votes;
+            var local = JSON.parse(localStorage.getItem(table));
+            if (local) {
+                var poll = local[data.idQ];
+                if (poll) {
+                    console.log("votes?: " + poll.a);
+                    users[window.user.id] = poll.a;
+                }
+            }
         }
         console.log(users);
 
@@ -228,13 +232,20 @@ var RequestPollByKeyCallback = function (json) {
         _this.checkCountry(keyId);
 
         //this.uploadImage(keyId, obj);
+        
+        if (location.hash.indexOf("/share_")) {
+            var share = new Share(poll);
+            share.do();
+        } else {
+            loaded();
+        }
     });
 };
 
 //parse ajax by userId
 RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
 //    var obj = this.poll.obj = parseData(data);
-    var obj = this.poll.obj
+    var obj = this.poll.obj;
 
     if (!obj) {
         console.log("error parsing object: " + obj);
