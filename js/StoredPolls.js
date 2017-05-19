@@ -84,33 +84,33 @@ function loadStoredPolls() {
 function storedPolls_init() {
     window.StoredPolls = {};
 
-    StoredPolls._loadWebPoll = function (keyId) {
-        var _this = this;
-        console.log("StoredPolls._loadWebPoll");
-
-        loadAjaxKey(keyId, function (json) {
-            var obj = parseKeyPoll(json, keyId);
-
-            var query = "#stored_" + keyId;
-            $("#stored_" + keyId + " .loader").hide();
-
-            if (!obj) {
-                console.log("error retrieving data");
-                console.log(query);
-                $(query).hide();
-
-                return;
-            }
-
-            saveLocally(keyId, obj);
-
-            window.storedTable = new FillTable(query, obj, {removable: true});
-            _this._events(keyId);
-            $(query + " .loader").hide();
-
-            fontSize(query);
-        });
-    };
+//    StoredPolls._loadWebPoll = function (keyId) {
+//        var _this = this;
+//        console.log("StoredPolls._loadWebPoll");
+//
+//        loadPollByKey(keyId, function (json) {
+//            var obj = parseKeyPoll(json, keyId);
+//
+//            var query = "#stored_" + keyId;
+//            $("#stored_" + keyId + " .loader").hide();
+//
+//            if (!obj) {
+//                console.log("error retrieving data");
+//                console.log(query);
+//                $(query).hide();
+//
+//                return;
+//            }
+//
+//            saveLocally(keyId, obj);
+//
+//            window.storedTable = new FillTable(query, obj, {removable: true});
+//            _this._events(keyId);
+//            $(query + " .loader").hide();
+//
+//            fontSize(query);
+//        });
+//    };
 
     StoredPolls._events = function (keyId) {
         var _this = this;

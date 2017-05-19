@@ -73,10 +73,10 @@ var HashManager = function () {
             }
         }
     });
-}
+};
 
 HashManager.prototype.newPollView = function () {
-    console.log("newPollView")
+    console.log("HashManager.newPollView")
     if ($("#body").hasClass("pollsView")) {
         $("#body").removeClass("pollsView");
         $("#pollsHeader").hide();
