@@ -35,7 +35,7 @@ var VotationButtons = function (poll, $dom) {
 
     this.save = new Save(poll, this.$imageDOM, function () {
         //done
-        
+
     }, function () {
         //fail
         _this.$sendButton.removeAttr("disabled");
@@ -89,7 +89,8 @@ VotationButtons.prototype.sendButtonEvent = function () {
             });
 
         } else { //share
-            _this.share.do(function () {
+            var share = new Share(this.poll, this.$imageDOM);
+            share.do(function () {
                 loaded();
             });
         }

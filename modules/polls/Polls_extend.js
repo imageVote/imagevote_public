@@ -4,6 +4,10 @@ var Polls = function () {
 };
 
 Polls.prototype.construct = function (query, idQ, window_name, lang) {
+    //not load if sharing!
+    if (location.hash.indexOf("share=")) {
+        return;
+    }
     console.log("new Poll " + idQ + " " + lang);
 
     //default (in case server data failed)
@@ -595,18 +599,15 @@ Polls.prototype.share = function (obj, idQ) {
         divQuery: ".gameContainer"
     };
 
-    this.votationButtons.share(function (done) {
-        _this.loaded("this.gamePoll.votatioButtons.share");
-        if (!done) {
-            console.log("ERROR");
-            return;
-        }
-
+    var share = new Share();
+    share.do(function () {
         if (!window.Device) {
             setTimeout(function () {
                 $(_this.query).after($("#image"));
             }, 1);
         }
+        
+        _this.loaded("this.gamePoll.votatioButtons.share");
     });
 };
 

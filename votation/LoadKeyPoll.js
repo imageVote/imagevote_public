@@ -215,6 +215,7 @@ var RequestPollByKeyCallback = function (json) {
     this.poll.obj = obj;
 
     this.parseUserVotes(function (obj) {
+
         //TODO: or iPhone on future
         if (!window.isAndroid) {
             noticeBrowser();
@@ -223,22 +224,46 @@ var RequestPollByKeyCallback = function (json) {
 //                noticePublic();
 //            }
         }
+        var keyId = _this.poll.key;
+        _this.checkCountry(keyId);
+
+        if (location.hash.indexOf("share=") > -1) {
+            loading();
+            console.log("share in " + location.hash);
+            
+            var arr = location.hash.split("share=")[1].split("&")[0].split("_");
+            for (var i = 0; i < arr.length; i++) {
+                console.log("option " + i + ": " + arr[i]);
+                _this.poll.obj.options[i][2] = arr[i];
+            }
+
+            var show;
+            if (arr.length) {
+                show = true;
+            }
+            var share = new Share(_this.poll);
+            share.do(function () {
+                if (Device.close) {
+                    Device.close("sharing");
+                }
+            }, show);
+
+            return false;
+        }
+
+        console.log(obj)
+        window.loadedTable = new FillTable(this.query, obj);
+        if (!window.Device) {
+            //add sharing in browser:
+            shareIntent.checkShareEnvirontment(loadedTable.$div.find(".option"), obj.options);
+        }
 
         // + buttons
         showVotation(obj.users);
         _this.user = _this.getUser(obj);
 
-        var keyId = _this.poll.key;
-        _this.checkCountry(keyId);
-
         //this.uploadImage(keyId, obj);
-
-        if (location.hash.indexOf("/share_")) {
-            var share = new Share(_this.poll);
-            share.do();
-        } else {
-            loaded();
-        }
+        loaded();
     });
 };
 
@@ -284,13 +309,6 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
         }
         //ownerDiv.append(".");
         $("#votation").prepend(ownerDiv);
-    }
-
-    console.log(obj)
-    window.loadedTable = new FillTable(this.query, obj);
-    if (!window.Device) {
-        //add sharing in browser:
-        shareIntent.checkShareEnvirontment(loadedTable.$div.find(".option"), obj.options);
     }
 
     callback(obj);

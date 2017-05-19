@@ -6,22 +6,19 @@ var Share = function (poll, $imageDOM) {
     this._ajaxKeyWaiting = 0;
 };
 
-Share.prototype.do = function (callback) {
+Share.prototype.do = function (callback, forceShow) {
     var _this = this;
 
     var poll = this.poll;
     console.log(poll);
     loading();
 
-    console.log("VotationButtons.share");
+    console.log("Share.do");
     if (!Device.share && !poll.key) {
         //if not seems respond
         if (this._ajaxKeyWaiting > 10) {
             this._ajaxKeyWaiting = 0;
             error("missingAjaxKey");
-            if (callback) {
-                callback(false);
-            }
             return;
         }
         this._ajaxKeyWaiting++;
@@ -45,7 +42,7 @@ Share.prototype.do = function (callback) {
     }
 
     var type = "";
-    if ($(poll.divQuery).hasClass("show")) {
+    if ($(poll.divQuery).hasClass("show") || forceShow) {
         type = "show";
     }
 

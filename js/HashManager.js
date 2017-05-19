@@ -151,8 +151,8 @@ HashManager.prototype.load = function (hash) {
         hash = "home";
     }
 
-    if (hash.search(/^key=/i) > -1) {
-        screenPoll.key = hash.split("=")[1];
+    if (hash.indexOf("key=") > -1) {
+        screenPoll.key = hash.split("key=")[1];
         window.keyPoll = new LoadKeyPoll(screenPoll);
 
     } else {
