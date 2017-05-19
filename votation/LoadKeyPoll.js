@@ -31,9 +31,7 @@ LoadKeyPoll.prototype.requestPollByKey = function () {
     var urlParts = getPathsFromKeyId(key);
     this.poll.realKey = urlParts.realKey;
 
-    loadAjaxKey(key, function (json) {
-        new RequestPollByKeyCallback(json);
-    });
+    loadAjaxKey(key, "RequestPollByKeyCallback");
 
 };
 
@@ -71,7 +69,7 @@ function loadAjaxKey(keyId, callback) {
     }
 
     if (Device.simpleRequest) {
-        Device.simpleRequest(url, "id=" + id + "&key=" + keyId + "&table=" + table, "RequestPollByKeyCallback", "");
+        Device.simpleRequest(url, "id=" + id + "&key=" + keyId + "&table=" + table, callback, "");
 
     } else {
         $.post(url, {
@@ -80,7 +78,8 @@ function loadAjaxKey(keyId, callback) {
             table: table
         }, function (json) {
             console.log(json);
-            callback(json);
+//            callback(json);
+            new window[callback](json);
         });
     }
 }
