@@ -184,10 +184,11 @@ Polls.prototype.request = function (idQ, individual) {
     this.loading();
 
     if (Device.parseSelect) {
-        var func = this.window_name + ".requestCallback"; //prevent object not exists error
-        Device.parseSelect(table, "", idQ, "if(window." + func + ") " + func); //prevent server usage for parse!
+        //var func = this.window_name + ".requestCallback"; //prevent object not exists error
+        //Device.parseSelect(table, "", idQ, "if(window." + func + ") " + func); //prevent server usage for parse!
+        Device.simpleRequest(this.coreSelect, params, this.window_name + ".requestCallback");
     } else {
-        $.post(this.coreSelect, params, function (json) {
+        $.post("core/" + this.coreSelect, params, function (json) {
             _this.requestCallback(json);
         });
     }
@@ -244,14 +245,15 @@ Polls.prototype.requests = function (json_arr) {
 
     //request
     table = table.split("_").pop();
-    var params = "table=" + table + "&arrIds=" + arr.join(",");
+    var params = "table=" + table + "&arrIds=" + encodeURIComponent(arr.join(","));
 
     var _this = this;
     if (Device.parseSelect) {
-        var func = this.window_name + ".requestCallback"; //prevent object not exists error
-        Device.parseSelect(table, "", idQ, "if(window." + func + ") " + func); //prevent server usage for parse!
+//        var func = this.window_name + ".requestCallback"; //prevent object not exists error
+//        Device.parseSelect(table, "", idQ, "if(window." + func + ") " + func); //prevent server usage for parse!
+        Device.simpleRequest(this.coreSelect, params, this.window_name + ".requestCallback");
     } else {
-        $.post(this.coreSelect, params, function (json) {
+        $.post("core/" + this.coreSelect, params, function (json) {
             _this.requestCallback(json);
         });
     }
@@ -502,9 +504,10 @@ Polls.prototype.load = function (poll, individual, back) {
         //console.log("post update " + window.update_frequency);
         if (Device.parseUpdate) {
             //Device.simpleRequest("parseUpdate.php", params, _this.window_name + ".updateCallback");
-            Device.parseUpdate(table, poll.key, option, poll.key, idQ, _this.window_name + ".updateCallback");
+            //Device.parseUpdate(table, poll.key, option, poll.key, idQ, _this.window_name + ".updateCallback");
+            Device.simpleRequest(_this.coreUpdate, params, this.window_name + ".updateCallback");
         } else {
-            $.post(_this.coreUpdate, params, function (json) {
+            $.post("core/" + _this.coreUpdate, params, function (json) {
                 _this.updateCallback(json);
             });
         }
