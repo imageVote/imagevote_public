@@ -196,8 +196,8 @@ Polls.prototype.request = function (idQ, individual) {
 Polls.prototype.getSortedPolls = function (table, file) {
     if (["q_en", "q_es", "q_it", "q_de", "q_fr", "q_pt"].indexOf(table) > -1) {
         table = this.parseTable(table);
-    }else{
-        table = table.split("_").pop(); 
+    } else {
+        table = table.split("_").pop();
     }
 
     var _this = this;
@@ -205,9 +205,15 @@ Polls.prototype.getSortedPolls = function (table, file) {
     if (file > 1) {
         params += "&file=" + file;
     }
-    $.post("core/sql_sort.php", params, function (json) {
-        _this.requests(json);
-    });
+
+    var call = "sql_sort.php";
+    if (Device.simpleRequest) {
+        Device.simpleRequest(call, params, this.window_name + ".requests");
+    } else {
+        $.post("core/" + call, params, function (json) {
+            _this.requests(json);
+        });
+    }
 };
 
 Polls.prototype.requests = function (json_arr) {
