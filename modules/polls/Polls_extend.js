@@ -245,7 +245,8 @@ Polls.prototype.requests = function (json_arr) {
 
     //request
     table = table.split("_").pop();
-    var params = "table=" + table + "&arrIds=" + encodeURIComponent(arr.join(","));
+    var params = "table=" + table + "&arrIds=" + arr.join(",");
+//    var params = "table=" + table + "&arrIds=" + encodeURIComponent(arr.join(","));
 
     var _this = this;
     if (Device.parseSelect) {
