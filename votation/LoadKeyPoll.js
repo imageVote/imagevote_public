@@ -227,14 +227,21 @@ var RequestPollByKeyCallback = function (json) {
         var keyId = _this.poll.key;
         _this.checkCountry(keyId);
 
-        if (location.hash.indexOf("share=") > -1) {
+        //allow hash and search
+        if (location.href.indexOf("share=") > -1) {
             loading();
-            console.log("share in " + location.hash);
-            
-            var arr = location.hash.split("share=")[1].split("&")[0].split("_");
+            console.log("share in " + location.href);
+
+            var arr = location.href.split("share=")[1].split("&")[0].split("_");
+            //remove empty "_"
+            arr = $.grep(arr, function (n) {
+                return n === 0 || n;
+            });
             for (var i = 0; i < arr.length; i++) {
                 console.log("option " + i + ": " + arr[i]);
-                _this.poll.obj.options[i][2] = arr[i];
+                if (_this.poll.obj.options[i]) {
+                    _this.poll.obj.options[i][2] = arr[i];
+                }
             }
 
             var show;

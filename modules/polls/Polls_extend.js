@@ -5,8 +5,9 @@ var Polls = function () {
 
 Polls.prototype.construct = function (query, idQ, window_name, lang) {
     //not load if sharing!
-    if (location.hash.indexOf("share=") > -1) {
+    if (location.href.indexOf("share=") > -1) {
         console.log('location.hash.indexOf("share=")');
+        loading();
         return;
     }
     console.log("new Poll " + idQ + " " + lang);
