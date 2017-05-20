@@ -475,7 +475,7 @@ Polls.prototype.load = function (poll, individual, back) {
         var table = _this.gameDB();
         if (!table) {
             console.log("LANGUAGE GAME NOT FOUND");
-            this.reset();
+            _this.reset();
             return;
         }
 
@@ -503,10 +503,10 @@ Polls.prototype.load = function (poll, individual, back) {
 
         //if (window.update_frequency && Math.random() * window.update_frequency < 1) {
         //console.log("post update " + window.update_frequency);
-        if (Device.parseUpdate) {
+        if (Device.simpleRequest) {
             //Device.simpleRequest("parseUpdate.php", params, _this.window_name + ".updateCallback");
             //Device.parseUpdate(table, poll.key, option, poll.key, idQ, _this.window_name + ".updateCallback");
-            Device.simpleRequest(_this.coreUpdate, params, this.window_name + ".updateCallback");
+            Device.simpleRequest(_this.coreUpdate, params, _this.window_name + ".updateCallback");
         } else {
             $.post("core/" + _this.coreUpdate, params, function (json) {
                 _this.updateCallback(json);
@@ -548,7 +548,7 @@ Polls.prototype.load = function (poll, individual, back) {
 
     //prevent reselect
     if ("undefined" != typeof poll.a) {
-        _this.checkedEvent();
+        this.checkedEvent();
     }
     //prevent fast vote change 
     if (this.voted[poll.id]) {
@@ -862,7 +862,8 @@ Polls.prototype.parseLang = function (table) {
         if (!lang) {
             lang = "es";
         }
-        table = "q_" + lang.toLowerCase();
+        //table = "q_" + lang.toLowerCase();
+        table = lang.toLowerCase();
     }
-    return table;
+    return table.split("_").pop(); //like q_es
 };
