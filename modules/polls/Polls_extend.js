@@ -194,6 +194,12 @@ Polls.prototype.request = function (idQ, individual) {
 };
 
 Polls.prototype.getSortedPolls = function (table, file) {
+    if (["q_en", "q_es", "q_it", "q_de", "q_fr", "q_pt"].indexOf(table) > -1) {
+        table = this.parseTable(table);
+    }else{
+        table = table.split("_").pop(); 
+    }
+
     var _this = this;
     var params = "table=" + table;
     if (file > 1) {
@@ -231,6 +237,7 @@ Polls.prototype.requests = function (json_arr) {
     }
 
     //request
+    table = table.split("_").pop();
     var params = "table=" + table + "&arrIds=" + arr.join(",");
 
     var _this = this;
@@ -290,6 +297,9 @@ Polls.prototype.requestCallback = function (json) {
     }
 
     var table = this.gameDB();
+    if (table.indexOf("preguntas") > -1) {
+        table = this.parseTable(table);
+    }
     localStorage.setItem(table, JSON.stringify(gamePolls));
 
 //    var next_idQ = this.idQ + 1;
@@ -461,12 +471,7 @@ Polls.prototype.load = function (poll, individual, back) {
         }
 
         //MIX (ON TRANSITION):
-        if (table.indexOf("preguntas") > -1) {
-            table = table.replace("preguntas", "");
-            if (!table) {
-                table = "es";
-            }
-        }
+        table = _this.parseLang(table);
 
         var idQ = poll.id;
         var options = JSON.stringify([option]);
@@ -796,9 +801,9 @@ Polls.prototype.update_idQ = function (idQ) {
 
 Polls.prototype.gameDB = function () {
     var table = localStorage.getItem("game_db");
-    if (this.request_db) {
-        table = this.request_db;
-    }
+//    if (this.request_db) {
+//        table = this.request_db;
+//    }
 
 //    //repare: only on transition!
 //    if(table.indexOf("preguntas") > -1){
@@ -825,4 +830,29 @@ Polls.prototype.lastIdQ = function (polls) {
         max = key > max ? +key : max; //force int '+'
     });
     return max;
+};
+
+Polls.prototype.parseTable = function (table) {
+    var lang_arr = table.split("_");
+    if (lang_arr.length == 2) {
+        var lang = lang_arr[1];
+        if ("es" == lang) {
+            lang = "";
+        }
+        table = "preguntas" + lang.toUpperCase();
+    }
+
+    return table;
+};
+
+Polls.prototype.parseLang = function (table) {
+    //MIX (ON TRANSITION):
+    if (table.indexOf("preguntas") > -1) {
+        var lang = table.replace("preguntas", "");
+        if (!lang) {
+            lang = "es";
+        }
+        table = "q_" + lang.toLowerCase();
+    }
+    return table;
 };
