@@ -60,10 +60,11 @@ VotationButtons.prototype.sendButtonEvent = function () {
         loading();
 
         var obj = _this.poll.obj;
+        var andShare = _this.$sendButton.hasClass("saveAndShare");
 
         //IF SAVE and/or SHARE
         //prevent sav and share if premium cose not key con be loaded!
-        if (_this.$sendButton.hasClass("saveAndShare")) {
+        if (andShare) {
             if (!obj.users) {
                 obj.users = [];
             }
@@ -77,7 +78,7 @@ VotationButtons.prototype.sendButtonEvent = function () {
                     return;
                 }
                 localStorage.setItem("unusedKey", "");
-            });
+            }, andShare);
 
         } else if (!_this.$sendButton.hasClass("share")) { //class is save
             _this.$sendButton.attr("disabled", "disabled");

@@ -46,7 +46,7 @@ Polls.prototype.construct = function (query, idQ, window_name, lang) {
 
     if (!window.gamePolls) {
         console.log("get stored " + lang);
-        window.gamePolls = this.stored(lang);
+        window.gamePolls = this.stored();
     }
 
     this.individual = false;
@@ -60,7 +60,8 @@ Polls.prototype.construct = function (query, idQ, window_name, lang) {
     //if !idQ stored: 
     if (!idQ || "undefined" == idQ) {
         idQ = 0;
-    } else {
+    }
+    if (gamePolls[idQ]) {
         this.nextPoll = gamePolls[idQ];
     }
 
@@ -601,14 +602,14 @@ Polls.prototype.share = function (obj, idQ) {
         divQuery: ".gameContainer"
     };
 
-    var share = new Share();
+    var share = new Share(_this.votationButtons.poll);
     share.do(function () {
         if (!window.Device) {
             setTimeout(function () {
                 $(_this.query).after($("#image"));
             }, 1);
         }
-        
+
         _this.loaded("this.gamePoll.votatioButtons.share");
     });
 };
@@ -725,8 +726,8 @@ Polls.prototype.checkedEvent = function () {
 };
 
 Polls.prototype.stored = function () {
-    console.log("stored ");
     var table = this.gameDB();
+    console.log("stored: " + table);
 
     var json = localStorage.getItem(table);
     if (json) {

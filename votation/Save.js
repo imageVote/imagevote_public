@@ -9,8 +9,9 @@ var Save = function (poll, $imageDOM, doneCallback, failCallback) {
 };
 
 
-Save.prototype.do = function (action, callback, add, sub) {
+Save.prototype.do = function (action, callback, andShare, add, sub) {
     var _this = this;
+    this.andShare = andShare;
     console.log("VotationButtons.save screenPoll");
 
     var poll = this.poll;
@@ -154,7 +155,7 @@ Save.prototype.do = function (action, callback, add, sub) {
 
             } else {
                 //only way of public - public-id has to be updated on load
-                this.saveDevice(action, sendJson, "screenPoll.buttons.saveCallback");
+                this.saveDevice(action, sendJson, "screenPoll.buttons.save.saveCallback");
             }
             break;
 
@@ -166,7 +167,7 @@ Save.prototype.do = function (action, callback, add, sub) {
 
             } else {
                 //only way of public - public-id has to be updated on load
-                this.saveDevice(action, sendJson, "screenPoll.buttons.saveCallback");
+                this.saveDevice(action, sendJson, "screenPoll.buttons.save.saveCallback");
             }
             break;
     }
@@ -196,15 +197,13 @@ Save.prototype.saveCallback = function (res) {
         }
     }
 
-    if (this.$sendButton.hasClass("saveAndShare")) {
-        if (this.$imageDOM) {
-            var share = new Share(this.poll, this.$imageDOM);
-            share.do(function () {
-                _this.loaded();
-            });
-        } else {
-            this.loaded();
-        }
+    //if (this.$sendButton.hasClass("saveAndShare")) {
+    if (this.$imageDOM && this.andShare) {
+        var share = new Share(this.poll, this.$imageDOM);
+        share.do(function () {
+            _this.loaded();
+        });
+
     } else {
         this.loaded();
     }
