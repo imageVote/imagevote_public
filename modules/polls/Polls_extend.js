@@ -727,7 +727,7 @@ Polls.prototype.checkedEvent = function () {
 
 Polls.prototype.stored = function () {
     var table = this.gameDB();
-    console.log("stored: " + table);
+    console.log("stored " + table);
 
     var json = localStorage.getItem(table);
     if (json) {
