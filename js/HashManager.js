@@ -19,7 +19,6 @@ var HashManager = function () {
         'home': function () {
             console.log("HOME");
             //else wrong/old hashes
-//        loadHash("home");
 
             window.screenPoll.buttons = new VotationButtons(screenPoll);
 

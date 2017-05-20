@@ -283,16 +283,18 @@
     }
 
     function loaded(div, all) {
-        var where = "#body > ";
-        var show = "#body > ";
+//        var where = "#body > ";
+//        var show = "#body > ";
+        var where = "body > ";
         if (div) {
-            show = where = div + " > ";
+            //show = where = div + " > ";
+            where = div + " > ";
         }
         if (all) {
             where = "";
         }
-        $(show + "*").show();
-        $(where + ".loader").hide();
+//        $(show + "*").show();
+        $(where + ".loader").remove();
     }
 
     //device function! (preload key only)

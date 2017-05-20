@@ -187,7 +187,7 @@ a:hover{
     text-decoration: none;
 }
 
-#creator, #votation, #loading, #users, #firstTime, #captcha{
+#creator, #votation, #loading, #users, #firstTime, #captcha, #showPolls{
     /*#mainPage > div{*/
     display: none;
     position: relative;

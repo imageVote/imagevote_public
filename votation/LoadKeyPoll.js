@@ -259,7 +259,7 @@ var RequestPollByKeyCallback = function (json) {
         }
 
         console.log(obj)
-        window.loadedTable = new FillTable(this.query, obj);
+        window.loadedTable = new FillTable(_this.query, obj);
         if (!window.Device) {
             //add sharing in browser:
             shareIntent.checkShareEnvirontment(loadedTable.$div.find(".option"), obj.options);
