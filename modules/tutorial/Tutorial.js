@@ -8,11 +8,9 @@ var Tutorial = function (actions) {
 Tutorial.prototype.start = function () {
     var _this = this;
 
-    var helpStop = $("<div id='helpStop'>");
-    var stop = $("<span style='display:inline-block' data-lang='helpStop'>" + transl("helpStop") + "</span>").appendTo("body");    
-    helpStop.append(stop);
-    var left = $("<div style='float:left;padding: 0 25px'><</div>");
-    helpStop.append(left);
+    var helpStop = $("<div id='helpStop'>").appendTo("body")
+    var stop = $("<span style='display:inline-block' data-lang='helpStop'>" + transl("helpStop") + "</span>").appendTo(helpStop);    
+    var left = $("<div style='float:left;padding: 0 25px'><</div>").appendTo(helpStop);
     left.click(function (e) {
         e.stopPropagation();
         _this.helperPosition--;
@@ -30,8 +28,7 @@ Tutorial.prototype.start = function () {
         _this.nextHelp();
     });
 
-    var right = $("<div style='float:right;padding: 0 25px'>></div>");
-    helpStop.append(right);
+    var right = $("<div style='float:right;padding: 0 25px'>></div>").appendTo(helpStop);
     right.click(function (e) {
         e.stopPropagation();
         _this.helperPosition++;
