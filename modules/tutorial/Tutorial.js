@@ -78,7 +78,7 @@ Tutorial.prototype.locateHelper = function (queryDiv, value, target, func, extra
         extra_html = "";
     }
 
-    var help = $("<div class='tutorial_helpDiv tutorial_selectable'><div data-lang='" + value + "'>" + text + "</div>" + extra_html + "</div>");
+    var help = $("<div class='tutorial_helpDiv tutorial_selectable'><div><div data-lang='" + value + "'>" + text + "</div>" + extra_html + "</div></div>");
     var helpContainer = $("<div id='tutorial_helpFilter'>");
     helpContainer.append(help);
 
