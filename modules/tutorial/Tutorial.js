@@ -9,7 +9,7 @@ Tutorial.prototype.start = function () {
     var _this = this;
 
     var helpStop = $("<div id='helpStop'>").appendTo("body")
-    var stop = $("<span style='display:inline-block' data-lang='helpStop'>" + transl("helpStop") + "</span>").appendTo(helpStop);    
+    var stop = $("<span style='display:inline-block' data-lang='helpStop'>" + transl("helpStop") + "</span>").appendTo(helpStop);   
     var left = $("<div style='float:left;padding: 0 25px'><</div>").appendTo(helpStop);
     left.click(function (e) {
         e.stopPropagation();
