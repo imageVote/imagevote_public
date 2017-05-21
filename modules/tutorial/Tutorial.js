@@ -72,8 +72,11 @@ Tutorial.prototype.stop = function () {
     clearInterval(this.eventInterval);
 };
 
-Tutorial.prototype.locateHelper = function (queryDiv, value, target, func) {
+Tutorial.prototype.locateHelper = function (queryDiv, value, target, func, extra_html) {
     var text = transl(value);
+    if(extra_html){
+        text += extra_html;
+    }
 
     var help = $("<div class='tutorial_helpDiv tutorial_selectable'><div data-lang='" + value + "'>" + text + "</div></div>");
     var helpContainer = $("<div id='tutorial_helpFilter'>");
@@ -263,5 +266,5 @@ Tutorial.prototype.nextHelp = function () {
         return;
     }
 
-    this.locateHelper(help[0], help[1], help[2], help[3]);
+    this.locateHelper(help[0], help[1], help[2], help[3], help[4]);
 };

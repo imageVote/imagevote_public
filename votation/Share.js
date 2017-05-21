@@ -1,5 +1,6 @@
 
 var Share = function (poll, $imageDOM) {
+    console.log("Share " + $imageDOM);
     this.poll = poll;
     this.$imageDOM = $imageDOM;
 
@@ -57,6 +58,7 @@ Share.prototype.do = function (callback, forceShow) {
 };
 
 Share.prototype.onCanvasImage = function (imgData, callback) {
+    //console.log("onCanvasImage " + imgData);
     loaded();
     if (!imgData) {
         error("!imgData on getCanvasImage");

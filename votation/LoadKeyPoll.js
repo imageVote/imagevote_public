@@ -61,21 +61,40 @@ function loadPollByKey(keyId, callback) {
     var id = convertBase(key64, window.base62, window.base10);
 
     var url = "select.php";
+    var params = {
+        id: id,
+        key: keyId,
+        table: table
+    };
+
+    //LANGUAGE KEY_ID parseSelect GAME CASE:
     if (keyId.indexOf("_") > -1) {
         url = "parseSelect.php";
-        table = "preguntas" + keyId.split("_")[0];
-        id = keyId.split("_")[1];
+        var lang = keyId.split("_")[0];
+        params.table = "preguntas" + lang.toUpperCase();
+
+        params.id = keyId.split("_")[1];
+        var local = localStorage.getItem("q_" + lang);
+        if (local) {
+            var poll = JSON.parse(local)[params.id];
+            if (poll) {
+                params = {
+                    table: table,
+                    objectId: poll.key
+                };
+            }
+        }
     }
 
     if (Device.simpleRequest) {
-        Device.simpleRequest(url, "id=" + id + "&key=" + keyId + "&table=" + table, "new " + callback, "");
+        var string_params = "";
+        for (var key in params) {
+            string_params += key + "=" + params[key] + "&";
+        }
+        Device.simpleRequest(url, string_params, "new " + callback, "");
 
     } else {
-        $.post("core/" + url, {
-            id: id,
-            key: keyId,
-            table: table
-        }, function (json) {
+        $.post("core/" + url, params, function (json) {
             console.log(json);
 //            callback(json);
             new window[callback](json);
@@ -233,7 +252,7 @@ var RequestPollByKeyCallback = function (json) {
             console.log("share in " + location.href);
 
             var arr = location.href.split("share=")[1].split("&")[0].split("_");
-            //remove empty "_"
+            //remove empty's between "_"
             arr = $.grep(arr, function (n) {
                 return n === 0 || n;
             });
