@@ -61,7 +61,7 @@ Translate.prototype.loadLanguage = function (path, callback) {
                 }
 
                 var key = results.data[0][0];
-                if (key && key[0] !== "/") {
+                if (/\S/.test(key) && key[0] !== "/") {
                     var result = results.data[0][pos];
                     //english[1] if not found language:
                     if (!result) {
