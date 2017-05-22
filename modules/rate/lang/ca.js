@@ -1,0 +1,15 @@
+$.extend(window.lang, {
+'rate_title': "Valora aquesta app",
+'rate_star1': "vaig odiar",
+'rate_star2': "No m'ha agradat",
+'rate_star3': "Està bé",
+'rate_star4': "em va agradar",
+'rate_star5': "Em va encantar",
+'rate_NOSUBMIT': "NO GRÀCIES",
+'rate_SUBMIT': "PRESENTAR",
+'rate_SUBMITLATER': "DESPRÉS",
+'rate_messageTitle': "Escriure una breu ressenya",
+'rate_thanks': "Gràcies pel Comentaris",
+'rate_FINISH': "ACABAT",
+'rate_placeholder': "Diguen's el que penses",
+});

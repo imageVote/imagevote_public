@@ -1,0 +1,15 @@
+$.extend(window.lang, {
+'rate_title': "Baloratu aplikazio hau",
+'rate_star1': "gorroto da",
+'rate_star2': "Ez zaio gustatu egiten",
+'rate_star3': "Ondo da",
+'rate_star4': "Gustatu egiten",
+'rate_star5': "maite du",
+'rate_NOSUBMIT': "EZ ESKERRIK ASKO",
+'rate_SUBMIT': "BIDALI",
+'rate_SUBMITLATER': "BERANDUAGO",
+'rate_messageTitle': "berrikuspen labur bat idatzi",
+'rate_thanks': "Eskerrik asko iritzia",
+'rate_FINISH': "FINISH",
+'rate_placeholder': "Kontatu zer pentsatzen duzun",
+});

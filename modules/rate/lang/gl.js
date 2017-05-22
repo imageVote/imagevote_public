@@ -1,0 +1,15 @@
+$.extend(window.lang, {
+'rate_title': "Vote esta aplicación",
+'rate_star1': "odiado",
+'rate_star2': "non lles gustou",
+'rate_star3': "Está ben",
+'rate_star4': "gustoulles",
+'rate_star5': "Loved it",
+'rate_NOSUBMIT': "NON, GRAZAS",
+'rate_SUBMIT': "enviar",
+'rate_SUBMITLATER': "DESPOIS",
+'rate_messageTitle': "Escribir unha breve revisión",
+'rate_thanks': "Grazas polo feedback",
+'rate_FINISH': "ACABADO",
+'rate_placeholder': "Díganos o que pensa",
+});

@@ -57,3 +57,9 @@
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
+
+#languages .preselect{
+    border-bottom: 2px solid rgb(56,56,56);
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}

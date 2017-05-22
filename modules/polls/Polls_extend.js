@@ -97,7 +97,7 @@ Polls.prototype.navigationEvents = function () {
         e.preventDefault();
         e.stopPropagation();
         var anyone = true;
-        var nextPoll = _this.next(+_this.idQ + 1, anyone);
+        var nextPoll = _this.next(+_this.idQ, anyone);
         _this.load(nextPoll, true);
     });
 
@@ -118,7 +118,7 @@ Polls.prototype.navigationEvents = function () {
     gameSwipeButtons.append(next);
     next.on("click", function () {
         var anyone = true;
-        var nextPoll = _this.next(+_this.idQ + 1, anyone);
+        var nextPoll = _this.next(+_this.idQ, anyone);
         _this.load(nextPoll, true);
     });
 
@@ -158,11 +158,6 @@ Polls.prototype.request = function (idQ, individual) {
         return;
     }
 
-    //prevent loop requests
-    if (idQ == this.request_idQ) {
-        return;
-    }
-    this.request_idQ = idQ;
     var _this = this;
     var table = this.gameDB();
 
@@ -194,7 +189,14 @@ Polls.prototype.request = function (idQ, individual) {
     }
 };
 
-Polls.prototype.getSortedPolls = function (table, file) {
+Polls.prototype.getSortedPolls = function (table) {
+    console.log("getSortedPolls() ");
+
+    if (!this.file) {
+        this.file = 1;
+    }
+    this.file++;
+
     if (["q_en", "q_es", "q_it", "q_de", "q_fr", "q_pt"].indexOf(table) > -1) {
         table = this.parseTable(table);
     } else {
@@ -203,8 +205,8 @@ Polls.prototype.getSortedPolls = function (table, file) {
 
     var _this = this;
     var params = "table=" + table;
-    if (file > 1) {
-        params += "&file=" + file;
+    if (this.file > 1) {
+        params += "&file=" + this.file;
     }
 
     var call = "sql_sort.php";
@@ -218,6 +220,8 @@ Polls.prototype.getSortedPolls = function (table, file) {
 };
 
 Polls.prototype.requests = function (json_arr) {
+    console.log("requests()");
+
     var arr = json_arr.split(",").filter(String);
     var length = arr.length;
     for (var key in gamePolls) {
@@ -235,11 +239,8 @@ Polls.prototype.requests = function (json_arr) {
         if (length < 99) {
             return false;
         }
-        if (!this.file) {
-            this.file = 1;
-        }
-        this.file++;
-        getSortedPolls(table, this.file);
+
+        getSortedPolls(table);
         return;
     }
 
@@ -313,9 +314,14 @@ Polls.prototype.requestCallback = function (json) {
 
 //    var next_idQ = this.idQ + 1;
 //    if (this.individual) {
-    var next_idQ = this.idQ;
+//    var next_idQ = this.idQ;
 //    }
-    var nextPoll = this.next(next_idQ);
+    if (this.individual) {
+        this.load(gamePolls[this.idQ]);
+        return;
+    }
+
+    var nextPoll = this.next(this.idQ);
     if (!nextPoll) {
 
 //        //PREVENT LAT idQ LOOP
@@ -331,7 +337,7 @@ Polls.prototype.requestCallback = function (json) {
 //        this.last_request = request;
 
         console.log("no poll!");
-        var previous = this.previous(next_idQ);
+        var previous = this.previous(this.idQ);
         console.log("previous: " + JSON.stringify(previous))
         if (this.idQ !== previous[1]) {
             this.load(previous, true, false); //FALSE totally removes animation
@@ -343,29 +349,33 @@ Polls.prototype.requestCallback = function (json) {
 
 Polls.prototype.next = function (idQ, anyone) {
     var storedPolls = gamePolls;
-    //console.log(storedPolls);
+    console.log("next " + idQ + " (" + anyone + ")");
 
-    var lastIdQ = this.lastIdQ(storedPolls);
-    var i = +idQ;
-    console.log("next " + idQ + " of " + lastIdQ + "(" + anyone + ")");
-
-    while (i <= lastIdQ) {
-        console.log("looking for poll " + i);
-        var poll = storedPolls[i];
-        if (null === poll || "undefined" === typeof poll) {
-            i++;
-            continue;
-        }
-
-        this.idQ = i;
-        this.update_idQ(i);
-        if ("undefined" === typeof poll.a || anyone) {
-            return storedPolls[i];
-        }
-        i++;
+    var arr_keys = Object.keys(storedPolls);
+    var i = 0;
+    if (idQ) {
+        i = arr_keys.indexOf("" + idQ) + 1;
     }
 
-    console.log("NO MORE STORED POLLS");
+    for (; i < arr_keys.length; i++) {
+        this.idQ = +arr_keys[i];
+        console.log("looking for poll " + this.idQ);
+
+        var poll = storedPolls[this.idQ];
+        if (null === poll || "undefined" === typeof poll) {
+            continue;
+        }
+        console.log(poll)
+
+        this.update_idQ(this.idQ);
+        if ("undefined" === typeof poll.a || anyone) {
+            console.log("found");
+            return poll;
+        }
+    }
+
+    var lastIdQ = this.lastIdQ(storedPolls);
+    console.log("NO MORE STORED POLLS " + lastIdQ);
     if (lastIdQ) {
         flash(transl("polls_noMoreFound"));
     }
@@ -397,8 +407,15 @@ Polls.prototype.previous = function (idQ) {
     console.log("previous. attr idQ " + idQ);
     var storedPolls = gamePolls;
 
-    var i = idQ - 1;
-    while (i >= 0) {
+//    var i = idQ - 1;
+    var arr_keys = Object.keys(storedPolls);
+    var i = 0;
+    if (idQ) {
+        i = arr_keys.indexOf("" + idQ) + 1;
+    }
+
+//    while (i >= 0) {
+    for (; i > -1; i--) {
         var poll = storedPolls[i];
         if (!poll) {
             console.log("!poll: " + i);
@@ -421,7 +438,9 @@ Polls.prototype.previous = function (idQ) {
 
 Polls.prototype.load = function (poll, individual, back) {
     if (!poll) {
-//        this.request(poll.id);
+        console.log("!poll");
+        hashManager.defaultPage();
+        notice("e_votationRemoved");
         return false;
     }
 
@@ -432,7 +451,7 @@ Polls.prototype.load = function (poll, individual, back) {
     if ("undefined" != typeof poll.a && !individual) {
         console.log("load NEXT");
         var idQ = +poll.id;
-        var next = this.next(+idQ + 1);
+        var next = this.next(+idQ);
         if (next) {
             poll = next;
         }
@@ -487,9 +506,9 @@ Polls.prototype.load = function (poll, individual, back) {
         var options = JSON.stringify([option]);
         //var params = "table=" + table + "&id=" + poll.key + "&add=" + options + "&idQ=" + idQ + "&userId=" + window.user.id + "&data=" + options;
         var params = "table=" + table + "&add=" + options + "&key=" + key + "&userId=" + window.user.id + "&data=" + options; //to save correct keyId in bucket
-        
+
         //PATCH TO SAVE NEW PARSE POLLS IN SERVER:
-        if("parseSelect.php" == _this.coreSelect){
+        if ("parseSelect.php" == _this.coreSelect) {
             params += "&sql_data=|[\"" + obj.options[0][1] + "\",\"" + obj.options[1][1] + "\"]";
         }
 
@@ -852,11 +871,8 @@ Polls.prototype.lastIdQ = function (polls) {
         return 0;
     }
 
-    var max = 0;
-    Object.keys(polls).forEach(function (key) {
-        max = key > max ? +key : max; //force int '+'
-    });
-    return max;
+    var arr = Object.keys(polls);
+    return arr[arr.length - 1];
 };
 
 Polls.prototype.parseTable = function (table) {

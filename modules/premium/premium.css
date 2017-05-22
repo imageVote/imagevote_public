@@ -94,6 +94,7 @@ input[type=color]{
     width: 35px;
     min-width: 35px;
     cursor: pointer;
+    transform: translateY(0); /*hack*/      
 
     -webkit-transition: width 300ms;
     -moz-transition: width 300ms;

@@ -1,0 +1,15 @@
+$.extend(window.lang, {
+'rate_title': "Оцініть цей додаток",
+'rate_star1': "ненавидів його",
+'rate_star2': "Чи не сподобалося це",
+'rate_star3': "Все добре",
+'rate_star4': "В обраному його",
+'rate_star5': "Дуже сподобалося",
+'rate_NOSUBMIT': "НІ, ДЯКУЮ",
+'rate_SUBMIT': "ПОДАТИ",
+'rate_SUBMITLATER': "ЧЕРЕЗ",
+'rate_messageTitle': "Написати короткий огляд",
+'rate_thanks': "Спасибі за зворотній зв'язок",
+'rate_FINISH': "FINISH",
+'rate_placeholder': "Скажи нам, що ти думаєш",
+});

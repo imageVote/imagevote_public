@@ -96,7 +96,6 @@ function loadPollByKey(keyId, callback) {
     } else {
         $.post("core/" + url, params, function (json) {
             console.log(json);
-//            callback(json);
             new window[callback](json);
         });
     }
@@ -118,6 +117,7 @@ function parseKeyPoll(json, keyId) {
         var data = arr.results[0];
 
         if (!data) {
+            console.log("!data");
             return false;
         }
 
@@ -214,12 +214,13 @@ var RequestPollByKeyCallback = function (json) {
     var obj = parseKeyPoll(json, this.poll.key);
 
     if (!obj) {
-        if (alternative.keysPath && settings.keysPath != alternative.keysPath) {
-            settings.keysPath = alternative.keysPath;
-            console.log("requestPollByKey again");
-            new requestPollByKey();
-            return;
-        }
+        console.log("!obj");
+//        if (alternative.keysPath && settings.keysPath != alternative.keysPath) {
+//            settings.keysPath = alternative.keysPath;
+//            console.log("requestPollByKey again");
+//            new requestPollByKey();
+//            return;
+//        }
 
         error("votationNotFound");
         error("e_noDataReceived");

@@ -1,6 +1,6 @@
 
-var Translate = function(){
-    //
+var Translate = function () {
+    this.loaded = [];
 };
 
 Translate.prototype.translateTags = function (refresh) {
@@ -26,62 +26,36 @@ Translate.prototype.translateTags = function (refresh) {
 };
 
 Translate.prototype.loadLanguage = function (path, callback) {
+    var _this = this;
     if (!window.lang) {
         window.lang = {};
     }
-
     window.languagePaths[path] = 1;
 
-    var userLang = getUserLang();
+    var userLang = getUserLang().toLowerCase();
     console.log("userLang: " + userLang + " - " + path);
 
-    //http://papaparse.com/
-    var first = true;
-    var pos = 1;
-    requirejs(["text!" + path + "/lang.csv"], function (data) {
-        if (!data) {
-            console.log("ERROR NOT DATA IN " + path + "/lang.csv");
-            return;
+    if ("zh" == userLang) {
+        userLang = "zh-cn";
+    }
+
+    if (this.loaded.indexOf(path + "/" + userLang) > -1) {
+        return;
+    }
+    $.get(path + "/" + userLang + ".js").done(function () {
+        console.log("LANG LOADED");
+        if (callback) {
+            callback();
         }
+        _this.loaded.push(path + "/" + userLang);
 
-//        try {
-        //console.log(data)
-        var textFormat = new TextFormat();
-        Papa.parse(data, {
-            step: function (results) {
-                if (first) {
-                    for (var i = 1; i < results.data[0].length; i++) {
-                        if (userLang.toLowerCase() == results.data[0][i].toLowerCase()) {
-                            pos = i;
-                            break;
-                        }
-                    }
-                    first = false;
-                    return;
-                }
-
-                var key = results.data[0][0];
-                if (/\S/.test(key) && key[0] !== "/") {
-                    var result = results.data[0][pos];
-                    //english[1] if not found language:
-                    if (!result) {
-                        result = results.data[0][1];
-                    }
-                    lang[key] = textFormat.decode(result);
-                    $("[data-lang='" + key + "']").html(lang[key]); //translate them!
-                }
-            },
-            complete: function () {
-                if (callback) {
-                    callback();
-                }
-            }, error: function (e, file) {
-                console.log("PAPA.PARSE ERROR: " + e.code + " in " + file);
+    }).fail(function () {
+        $.get(path + "/en.js", function () {
+            console.log("EN LANG LOADED");
+            if (callback) {
+                callback();
             }
         });
-//        } catch (e) {
-//            console.log("CATCH PAPA.PARSE ERROR: " + e.message);
-//        }
     });
 };
 

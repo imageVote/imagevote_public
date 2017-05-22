@@ -1,0 +1,15 @@
+$.extend(window.lang, {
+'rate_title': "Oceni aplikacijo",
+'rate_star1': "je sovražil",
+'rate_star2': "Ni mi všeč",
+'rate_star3': "To je v redu",
+'rate_star4': "je bilo všeč",
+'rate_star5': "jo ljubil",
+'rate_NOSUBMIT': "NE HVALA",
+'rate_SUBMIT': "POŠLJI",
+'rate_SUBMITLATER': "KASNEJE",
+'rate_messageTitle': "Napišite kratek pregled",
+'rate_thanks': "Zahvaljujemo se vam za povratne informacije",
+'rate_FINISH': "CILJ",
+'rate_placeholder': "Povej nam kaj misliš",
+});

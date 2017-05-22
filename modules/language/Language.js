@@ -16,9 +16,9 @@ var Language = function (query) {
         'pt': ["pt", "PT", "Português", "preguntasPT"]
     };
 
-    if ("localhost" == location.hostname) {
-        this.languages['in'] = ["in", "IN", "हिंदी (अल्फा)"];
-    }
+//    if ("localhost" == location.hostname) {
+    this.languages['in'] = ["in", "IN", "हिंदी (अल्फा)"];
+//    }
 
     //urls:
     this.languageURL = {
@@ -68,9 +68,11 @@ Language.prototype.loadHtml = function (callback) {
     this.$lang_dom = $("<div id='languages'>");
     $(this.query).append(this.$lang_dom);
 
+    this.languages = this.sortLanguages(this.languages);
+
     for (var key in this.languages) {
         var language = this.languages[key];
-        var lang_div = $("<div><div class='img'>"
+        var lang_div = $("<div class='lang_" + language[0] + "'><div class='img'>"
                 + "<img src='~commons/img/flags/48/" + language[1] + ".png'>"
                 + "</div><div class='text'>" + language[2] + "</div></div>");
         if (language[0] == this.userLang()) {
@@ -85,6 +87,38 @@ Language.prototype.loadHtml = function (callback) {
             });
         })();
     }
+
+    //put first user language:
+    var userLang = navigator.language || navigator.userLanguage;
+    var langDiv = this.$lang_dom.find(".lang_" + userLang);
+    this.$lang_dom.prepend(langDiv);
+    langDiv.addClass("preselect");
+};
+
+Language.prototype.sortLanguages = function (languages) {
+    //LANGUAGES SORT:
+    var langs = [];
+    for (var k in languages) {
+        if ("en" == k) {
+            continue;
+        }
+        langs.push(languages[k][2]);
+    }
+    langs.sort();
+
+    var sorted = {
+        en: languages.en
+    };
+    for (var i = 0; i < langs.length; i++) {
+        for (var key in languages) {
+            console.log(langs[i] + " == " + languages[key][2])
+            if (langs[i] == languages[key][2]) {
+                sorted[key] = languages[key];
+                continue;
+            }
+        }
+    }
+    return sorted;
 };
 
 Language.prototype.loadLanguage = function (lang) {
