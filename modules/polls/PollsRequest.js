@@ -1,28 +1,38 @@
 
+//polls game request
 var PollsRequest = function (game, gamePolls) {
     this.game = game;
     this.gamePolls = gamePolls;
     this.file = 1;
+
+    //update class index
+    if (!window.pollRequest_index) {
+        window.pollRequest_index = 0;
+    }
+    window.pollRequest_index++;
+    this.pollRequest_index = window.pollRequest_index;
+
+    //save globally
+    window["pollsRequest_" + this.pollRequest_index] = this;
+
+    console.log("PollsRequest " + this.pollRequest_index);
 };
 
 PollsRequest.prototype.poll = function (idQ, individual) {
+    loading(null, "PollsRequest.poll");
     console.log("idQ: " + idQ + ", individual: " + individual);
-    if ("undefined" == typeof idQ || isNaN(idQ)) {
-        console.log("!request.poll() " + idQ);
-        return;
-    }
 
     var _this = this;
     var table = this.game.gameDB();
 
-    if ("undefined" == typeof idQ || !table) {
-        console.log("wrong params: " + idQ + " " + table);
+    if (!table) {
+        console.log("wrong params: " + table);
         this.game.reset();
         return false;
     }
 
     if (!individual) {
-        this.getSortedPolls(table);
+        this._getSortedPolls(table);
         return;
     }
 
@@ -31,7 +41,8 @@ PollsRequest.prototype.poll = function (idQ, individual) {
 
     console.log("post select " + params);
     this.game.loading();
-
+    
+    loading(null, "PollsRequest.poll2");
     if (Device.parseSelect) {
         //var func = this.window_name + ".requestCallback"; //prevent object not exists error
         //Device.parseSelect(table, "", idQ, "if(window." + func + ") " + func); //prevent server usage for parse!
@@ -59,21 +70,25 @@ PollsRequest.prototype._getSortedPolls = function (table) {
     }
     this.file++;
 
+    loading(null, "PollsRequest._getSortedPolls");
     var call = "sql_sort.php";
     if (Device.simpleRequest) {
-        Device.simpleRequest(call, params, this.game.window_name + ".request._polls");
+        Device.simpleRequest(call, params, this.game.window_name + ".request._pollsByKeys");
     } else {
         $.post("core/" + call, params, function (json) {
-            _this._polls(json);
+            _this._pollsByKeys(json);
         });
     }
 };
 
-PollsRequest.prototype._polls = function (json_arr) {
+PollsRequest.prototype._pollsByKeys = function (json_arr) {
     console.log("requests()");
+    var table = this.game.gameDB();
 
     var arr = json_arr.split(",").filter(String);
-    var length = arr.length;
+
+    //IF YET DOWNLOADED KEY, REMOVE FROM LIST
+    var response_length = arr.length;
     for (var key in this.gamePolls) {
         var index = arr.indexOf(this.gamePolls[key].id);
         if (index > -1) {
@@ -82,29 +97,32 @@ PollsRequest.prototype._polls = function (json_arr) {
         }
     }
 
-    var table = this.game.gameDB();
-
-    //get next file keys
+    //IF NOT NEW KEYS, GET NEXT FILE KEYS
     if (!arr.length) {
-        if (length < 99) {
+        loaded();
+        //if request was under 100, "no more polls"
+        if (response_length < 99) {
             return false;
         }
-
+        //next sort request
         this._getSortedPolls(table);
         return;
     }
 
-    //request
-    table = table.split("_").pop();
-    var params = "table=" + table + "&arrIds=" + arr.join(",");
-//    var params = "table=" + table + "&arrIds=" + encodeURIComponent(arr.join(","));
+    //STORE KEYS ARRAY (PollsGet.php)
+    this.game.get.add(arr);
 
+    //REQUEST NEW ARRAY POLLS
+    var lang = table.split("_").pop();
+    var params = "table=" + lang + "&arrIds=" + arr.join(",");
+    
+    loading(null, "PollsRequest._pollsByKeys");
     var _this = this;
     var pathRequest = this.game.coreSelect;
     if (Device.parseSelect) {
 //        var func = this.window_name + ".requestCallback"; //prevent object not exists error
 //        Device.parseSelect(table, "", idQ, "if(window." + func + ") " + func); //prevent server usage for parse!
-        Device.simpleRequest(pathRequest, params, this.window_name + ".requestCallback");
+        Device.simpleRequest(pathRequest, params, "pollsRequest_" + this.pollRequest_index + ".requestCallback");
     } else {
         $.post("core/" + pathRequest, params, function (json) {
             _this.requestCallback(json);
@@ -114,6 +132,13 @@ PollsRequest.prototype._polls = function (json_arr) {
 
 //from Device:
 PollsRequest.prototype.requestCallback = function (json) {
+    loaded();
+    //check is last request
+    if (this.pollRequest_index != window.pollRequest_index) {
+        console.log("requestCallback: " + this.pollRequest_index + " != " + window.pollRequest_index);        
+        return;
+    }
+
     //console.log(json);
     this.game.loaded("requestCallback");
     if (!json) {
@@ -138,24 +163,32 @@ PollsRequest.prototype.requestCallback = function (json) {
         return;
     }
 
-    var polls = this.game.parsePolls(obj); //GamePoll || ServerPoll
+    var polls = this.game.parsePolls(obj); //from GamePoll || ServerPoll
+    this._loadRequest(polls);
+};
 
-    //SAVE AS FALSE UNEXISTING POLLS, ALLOW NULL's TO NOT YET LOADED POLLS
-//    for (var i = 0; i < polls.length; i++) {
-//        var poll = polls[i];
-//        this.gamePolls[poll.id] = poll;
-//    }
+PollsRequest.prototype._loadRequest = function (polls) {
     var game_db = this.game.gameDB();
     var polls_idQ = localStorage.getItem("idQ_" + game_db);
     if (null === polls_idQ) { //if not idQ saved, get first loaded poll idQ
-        //polls_idQ = polls[0][1]; //this auses bug on loaded polls not starting in idQ == 1 (it)
         polls_idQ = 0;
     }
 
     console.log(polls);
     for (var i = 0; i < polls.length; i++) {
         var idQ = polls[i].id;
+
+        //get votes:
+        var userVotes = null;
+        if (this.gamePolls[idQ]) {
+            userVotes = this.gamePolls[idQ].a;
+        }
+
         this.gamePolls[idQ] = polls[i];
+        //put own votes:
+        if (userVotes) {
+            this.gamePolls[idQ].a = userVotes;
+        }
     }
 
     var table = this.game.gameDB();
@@ -164,35 +197,17 @@ PollsRequest.prototype.requestCallback = function (json) {
     }
     localStorage.setItem(table, JSON.stringify(this.gamePolls));
 
-//    var next_idQ = this.idQ + 1;
-//    if (this.individual) {
-//    var next_idQ = this.idQ;
-//    }
     var idQ = this.game.idQ;
     if (this.game.individual) {
         this.game.load(this.gamePolls[idQ]);
         return;
     }
-
-    var nextPoll = this.game.next(idQ);
+    
+    var nextPoll = this.game.get.this(idQ);
     if (!nextPoll) {
-
-//        //PREVENT LAT idQ LOOP
-//        var table = this.gameDB();
-//        var request = table + "_" + idQ;
-//        if (request === this.last_request) {
-//            console.log("stop request loop " + request);
-//            flash(transl("polls_noMoreFound"));
-//            //reset request
-//            this.last_request = false;
-//            return;
-//        }
-//        this.last_request = request;
-
-        console.log("no poll!");
         var previous = this.game.previous(idQ);
-        console.log("previous: " + JSON.stringify(previous))
-        if (idQ !== previous[1]) {
+        if (previous && idQ !== previous[1]) {
+            console.log("previous: " + JSON.stringify(previous))
             this.game.load(previous, true, false); //FALSE totally removes animation
         }
         return;

@@ -1,5 +1,5 @@
 
-var Polls = function () {    
+var Polls = function () {
     //EMPTY! ONLT FOR PROTOTYPE EXTENDS CLASS
 };
 
@@ -17,6 +17,7 @@ Polls.prototype.construct = function (query, idQ, window_name, lang) {
     window.interstitial_frequency = window.interstitial_frequency || 4;
     window.stars_frequency = window.stars_frequency || 8;
 
+    this.get = new PollsGet(this, idQ);
     this.query = query; //#pollsPageContainer
     this.window_name = window_name;
 
@@ -30,10 +31,7 @@ Polls.prototype.construct = function (query, idQ, window_name, lang) {
 
     //share button
     this.buttons = $("<div id='gameButtons'>");
-//    this.$sendButton = $("<button id='gameShare'><em style='height:15px'></em><span data-lang='Share'></span></button>");
-//    this.buttons.append(this.share);
     $(this.query).append(this.buttons);
-    //window.screenPoll.buttons = this.votationButtons = new VotationButtons(screenPoll, this.buttons); //game can't be screenPoll ???
     this.votationButtons = new VotationButtons(screenPoll, this.buttons);
     this.votationButtons.$usersButton.remove();
 
@@ -48,34 +46,16 @@ Polls.prototype.construct = function (query, idQ, window_name, lang) {
         console.log("get stored " + lang);
         window.gamePolls = this.stored();
     }
-    //this.request = PollsRequest(this, window.gamePolls);
 
-    this.individual = false;
-    if (!idQ) {
-        var table = this.gameDB();
-        idQ = localStorage.getItem("idQ_" + table);
-    } else {
-        console.log("SHARED");
-        this.individual = true;
-    }
-    //if !idQ stored: 
-    if (!idQ || "undefined" == idQ) {
-        idQ = 0;
-    }
-    if (window.gamePolls[idQ]) {
-        this.nextPoll = window.gamePolls[idQ];
-    }
-
-    //this info needs to be in server to update all devices in realtime!
-    this.idQ = +idQ;
     this.game_config();
 
+    this.nextPoll = window.gamePolls[this.get.idQ];
     if (this.nextPoll) {
-        this.load(this.nextPoll, this.individual);
+        this.load(this.nextPoll, this.get.individual);
     } else {
-        console.log("request.poll " + this.idQ);
+        console.log("request.poll " + this.get.idQ);
         //this.request.poll(this.idQ, this.individual, lang);
-        new PollsRequest(this.idQ, this.individual, lang);
+        new PollsRequest(this, window.gamePolls).poll(this.get.idQ, this.get.individual);
     }
 };
 
@@ -87,7 +67,7 @@ Polls.prototype.navigationEvents = function () {
     $("#pollsPageContainer").on("swiperight.gamePoll", function (e) {
         e.preventDefault();
         e.stopPropagation();
-        var previousPoll = _this.previous();
+        var previousPoll = _this.get.previous();
         if (previousPoll) {
             _this.load(previousPoll, true, true);
         } else {
@@ -99,7 +79,7 @@ Polls.prototype.navigationEvents = function () {
         e.preventDefault();
         e.stopPropagation();
         var anyone = true;
-        var nextPoll = _this.next(+_this.idQ, anyone);
+        var nextPoll = _this.next(null, anyone);
         _this.load(nextPoll, true);
     });
 
@@ -108,7 +88,7 @@ Polls.prototype.navigationEvents = function () {
     var back = $("<button id='gameBack'><em style='height:15px'></em><span data-lang='back_symbol'></span></button>");
     gameSwipeButtons.append(back);
     back.on("click", function () {
-        var previousPoll = _this.previous();
+        var previousPoll = _this.get.previous();
         if (previousPoll) {
             _this.load(previousPoll, true, true);
         } else {
@@ -120,7 +100,7 @@ Polls.prototype.navigationEvents = function () {
     gameSwipeButtons.append(next);
     next.on("click", function () {
         var anyone = true;
-        var nextPoll = _this.next(+_this.idQ, anyone);
+        var nextPoll = _this.next(null, anyone);
         _this.load(nextPoll, true);
     });
 
@@ -154,101 +134,23 @@ Polls.prototype.game_config = function () {
 };
 
 Polls.prototype.next = function (idQ, anyone) {
-    var storedPolls = window.gamePolls;
-    console.log("next " + idQ + " (" + anyone + ")");
-
-    var arr_keys = Object.keys(storedPolls);
-    var i = 0;
-    if (idQ) {
-        i = arr_keys.indexOf("" + idQ) + 1;
+    var poll = this.get.next(idQ, anyone);
+    if (poll) {
+        return poll;
     }
 
-    for (; i < arr_keys.length; i++) {
-        this.idQ = +arr_keys[i];
-        console.log("looking for poll " + this.idQ);
-
-        var poll = storedPolls[this.idQ];
-        if (null === poll || "undefined" === typeof poll) {
-            continue;
-        }
-        console.log(poll)
-
-        this.update_idQ(this.idQ);
-        if ("undefined" === typeof poll.a || anyone) {
-            console.log("found");
-            return poll;
-        }
-    }
-
-    var lastIdQ = this.lastIdQ(storedPolls);
-    console.log("NO MORE STORED POLLS " + lastIdQ);
-    if (lastIdQ) {
-        flash(transl("polls_noMoreFound"));
-    }
-
-    var request_idQ;
-    if (!$.isEmptyObject(storedPolls)) {
-        request_idQ = Object.keys(storedPolls).reduce(function (a, b) {
-            a = +a;
-            b = +b;
-            return a > b ? a : b;
-        });
-    } else {
-        request_idQ = 0;
-    }
-
-    //this.request.poll(request_idQ + 1);
-    new PollsRequest(request_idQ + 1);
-};
-
-Polls.prototype.previous = function (idQ) {
-    if (!idQ) {
-        idQ = this.idQ;
-        if (!idQ) {
-            idQ = $(this.query + " .gameContainer").attr("data-idq");
-            if (!idQ) {
-                idQ = this.lastIdQ();
-            }
-        }
-    }
-    console.log("previous. attr idQ " + idQ);
-    var storedPolls = window.gamePolls;
-
-//    var i = idQ - 1;
-    var arr_keys = Object.keys(storedPolls);
-    var i = 0;
-    if (idQ) {
-        i = arr_keys.indexOf("" + idQ) + 1;
-    }
-
-//    while (i >= 0) {
-    for (; i > -1; i--) {
-        var poll = storedPolls[i];
-        if (!poll) {
-            console.log("!poll: " + i);
-            i--;
-            continue;
-        }
-        console.log(idQ + " to " + i);
-        this.idQ = i; //not save locally when 'previous'
-        return storedPolls[i];
-    }
-
-    //get previous polls
-    if (idQ > 10) {
-        //this.request.poll(idQ - 100);
-        new PollsRequest(idQ - 100);
-        return;
-    }
-
-    return false;
+    //THEN LOAD NEW
+    var storedPolls = window.gamePolls;    
+    new PollsRequest(this, storedPolls).poll();
 };
 
 Polls.prototype.load = function (poll, individual, back) {
     if (!poll) {
         console.log("!poll");
-        hashManager.defaultPage();
-        notice("e_votationRemoved");
+        if (this.get.idQ) {
+            hashManager.defaultPage();
+            notice("e_votationRemoved");
+        }
         return false;
     }
 
@@ -258,8 +160,7 @@ Polls.prototype.load = function (poll, individual, back) {
     //if already voted
     if ("undefined" != typeof poll.a && !individual) {
         console.log("load NEXT");
-        var idQ = +poll.id;
-        var next = this.next(+idQ);
+        var next = this.next(+poll.id);
         if (next) {
             poll = next;
         }
@@ -334,7 +235,7 @@ Polls.prototype.load = function (poll, individual, back) {
         console.log(JSON.stringify(poll))
         _this.update(idQ, 'v' + option, +poll['v' + option] + 1);
 
-        _this.update_idQ(idQ + 1);
+        //_this.update_idQ(idQ + 1);        
 
         //if (window.update_frequency && Math.random() * window.update_frequency < 1) {
         //console.log("post update " + window.update_frequency);
@@ -413,12 +314,12 @@ Polls.prototype.load = function (poll, individual, back) {
             var report = new Report();
             report.click(function (type) {
                 if ("badGramar" == type) {
-                    var nextPoll = _this.next(+poll.id + 1);
+                    var nextPoll = _this.next(poll.id);
                     _this.load(nextPoll);
                 }
                 if ("vulgarWords" == type) {
                     window.gamePolls[poll.id] = null;
-                    var nextPoll = _this.next(+poll.id + 1);
+                    var nextPoll = _this.next(poll.id);
                     _this.load(nextPoll);
                 }
             });
@@ -575,7 +476,7 @@ Polls.prototype.checkedEvent = function () {
         e.preventDefault();
         e.stopPropagation();
 
-        var nextPoll = _this.next(+_this.idQ + 1);
+        var nextPoll = _this.next();
         _this.load(nextPoll);
     });
 };
@@ -643,14 +544,6 @@ Polls.prototype.loaded = function (where) {
     loaded(this.query, true); //all
 };
 
-Polls.prototype.update_idQ = function (idQ) {
-    console.log("local idQ changed to " + idQ);
-    var table = this.gameDB();
-    if (!this.individual) {
-        localStorage.setItem("idQ_" + table, idQ);
-    }
-};
-
 Polls.prototype.gameDB = function () {
     var table = localStorage.getItem("game_db");
 //    if (this.request_db) {
@@ -667,18 +560,6 @@ Polls.prototype.gameDB = function () {
 
     console.log("gameDB: " + table);
     return table;
-};
-
-Polls.prototype.lastIdQ = function (polls) {
-    if (!polls) {
-        polls = window.gamePolls;
-    }
-    if (!polls) {
-        return 0;
-    }
-
-    var arr = Object.keys(polls);
-    return arr[arr.length - 1];
 };
 
 Polls.prototype.parseLang = function (table) {

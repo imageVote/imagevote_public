@@ -1,17 +1,13 @@
 
-var User = function (voting, callback) {
+var User = function (callback) {
     console.log("new User()");
-    //NOT VOTING ANYMORE (IN WOULD-YOU-RATHER)
-//    if (window._public && window.publicId) {
-//        if (window.user) {
-//            phoneId = window.user.id;
-//        }
-//        this.id = window.publicId;
-//    }
-//    this.vt = "";
-//    if (voting) {
-//        this.vt = 0;
-//    }
+
+    if (window.user) {
+        this.id = window.user.id;
+    }    
+    if(!this.id){
+        this.id = localStorage.getItem("userId");
+    }
 
     //only for web index.html redirection requests! not 4 APP
     if (!window.Device) {
@@ -21,9 +17,6 @@ var User = function (voting, callback) {
             }
         });
     } else {
-        if (!this.id && window.user) {
-            this.id = window.user.id;
-        }
         if (callback) {
             callback(this);
         }
@@ -141,7 +134,7 @@ function updateUserId(id) {
     if (!window.user) {
         window.user = new User();
     }
-    
+
     window.user.id = id;
     localStorage.setItem("userId", id);
 }
@@ -150,7 +143,7 @@ function updateUserName(name) {
     if (!window.user) {
         window.user = new User();
     }
-    
+
     window.user.nm = name;
     localStorage.setItem("userName", name);
     $("#username input").val(name);

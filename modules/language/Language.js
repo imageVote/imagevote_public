@@ -111,7 +111,6 @@ Language.prototype.sortLanguages = function (languages) {
     };
     for (var i = 0; i < langs.length; i++) {
         for (var key in languages) {
-            console.log(langs[i] + " == " + languages[key][2])
             if (langs[i] == languages[key][2]) {
                 sorted[key] = languages[key];
                 continue;
