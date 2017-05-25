@@ -205,7 +205,7 @@ PollsRequest.prototype._loadRequest = function (polls) {
     
     var nextPoll = this.game.get.this(idQ);
     if (!nextPoll) {
-        var previous = this.game.previous(idQ);
+        var previous = this.game.get.previous(idQ);
         if (previous && idQ !== previous[1]) {
             console.log("previous: " + JSON.stringify(previous))
             this.game.load(previous, true, false); //FALSE totally removes animation

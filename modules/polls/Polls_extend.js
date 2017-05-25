@@ -37,7 +37,7 @@ Polls.prototype.construct = function (query, idQ, window_name, lang) {
 
     this.navigationEvents();
 
-    translate.loadLanguage("~commons/modules/polls/lang", function () {
+    translate.loadLanguage("~commons/modules/polls/", "#pollsPage", function () {
         translate.translateTags();
         fontSize(); //TODO: stydy where call this
     });

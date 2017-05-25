@@ -19,13 +19,13 @@ Translate.prototype.translateTags = function (refresh) {
             loaded++;
             console.log("loaded " + loaded);
             if (obj_size(window.languagePaths) == loaded) {
-                _this.loadTranslations(refresh);
+                _this.loadTranslations();
             }
         });
     }
 };
 
-Translate.prototype.loadLanguage = function (path, callback) {
+Translate.prototype.loadLanguage = function (path, where, callback) {
     var _this = this;
     if (!window.lang) {
         window.lang = {};
@@ -38,43 +38,45 @@ Translate.prototype.loadLanguage = function (path, callback) {
     if ("zh" == userLang) {
         userLang = "zh-cn";
     }
-
-    if (this.loaded.indexOf(path + "/" + userLang) > -1) {
+    
+    var file = path + "lang/" + userLang + ".js";
+    if (this.loaded.indexOf(file) > -1) {
         return;
     }
-    $.get(path + "/" + userLang + ".js").done(function () {
+    
+    $.get(file).done(function () {
         console.log("LANG LOADED");
+        _this.loadTranslations(where);
         if (callback) {
             callback();
         }
-        _this.loaded.push(path + "/" + userLang);
 
     }).fail(function () {
-        $.get(path + "/en.js", function () {
+        $.get(path + "/lang/en.js", function () {
             console.log("EN LANG LOADED");
+            _this.loadTranslations(where);
             if (callback) {
                 callback();
             }
         });
     });
+    
+    this.loaded.push(file);
 };
 
-Translate.prototype.loadTranslations = function (refresh) {
-    console.log("loadTranslations() " + refresh)
+Translate.prototype.loadTranslations = function (where) {
+    console.log("loadTranslations() " + where);
+    if(!where){
+        where = "";
+    };
     if (!window.lang) {
         console.log("!window.lang");
         return;
     }
 
     var textFormat = new TextFormat();
-    $("[data-lang]").each(function () {
+    $(where + " [data-lang]").each(function () {
         var textKey = $(this).attr("data-lang");
-
-        //prevent re-translate
-        if ($(this).text() && !refresh && $(this).text() != textKey) {
-            //console.log($(this).text() + " != " + textKey)
-            return true; //continue
-        }
 
         var translation = window.lang[textKey];
         if (translation) {

@@ -127,6 +127,14 @@ PollsGet.prototype.indexKey = function (idQ) {
 };
 
 PollsGet.prototype.add = function (arr) {
+    //check is correct data:
+    for(var i = 0; i < arr.length; i++){
+        if(isNaN(arr[i])){
+            console.log("WRONG NUMBER ON SORT ARRAY WITH: " + arr[i]);
+            return;
+        }
+    }
+    
     var previous_arr = [];
     var existingArrayPolls = this.keysArray();
     if (existingArrayPolls) {

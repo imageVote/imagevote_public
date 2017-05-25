@@ -161,13 +161,13 @@
 
         //Languages
         var translations = 0;
-        translate.loadLanguage("~lang", function () {
+        translate.loadLanguage("~", function () {
             translations++;
             if (translations >= 2) {
                 translate.translateTags();
             }
         });
-        translate.loadLanguage("~commons/lang", function () {
+        translate.loadLanguage("~commons/", function () {
             translations++;
             if (translations >= 2) {
                 translate.translateTags();
