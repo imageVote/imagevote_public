@@ -35,7 +35,8 @@ PollsRequest.prototype.poll = function (idQ, individual) {
         this._getSortedPolls(table);
         return;
     }
-
+    
+    //INDIVIDUAL POLL ONLY
     var params = "table=" + table + "&id=" + idQ;
     this.game.idQ = idQ;
 
