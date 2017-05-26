@@ -16,6 +16,7 @@ Share.prototype.do = function (callback, forceShow) {
 
     console.log("Share.do");
     if (!Device.share && !poll.key) {
+        console.log("!Device.share && !poll.key");
         //if not seems respond
         if (this._ajaxKeyWaiting > 10) {
             this._ajaxKeyWaiting = 0;
@@ -58,7 +59,7 @@ Share.prototype.do = function (callback, forceShow) {
 };
 
 Share.prototype.onCanvasImage = function (imgData, callback) {
-    //console.log("onCanvasImage " + imgData);
+    console.log("onCanvasImage");
     loaded();
     if (!imgData) {
         error("!imgData on getCanvasImage");

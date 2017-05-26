@@ -110,8 +110,16 @@ function parseKeyPoll(json, keyId) {
         return false;
     }
     var res = arr[0];
+    
+    //RECOVER STORED POLL USER VOTES
+    var users = {};
+    var saved = localStorage.getItem("key_" + keyId);
+    if (saved) {
+        var saved_obj = JSON.parse(saved);
+        users = saved_obj.users;
+    }
 
-    //CASE PARSE 
+    //CASE GAME 
     if (!res && arr.results) {
         console.log(arr);
         var data = arr.results[0];
@@ -129,15 +137,7 @@ function parseKeyPoll(json, keyId) {
             table = keyId.split("-")[0];
         }
 
-        var users = {};
-        var saved = localStorage.getItem("key_" + keyId);
-        if (saved) {
-            var saved_obj = JSON.parse(saved);
-            for (var user in saved_obj.users) {
-                users[user] = saved_obj.users[user];
-            }
-
-        } else if (table) {
+        if (!saved && table) {
             var local = JSON.parse(localStorage.getItem(table));
             if (local) {
                 var poll = local[data.idQ];
@@ -159,9 +159,9 @@ function parseKeyPoll(json, keyId) {
             users: users
         };
 
-        return obj;
         saveLocally(keyId, obj);
-        return;
+        console.log(obj);
+        return obj;
     }
 
     if (!res) {
@@ -170,15 +170,6 @@ function parseKeyPoll(json, keyId) {
 
     var data = res.data.split("|");
     var opts = JSON.parse(data[1]);
-
-    var users = {};
-    var saved = localStorage.getItem("key_" + keyId);
-    if (saved) {
-        var saved_obj = JSON.parse(saved);
-        for (var user in saved_obj.users) {
-            users[user] = saved_obj.users[user];
-        }
-    }
 
     var obj = {
         question: data[0],
@@ -190,15 +181,15 @@ function parseKeyPoll(json, keyId) {
         users: users
     };
 
-    return obj;
     saveLocally(keyId, obj);
+    console.log(obj);
+    return obj;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 var RequestPollByKeyCallback = function (json) {
     var _this = this;
-//    this.data = data;
     this.query = "#votation .votationBox";
 //    console.log("RequestPollByKeyCallback " + data);
 
@@ -211,9 +202,9 @@ var RequestPollByKeyCallback = function (json) {
     console.log(this.poll);
 
     $("#errorLog").html("");
-    var obj = parseKeyPoll(json, this.poll.key);
+    this.poll.obj = parseKeyPoll(json, this.poll.key);
 
-    if (!obj) {
+    if (!this.poll.obj) {
         console.log("!obj");
 //        if (alternative.keysPath && settings.keysPath != alternative.keysPath) {
 //            settings.keysPath = alternative.keysPath;
@@ -228,74 +219,72 @@ var RequestPollByKeyCallback = function (json) {
         return;
     }
 
-    if (obj[0] == "_") {
-        error(obj);
-    }
+    this.parseUserVotes();
 
-    this.poll.obj = obj;
-
-    this.parseUserVotes(function (obj) {
-
-        //TODO: or iPhone on future
-        if (!window.isAndroid) {
-            noticeBrowser();
+    //TODO: or iPhone on future
+    if (!window.isAndroid) {
+        noticeBrowser();
 //            if ("true" == _this.poll._public) {
 //                disableVotation();
 //                noticePublic();
 //            }
-        }
-        var keyId = _this.poll.key;
-        _this.checkCountry(keyId);
+    }
+    var keyId = _this.poll.key;
+    _this.checkCountry(keyId);
 
-        //allow hash and search
-        if (location.href.indexOf("share=") > -1) {
-            loading();
-            console.log("share in " + location.href);
+    //allow hash and search
+    if (location.href.indexOf("share=") > -1) {
+        loading();
+        console.log("share in " + location.href);
 
-            var arr = location.href.split("share=")[1].split("&")[0].split("_");
-            //remove empty's between "_"
-            arr = $.grep(arr, function (n) {
-                return n === 0 || n;
-            });
-            for (var i = 0; i < arr.length; i++) {
-                console.log("option " + i + ": " + arr[i]);
-                if (_this.poll.obj.options[i]) {
-                    _this.poll.obj.options[i][2] = arr[i];
-                }
+        var arr = location.href.split("share=")[1].split("&")[0].split("_");
+        //remove empty's between "_"
+        arr = $.grep(arr, function (n) {
+            return n === 0 || n;
+        });
+        for (var i = 0; i < arr.length; i++) {
+            console.log("option " + i + ": " + arr[i]);
+            if (_this.poll.obj.options[i]) {
+                _this.poll.obj.options[i][2] = arr[i];
             }
+        }
 
-            var show;
-            if (arr.length) {
-                show = true;
+        var show;
+        if (arr.length) {
+            show = true;
+        }
+        var share = new Share(_this.poll);
+        share.do(function () {
+            if (Device.close) {
+                Device.close("sharing");
             }
-            var share = new Share(_this.poll);
-            share.do(function () {
-                if (Device.close) {
-                    Device.close("sharing");
-                }
-            }, show);
+        }, show);
 
-            return false;
-        }
-
-        console.log(obj)
-        window.loadedTable = new FillTable(_this.query, obj);
-        if (!window.Device) {
-            //add sharing in browser:
-            shareIntent.checkShareEnvirontment(loadedTable.$div.find(".option"), obj.options);
-        }
-
-        // + buttons
-        showVotation(obj.users);
-        _this.user = _this.getUser(obj);
-
-        //this.uploadImage(keyId, obj);
-        loaded();
+        return false;
+    }
+    
+    window.loadedTable = new FillTable(_this.query, this.poll.obj, null, function(option){
+        //SAVE:
+        new Save(_this.poll, $("#mainPage")).do(function(){
+            //
+        }, true, [option]);
+        saveLocally(keyId, _this.poll.obj);
     });
+    if (!window.Device) {
+        //add sharing in browser:
+        shareIntent.checkShareEnvirontment(loadedTable.$div.find(".option"), this.poll.obj.options);
+    }
+
+    // + buttons
+    showVotation(this.poll.obj.users);
+    _this.user = _this.getUser();
+
+    //this.uploadImage(keyId, obj);
+    loaded();
 };
 
 //parse ajax by userId
-RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
+RequestPollByKeyCallback.prototype.parseUserVotes = function () {
 //    var obj = this.poll.obj = parseData(data);
     var obj = this.poll.obj;
 
@@ -306,7 +295,7 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
     }
 
     console.log("parseUserVotes newUser " + window.user.id);
-    var user = this.getUser(obj);
+    var user = this.getUser();
     saveDefaultValues(user.vt);
     this.user = user;
 
@@ -337,11 +326,10 @@ RequestPollByKeyCallback.prototype.parseUserVotes = function (callback) {
         //ownerDiv.append(".");
         $("#votation").prepend(ownerDiv);
     }
-
-    callback(obj);
 };
 
-RequestPollByKeyCallback.prototype.getUser = function (obj) {
+RequestPollByKeyCallback.prototype.getUser = function () {    
+    var obj = this.poll.obj;
     var userId = this.user.id;
 
     if (!obj.users) {
@@ -364,7 +352,8 @@ RequestPollByKeyCallback.prototype.getUser = function (obj) {
             userObj[key] = obj_user[2 + i];
         }
     }
-    console.log(userObj);
+    
+    console.log(JSON.stringify(userObj))
     return userObj;
 };
 

@@ -1,6 +1,8 @@
 
+window.languagePaths = {'~': 1};
+
 var Translate = function () {
-    this.loaded = [];
+    this.loaded = [];    
 };
 
 Translate.prototype.translateTags = function (refresh) {
@@ -15,7 +17,7 @@ Translate.prototype.translateTags = function (refresh) {
     console.log("translateTags() " + obj_size(window.languagePaths));
     var loaded = 0;
     for (var path in window.languagePaths) {
-        this.loadLanguage(path, function () {
+        this.loadLanguage(path, null, function () {
             loaded++;
             console.log("loaded " + loaded);
             if (obj_size(window.languagePaths) == loaded) {
@@ -52,7 +54,7 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
         }
 
     }).fail(function () {
-        $.get(path + "/lang/en.js", function () {
+        $.get(path + "lang/en.js", function () {
             console.log("EN LANG LOADED");
             _this.loadTranslations(where);
             if (callback) {

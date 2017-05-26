@@ -17,7 +17,7 @@ var Language = function (query) {
     };
 
 //    if ("localhost" == location.hostname) {
-    this.languages['in'] = ["in", "IN", "हिंदी (अल्फा)"];
+    this.languages['in'] = ["hi", "IN", "हिंदी (अल्फा)"];
 //    }
 
     //urls:

@@ -140,7 +140,7 @@ Polls.prototype.next = function (idQ, anyone) {
     }
 
     //THEN LOAD NEW
-    var storedPolls = window.gamePolls;    
+    var storedPolls = window.gamePolls;
     new PollsRequest(this, storedPolls).poll();
 };
 
@@ -211,44 +211,22 @@ Polls.prototype.load = function (poll, individual, back) {
         table = _this.parseLang(table);
 
         var idQ = poll.id;
-        var key = table + "_" + convertBase(idQ, window.base10, window.base62);
-        var options = JSON.stringify([option]);
-        //var params = "table=" + table + "&id=" + poll.key + "&add=" + options + "&idQ=" + idQ + "&userId=" + window.user.id + "&data=" + options;
-        var params = "table=" + table + "&add=" + options + "&key=" + key + "&userId=" + window.user.id + "&data=" + options; //to save correct keyId in bucket
-
-        //PATCH TO SAVE NEW PARSE POLLS IN SERVER:
-        if ("parseSelect.php" == _this.coreSelect) {
-            params += "&sql_data=|[\"" + obj.options[0][1] + "\",\"" + obj.options[1][1] + "\"]";
-        }
 
         //decrease: (poll.a can be 0!)
         if ("undefined" != typeof poll.a && option != poll.a) {
-            params += "&sub=" + JSON.stringify([poll.a]);
-
             //update locally (after params set!)
             _this.update(idQ, 'v' + poll.a, +poll['v' + poll.a] + 1);
         }
-        console.log(params);
 
         //update locally - before to continue playing (after params set!)    
         _this.update(idQ, 'a', option);
-        console.log(JSON.stringify(poll))
         _this.update(idQ, 'v' + option, +poll['v' + option] + 1);
 
-        //_this.update_idQ(idQ + 1);        
-
-        //if (window.update_frequency && Math.random() * window.update_frequency < 1) {
-        //console.log("post update " + window.update_frequency);
-        if (Device.simpleRequest) {
-            //Device.simpleRequest("parseUpdate.php", params, _this.window_name + ".updateCallback");
-            //Device.parseUpdate(table, poll.key, option, poll.key, idQ, _this.window_name + ".updateCallback");
-            Device.simpleRequest("add.php", params, _this.window_name + ".updateCallback");
-        } else {
-            $.post("core/add.php", params, function (json) {
-                _this.updateCallback(json);
-            });
-        }
-        //}
+        //SAVE
+        var keyId = _this.gameDB().split("_").pop() + "_" + poll.id
+        new Save({key: keyId, obj: obj}, $(_this.query)).do(function (key) {
+            //
+        }, null, [option], [poll.a]);
 
         //Stars:
         _this.answers++;
@@ -352,8 +330,7 @@ Polls.prototype.share = function (obj, idQ) {
         divQuery: ".gameContainer"
     };
 
-    var share = new Share(_this.votationButtons.poll, $("#pollsPage"));
-    share.do(function () {
+    new Share(_this.votationButtons.poll, $("#pollsPage")).do(function () {
         if (!window.Device) {
             setTimeout(function () {
                 $(_this.query).after($("#image"));
@@ -433,35 +410,6 @@ Polls.prototype.updateTransform = function (dom, val) {
         '-ms-transform': "translate(" + val + ")",
         'transform': "translate(" + val + ")"
     });
-};
-
-Polls.prototype.updateCallback = function (json) {
-    console.log("updateCallback " + json);
-    this.loaded("updateCallback");
-
-    if (json.indexOf("error") != -1) {
-        notice(json);
-        return;
-    }
-
-    var data;
-    try {
-        data = JSON.parse(json);
-    } catch (e) {
-        return; //update if callback only
-    }
-
-    if (data && !data.first_nvotes) {
-        data.first_nvotes = 0;
-    }
-    if (data && !data.second_nvotes) {
-        data.second_nvotes = 0;
-    }
-
-    this.update(data.idQ, 'v0', data.first_nvotes);
-    this.update(data.idQ, 'v1', data.second_nvotes);
-    this.update(data.idQ, 'a', data.add);
-    //this.gamePoll.addUserVotes();    
 };
 
 Polls.prototype.checkedEvent = function () {

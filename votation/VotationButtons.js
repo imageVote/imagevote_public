@@ -59,20 +59,13 @@ VotationButtons.prototype.sendButtonEvent = function () {
         e.stopPropagation();
         loading();
 
-        var obj = _this.poll.obj;
         var andShare = _this.$sendButton.hasClass("saveAndShare");
 
         //IF SAVE and/or SHARE
-        //prevent sav and share if premium cose not key con be loaded!
+        //prevent save and share if premium cose not key con be loaded!
         if (andShare) {
-            if (!obj.users) {
-                obj.users = [];
-            }
-            //save user on screenPoll 'obj' (1st time)
-            obj.users[_this.user.id] = getUserArray(_this.user);
-
             //.SaveAndShare class includes VotationButtons.share!
-            _this.save.do("create", function (done) {
+            _this.save.do(function (done) {
                 if (false === done) {
                     loaded();
                     return;
@@ -82,7 +75,7 @@ VotationButtons.prototype.sendButtonEvent = function () {
 
         } else if (!_this.$sendButton.hasClass("share")) { //class is save
             _this.$sendButton.attr("disabled", "disabled");
-            _this.save.do("update", function (done) {
+            _this.save.do(function (done) {
                 loaded();
                 if (false !== done) {
                     _this.saveToShare();

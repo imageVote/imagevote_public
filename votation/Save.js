@@ -8,13 +8,12 @@ var Save = function (poll, $imageDOM, doneCallback, failCallback) {
     this.savingPoll = false;
 };
 
-
-Save.prototype.do = function (action, callback, andShare, add, sub) {
+Save.prototype.do = function (callback, andShare, add) {
     var _this = this;
     this.andShare = andShare;
-    console.log("VotationButtons.save screenPoll");
 
     var poll = this.poll;
+    console.log(this.poll)
     var user = window.user;
 
     if (!poll._public) {
@@ -41,7 +40,7 @@ Save.prototype.do = function (action, callback, andShare, add, sub) {
             var userName = localStorage.getItem("userName");
             modalBox.input(transl("myName"), userName, function (val) {
                 updateUserName(val);
-                _this.do(action, callback, add, sub);
+                _this.do(callback, add);
             });
 
             if (callback) {
@@ -60,7 +59,7 @@ Save.prototype.do = function (action, callback, andShare, add, sub) {
 //
 //                console.log("no key yet");
 //                setTimeout(function () {
-//                    _this.save(action, callback);
+//                    _this.save(callback);
 //                }, 500);
 //
 //                this.key_waiting++;
@@ -112,70 +111,35 @@ Save.prototype.do = function (action, callback, andShare, add, sub) {
         }
     }
 
-    this.saveEventCallback = callback;
-    console.log(action + ' == action');
-
     //update before ask phone
-    var sendJson = "";
-    switch (action) {
-        case "update":
-            var userArr = poll.obj.users[user.id];
-            //sendJson = CSV.stringify([userArr]);
-            sendJson = user.id + "|" + JSON.stringify([userArr[1]]);
-            poll.json += "\n" + sendJson;
-            saveLocally(poll.key, poll.obj);
-            break;
-
-        case "create":
-            sendJson = poll.json = pollToCSV(poll.obj);
-            break;
-
-        default:
-            console.log("error on action: " + action);
-            if (callback) {
-                callback(false);
-            }
-            return;
-    }
-
+    var sendJson = pollToCSV(poll.obj);
+   
     //is shared before
     if (this.lastSendJson == sendJson) {
         _this.saveCallback(this.poll.key);
         return;
     }
+    
     this.lastSendJson = sendJson;
+    this.saveEventCallback = callback;
 
     //AJAX
-    switch (action) {
-        case "update":
-            if (!Device.save) {
-                this.addAjax(sendJson, function (res) {
-                    _this.saveCallback(res);
-                }, add, sub);
+    if (!Device.save) {
+        this.addAjax(sendJson, function (res) {
+            _this.saveCallback(res);
+        }, add);
 
-            } else {
-                //only way of public - public-id has to be updated on load
-                this.saveDevice(action, sendJson, "screenPoll.buttons.save.saveCallback");
-            }
-            break;
-
-        case "create":
-            if (!Device.save) {
-                this.createAjax(sendJson, function (res) {
-                    _this.saveCallback(res);
-                });
-
-            } else {
-                //only way of public - public-id has to be updated on load
-                this.saveDevice(action, sendJson, "screenPoll.buttons.save.saveCallback");
-            }
-            break;
+    } else {
+        //only way of public - public-id has to be updated on load
+        this.saveDevice(sendJson, "screenPoll.buttons.save.saveCallback");
     }
 
     //if new
     $("#image").remove();
     var votes = poll.obj.users[user.id][1];
     saveDefaultValues(votes);
+    
+    saveLocally(poll.key, poll.obj);
 };
 
 //device calls:
@@ -199,8 +163,7 @@ Save.prototype.saveCallback = function (res) {
 
     //if (this.$sendButton.hasClass("saveAndShare")) {
     if (this.$imageDOM && this.andShare) {
-        var share = new Share(this.poll, this.$imageDOM);
-        share.do(function () {
+        new Share(this.poll, this.$imageDOM).do(function () {
             _this.loaded();
         });
 
@@ -216,7 +179,7 @@ Save.prototype.loaded = function () {
     this.savingPoll = false;
 };
 
-Save.prototype.saveDevice = function (action, sendJson, callback) {
+Save.prototype.saveDevice = function (sendJson, callback) {
     var _public = "" + this.poll._public;
     var country = this.poll.country;
     var key = this.poll.key;
@@ -254,10 +217,10 @@ Save.prototype.saveDevice = function (action, sendJson, callback) {
         window.lastKeyAsk = 0;
     }
     console.log("callback: " + callback);
-    Device.save(action, sendJson, window.lastKeyAsk, realKey, _public, country, callback);
+    Device.save(sendJson, window.lastKeyAsk, realKey, _public, country, callback);
 };
 
-Save.prototype.addAjax = function (sendJson, callback, add, sub) {
+Save.prototype.addAjax = function (sendJson, callback, add) {
     var _this = this;
 //    if ("true" == this.poll._public) {
 //        error("PublicOnlyFromApp");
@@ -268,33 +231,7 @@ Save.prototype.addAjax = function (sendJson, callback, add, sub) {
         userId: window.user.id,
         key: this.poll.key,
         data: sendJson,
-        add: JSON.stringify(add),
-        sub: JSON.stringify(sub)
-    }).done(function (res) {
-        _this.ajaxDone(res, callback);
-    }).error(function (res) {
-        _this.ajaxError(res);
-    });
-};
-
-Save.prototype.createAjax = function (sendJson, callback) {
-    var _this = this;
-//    if ("true" == this.poll._public) {
-//        error("PublicOnlyFromApp");
-//        return;
-//    }
-
-    var table = "private";
-    var val = $(".publicCheck input").val();
-    if (val) {
-        table = localStorage.getItem("userLang");
-    }
-
-    $.post(settings.corePath + "create.php", {
-        id: window.user.id,
-        key: this.poll.key,
-        data: sendJson,
-        table: table
+        add: JSON.stringify(add)
     }).done(function (res) {
         _this.ajaxDone(res, callback);
     }).error(function (res) {
