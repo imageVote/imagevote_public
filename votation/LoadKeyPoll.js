@@ -42,7 +42,7 @@ function loadPollByKey(keyId, callback) {
 
 //    TODO: FROM SELECT.PHP
     var table = "";
-    var key64 = "";
+    var key64 = keyId;
     if (keyId.indexOf("_") > -1) {
         var arr = keyId.split("_");
         table = arr[0];
@@ -57,13 +57,12 @@ function loadPollByKey(keyId, callback) {
             key64 = key64.substring(0, key64.length - 1);
         }
     }
-    console.log("key64: " + key64)
+    console.log("key64: " + key64);
     var id = convertBase(key64, window.base62, window.base10);
 
     var url = "select.php";
     var params = {
         id: id,
-        key: keyId,
         table: table
     };
 
@@ -159,8 +158,6 @@ function parseKeyPoll(json, keyId) {
             users: users
         };
 
-        saveLocally(keyId, obj);
-        console.log(obj);
         return obj;
     }
 
@@ -181,14 +178,13 @@ function parseKeyPoll(json, keyId) {
         users: users
     };
 
-    saveLocally(keyId, obj);
-    console.log(obj);
     return obj;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 var RequestPollByKeyCallback = function (json) {
+    console.log("RequestPollByKeyCallback");
     var _this = this;
     this.query = "#votation .votationBox";
 //    console.log("RequestPollByKeyCallback " + data);
@@ -253,8 +249,7 @@ var RequestPollByKeyCallback = function (json) {
         if (arr.length) {
             show = true;
         }
-        var share = new Share(_this.poll);
-        share.do(function () {
+        new Share(_this.poll).do(function () {
             if (Device.close) {
                 Device.close("sharing");
             }
@@ -268,7 +263,6 @@ var RequestPollByKeyCallback = function (json) {
         new Save(_this.poll, $("#mainPage")).do(function(){
             //
         }, true, [option]);
-        saveLocally(keyId, _this.poll.obj);
     });
     if (!window.Device) {
         //add sharing in browser:
@@ -361,6 +355,7 @@ RequestPollByKeyCallback.prototype.checkCountry = function (keyId) {
 //    if (keyId[0] == "-") {
     return;
 //    }
+
     var country = keyId.split("-").shift();
 
     if (country) { //then is public

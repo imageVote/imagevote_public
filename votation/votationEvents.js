@@ -129,18 +129,3 @@ var votationEvents_deviceShare = function (imgData, keyId, path) {
     }
     return Device.share(imgData.substring(22), keyId, path);
 }
-
-function saveLocally(key, obj) {
-    console.log("saveLocally " + key);
-    if (key) { //check is correct stores query        
-        if (key == screenPoll.key) {
-            for (var user in screenPoll.obj.users) {
-                obj.users[user] = screenPoll.obj.users[user];
-            }
-        }
-        
-        localStorage.setItem("key_" + key, JSON.stringify(obj));
-    } else {
-        console.log("WRONG KEY TO STORE: " + key);
-    }
-}

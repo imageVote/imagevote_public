@@ -226,7 +226,7 @@ Polls.prototype.load = function (poll, individual, back) {
         var keyId = _this.gameDB().split("_").pop() + "_" + poll.id
         new Save({key: keyId, obj: obj}, $(_this.query)).do(function (key) {
             //
-        }, null, [option], [poll.a]);
+        }, null, [option]);
 
         //Stars:
         _this.answers++;
@@ -450,7 +450,7 @@ Polls.prototype.update = function (id, pos, value) {
         console.log("!window.gamePolls[id]");
         return;
     }
-    console.log("update: " + id + " " + pos + " " + value);
+    //console.log("update: " + id + " " + pos + " " + value);
     window.gamePolls[id][pos] = value;
     var table = this.gameDB();
     localStorage.setItem(table, JSON.stringify(window.gamePolls));
@@ -494,19 +494,7 @@ Polls.prototype.loaded = function (where) {
 
 Polls.prototype.gameDB = function () {
     var table = localStorage.getItem("game_db");
-//    if (this.request_db) {
-//        table = this.request_db;
-//    }
-
-//    //repare: only on transition!
-//    if(table.indexOf("preguntas") > -1){
-//        table = table.replace("preguntas", "");
-//        if(!table){
-//            table = "es";
-//        }
-//    }
-
-    console.log("gameDB: " + table);
+    //console.log("gameDB: " + table);
     return table;
 };
 

@@ -52,10 +52,6 @@ Share.prototype.do = function (callback, forceShow) {
     getCanvasImage(divQuery, poll.obj, this.keyId, width, type, function (imgData) {
         _this.onCanvasImage(imgData, callback);
     });
-
-    //at the end
-    console.log("poll.json: " + poll.json);
-    saveLocally(this.keyId, poll.obj);
 };
 
 Share.prototype.onCanvasImage = function (imgData, callback) {

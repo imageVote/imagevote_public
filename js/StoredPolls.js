@@ -102,8 +102,6 @@ function storedPolls_init() {
 //                return;
 //            }
 //
-//            saveLocally(keyId, obj);
-//
 //            window.storedTable = new FillTable(query, obj, {removable: true});
 //            _this._events(keyId);
 //            $(query + " .loader").hide();
