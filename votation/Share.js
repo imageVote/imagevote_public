@@ -12,7 +12,7 @@ Share.prototype.do = function (callback, forceShow) {
 
     var poll = this.poll;
     console.log(poll);
-    loading();
+    loading(null, "Share");
 
     console.log("Share.do");
     if (!Device.share && !poll.key) {
@@ -27,7 +27,7 @@ Share.prototype.do = function (callback, forceShow) {
 
         setTimeout(function () {
             console.log("waiting ajax key..");
-            _this.do(callback);
+            _this.do(callback, forceShow);
         }, 700);
         return;
     }
@@ -35,10 +35,11 @@ Share.prototype.do = function (callback, forceShow) {
 
     console.log("country = " + poll.country);
     this.keyId = poll.key;
-    var divQuery = "#image .image";
 
-    $("#image").remove();
-    this.$div = $("<div id='image'><hr/><div class='image'></div></div>");
+    this.$imageDOM.find("#image").remove();
+    var image = $("<div class='image'>");
+    this.$div = $("<div id='image'><hr/></div>");
+    this.$div.append(image);
     if (this.$imageDOM) {
         this.$imageDOM.append(this.$div);
     }
@@ -49,8 +50,10 @@ Share.prototype.do = function (callback, forceShow) {
     }
 
     var width = null;
-    getCanvasImage(divQuery, poll.obj, this.keyId, width, type, function (imgData) {
-        _this.onCanvasImage(imgData, callback);
+    getCanvasImage(image, poll.obj, this.keyId, width, type, function (imgData) {
+        _this.onCanvasImage(imgData, function(){
+            loaded();
+        });
     });
 };
 

@@ -3,7 +3,7 @@ var Polls = function () {
     //EMPTY! ONLT FOR PROTOTYPE EXTENDS CLASS
 };
 
-Polls.prototype.construct = function (query, idQ, window_name, lang) {
+Polls.prototype.construct = function (query, idQ, lang) {
     //not load if sharing!
     if (location.href.indexOf("share=") > -1) {
         console.log('location.hash.indexOf("share=")');
@@ -19,7 +19,6 @@ Polls.prototype.construct = function (query, idQ, window_name, lang) {
 
     this.get = new PollsGet(this, idQ);
     this.query = query; //#pollsPageContainer
-    this.window_name = window_name;
 
     this.answers = 0;
     this.voted = {};
@@ -85,7 +84,7 @@ Polls.prototype.navigationEvents = function () {
 
     var gameSwipeButtons = $("<div id='gameSwipeButtons'>");
 
-    var back = $("<button id='gameBack'><em style='height:15px'></em><span data-lang='back_symbol'></span></button>");
+    var back = $("<button id='gameBack'><em style='height:15px'></em><span data-lang='back_symbol'>" + transl("back_symbol") + "</span></button>");
     gameSwipeButtons.append(back);
     back.on("click", function () {
         var previousPoll = _this.get.previous();
@@ -96,7 +95,7 @@ Polls.prototype.navigationEvents = function () {
         }
     });
 
-    var next = $("<button id='gameNext'><em style='height:15px'></em><span data-lang='next_symbol'></span></button>");
+    var next = $("<button id='gameNext'><em style='height:15px'></em><span data-lang='next_symbol'>" + transl("next_symbol") + "</span></button>");
     gameSwipeButtons.append(next);
     next.on("click", function () {
         var anyone = true;
@@ -118,6 +117,9 @@ Polls.prototype.game_config = function () {
         return;
     }
     window.game_config_loaded = true;
+    
+    var window_name = "gamePoll_" + this.query.replace(/[^a-z]/gi, ''); //remove not alphanumeric
+    window[window_name] = this;
 
     console.log("GamePoll.game_config");
     var _this = this;
@@ -146,11 +148,12 @@ Polls.prototype.next = function (idQ, anyone) {
 
 Polls.prototype.load = function (poll, individual, back) {
     if (!poll) {
+        //can be: NO MORE POLLS IN SQL_SORT.PHP (not redirect)
         console.log("!poll");
-        if (this.get.idQ) {
-            hashManager.defaultPage();
-            notice("e_votationRemoved");
-        }
+//        if (this.get.idQ) {
+//            hashManager.defaultPage();
+//            notice("e_votationRemoved");
+//        }
         return false;
     }
 
@@ -189,7 +192,12 @@ Polls.prototype.load = function (poll, individual, back) {
     var original = this.loadAnimation(back);
     original.attr("data-idQ", poll.id);
 
-    window.gamePoll = this.gamePoll = new FillTable(original, obj, null, function (option) {
+    var key = this.gameDB().split("_").pop() + "_" + poll.id
+    var objPoll = {
+        key: key,
+        obj: obj
+    };
+    window.gamePoll = this.gamePoll = new FillTable(original, {obj: obj}, null, function (option) {
         console.log("game option click " + option);
         _this.voted[poll.id] = true;
         if (!obj.users[window.user.id]) {
@@ -222,9 +230,8 @@ Polls.prototype.load = function (poll, individual, back) {
         _this.update(idQ, 'a', option);
         _this.update(idQ, 'v' + option, +poll['v' + option] + 1);
 
-        //SAVE
-        var keyId = _this.gameDB().split("_").pop() + "_" + poll.id
-        new Save({key: keyId, obj: obj}, $(_this.query)).do(function (key) {
+        //SAVE        
+        new Save(objPoll, $(_this.query)).do(function (key) {
             //
         }, null, [option]);
 
@@ -463,7 +470,7 @@ Polls.prototype.reset = function () {
     if (!table) {
         setTimeout(function () {
             console.log("waiting db..");
-            _this.loading();
+            _this.loading(null, "Polls.reset");
             _this.reset();
         }, 500);
         return;
@@ -483,7 +490,7 @@ Polls.prototype.loading = function (query) {
 //        $(this.query + " " + query).html("<img from='searchAction' class='loading absoluteLoading' src='~img/loader.gif'/>");
 //    }
 //    loading(this.query, true);
-    loading();
+    loading(null, "Polls loading");
 };
 
 Polls.prototype.loaded = function (where) {
@@ -493,7 +500,10 @@ Polls.prototype.loaded = function (where) {
 };
 
 Polls.prototype.gameDB = function () {
-    var table = localStorage.getItem("game_db");
+    var table = this.lang;
+    if (!table) {
+        table = localStorage.getItem("game_db");
+    }
     //console.log("gameDB: " + table);
     return table;
 };

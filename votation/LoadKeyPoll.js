@@ -4,10 +4,14 @@ var LoadKeyPoll = function (poll) {
     $("html").addClass("loadKeyPoll"); //removes on hashManager
 
     this.poll = window.screenPoll = poll;
-    this.key = this.poll.key;
+
+    if (this.poll.key.indexOf("_") > -1) {
+        console.log("w8 auto.load from GamePoll/ServrPoll classes");
+        return;
+    }
 
     //first
-    loading();
+    loading(null, "LoadKeyPoll");
 
     var isCountry = poll.key.indexOf("-") > 0;
     if ((poll.key[0] != "-" || isCountry) && poll.key.indexOf("_") == -1) {
@@ -25,20 +29,281 @@ var LoadKeyPoll = function (poll) {
 };
 
 LoadKeyPoll.prototype.requestPollByKey = function () {
-    var key = this.key;
+    var key = this.poll.key;
     console.log("requestPollByKey " + key);
 
     var urlParts = getPathsFromKeyId(key);
     this.poll.realKey = urlParts.realKey;
 
-    loadPollByKey(key, "RequestPollByKeyCallback");
+    var callback = "loadKeyPoll";
+    window[callback] = this;
+    loadPollByKey(key, "requestPollByKeyCallback", callback);
+};
+
+LoadKeyPoll.prototype.requestPollByKeyCallback = function (json) {
+    console.log("RequestPollByKeyCallback");
+    var _this = this;
+    this.user = window.user;
+
+    if (!this.poll) {
+        this.poll = new LoadedPoll();
+    }
+    console.log(this.poll);
+
+    $("#errorLog").html("");
+    this.poll.obj = parseKeyPoll(json, this.poll.key);
+
+    if (!this.poll.obj) {
+        console.log("!obj");
+        error("votationNotFound");
+        error("e_noDataReceived");
+        hashManager.defaultPage();
+        return;
+    }
+
+    this.parseUserVotes();
+
+    //TODO: or iPhone on future
+    if (!window.isAndroid) {
+        noticeBrowser();
+    }
+    var keyId = this.poll.key;
+    this.checkCountry(keyId);
+
+    this.query = "#votation .votationBox";
+    if (keyId.indexOf("_") > -1) {
+        this.query = "#pollsPage .gameContainer";
+    }
+
+    //allow hash and search
+    if (location.href.indexOf("share=") > -1) {
+        loading(null, "RequestPollByKeyCallback");
+        console.log("share in " + location.href);
+
+        var arr = location.href.split("share=")[1].split("&")[0].split("_");
+        //remove empty's between "_"
+        arr = $.grep(arr, function (n) {
+            return n === 0 || n;
+        });
+        for (var i = 0; i < arr.length; i++) {
+            console.log("option " + i + ": " + arr[i]);
+            if (this.poll.obj.options[i]) {
+                this.poll.obj.options[i][2] = arr[i];
+            }
+        }
+
+        var show;
+        if (arr.length) {
+            show = true;
+        }
+        new Share(this.poll).do(function () {
+            if (Device.close) {
+                Device.close("sharing");
+            }
+        }, show);
+
+        return false;
+    }
+
+    console.log(this);
+    window.loadedTable = new FillTable(this.query, this.poll, null, function (option) {
+        //SAVE:
+        new Save(_this.poll, $("#mainPage")).do(null, true, [option]);
+    });
+    if (!window.Device) {
+        //add sharing in browser:
+        shareIntent.checkShareEnvirontment(loadedTable.$div.find(".option"), this.poll.obj.options);
+    }
+
+    // + buttons
+    this.showVotation();
+    this.user = _this.getUser();
+
+    //this.uploadImage(keyId, obj);
+    loaded();
+};
+
+//parse ajax by userId
+LoadKeyPoll.prototype.parseUserVotes = function () {
+    var obj = this.poll.obj;
+
+    if (!obj) {
+        console.log("error parsing object: " + obj);
+        this.errorParse("e_votationWithErrors");
+        return;
+    }
+
+    console.log("parseUserVotes newUser " + window.user.id);
+    var user = this.getUser();
+    saveDefaultValues(user.vt);
+    this.user = user;
+
+    $("#votationOwner").remove();
+    if (obj.style && !empty(obj.style.owner)) {
+        console.log("obj.style: " + JSON.stringify(obj.style));
+        var ownerDiv = $("<div id='votationOwner'><span class='by'>by: </span></div>");
+        var text = obj.style.owner;
+        text = decode_uri(text);
+
+        var arr = text.split(" ");
+        for (var i = 0; i < arr.length; i++) {
+            if (isUrl(arr[i])) {
+                var url = arr[i];
+                if (url.indexOf("http") == -1) {
+                    url = "http://" + arr[i];
+                }
+                arr[i] = "<a href='" + url + "'>" + arr[i] + "</a> ";
+
+                ownerDiv.append(arr[i]);
+                continue;
+            }
+            //prevent code injection
+            var span = $("<span>");
+            span.text(arr[i] + " ");
+            ownerDiv.append(span);
+        }
+        //ownerDiv.append(".");
+        $("#votation").prepend(ownerDiv);
+    }
+};
+
+LoadKeyPoll.prototype.getUser = function () {
+    var obj = this.poll.obj;
+    var userId = this.user.id;
+
+    if (!obj.users) {
+        obj.users = {};
+    }
+
+    if (!obj.users[userId]) {
+        obj.users[userId] = getUserArray();
+    }
+
+    var obj_user = obj.users[userId];
+    if (!obj_user) {
+        throw "user = " + JSON.stringify(obj_user);
+    }
+    var userObj = {id: userId, vt: obj_user[1]};
+    //add extra values
+    if (obj.style && obj.style.extraValues) {
+        for (var i = 0; i < obj.style.extraValues.length; i++) {
+            var key = obj.style.extraValues[i];
+            userObj[key] = obj_user[2 + i];
+        }
+    }
+
+    console.log(JSON.stringify(userObj))
+    return userObj;
+};
+
+LoadKeyPoll.prototype.checkCountry = function (keyId) {
+//    if (keyId[0] == "-") {
+    return;
+//    }
+
+    var country = keyId.split("-").shift();
+
+    if (country) { //then is public
+        var countryName = getCountryName(country.toUpperCase(), getUserLang());
+
+        if (!isUserCountry(country)) {
+            if ("undefined" != typeof publicId && publicId) {
+                disableVotation();
+                notice(transl("WrongCountry") + countryName + ".");
+            }
+            //ELSE ask phone when click
+
+        } else {
+            //only say country disponibility if not errors or notices ¿?
+            if ($("#linksLink").html() == "") {
+                notice(lang["PollOnlyAvailableIn"] + countryName + ".");
+            }
+        }
+    }
+};
+
+//on load:
+LoadKeyPoll.prototype.uploadImage = function (keyId, obj) {
+    var _this = this;
+
+    var div = $("<div style='display:none'>");
+    $("body").append(div);
+    getCanvasImage(div, obj, keyId, 506, "", function (base64) {
+        $.post(settings.imagesURL, {
+            name: _this.poll.key,
+            base64: base64
+        }, function (data) {
+            console.log(data);
+        });
+    });
+};
+
+LoadKeyPoll.prototype.showVotation = function () {
+    console.log("RequestPollByKeyCallback.showVotation()");
+    var poll = this.poll;
+    var users = this.poll.obj.users;
+    
+    var $dom = $("#votation");
+    $("#mainPage > div").hide();
+    $dom.show();
+
+    //public is defined on load html
+    //VOTATION BUTTONS:
+    poll.buttons = new VotationButtons(poll, $dom);
+    poll.buttons.init();
+    $("#send").hide();
+
+    var style = poll.style;
+    if (style && style.extraValues) {
+        for (var i = 0; i < style.extraValues.length; i++) {
+            if ("nm" == style.extraValues[i]) {
+                var nameIndex = 2 + i;
+                var someName = false;
+
+                if (users) {
+                    for (var id in users) {
+                        var user = users[id];
+                        if (user[nameIndex] && (user[1] || 0 === user[1])) {
+                            console.log("some name exists: " + user[nameIndex] + " , " + user[1]);
+                            someName = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!someName) {
+                    console.log("any 'nm' in obj.users - disable button");
+                    $('#usersButton').addClass("disabled");
+                }
+                //break 'nm' value search
+                break;
+            }
+        }
+    }
+
+    $("#send").removeAttr("disabled");
+
+    //if private, add name input
+    //new AskUserName();
+};
+
+LoadKeyPoll.prototype.errorParse = function (code) {
+    console.log("errorParse " + $("html").hasClass("translucent").toString());
+    if (Device.close && $("html").hasClass("translucent")) {
+        loaded();
+        flash(transl(code), null, function () {
+            Device.close("errorParse " + code);
+        });
+        return;
+    }
+    hashManager.update("home", code);
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 
 //ON LOAD VOTATION AND STORED
 //only ajax, not Device
-function loadPollByKey(keyId, callback) {
+function loadPollByKey(keyId, callback, obj) {
 
 //    TODO: FROM SELECT.PHP
     var table = "";
@@ -67,7 +332,9 @@ function loadPollByKey(keyId, callback) {
     };
 
     //LANGUAGE KEY_ID parseSelect GAME CASE:
-    if (keyId.indexOf("_") > -1) {
+    var parseLanguages = ["en", "es", "pt", "it", "fr", "de"];
+//    if (keyId.indexOf("_") > -1) {
+    if (parseLanguages.indexOf(keyId + "_") > -1) {
         url = "parseSelect.php";
         var lang = keyId.split("_")[0];
         params.table = "preguntas" + lang.toUpperCase();
@@ -90,12 +357,12 @@ function loadPollByKey(keyId, callback) {
         for (var key in params) {
             string_params += key + "=" + params[key] + "&";
         }
-        Device.simpleRequest(url, string_params, "new " + callback, "");
+        Device.simpleRequest(url, string_params, obj + "." + callback, "");
 
     } else {
-        $.post("core/" + url, params, function (json) {
+        $.post(settings.corePath + url, params, function (json) {
             console.log(json);
-            new window[callback](json);
+            window[obj][callback](json);
         });
     }
 }
@@ -109,7 +376,7 @@ function parseKeyPoll(json, keyId) {
         return false;
     }
     var res = arr[0];
-    
+
     //RECOVER STORED POLL USER VOTES
     var users = {};
     var saved = localStorage.getItem("key_" + keyId);
@@ -183,229 +450,7 @@ function parseKeyPoll(json, keyId) {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-var RequestPollByKeyCallback = function (json) {
-    console.log("RequestPollByKeyCallback");
-    var _this = this;
-    this.query = "#votation .votationBox";
-//    console.log("RequestPollByKeyCallback " + data);
-
-    this.user = window.user;
-    this.poll = window.screenPoll;
-
-    if (!this.poll) {
-        this.poll = new LoadedPoll();
-    }
-    console.log(this.poll);
-
-    $("#errorLog").html("");
-    this.poll.obj = parseKeyPoll(json, this.poll.key);
-
-    if (!this.poll.obj) {
-        console.log("!obj");
-//        if (alternative.keysPath && settings.keysPath != alternative.keysPath) {
-//            settings.keysPath = alternative.keysPath;
-//            console.log("requestPollByKey again");
-//            new requestPollByKey();
-//            return;
-//        }
-
-        error("votationNotFound");
-        error("e_noDataReceived");
-        hashManager.defaultPage();
-        return;
-    }
-
-    this.parseUserVotes();
-
-    //TODO: or iPhone on future
-    if (!window.isAndroid) {
-        noticeBrowser();
-//            if ("true" == _this.poll._public) {
-//                disableVotation();
-//                noticePublic();
-//            }
-    }
-    var keyId = _this.poll.key;
-    _this.checkCountry(keyId);
-
-    //allow hash and search
-    if (location.href.indexOf("share=") > -1) {
-        loading();
-        console.log("share in " + location.href);
-
-        var arr = location.href.split("share=")[1].split("&")[0].split("_");
-        //remove empty's between "_"
-        arr = $.grep(arr, function (n) {
-            return n === 0 || n;
-        });
-        for (var i = 0; i < arr.length; i++) {
-            console.log("option " + i + ": " + arr[i]);
-            if (_this.poll.obj.options[i]) {
-                _this.poll.obj.options[i][2] = arr[i];
-            }
-        }
-
-        var show;
-        if (arr.length) {
-            show = true;
-        }
-        new Share(_this.poll).do(function () {
-            if (Device.close) {
-                Device.close("sharing");
-            }
-        }, show);
-
-        return false;
-    }
-    
-    window.loadedTable = new FillTable(_this.query, this.poll.obj, null, function(option){
-        //SAVE:
-        new Save(_this.poll, $("#mainPage")).do(function(){
-            //
-        }, true, [option]);
-    });
-    if (!window.Device) {
-        //add sharing in browser:
-        shareIntent.checkShareEnvirontment(loadedTable.$div.find(".option"), this.poll.obj.options);
-    }
-
-    // + buttons
-    showVotation(this.poll.obj.users);
-    _this.user = _this.getUser();
-
-    //this.uploadImage(keyId, obj);
-    loaded();
-};
-
-//parse ajax by userId
-RequestPollByKeyCallback.prototype.parseUserVotes = function () {
-//    var obj = this.poll.obj = parseData(data);
-    var obj = this.poll.obj;
-
-    if (!obj) {
-        console.log("error parsing object: " + obj);
-        errorParse("e_votationWithErrors");
-        return;
-    }
-
-    console.log("parseUserVotes newUser " + window.user.id);
-    var user = this.getUser();
-    saveDefaultValues(user.vt);
-    this.user = user;
-
-    $("#votationOwner").remove();
-    if (obj.style && !empty(obj.style.owner)) {
-        console.log("obj.style: " + JSON.stringify(obj.style));
-        var ownerDiv = $("<div id='votationOwner'><span class='by'>by: </span></div>");
-        var text = obj.style.owner;
-        text = decode_uri(text);
-
-        var arr = text.split(" ");
-        for (var i = 0; i < arr.length; i++) {
-            if (isUrl(arr[i])) {
-                var url = arr[i];
-                if (url.indexOf("http") == -1) {
-                    url = "http://" + arr[i];
-                }
-                arr[i] = "<a href='" + url + "'>" + arr[i] + "</a> ";
-
-                ownerDiv.append(arr[i]);
-                continue;
-            }
-            //prevent code injection
-            var span = $("<span>");
-            span.text(arr[i] + " ");
-            ownerDiv.append(span);
-        }
-        //ownerDiv.append(".");
-        $("#votation").prepend(ownerDiv);
-    }
-};
-
-RequestPollByKeyCallback.prototype.getUser = function () {    
-    var obj = this.poll.obj;
-    var userId = this.user.id;
-
-    if (!obj.users) {
-        obj.users = {};
-    }
-
-    if (!obj.users[userId]) {
-        obj.users[userId] = getUserArray();
-    }
-
-    var obj_user = obj.users[userId];
-    if (!obj_user) {
-        throw "user = " + JSON.stringify(obj_user);
-    }
-    var userObj = {id: userId, vt: obj_user[1]};
-    //add extra values
-    if (obj.style && obj.style.extraValues) {
-        for (var i = 0; i < obj.style.extraValues.length; i++) {
-            var key = obj.style.extraValues[i];
-            userObj[key] = obj_user[2 + i];
-        }
-    }
-    
-    console.log(JSON.stringify(userObj))
-    return userObj;
-};
-
-RequestPollByKeyCallback.prototype.checkCountry = function (keyId) {
-//    if (keyId[0] == "-") {
-    return;
-//    }
-
-    var country = keyId.split("-").shift();
-
-    if (country) { //then is public
-        var countryName = getCountryName(country.toUpperCase(), getUserLang());
-
-        if (!isUserCountry(country)) {
-            if ("undefined" != typeof publicId && publicId) {
-                disableVotation();
-                notice(transl("WrongCountry") + countryName + ".");
-            }
-            //ELSE ask phone when click
-
-        } else {
-            //only say country disponibility if not errors or notices ¿?
-            if ($("#linksLink").html() == "") {
-                notice(lang["PollOnlyAvailableIn"] + countryName + ".");
-            }
-        }
-    }
-};
-
-//on load:
-RequestPollByKeyCallback.prototype.uploadImage = function (keyId, obj) {
-    var _this = this;
-
-    var div = $("<div style='display:none'>");
-    $("body").append(div);
-    getCanvasImage(div, obj, keyId, 506, "", function (base64) {
-        $.post(settings.imagesURL, {
-            name: _this.poll.key,
-            base64: base64
-        }, function (data) {
-            console.log(data);
-        });
-    });
-};
-
-//device call
-function errorParse(code) {
-    console.log("errorParse " + $("html").hasClass("translucent").toString());
-    if (Device.close && $("html").hasClass("translucent")) {
-        loaded();
-        flash(transl(code), null, function () {
-            Device.close("errorParse " + code);
-        });
-        return;
-    }
-    hashManager.update("home", code);
-}
-
+//DEVICE CALL TOO!
 function disableVotation() {
     $("#votation .votationBox").addClass("unClickable");
 }

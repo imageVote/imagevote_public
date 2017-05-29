@@ -187,8 +187,10 @@ a:hover{
     text-decoration: none;
 }
 
+#mainPage > div{
+    clear: both;
+}
 #creator, #votation, #loading, #users, #firstTime, #captcha, #showPolls{
-    /*#mainPage > div{*/
     display: none;
     position: relative;
 }
@@ -280,7 +282,7 @@ input{
 }
 .image{
     display: inline-block;
-    margin-top:12px;
+    margin-top: 12px !important;
 }
 #image img, #image canvas{
     max-width: 100% !important;
@@ -875,10 +877,6 @@ body > .option > *{
     padding: 0 7%;
 }
 /*continue in index_not_ie*/
-
-/*#buttons{
-    min-height: 54px;
-}*/
 
 [contenteditable]{
     -webkit-user-select: text;

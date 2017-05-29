@@ -9,9 +9,9 @@ var HashManager = function () {
 
     //
     this.list = {
-        'new': function () {
-            newPoll();
-        },
+//        'new': function () {
+//            newPoll();
+//        },
         'firstTime': function () {
             $("#mainPage > div").hide();
             $("#firstTime").show();
@@ -19,26 +19,19 @@ var HashManager = function () {
         'home': function () {
             console.log("HOME");
             //else wrong/old hashes
+            
+            var poll = new LoadedPoll();
 
-            window.screenPoll.buttons = new VotationButtons(screenPoll);
+            var poll_div = $("#creator .options");
+            if (!poll_div.html()) {
+                new FillTable("#creator .votationBox", poll);
+            }
+            
+            new VotationButtons(poll, $("#creator .buttons")).init();
 
             // PUBLIC CHECKBOX:
-            var ignore = ["en", "es", "fr", "de", "it", "pt"];
-            var lang = localStorage.getItem("userLang");
-            if (lang && ignore.indexOf(lang.toLowerCase()) === -1) {
-                var makePublic = $("<div class='button publicCheckbox'>"
-                        + "<input type='checkbox'><span data-lang='MakePublic'>" + transl("MakePublic") + "</span>"
-                        + "</div>");
-                $("#buttons .votationButtons").prepend(makePublic);
-                makePublic.click(function () {
-                    var checkbox = $(this).parent().find("input");
-                    checkbox.prop("checked", !checkbox.prop("checked"));
-                    screenPoll._public = checkbox.prop("checked");
-                    checkbox.parent().toggleClass("publicCheck", screenPoll._public);
-                });
-            }
+            _this.publicCheckbox();
 
-            window.screenPoll.buttons.init();
             $("#cancel, #usersButton").hide();
 
             //headers
@@ -55,6 +48,10 @@ var HashManager = function () {
             $("#stored").show();
 
             _this.newPollView();
+
+            setTimeout(function () {
+                fontSize();
+            }, 1);
         }
     };
 
@@ -75,7 +72,7 @@ var HashManager = function () {
 };
 
 HashManager.prototype.newPollView = function () {
-    console.log("HashManager.newPollView")
+    console.log("HashManager.newPollView");
     if ($("#body").hasClass("pollsView")) {
         $("#body").removeClass("pollsView");
         $("#pollsHeader").hide();
@@ -209,4 +206,24 @@ HashManager.prototype.href = function (url) {
 HashManager.prototype.deviceURL = function (url) {
     //return location.href = location.origin + location.pathname + "?" + keyId;
     return location.origin + location.pathname + url;
+};
+
+HashManager.prototype.publicCheckbox = function () {
+    var lang = localStorage.getItem("userLang");
+
+    var ignore = ["en", "es", "fr", "de", "it", "pt"];
+    if (lang && ignore.indexOf(lang.toLowerCase()) > -1) {
+        return;
+    }
+
+    var makePublic = $("<div class='button publicCheckbox'>"
+            + "<input type='checkbox'><span data-lang='MakePublic'>" + transl("MakePublic") + "</span>"
+            + "</div>");
+    $("#buttons .votationButtons").prepend(makePublic);
+    makePublic.click(function () {
+        var checkbox = $(this).parent().find("input");
+        checkbox.prop("checked", !checkbox.prop("checked"));
+        screenPoll._public = checkbox.prop("checked");
+        checkbox.parent().toggleClass("publicCheck", screenPoll._public);
+    });
 };

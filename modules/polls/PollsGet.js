@@ -111,11 +111,15 @@ PollsGet.prototype.keysArray = function () {
         return false;
     }
     var lang = table.split("_").pop();
-    var local_data = localStorage.getItem("keysArray_" + lang);
+    var local_key = "keysArray_" + lang;
+    var local_data = localStorage.getItem(local_key);
+
     if (!local_data) {
-        console.log("!local_data in keysArray");
+        loading(null, "keysArray !local_data"); //w8 poll from servers
+        console.log("!local_data in keysArray: " + local_key);
         return false;
     }
+
     return local_data.split(",");
 };
 
@@ -123,25 +127,36 @@ PollsGet.prototype.indexKey = function (idQ) {
     if (!idQ) {
         idQ = this.idQ;
     }
-    return this.keysArray().indexOf("" + idQ);
+    var keys = this.keysArray();
+    if (!keys) {
+        return;
+    }
+    return keys.indexOf("" + idQ);
 };
 
 PollsGet.prototype.add = function (arr) {
-    //check is correct data:
-    for(var i = 0; i < arr.length; i++){
-        if(isNaN(arr[i])){
+    //check is correct data FIRST:
+    for (var i = 0; i < arr.length; i++) {
+        if (isNaN(arr[i])) {
             console.log("WRONG NUMBER ON SORT ARRAY WITH: " + arr[i]);
             return;
         }
     }
-    
-    var previous_arr = [];
+
+    var keysArray = [];
     var existingArrayPolls = this.keysArray();
     if (existingArrayPolls) {
-        previous_arr = existingArrayPolls;
+        keysArray = existingArrayPolls;
     }
 
-    var keysArray = previous_arr.concat(arr);
+    //CONCAT:
+    for (var i = 0; i < arr.length; i++) {
+        var key = arr[i];
+        if (keysArray.indexOf(key) == -1) {
+            keysArray.push(key);
+        }
+    }
+
     var table = this.game.gameDB();
     var lang = table.split("_").pop();
     localStorage.setItem("keysArray_" + lang, keysArray);

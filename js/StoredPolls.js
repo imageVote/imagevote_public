@@ -70,7 +70,7 @@ function loadStoredPolls() {
 
         //all ok:
         stored.append(div);
-        window.storedTable = new FillTable(query, obj, {removable: true});
+        window.storedTable = new FillTable(query, {obj: obj}, {removable: true});
         StoredPolls._events(keyId); //swipe events
 
         //TRY LOAD NOW FROM INTERNET

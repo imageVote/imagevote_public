@@ -160,7 +160,7 @@ Events.prototype.pollsEvents = function () {
 //
 //        //re-load
 //        if (!$("#pollsPage > div").length) {
-////        window.game = new GamePoll("#pollsPage", null, "game");
+////        window.game = new GamePoll("#pollsPage", null);
 //        }
 //        loaded();
 //    }

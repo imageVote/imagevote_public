@@ -35,9 +35,11 @@ PollsRequest.prototype.poll = function (idQ, individual) {
         this._getSortedPolls(table);
         return;
     }
-    
+
+    var lang = table.split(/(_|-)/).pop().toLowerCase();
+
     //INDIVIDUAL POLL ONLY
-    var params = "table=" + table + "&id=" + idQ;
+    var params = "table=" + lang + "&id=" + idQ;
     this.game.idQ = idQ;
 
     console.log("post select " + params);
@@ -49,7 +51,7 @@ PollsRequest.prototype.poll = function (idQ, individual) {
         //Device.parseSelect(table, "", idQ, "if(window." + func + ") " + func); //prevent server usage for parse!
         Device.simpleRequest(this.game.coreSelect, params, this.window_name + ".requestCallback");
     } else {
-        $.post("core/" + this.game.coreSelect, params, function (json) {
+        $.post(settings.corePath + this.game.coreSelect, params, function (json) {
             _this.requestCallback(json);
         });
     }
@@ -76,7 +78,7 @@ PollsRequest.prototype._getSortedPolls = function (table) {
     if (Device.simpleRequest) {
         Device.simpleRequest(call, params, this.game.window_name + ".request._pollsByKeys");
     } else {
-        $.post("core/" + call, params, function (json) {
+        $.post(settings.corePath + call, params, function (json) {
             _this._pollsByKeys(json);
         });
     }
@@ -93,7 +95,7 @@ PollsRequest.prototype._pollsByKeys = function (json_arr) {
     for (var key in this.gamePolls) {
         var index = arr.indexOf(this.gamePolls[key].id);
         if (index > -1) {
-            arr.split(index, 1);
+            arr.splice(index, 1);
             continue;
         }
     }
@@ -114,7 +116,7 @@ PollsRequest.prototype._pollsByKeys = function (json_arr) {
     this.game.get.add(arr);
 
     //REQUEST NEW ARRAY POLLS
-    var lang = table.split("_").pop();
+    var lang = table.split("_").pop().toLowerCase();
     var params = "table=" + lang + "&arrIds=" + arr.join(",");
     
     loading(null, "PollsRequest._pollsByKeys");
@@ -125,7 +127,7 @@ PollsRequest.prototype._pollsByKeys = function (json_arr) {
 //        Device.parseSelect(table, "", idQ, "if(window." + func + ") " + func); //prevent server usage for parse!
         Device.simpleRequest(pathRequest, params, "pollsRequest_" + this.pollRequest_index + ".requestCallback");
     } else {
-        $.post("core/" + pathRequest, params, function (json) {
+        $.post(settings.corePath + pathRequest, params, function (json) {
             _this.requestCallback(json);
         });
     }

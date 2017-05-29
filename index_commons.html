@@ -64,7 +64,6 @@
         "~commons/votation/Save.js",
         "~commons/votation/Share.js",
         "~commons/votation/VotationButtons.js",
-        "~commons/votation/newVotation.js",
         "~commons/votation/LoadKeyPoll.js",
         "~commons/js/User.js",
         "~commons/js/StoredPolls.js",
@@ -144,7 +143,6 @@
         window.translate = new Translate();
         window.modalBox = new ModalBox();
         window.settings = new Settings();
-        window.hashManager = new HashManager();
         window.events = new Events();
 
         if (!window.Device) {
@@ -153,6 +151,8 @@
     });
 
     function document_ready() {  //custom needed (before keyLoad)
+        window.hashManager = new HashManager();
+
         //load stored code - first (loas user, etc.. before keyLoad() !!)
         if (Device.documentReady) {
             Device.documentReady();
@@ -237,7 +237,7 @@
 
     //user init needed!
     function keyLoad() {
-        if (screenPoll.key) {
+        if (screenPoll.key && "#polls" != location.hash) {
             window.keyPoll = new LoadKeyPoll(screenPoll);
         }
     }
@@ -257,7 +257,7 @@
 
     //device function too!
     function loading(div, from) {
-        if(!from){
+        if (!from) {
             from = "";
         }
         console.log("loading " + from);
