@@ -1,0 +1,15 @@
+$.extend(window.lang, {
+'rate_title': "اس ایپ کی درجہ بندی کریں",
+'rate_star1': "یہ نفرت تھی",
+'rate_star2': "یہ ناپسند کیا",
+'rate_star3': "ٹھیک ہے",
+'rate_star4': "پسند کیا",
+'rate_star5': "اس پر لٹو",
+'rate_NOSUBMIT': "نہیں شکریہ",
+'rate_SUBMIT': "جمع",
+'rate_SUBMITLATER': "بعد",
+'rate_messageTitle': "ایک مختصر جائزہ لکھیں",
+'rate_thanks': "تبصرے کا شکریہ",
+'rate_FINISH': "ختم",
+'rate_placeholder': "اگر آپ کو لگتا ہے ہمیں بتائیں",
+});

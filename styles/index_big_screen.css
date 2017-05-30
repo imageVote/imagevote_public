@@ -20,7 +20,7 @@
     .votationBox, #pollsPage .gameContainer{
         padding-bottom: 30% !important;
     }
-    #buttons{
+    .buttons{
         margin: 20px 0;
     }
     #gameButtons{

@@ -1,0 +1,15 @@
+$.extend(window.lang, {
+'rate_title': "Bu app",
+'rate_star1': "onu nifrət",
+'rate_star2': "onu sevmədiyi",
+'rate_star3': "OK",
+'rate_star4': "Xoşuma gəldi",
+'rate_star5': "sevdim",
+'rate_NOSUBMIT': "XEYR, TƏŞƏKKÜRLƏR",
+'rate_SUBMIT': "TƏQDİM",
+'rate_SUBMITLATER': "SONRA",
+'rate_messageTitle': "qısa bir baxış yazın",
+'rate_thanks': "Əlaqə üçün təşəkkür edirik",
+'rate_FINISH': "FINISH",
+'rate_placeholder': "Bizə nə düşündüyünü de",
+});

@@ -1,0 +1,15 @@
+$.extend(window.lang, {
+'rate_title': "Novērtēt šo lietotni",
+'rate_star1': "ienīda to",
+'rate_star2': "nepatika",
+'rate_star3': "Ir labi",
+'rate_star4': "patika tas",
+'rate_star5': "patika",
+'rate_NOSUBMIT': "NĒ PALDIES",
+'rate_SUBMIT': "IESNIEGT",
+'rate_SUBMITLATER': "VĒLĀK",
+'rate_messageTitle': "Uzrakstiet īsu atsauksmi",
+'rate_thanks': "Paldies par Atsauksmes",
+'rate_FINISH': "FINISH",
+'rate_placeholder': "Pastāstiet mums, ko jūs domājat",
+});

@@ -34,7 +34,8 @@
             $(".menuIcon").removeClass("hidden");
         }, 100);
 
-        $("#headerTitle").text(settings.appName + " +");
+        //$("#headerTitle").text(settings.appName + " +");
+        $("#headerTitle").after(" +");
 
         translate.translateTags(); //start lang
         p.events();

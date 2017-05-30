@@ -64,7 +64,6 @@
         "~commons/votation/Save.js",
         "~commons/votation/Share.js",
         "~commons/votation/VotationButtons.js",
-        "~commons/votation/newVotation.js",
         "~commons/votation/LoadKeyPoll.js",
         "~commons/js/User.js",
         "~commons/js/StoredPolls.js",
@@ -77,6 +76,8 @@
         "~commons/modules/modalBox/ModalBox.js",
         "~commons/js/Events.js",
         "~commons/getCountryName.js",
+        "~commons/modules/polls/PollsRequest.js",
+        "~commons/modules/polls/PollsGet.js",
         "~commons/modules/polls/Polls_extend.js",
         "~commons/js/TextFormat.js"
     ]);
@@ -139,11 +140,9 @@
     window.iPhone = ua.indexOf("iPhone") > -1 || ua.indexOf("iPod") > -1;
 
     require(["commons_dependencies"], function () { //dependencies needed
-        window.languagePaths = {'~lang': 1};
         window.translate = new Translate();
         window.modalBox = new ModalBox();
         window.settings = new Settings();
-        window.hashManager = new HashManager();
         window.events = new Events();
 
         if (!window.Device) {
@@ -152,6 +151,8 @@
     });
 
     function document_ready() {  //custom needed (before keyLoad)
+        window.hashManager = new HashManager();
+
         //load stored code - first (loas user, etc.. before keyLoad() !!)
         if (Device.documentReady) {
             Device.documentReady();
@@ -159,13 +160,13 @@
 
         //Languages
         var translations = 0;
-        translate.loadLanguage("~lang", function () {
+        translate.loadLanguage("~", "body", function () {
             translations++;
             if (translations >= 2) {
                 translate.translateTags();
             }
         });
-        translate.loadLanguage("~commons/lang", function () {
+        translate.loadLanguage("~commons/", "body", function () {
             translations++;
             if (translations >= 2) {
                 translate.translateTags();
@@ -176,7 +177,7 @@
         if (!window.user) { //if already from device
             console.log("add first window.user")
             //user id callback needed
-            window.user = new User(null, function () {
+            window.user = new User(function () {
                 //get userName not Device way (before any return)
                 var userName = localStorage.getItem("userName");
                 if (userName) {
@@ -236,7 +237,7 @@
 
     //user init needed!
     function keyLoad() {
-        if (screenPoll.key) {
+        if (screenPoll.key && "#polls" != location.hash) {
             window.keyPoll = new LoadKeyPoll(screenPoll);
         }
     }
@@ -255,16 +256,14 @@
     }
 
     //device function too!
-    function loading(div, hide) {
-        console.log("loading");
+    function loading(div, from) {
+        if (!from) {
+            from = "";
+        }
+        console.log("loading " + from);
         if (!div) {
-            //div = "#body";
             div = "body";
         }
-
-//        if (hide) {
-//            $(div + " > *").hide();
-//        }
 
         var loading = $(div + " > .loader");
         if (!loading.length) {
@@ -283,17 +282,14 @@
     }
 
     function loaded(div, all) {
-//        var where = "#body > ";
-//        var show = "#body > ";
+        console.log("loaded");
         var where = "body > ";
         if (div) {
-            //show = where = div + " > ";
             where = div + " > ";
         }
         if (all) {
             where = "";
         }
-//        $(show + "*").show();
         $(where + ".loader").remove();
     }
 
@@ -312,7 +308,6 @@
             console.log("verbose: not json on key: " + key + " yet");
             return;
         }
-        saveLocally(key, screenPoll.obj);
     }
 
 </script>

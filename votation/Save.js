@@ -1,83 +1,39 @@
 
 var Save = function (poll, $imageDOM, doneCallback, failCallback) {
+    console.log("Save()");
+    console.log(poll);
     this.poll = poll;
     this.$imageDOM = $imageDOM;
     this.doneCallback = doneCallback;
     this.failCallback = failCallback;
-
-    this.savingPoll = false;
 };
 
-
-Save.prototype.do = function (action, callback, andShare, add, sub) {
+Save.prototype.do = function (callback, andShare, add) {
     var _this = this;
     this.andShare = andShare;
-    console.log("VotationButtons.save screenPoll");
 
     var poll = this.poll;
-    var user = window.user;
+    console.log(this.poll)
 
+    //save before to solve any current bug:
+    this.saveLocally();
+
+    //STORE FRIENDS DATA
     if (!poll._public) {
         //name is mandatory for prevent troll's confusion votes, and disagree results
         var inputName = $("#userNamePoll").val() || localStorage.getItem("userName");
 
         if (inputName) {
-            if (!user) {
-                user = {};
-            }
-            user.nm = inputName;
-            if (window.Device) {
-                if (window.isAndroid) {
-                    user.from = "android";
-                } else {
-                    user.from = "device";
-                }
-            } else {
-                user.from = browser();
-            }
             updateUserName(inputName);
 
         } else {
             var userName = localStorage.getItem("userName");
             modalBox.input(transl("myName"), userName, function (val) {
                 updateUserName(val);
-                _this.do(action, callback, add, sub);
+                _this.do(callback, andShare, add);
             });
-
-            if (callback) {
-                callback(false);
-            }
             return;
         }
-
-//        if (!poll.key) {
-//            if (checkConnection()) {
-//                if (this.key_waiting > 10) {
-//                    loaded();
-//                    flash("server connection is taking too long");
-//                    return;
-//                }
-//
-//                console.log("no key yet");
-//                setTimeout(function () {
-//                    _this.save(action, callback);
-//                }, 500);
-//
-//                this.key_waiting++;
-//                return;
-//            }
-//            //stop
-//            if (callback) {
-//                callback(false);
-//            }
-//            return;
-//        }
-    }
-
-    if (!this.savingPoll) {
-        //loading class for group and work with all loadings on page
-        loading();
-        this.savingPoll = true;
     }
 
     //before change anything
@@ -112,30 +68,12 @@ Save.prototype.do = function (action, callback, andShare, add, sub) {
         }
     }
 
-    this.saveEventCallback = callback;
-    console.log(action + ' == action');
-
     //update before ask phone
-    var sendJson = "";
-    switch (action) {
-        case "update":
-            var userArr = poll.obj.users[user.id];
-            //sendJson = CSV.stringify([userArr]);
-            sendJson = user.id + "|" + JSON.stringify([userArr[1]]);
-            poll.json += "\n" + sendJson;
-            saveLocally(poll.key, poll.obj);
-            break;
-
-        case "create":
-            sendJson = poll.json = pollToCSV(poll.obj);
-            break;
-
-        default:
-            console.log("error on action: " + action);
-            if (callback) {
-                callback(false);
-            }
-            return;
+    var sendJson = pollToCSV(poll.obj);
+    if (!sendJson) {
+        console.log("ERROR: !sendJson");
+        console.log(poll);
+        return;
     }
 
     //is shared before
@@ -143,45 +81,26 @@ Save.prototype.do = function (action, callback, andShare, add, sub) {
         _this.saveCallback(this.poll.key);
         return;
     }
+
     this.lastSendJson = sendJson;
+    this.saveEventCallback = callback;
 
-    //AJAX
-    switch (action) {
-        case "update":
-            if (!Device.save) {
-                this.addAjax(sendJson, function (res) {
-                    _this.saveCallback(res);
-                }, add, sub);
-
-            } else {
-                //only way of public - public-id has to be updated on load
-                this.saveDevice(action, sendJson, "screenPoll.buttons.save.saveCallback");
-            }
-            break;
-
-        case "create":
-            if (!Device.save) {
-                this.createAjax(sendJson, function (res) {
-                    _this.saveCallback(res);
-                });
-
-            } else {
-                //only way of public - public-id has to be updated on load
-                this.saveDevice(action, sendJson, "screenPoll.buttons.save.saveCallback");
-            }
-            break;
-    }
+    this.post(sendJson, add);
 
     //if new
     $("#image").remove();
-    var votes = poll.obj.users[user.id][1];
+    var votes = poll.obj.users[window.user.id][1];
     saveDefaultValues(votes);
 };
 
 //device calls:
 Save.prototype.saveCallback = function (res) {
-    var _this = this;
     console.log("saveCallback " + res);
+    if (!res) {
+        error("errorAjaxResponse");
+        return;
+    }
+
     this.poll.key = res;
 
     //remove any stored cache
@@ -199,120 +118,54 @@ Save.prototype.saveCallback = function (res) {
 
     //if (this.$sendButton.hasClass("saveAndShare")) {
     if (this.$imageDOM && this.andShare) {
-        var share = new Share(this.poll, this.$imageDOM);
-        share.do(function () {
-            _this.loaded();
+        new Share(this.poll, this.$imageDOM).do();
+
+    } else {
+        loaded();
+    }
+};
+
+Save.prototype.post = function (sendJson, add) {
+    var _this = this;
+    var callback = "saveCallback";
+
+    var params = "userId=" + window.user.id
+            + "&data=" + sendJson;
+    
+    var table;
+    
+    //on create:
+    if (this.$imageDOM.find(".publicCheckbox.publicCheck").length) {
+        table = localStorage.getItem("userLang");
+    }
+    //on update:    
+    if (this.poll.key) {
+        params += "&key=" + this.poll.key;
+        if (this.poll.key.split("_").length > 1) {
+            table = this.poll.key.split("_")[0];            
+        }
+    }
+    if (add) {
+        params += "&add=" + JSON.stringify(add);
+    }
+    
+    if(table){
+        params += "&table=" + table;
+    }
+
+    var request = "add.php";
+    if (!Device.simpleRequest) {
+        $.post(settings.corePath + request, params, function (res) {
+            _this[callback](res);
+        }).error(function (res) {
+            _this.ajaxError(res);
         });
 
     } else {
-        this.loaded();
+        window.saveClass = this;
+        this.simpleRequest(request, params, "saveClass." + callback);
     }
-
-    //saveLocally(key, this.poll.json);
-};
-
-Save.prototype.loaded = function () {
-    loaded();
-    this.savingPoll = false;
-};
-
-Save.prototype.saveDevice = function (action, sendJson, callback) {
-    var _public = "" + this.poll._public;
-    var country = this.poll.country;
-    var key = this.poll.key;
-
-//    if (!this.keyWaiting) {
-//        this.keyWaiting = 0;
-//    }
-    //FORCE WAIT KEY
-//    if (!key && !_public && "create" == action) { //check external key!
-//        if (this.keyWaiting > 8) {
-//            flash(transl("waitingKeyExpired"));
-//            return;
-//        }
-//
-//        //wait 4 key arrive
-//        setTimeout(function () {
-//            _this.saveDevice(action, sendJson, callback);
-//        }, 700);
-//
-//        console.log("looking for new key");
-//        this.keyWaiting++;
-//        return;
-//    }
-//    this.keyWaiting = 0;
-
-    //localStorage.setItem("unusedKey", "");
-    var realKey = "";
-    if (key) {
-        var urlParts = getPathsFromKeyId(key);
-        realKey = this.poll.realKey = urlParts.realKey;
-    }
-
-    //key value is only added on create()
-    if (!window.lastKeyAsk) {
-        window.lastKeyAsk = 0;
-    }
-    console.log("callback: " + callback);
-    Device.save(action, sendJson, window.lastKeyAsk, realKey, _public, country, callback);
-};
-
-Save.prototype.addAjax = function (sendJson, callback, add, sub) {
-    var _this = this;
-//    if ("true" == this.poll._public) {
-//        error("PublicOnlyFromApp");
-//        return;
-//    }
-
-    $.post(settings.corePath + "add.php", {
-        userId: window.user.id,
-        key: this.poll.key,
-        data: sendJson,
-        add: JSON.stringify(add),
-        sub: JSON.stringify(sub)
-    }).done(function (res) {
-        _this.ajaxDone(res, callback);
-    }).error(function (res) {
-        _this.ajaxError(res);
-    });
-};
-
-Save.prototype.createAjax = function (sendJson, callback) {
-    var _this = this;
-//    if ("true" == this.poll._public) {
-//        error("PublicOnlyFromApp");
-//        return;
-//    }
-
-    var table = "private";
-    var val = $(".publicCheck input").val();
-    if (val) {
-        table = localStorage.getItem("userLang");
-    }
-
-    $.post(settings.corePath + "create.php", {
-        id: window.user.id,
-        key: this.poll.key,
-        data: sendJson,
-        table: table
-    }).done(function (res) {
-        _this.ajaxDone(res, callback);
-    }).error(function (res) {
-        _this.ajaxError(res);
-    });
-};
-
-Save.prototype.ajaxDone = function (res, callback) {
-    console.log(res);
-    if (!res) {
-        error("errorAjaxResponse");
-        //TODO ERROR ?
-        return;
-    }
-    if (callback) {
-        callback(res);
-    }
-};
+}
 
 Save.prototype.ajaxError = function (res) {
     console.log(res);
@@ -327,3 +180,25 @@ Save.prototype.notSave = function (why) {
         this.failCallback();
     }
 };
+
+Save.prototype.saveLocally = function () {
+    var key = this.poll.key;
+    if (!key) {
+        console.log("!key yet");
+        return;
+    }
+    if (key.split("_").length > 1) {
+        console.log("not save language game polls");
+        return;
+    }
+
+    var obj = this.poll.obj;
+
+    console.log("saveLocally " + key + ": " + JSON.stringify(obj));
+    if (!key) { //check is correct stores query     
+        console.log("WRONG KEY TO STORE: " + key);
+        return;
+    }
+
+    localStorage.setItem("key_" + key, JSON.stringify(obj));
+}

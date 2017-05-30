@@ -3,18 +3,16 @@
 var canvas, ctx;
 
 //ON CREATE ONLY!
-function getUserArray(user) {
+function getUserArray(user, style) {
     if (empty(user)) {
         console.log("[" + window.user.id + ", '']");
         return [window.user.id, ""];
     }
-//    console.log("user: " + JSON.stringify(user));
-    console.log("user: '" + user + "'");
+    console.log("user: '" + JSON.stringify(user) + "'");
 
     var arr = [user.id, user.vt];
     //like name on private polls    
     //needs to be defined in defaultStyle because is array type stored (not by attr)
-    var style = screenPoll.style;
     if (style && style.extraValues) {
         for (var i = 0; i < style.extraValues.length; i++) {
             var key = style.extraValues[i];
@@ -30,6 +28,10 @@ function getUserArray(user) {
 }
 
 function pollToCSV(obj) {
+    if(!obj.options){
+        return;
+    }
+    
     var style = window.screenPoll.style;
     if (!style) {
         style = {};
@@ -70,7 +72,7 @@ function pollToCSV(obj) {
     var arr = [obj.question, JSON.stringify(options), style];
 
     //add user ony if is voting
-    var user = getUserArray(window.user);
+    var user = getUserArray(window.user, screenPoll.style);
     if (user.vt) {
         user = JSON.stringify(user);
         arr.push(user);

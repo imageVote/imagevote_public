@@ -583,7 +583,7 @@
 
     var lastValue = "";
     function searchAction() {
-        loading();
+        loading(null, "searchAction");
 
         var value = $("#search input").val();
         lastValue = value;

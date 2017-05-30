@@ -1,49 +1,5 @@
 // GLOBAL EVENTS
 
-function showVotation(users) {
-    $("#mainPage > div").hide();
-    $("#votation").show();
-
-    //public is defined on load html
-    //VOTATION BUTTONS:
-    window.screenPoll.buttons = new VotationButtons(screenPoll);
-    window.screenPoll.buttons.init();
-    $("#send").hide();
-
-    var style = screenPoll.style;
-    if (style && style.extraValues) {
-        for (var i = 0; i < style.extraValues.length; i++) {
-            if ("nm" == style.extraValues[i]) {
-                var nameIndex = 2 + i;
-                var someName = false;
-
-                if (users) {
-                    for (var id in users) {
-                        var user = users[id];
-                        if (user[nameIndex] && (user[1] || 0 === user[1])) {
-                            console.log("some name exists: " + user[nameIndex] + " , " + user[1]);
-                            someName = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!someName) {
-                    console.log("any 'nm' in obj.users - disable button");
-                    $('#usersButton').addClass("disabled");
-                }
-                //break 'nm' value search
-                break;
-            }
-        }
-    }
-
-    $("#send").removeAttr("disabled");
-
-    //if private, add name input
-    //new AskUserName();
-}
-
 function backVotation() {
     $("#mainPage > div").hide();
     $("#votation").show();
@@ -52,12 +8,7 @@ function backVotation() {
 
 // VOTATION EVENTS
 
-function saveDefaultValues(votes) {
-//    if (!votes) {
-//        votes = [];
-//    }
-//    window.originalVotes = votes.toString();
-
+function saveDefaultValues() {
     window.originalPublic = $("#p_makePublic input").is(':checked');
     window.originalCountry = $("#countrySelect select").val();
 }
@@ -128,19 +79,4 @@ var votationEvents_deviceShare = function (imgData, keyId, path) {
         path = "";
     }
     return Device.share(imgData.substring(22), keyId, path);
-}
-
-function saveLocally(key, obj) {
-    console.log("saveLocally " + key);
-    if (key) { //check is correct stores query        
-        if (key == screenPoll.key) {
-            for (var user in screenPoll.obj.users) {
-                obj.users[user] = screenPoll.obj.users[user];
-            }
-        }
-        
-        localStorage.setItem("key_" + key, JSON.stringify(obj));
-    } else {
-        console.log("WRONG KEY TO STORE: " + key);
-    }
 }

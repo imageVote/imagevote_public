@@ -1,8 +1,8 @@
 
 var VotationButtons = function (poll, $dom) {
     var _this = this;
-    console.log("VotationButtons()")
-
+    console.log("VotationButtons()");
+        
     this.poll = poll;
     this.$imageDOM = $("#mainPage");
 
@@ -12,12 +12,7 @@ var VotationButtons = function (poll, $dom) {
     this.$cancelButton = $("<button id='cancel' data-lang='Cancel'>");
     this.$usersButton = $("<button id='usersButton' data-lang='Voters'>");
 
-    if (!$dom) {
-        $dom = $("#buttons");
-        this.$votation = $("#creator");
-    } else {
-        this.$votation = $dom.parent();
-    }
+    this.$votation = $dom.parent();
     this.$dom = $dom;
 
     $dom.find(".votationButtons").remove();
@@ -34,10 +29,10 @@ var VotationButtons = function (poll, $dom) {
     translate.loadTranslations();
 
     this.save = new Save(poll, this.$imageDOM, function () {
-        //done
+        //done callback
 
     }, function () {
-        //fail
+        //fail callback
         _this.$sendButton.removeAttr("disabled");
     });
 };
@@ -57,22 +52,15 @@ VotationButtons.prototype.sendButtonEvent = function () {
     this.$sendButton.click(function (e) {
         //prevent docuble tap save and share ?
         e.stopPropagation();
-        loading();
+        loading(null, "sendButtonEvent");
 
-        var obj = _this.poll.obj;
         var andShare = _this.$sendButton.hasClass("saveAndShare");
 
         //IF SAVE and/or SHARE
-        //prevent sav and share if premium cose not key con be loaded!
+        //prevent save and share if premium cose not key con be loaded!
         if (andShare) {
-            if (!obj.users) {
-                obj.users = [];
-            }
-            //save user on screenPoll 'obj' (1st time)
-            obj.users[_this.user.id] = getUserArray(_this.user);
-
             //.SaveAndShare class includes VotationButtons.share!
-            _this.save.do("create", function (done) {
+            _this.save.do(function (done) {
                 if (false === done) {
                     loaded();
                     return;
@@ -82,7 +70,7 @@ VotationButtons.prototype.sendButtonEvent = function () {
 
         } else if (!_this.$sendButton.hasClass("share")) { //class is save
             _this.$sendButton.attr("disabled", "disabled");
-            _this.save.do("update", function (done) {
+            _this.save.do(function (done) {
                 loaded();
                 if (false !== done) {
                     _this.saveToShare();
@@ -90,18 +78,16 @@ VotationButtons.prototype.sendButtonEvent = function () {
             });
 
         } else { //share
-            var share = new Share(this.poll, this.$imageDOM);
-            share.do(function () {
-                loaded();
-            });
+            new Share(this.poll, this.$imageDOM).do();
         }
     });
 };
 
 VotationButtons.prototype.cancelButtonEvent = function () {
-
+    var _this = this;
+    
     this.$cancelButton.click(function () {
-        window.screenPoll = new LoadedPoll();
+        _this.poll = new LoadedPoll();
 
         if (window.isTranslucent) {
             if (Device.close) {
@@ -138,7 +124,11 @@ VotationButtons.prototype.cancelButtonEvent = function () {
 
 VotationButtons.prototype.usersButtonEvent = function () {
     var _this = this;
-
+    
+    if(!this.poll || !this.poll.obj.users){
+        return;
+    }
+    
     //voters users
     var obj = this.poll.obj;
     var users = obj.users;

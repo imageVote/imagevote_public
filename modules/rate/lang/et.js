@@ -1,0 +1,15 @@
+$.extend(window.lang, {
+'rate_title': "Hinda seda äppi",
+'rate_star1': "Üldse ei",
+'rate_star2': "ei meeldinud",
+'rate_star3': "See on OK",
+'rate_star4': "Meeldis",
+'rate_star5': "Armastasin seda",
+'rate_NOSUBMIT': "EI AITÄH",
+'rate_SUBMIT': "ESITA",
+'rate_SUBMITLATER': "hILJEM",
+'rate_messageTitle': "Kirjutage lühike ülevaade",
+'rate_thanks': "Täname tagasiside",
+'rate_FINISH': "LÕPETAMA",
+'rate_placeholder': "Rääkige meile, mida sa arvad",
+});
