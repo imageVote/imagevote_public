@@ -287,15 +287,9 @@ Polls.prototype.requestCallback = function (json) {
 
     var polls = this.parsePolls(obj);
 
-    //SAVE AS FALSE UNEXISTING POLLS, ALLOW NULL's TO NOT YET LOADED POLLS
-//    for (var i = 0; i < polls.length; i++) {
-//        var poll = polls[i];
-//        gamePolls[poll.id] = poll;
-//    }
     var game_db = this.gameDB();
     var polls_idQ = localStorage.getItem("idQ_" + game_db);
     if (null === polls_idQ) { //if not idQ saved, get first loaded poll idQ
-        //polls_idQ = polls[0][1]; //this auses bug on loaded polls not starting in idQ == 1 (it)
         polls_idQ = 0;
     }
 
@@ -311,24 +305,9 @@ Polls.prototype.requestCallback = function (json) {
     }
     localStorage.setItem(table, JSON.stringify(gamePolls));
 
-//    var next_idQ = this.idQ + 1;
-//    if (this.individual) {
     var next_idQ = this.idQ;
-//    }
     var nextPoll = this.next(next_idQ);
     if (!nextPoll) {
-
-//        //PREVENT LAT idQ LOOP
-//        var table = this.gameDB();
-//        var request = table + "_" + idQ;
-//        if (request === this.last_request) {
-//            console.log("stop request loop " + request);
-//            flash(transl("polls_noMoreFound"));
-//            //reset request
-//            this.last_request = false;
-//            return;
-//        }
-//        this.last_request = request;
 
         console.log("no poll!");
         var previous = this.previous(next_idQ);
@@ -421,7 +400,6 @@ Polls.prototype.previous = function (idQ) {
 
 Polls.prototype.load = function (poll, individual, back) {
     if (!poll) {
-//        this.request(poll.id);
         return false;
     }
 
@@ -828,19 +806,6 @@ Polls.prototype.update_idQ = function (idQ) {
 
 Polls.prototype.gameDB = function () {
     var table = localStorage.getItem("game_db");
-//    if (this.request_db) {
-//        table = this.request_db;
-//    }
-
-//    //repare: only on transition!
-//    if(table.indexOf("preguntas") > -1){
-//        table = table.replace("preguntas", "");
-//        if(!table){
-//            table = "es";
-//        }
-//    }
-
-    console.log("gameDB: " + table);
     return table;
 };
 
