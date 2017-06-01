@@ -103,6 +103,7 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
 
 Translate.prototype.loadTranslations = function (where) {
     console.log("loadTranslations() " + where);
+    var _this = this;
 
     if (!where || !window.lang) {
         console.log("!window.lang");
@@ -114,7 +115,7 @@ Translate.prototype.loadTranslations = function (where) {
 
         var translation = window.lang[textKey];
         if (translation) {
-            $(this).html(this.textFormat.decode(translation));
+            $(this).html(_this.textFormat.decode(translation));
         } else {
             $(this).html(textKey);
             console.log(textKey + " not have translation!");
