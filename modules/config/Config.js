@@ -4,16 +4,18 @@ var Config = function () {
     var global = "config";
     window[global] = this;
 
-    //REQUEST
-    var file = "config.json";
-    if (Device.simpleRequest) {
-        Device.simpleRequest(file, null, global + ".callback");
-    } else {
-        //$.post returns error:412 in ios with '.json' !!
-        $.getJSON("core/" + file, function (data) {
-            this.callback(data);
-        });
-    }
+    translate.loadLanguage("~commons/modules/config/", null, function () {
+        //REQUEST
+        var file = "config.json";
+        if (Device.simpleRequest) {
+            Device.simpleRequest(file, null, global + ".callback");
+        } else {
+            //$.post returns error:412 in ios with '.json' !!
+            $.getJSON("core/" + file, function (data) {
+                this.callback(data);
+            });
+        }
+    });
 };
 
 Config.prototype.callback = function (json) {

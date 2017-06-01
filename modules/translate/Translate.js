@@ -3,6 +3,8 @@ window.languagePaths = {'~': 1};
 
 var Translate = function () {
     this.loaded = [];
+    
+    this.textFormat = new TextFormat();
 };
 
 Translate.prototype.translateTags = function (refresh) {
@@ -101,22 +103,18 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
 
 Translate.prototype.loadTranslations = function (where) {
     console.log("loadTranslations() " + where);
-    if (!where) {
-        where = "";
-    }
 
-    if (!window.lang) {
+    if (!where || !window.lang) {
         console.log("!window.lang");
         return;
     }
 
-    var textFormat = new TextFormat();
     $(where + " [data-lang]").each(function () {
         var textKey = $(this).attr("data-lang");
 
         var translation = window.lang[textKey];
         if (translation) {
-            $(this).html(textFormat.decode(translation));
+            $(this).html(this.textFormat.decode(translation));
         } else {
             $(this).html(textKey);
             console.log(textKey + " not have translation!");
@@ -125,7 +123,7 @@ Translate.prototype.loadTranslations = function (where) {
         //$(this).removeAttr("data-lang");
     });
 
-    $("[data-placeholder]").each(function () {
+    $(where + " [data-placeholder]").each(function () {
         var textKey = $(this).attr("data-placeholder");
         var translation = window.lang[textKey];
         if (translation) {
