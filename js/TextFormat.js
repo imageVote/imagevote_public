@@ -15,5 +15,9 @@ TextFormat.prototype.decode = function (txt) {
         return txt;
     }
 //    return txt.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
-    return txt.replace("</ b>", "</b>").replace("<B>", "<b>"); //GOOGLE TRANSLATOR ISSUES
+    //GOOGLE TRANSLATOR ISSUES
+    return txt
+            .replace("</ b>", "</b>")
+            .replace("<B>", "<b>")
+            .replace("</ B>", "</b>");
 };
