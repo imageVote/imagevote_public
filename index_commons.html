@@ -79,7 +79,8 @@
         "~commons/modules/polls/PollsRequest.js",
         "~commons/modules/polls/PollsGet.js",
         "~commons/modules/polls/Polls_extend.js",
-        "~commons/js/TextFormat.js"
+        "~commons/js/TextFormat.js",
+        "~commons/modules/config/Config.js"
     ]);
 //    } else {
 //        define("commons_dependencies", ["~commons/commons.min.js"]);
@@ -151,6 +152,8 @@
     });
 
     function document_ready() {  //custom needed (before keyLoad)
+        new Config();
+        
         window.hashManager = new HashManager();
 
         //load stored code - first (loas user, etc.. before keyLoad() !!)
