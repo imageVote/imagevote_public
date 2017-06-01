@@ -26,7 +26,7 @@ var VotationButtons = function (poll, $dom) {
 
     $dom.append(votationButtons);
 
-    translate.loadTranslations();
+    //translate.loadTranslations();
 
     this.save = new Save(poll, this.$imageDOM, function () {
         //done callback
