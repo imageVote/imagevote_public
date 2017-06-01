@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'favouritesAdded': "დაემატა კენჭისყრაში ჩატარებულ არჩევნებს!",
+'favouritesAdded': "დაემატა არჩევნებს",
 });

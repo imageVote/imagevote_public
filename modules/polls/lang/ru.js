@@ -1,4 +1,5 @@
 $.extend(window.lang, {
 'polls_noMorePrevious': "Не найдено предыдущих опросов",
-'polls_noMoreFound': "Больше опросов не найдено",
+'polls_noMoreFound': "Больше не найдено опросов",
+'polls_emptyLanguage': "Пока еще нет опросов, начинайте с создания нового!",
 });

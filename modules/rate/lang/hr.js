@@ -9,7 +9,7 @@ $.extend(window.lang, {
 'rate_SUBMIT': "POŠALJI",
 'rate_SUBMITLATER': "KASNIJE",
 'rate_messageTitle': "Napišite kratku recenziju",
-'rate_thanks': "Hvala vam na povratnoj informaciji",
+'rate_thanks': "Hvala na povratnoj informaciji",
 'rate_FINISH': "ZAVRŠI",
 'rate_placeholder': "Reci nam što misliš",
 });

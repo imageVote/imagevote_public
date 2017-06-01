@@ -1,5 +1,5 @@
 $.extend(window.lang, {
-'Feedback': "Hjælp os med din feedback!",
+'Feedback': "Hjælp os med din tilbagemelding!",
 'niceQuestion': "Nice spørgsmål!",
 'badGrammar': "Dårlig grammatik",
 'vulgarWords': "Vulgære ord",

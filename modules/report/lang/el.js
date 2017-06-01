@@ -2,6 +2,6 @@ $.extend(window.lang, {
 'Feedback': "Βοηθήστε μας με τα σχόλιά σας!",
 'niceQuestion': "Ωραία ερώτηση!",
 'badGrammar': "Κακή γραμματική",
-'vulgarWords': "Παλιές λέξεις",
+'vulgarWords': "Άγρια λόγια",
 'thanksFeedback': "Ευχαριστώ για την ανατροφοδότηση!",
 });

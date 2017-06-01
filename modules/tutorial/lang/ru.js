@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'helpStop': "Остановить руководство",
+'helpStop': "Остановить учебник",
 });

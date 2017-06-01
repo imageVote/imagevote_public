@@ -1,7 +1,7 @@
 $.extend(window.lang, {
-'Feedback': "Ajude-nos com seu Feedback!",
+'Feedback': "Ajude-nos com seus comentários!",
 'niceQuestion': "Boa pergunta!",
-'badGrammar': "Gramática ruim",
+'badGrammar': "Má gramática",
 'vulgarWords': "Palavras vulgares",
 'thanksFeedback': "Obrigado pelo feedback!",
 });

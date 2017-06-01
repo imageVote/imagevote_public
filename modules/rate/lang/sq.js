@@ -1,5 +1,5 @@
 $.extend(window.lang, {
-'rate_title': "Vlerësoni këtë aplikacion",
+'rate_title': "Vlerësoje këtë aplikacion",
 'rate_star1': "E urreja",
 'rate_star2': "Nuk i pëlqente",
 'rate_star3': "Është në rregull",
