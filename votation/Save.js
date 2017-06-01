@@ -160,10 +160,11 @@ Save.prototype.post = function (sendJson, add) {
         });
 
     } else {
-        window.saveClass = this;
-        this.simpleRequest(request, params, "saveClass." + callback);
+        var global = "saveClass_" + table;
+        window[global] = this;
+        Device.simpleRequest(request, params, global + "." + callback);
     }
-}
+};
 
 Save.prototype.ajaxError = function (res) {
     console.log(res);

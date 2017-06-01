@@ -2,15 +2,15 @@
 var VotationButtons = function (poll, $dom) {
     var _this = this;
     console.log("VotationButtons()");
-        
+
     this.poll = poll;
     this.$imageDOM = $("#mainPage");
 
     this.key_waiting = 0;
-
-    this.$sendButton = $("<button id='send' class='share'><em></em><span data-lang='Share'></span></button>");
-    this.$cancelButton = $("<button id='cancel' data-lang='Cancel'>");
-    this.$usersButton = $("<button id='usersButton' data-lang='Voters'>");
+    
+    this.$sendButton = $("<button id='send' class='share'><em></em><span data-lang='Share'>" + transl('Share') + "</span></button>");
+    this.$cancelButton = $("<button id='cancel' data-lang='Cancel'>" + transl('Share') + "</button>");
+    this.$usersButton = $("<button id='usersButton' data-lang='Voters'>" + transl('Voters') + "</button>");
 
     this.$votation = $dom.parent();
     this.$dom = $dom;
@@ -85,7 +85,7 @@ VotationButtons.prototype.sendButtonEvent = function () {
 
 VotationButtons.prototype.cancelButtonEvent = function () {
     var _this = this;
-    
+
     this.$cancelButton.click(function () {
         _this.poll = new LoadedPoll();
 
@@ -124,11 +124,11 @@ VotationButtons.prototype.cancelButtonEvent = function () {
 
 VotationButtons.prototype.usersButtonEvent = function () {
     var _this = this;
-    
-    if(!this.poll || !this.poll.obj.users){
+
+    if (!this.poll || !this.poll.obj.users) {
         return;
     }
-    
+
     //voters users
     var obj = this.poll.obj;
     var users = obj.users;
