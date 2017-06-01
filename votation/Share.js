@@ -36,11 +36,11 @@ Share.prototype.do = function (callback, forceShow) {
     console.log("country = " + poll.country);
     this.keyId = poll.key;
 
-    this.$imageDOM.find("#image").remove();
     var image = $("<div class='image'>");
     this.$div = $("<div id='image'><hr/></div>");
     this.$div.append(image);
     if (this.$imageDOM) {
+        this.$imageDOM.find("#image").remove();
         this.$imageDOM.append(this.$div);
     }
 
