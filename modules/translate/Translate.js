@@ -66,6 +66,7 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
 //        });
 //    });
 
+    var head = document.getElementsByTagName("head")[0];
     var script = document.createElement('script');
     script.type = 'text/javascript';
     script.onload = function () {
@@ -76,18 +77,20 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
         }
     };
     script.onerror = function () {
-        var script = document.createElement('script');
-        script.type = 'text/javascript';        
-        script.onload = function () {
+        var scriptEN = document.createElement('script');
+        scriptEN.type = 'text/javascript';
+        scriptEN.onload = function () {
             console.log("EN LANG LOADED");
             _this.loadTranslations(where);
             if (callback) {
                 callback();
             }
         };
-        script.src = path + "lang/en.js";
+        scriptEN.src = path + "lang/en.js";
+        head.appendChild(scriptEN);
     };
     script.src = file;
+    head.appendChild(script);
 
     this.loaded.push(file);
 };
