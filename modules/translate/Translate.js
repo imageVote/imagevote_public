@@ -55,7 +55,6 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
 //        if (callback) {
 //            callback();
 //        }
-//
 //    }).fail(function () {
 //        $.get(path + "lang/en.js", function () {
 //            console.log("EN LANG LOADED");
@@ -65,7 +64,8 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
 //            }
 //        });
 //    });
-
+    
+    //NOT LOAD WITH JQUERY GET - NOT WORK ON ANDROID
     var head = document.getElementsByTagName("head")[0];
     var script = document.createElement('script');
     script.type = 'text/javascript';
