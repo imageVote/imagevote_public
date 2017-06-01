@@ -19,7 +19,7 @@ Save.prototype.do = function (callback, andShare, add) {
     this.saveLocally();
 
     //STORE FRIENDS DATA
-    if (!poll.key.split("_").length) { //if private poll
+    if (!poll.key || !poll.key.split("_").length) { //if private poll
         //name is mandatory for prevent troll's confusion votes, and disagree results
         var inputName = $("#userNamePoll").val() || localStorage.getItem("userName");
 
