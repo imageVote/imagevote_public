@@ -49,22 +49,45 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
         return;
     }
 
-    $.get(file).done(function () {
+//    $.get(file).done(function () {
+//        console.log("LANG LOADED");
+//        _this.loadTranslations(where);
+//        if (callback) {
+//            callback();
+//        }
+//
+//    }).fail(function () {
+//        $.get(path + "lang/en.js", function () {
+//            console.log("EN LANG LOADED");
+//            _this.loadTranslations(where);
+//            if (callback) {
+//                callback();
+//            }
+//        });
+//    });
+
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.onload = function () {
         console.log("LANG LOADED");
         _this.loadTranslations(where);
         if (callback) {
             callback();
         }
-
-    }).fail(function () {
-        $.get(path + "lang/en.js", function () {
+    };
+    script.onerror = function () {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';        
+        script.onload = function () {
             console.log("EN LANG LOADED");
             _this.loadTranslations(where);
             if (callback) {
                 callback();
             }
-        });
-    });
+        };
+        script.src = path + "lang/en.js";
+    };
+    script.src = file;
 
     this.loaded.push(file);
 };
@@ -74,7 +97,7 @@ Translate.prototype.loadTranslations = function (where) {
     if (!where) {
         where = "";
     }
-    
+
     if (!window.lang) {
         console.log("!window.lang");
         return;

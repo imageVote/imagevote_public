@@ -126,7 +126,7 @@ Polls.prototype.game_config = function () {
     //this info needs to be in server to update all devices in realtime!
     var file = "game_config.json";
     if (Device.simpleRequest) {
-        Device.simpleRequest(file, null, this.window_name + ".game_configCallback");
+        Device.simpleRequest(file, null, window_name + ".game_configCallback");
     } else {
         //$.post returns error:412 in ios with '.json' !!
         $.getJSON("core/" + file, function (data) {

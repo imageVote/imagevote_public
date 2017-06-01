@@ -67,11 +67,13 @@ PollsRequest.prototype._getSortedPolls = function (table) {
         params += "&file=" + this.file;
     }
     this.file++;
-
+    
     loading(null, "PollsRequest._getSortedPolls");
     var call = "sql_sort.php";
     if (Device.simpleRequest) {
-        Device.simpleRequest(call, params, this.game.window_name + ".request._pollsByKeys");
+        var global = "gameRequests_" + table;
+        window[global] = this;
+        Device.simpleRequest(call, params, global + "._pollsByKeys");
     } else {
         $.post(settings.corePath + call, params, function (json) {
             _this._pollsByKeys(json);
