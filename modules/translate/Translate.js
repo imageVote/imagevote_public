@@ -42,12 +42,13 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
     }
 
     var file = path + "lang/" + userLang + ".js";
-    if (this.loaded.indexOf(file) > -1) {
-        if (callback) {
-            callback();
-        }
-        return;
-    }
+    //THIS PREVENTS RELOAD ALREADY LOADED LANGUAGE!
+//    if (this.loaded.indexOf(file) > -1) {
+//        if (callback) {
+//            callback();
+//        }
+//        return;
+//    }
 
 //    $.get(file).done(function () {
 //        console.log("LANG LOADED");
@@ -65,10 +66,11 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
 //            }
 //        });
 //    });
-
+                
     var head = document.getElementsByTagName("head")[0];
-    var script = document.createElement('script');
+    var script = document.createElement('script');    
     script.type = 'text/javascript';
+    script.charset = "UTF-8";
     script.onload = function () {
         console.log("LANG LOADED");
         _this.loadTranslations(where);
@@ -76,9 +78,11 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
             callback();
         }
     };
-    script.onerror = function () {
+    script.onerror = function (msg) {
+        console.log(msg);
         var scriptEN = document.createElement('script');
         scriptEN.type = 'text/javascript';
+        script.charset = "UTF-8";
         scriptEN.onload = function () {
             console.log("EN LANG LOADED");
             _this.loadTranslations(where);
