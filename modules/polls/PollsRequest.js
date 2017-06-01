@@ -44,7 +44,7 @@ PollsRequest.prototype.poll = function (idQ, individual) {
 
     console.log("post select " + params);
     this.game.loading();
-    
+
     loading(null, "PollsRequest.poll2");
     if (Device.parseSelect) {
         //var func = this.window_name + ".requestCallback"; //prevent object not exists error
@@ -60,14 +60,9 @@ PollsRequest.prototype.poll = function (idQ, individual) {
 PollsRequest.prototype._getSortedPolls = function (table) {
     console.log("_getSortedPolls() ");
     var _this = this;
+    table = table.split("_").pop();
 
-    if (["q_en", "q_es", "q_it", "q_de", "q_fr", "q_pt"].indexOf(table) > -1) {
-        table = this._parseTable(table);
-    } else {
-        table = table.split("_").pop();
-    }
-
-    var params = "table=" + table;
+    var params = "table=" + table.toLowerCase();
     if (this.file > 1) {
         params += "&file=" + this.file;
     }
@@ -89,11 +84,19 @@ PollsRequest.prototype._pollsByKeys = function (json_arr) {
     var table = this.game.gameDB();
 
     var arr = json_arr.split(",").filter(String);
+    console.log("ARR");
+    console.log(arr);
+
+    //SOLVE ANY BUG WITH MISSING keysArray()
+    if (!this.game.get.keysArray().length) {
+        console.log("reparing bug: add keysArray in _pollsByKeys");
+        this.game.get.add(json_arr.split(",").filter(String));
+    }
 
     //IF YET DOWNLOADED KEY, REMOVE FROM LIST
     var response_length = arr.length;
     for (var key in this.gamePolls) {
-        var index = arr.indexOf(this.gamePolls[key].id);
+        var index = arr.indexOf(key);
         if (index > -1) {
             arr.splice(index, 1);
             continue;
@@ -102,9 +105,18 @@ PollsRequest.prototype._pollsByKeys = function (json_arr) {
 
     //IF NOT NEW KEYS, GET NEXT FILE KEYS
     if (!arr.length) {
+        console.log("!arr.length");
         loaded();
         //if request was under 100, "no more polls"
-        if (response_length < 99) {
+        if (!response_length) {
+            //NOT POLLS WITH THS PARAMETERS:
+            var styles = "position:absolute; text-align:center; top:10px; width:100%";
+            $(this.game.query).find(".polls_emptyLanguage").remove();
+            $(this.game.query).append("<p class='polls_emptyLanguage' style='" + styles + "'>" + transl("polls_emptyLanguage") + "</p>");
+            return false;
+
+        } else if (response_length < 99) {
+            console.log("response_length < 99 (" + response_length + ")");
             return false;
         }
         //next sort request
@@ -118,7 +130,7 @@ PollsRequest.prototype._pollsByKeys = function (json_arr) {
     //REQUEST NEW ARRAY POLLS
     var lang = table.split("_").pop().toLowerCase();
     var params = "table=" + lang + "&arrIds=" + arr.join(",");
-    
+
     loading(null, "PollsRequest._pollsByKeys");
     var _this = this;
     var pathRequest = this.game.coreSelect;
@@ -138,14 +150,14 @@ PollsRequest.prototype.requestCallback = function (json) {
     loaded();
     //check is last request
     if (this.pollRequest_index != window.pollRequest_index) {
-        console.log("requestCallback: " + this.pollRequest_index + " != " + window.pollRequest_index);        
+        console.log("requestCallback: " + this.pollRequest_index + " != " + window.pollRequest_index);
         return;
     }
 
     //console.log(json);
     this.game.loaded("requestCallback");
     if (!json) {
-        flash(transl("polls_noMoreFound"));
+        flash(transl("polls_noMoreFound") + " (2)");
         var idQ = this.game.lastIdQ();
         this.game.load(this.gamePolls[idQ], null, false);
         return;
@@ -186,26 +198,24 @@ PollsRequest.prototype._loadRequest = function (polls) {
         if (this.gamePolls[idQ]) {
             userVotes = this.gamePolls[idQ].a;
         }
-
+        
         this.gamePolls[idQ] = polls[i];
         //put own votes:
-        if (userVotes) {
+        if (userVotes || 0 === userVotes) {
             this.gamePolls[idQ].a = userVotes;
         }
     }
 
-    var table = this.game.gameDB();
-    if (table.indexOf("preguntas") > -1) {
-        table = this._parseTable(table);
-    }
+    var table = this.game.parseTable(table);
     localStorage.setItem(table, JSON.stringify(this.gamePolls));
 
     var idQ = this.game.idQ;
-    if (this.game.individual) {
-        this.game.load(this.gamePolls[idQ]);
+    if (1 == polls.length) {
+        console.log("this.gamePolls[" + idQ + "]");
+        this.game.load(this.gamePolls[idQ], true);
         return;
     }
-    
+
     var nextPoll = this.game.get.this(idQ);
     if (!nextPoll) {
         var previous = this.game.get.previous(idQ);
@@ -213,20 +223,9 @@ PollsRequest.prototype._loadRequest = function (polls) {
             console.log("previous: " + JSON.stringify(previous))
             this.game.load(previous, true, false); //FALSE totally removes animation
         }
+        console.log(JSON.stringify(this.gamePolls));
+        console.log("!nextPoll " + idQ);
         return;
     }
     this.game.load(nextPoll);
-};
-
-PollsRequest.prototype._parseTable = function (table) {
-    var lang_arr = table.split("_");
-    if (lang_arr.length == 2) {
-        var lang = lang_arr[1];
-        if ("es" == lang) {
-            lang = "";
-        }
-        table = "preguntas" + lang.toUpperCase();
-    }
-
-    return table;
 };

@@ -19,18 +19,19 @@ var HashManager = function () {
         'home': function () {
             console.log("HOME");
             //else wrong/old hashes
-            
-            var poll = new LoadedPoll();
 
-            var poll_div = $("#creator .options");
-            if (!poll_div.html()) {
-                new FillTable("#creator .votationBox", poll);
-            }
+            var poll = new LoadedPoll();
             
-            new VotationButtons(poll, $("#creator .buttons")).init();
+            var creator = $("#creator");
+            var poll_div = creator.find(".options");
+            if (!poll_div.html()) {
+                new FillTable(creator.find(".votationBox"), poll);
+            }
+
+            new VotationButtons(poll, creator.find(".buttons")).init();
 
             // PUBLIC CHECKBOX:
-            _this.publicCheckbox();
+            _this.publicCheckbox(creator.find(".votationButtons"));
 
             $("#cancel, #usersButton").hide();
 
@@ -208,18 +209,20 @@ HashManager.prototype.deviceURL = function (url) {
     return location.origin + location.pathname + url;
 };
 
-HashManager.prototype.publicCheckbox = function () {
+HashManager.prototype.publicCheckbox = function ($div) {
+    console.log("publicCheckbox()");
     var lang = localStorage.getItem("userLang");
 
     var ignore = ["en", "es", "fr", "de", "it", "pt"];
     if (lang && ignore.indexOf(lang.toLowerCase()) > -1) {
+        console.log("ignore.indexOf(" + lang + ") > -1")
         return;
     }
 
     var makePublic = $("<div class='button publicCheckbox'>"
             + "<input type='checkbox'><span data-lang='MakePublic'>" + transl("MakePublic") + "</span>"
             + "</div>");
-    $("#buttons .votationButtons").prepend(makePublic);
+    $div.prepend(makePublic);
     makePublic.click(function () {
         var checkbox = $(this).parent().find("input");
         checkbox.prop("checked", !checkbox.prop("checked"));

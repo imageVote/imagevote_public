@@ -45,7 +45,7 @@ function flash(text, persist, callback) {
 }
 
 function stopFlash(callback) {
-    var flash = $("#flash");
+    var flash = $("flash"); //ALL
     flash.css({opacity: 0, top: "35%"});
     setTimeout(function () {
         flash.remove();

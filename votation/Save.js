@@ -13,13 +13,13 @@ Save.prototype.do = function (callback, andShare, add) {
     this.andShare = andShare;
 
     var poll = this.poll;
-    console.log(this.poll)
+    console.log(this.poll);
 
     //save before to solve any current bug:
     this.saveLocally();
 
     //STORE FRIENDS DATA
-    if (!poll._public) {
+    if (!poll.key.split("_").length) { //if private poll
         //name is mandatory for prevent troll's confusion votes, and disagree results
         var inputName = $("#userNamePoll").val() || localStorage.getItem("userName");
 
@@ -27,8 +27,7 @@ Save.prototype.do = function (callback, andShare, add) {
             updateUserName(inputName);
 
         } else {
-            var userName = localStorage.getItem("userName");
-            modalBox.input(transl("myName"), userName, function (val) {
+            modalBox.input(transl("myName"), "", function (val) {
                 updateUserName(val);
                 _this.do(callback, andShare, add);
             });
@@ -131,10 +130,9 @@ Save.prototype.post = function (sendJson, add) {
 
     var params = "userId=" + window.user.id
             + "&data=" + sendJson;
-    
-    var table;
-    
+        
     //on create:
+    var table;
     if (this.$imageDOM.find(".publicCheckbox.publicCheck").length) {
         table = localStorage.getItem("userLang");
     }
@@ -150,7 +148,7 @@ Save.prototype.post = function (sendJson, add) {
     }
     
     if(table){
-        params += "&table=" + table;
+        params += "&table=" + table.toLowerCase();
     }
 
     var request = "add.php";
@@ -201,4 +199,4 @@ Save.prototype.saveLocally = function () {
     }
 
     localStorage.setItem("key_" + key, JSON.stringify(obj));
-}
+};

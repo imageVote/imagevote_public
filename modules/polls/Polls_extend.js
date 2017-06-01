@@ -3,14 +3,15 @@ var Polls = function () {
     //EMPTY! ONLT FOR PROTOTYPE EXTENDS CLASS
 };
 
-Polls.prototype.construct = function (query, idQ, lang) {
+Polls.prototype.construct = function (query, idQ) {
+    var _this = this;
     //not load if sharing!
     if (location.href.indexOf("share=") > -1) {
         console.log('location.hash.indexOf("share=")');
         loading();
         return;
     }
-    console.log("new Poll " + idQ + " " + lang);
+    console.log("new Poll " + idQ);
 
     //default (in case server data failed)
     window.interstitial_start = window.interstitial_start || 2;
@@ -36,26 +37,25 @@ Polls.prototype.construct = function (query, idQ, lang) {
 
     this.navigationEvents();
 
-    translate.loadLanguage("~commons/modules/polls/", "#pollsPage", function () {
-        translate.translateTags();
-        fontSize(); //TODO: stydy where call this
-    });
-
     if (!window.gamePolls) {
-        console.log("get stored " + lang);
+        console.log("get stored");
         window.gamePolls = this.stored();
     }
 
     this.game_config();
 
-    this.nextPoll = window.gamePolls[this.get.idQ];
-    if (this.nextPoll) {
-        this.load(this.nextPoll, this.get.individual);
-    } else {
-        console.log("request.poll " + this.get.idQ);
-        //this.request.poll(this.idQ, this.individual, lang);
-        new PollsRequest(this, window.gamePolls).poll(this.get.idQ, this.get.individual);
-    }
+    translate.loadLanguage("~commons/modules/polls/", "#pollsPage", function () {
+        fontSize(); //TODO: stydy where call this
+
+        _this.nextPoll = window.gamePolls[_this.get.idQ];
+        if ("object" === typeof(_this.nextPoll) && !_this.get.individual) { //if individual, force request
+            _this.load(_this.nextPoll, _this.get.individual);
+            
+        } else {
+            console.log("request.poll " + _this.get.idQ);
+            _this.pollsRequest = new PollsRequest(_this, window.gamePolls).poll(_this.get.idQ, _this.get.individual);
+        }
+    });
 };
 
 Polls.prototype.navigationEvents = function () {
@@ -91,7 +91,7 @@ Polls.prototype.navigationEvents = function () {
         if (previousPoll) {
             _this.load(previousPoll, true, true);
         } else {
-            flash(transl("polls_noMoreFound"));
+            flash(transl("polls_noMoreFound") + " (3)");
         }
     });
 
@@ -117,7 +117,7 @@ Polls.prototype.game_config = function () {
         return;
     }
     window.game_config_loaded = true;
-    
+
     var window_name = "gamePoll_" + this.query.replace(/[^a-z]/gi, ''); //remove not alphanumeric
     window[window_name] = this;
 
@@ -143,7 +143,7 @@ Polls.prototype.next = function (idQ, anyone) {
 
     //THEN LOAD NEW
     var storedPolls = window.gamePolls;
-    new PollsRequest(this, storedPolls).poll();
+    this.pollsRequest = new PollsRequest(this, storedPolls).poll();
 };
 
 Polls.prototype.load = function (poll, individual, back) {
@@ -154,6 +154,10 @@ Polls.prototype.load = function (poll, individual, back) {
 //            hashManager.defaultPage();
 //            notice("e_votationRemoved");
 //        }
+        return false;
+    }
+    if(!poll.id){
+        console.log("!poll.id: " + JSON.stringify(poll));
         return false;
     }
 
@@ -180,6 +184,7 @@ Polls.prototype.load = function (poll, individual, back) {
     };
 
     //add own votes
+    console.log(JSON.stringify(poll))
     if ("undefined" !== typeof poll.a) {
         obj.users[window.user.id] = [window.user.id, poll.a];
     }
@@ -191,13 +196,14 @@ Polls.prototype.load = function (poll, individual, back) {
 
     var original = this.loadAnimation(back);
     original.attr("data-idQ", poll.id);
-
-    var key = this.gameDB().split("_").pop() + "_" + poll.id
+    
+    var lang = this.gameDB().split("_").pop().toLowerCase();
+    var key = lang + "_" + poll.id;
     var objPoll = {
         key: key,
         obj: obj
     };
-    window.gamePoll = this.gamePoll = new FillTable(original, {obj: obj}, null, function (option) {
+    window.gameTable = this.gameTable = new FillTable(original, objPoll, null, function (option) {
         console.log("game option click " + option);
         _this.voted[poll.id] = true;
         if (!obj.users[window.user.id]) {
@@ -219,16 +225,11 @@ Polls.prototype.load = function (poll, individual, back) {
         table = _this.parseLang(table);
 
         var idQ = poll.id;
-
-        //decrease: (poll.a can be 0!)
-        if ("undefined" != typeof poll.a && option != poll.a) {
-            //update locally (after params set!)
-            _this.update(idQ, 'v' + poll.a, +poll['v' + poll.a] + 1);
-        }
-
         //update locally - before to continue playing (after params set!)    
         _this.update(idQ, 'a', option);
-        _this.update(idQ, 'v' + option, +poll['v' + option] + 1);
+        for (var i = 0; i < obj.options.length; i++) {
+            _this.update(idQ, 'v' + obj.options[i][0], obj.options[i][2]);
+        }
 
         //SAVE        
         new Save(objPoll, $(_this.query)).do(function (key) {
@@ -329,7 +330,7 @@ Polls.prototype.share = function (obj, idQ) {
     console.log(obj);
 
     var game_db = this.gameDB();
-    var lang = game_db.split("_").pop();
+    var lang = game_db.split("_").pop().toLowerCase();
 
     _this.votationButtons.poll = {
         key: lang + "_" + idQ,
@@ -344,7 +345,7 @@ Polls.prototype.share = function (obj, idQ) {
             }, 1);
         }
 
-        _this.loaded("this.gamePoll.votatioButtons.share");
+        _this.loaded("this.gameTable.votatioButtons.share");
     });
 };
 
@@ -402,7 +403,7 @@ Polls.prototype.loadAnimation = function (back) {
                 $container.removeClass("game_animation");
                 clearTimeout(timeout);
                 $(_this.query + " .game_clone").remove();
-                clearTimeout(_this.gamePoll.updateOptionsTimeout);
+                clearTimeout(_this.gameTable.updateOptionsTimeout);
             });
 
         }, 1);
@@ -411,8 +412,8 @@ Polls.prototype.loadAnimation = function (back) {
     return $container;
 };
 
-Polls.prototype.updateTransform = function (dom, val) {
-    dom.css({
+Polls.prototype.updateTransform = function ($dom, val) {
+    $dom.css({
         '-webkit-transform': "translate(" + val + ")",
         '-ms-transform': "translate(" + val + ")",
         'transform': "translate(" + val + ")"
@@ -437,7 +438,7 @@ Polls.prototype.checkedEvent = function () {
 };
 
 Polls.prototype.stored = function () {
-    var table = this.gameDB();
+    var table = this.parseTable();
     console.log("stored " + table);
 
     var json = localStorage.getItem(table);
@@ -459,7 +460,7 @@ Polls.prototype.update = function (id, pos, value) {
     }
     //console.log("update: " + id + " " + pos + " " + value);
     window.gamePolls[id][pos] = value;
-    var table = this.gameDB();
+    var table = this.parseTable();
     localStorage.setItem(table, JSON.stringify(window.gamePolls));
 };
 
@@ -490,7 +491,7 @@ Polls.prototype.loading = function (query) {
 //        $(this.query + " " + query).html("<img from='searchAction' class='loading absoluteLoading' src='~img/loader.gif'/>");
 //    }
 //    loading(this.query, true);
-    loading(null, "Polls loading");
+    loading(null, "Polls loading " + query);
 };
 
 Polls.prototype.loaded = function (where) {
@@ -519,4 +520,31 @@ Polls.prototype.parseLang = function (table) {
         table = lang.toLowerCase();
     }
     return table.split("_").pop(); //like q_es
+};
+
+Polls.prototype.parseTable = function (table) {
+    if (!table) {
+        return "q_" + this.gameDB().split("_").pop().toLowerCase();
+    }
+    
+//    var lang_arr = table.split("_");
+    var lang = "";
+//    if (lang_arr.length == 2) {
+////        var lang = lang_arr[1];
+////        if ("es" == lang) {
+////            lang = "";
+////        }
+////        table = "preguntas" + lang.toUpperCase();
+//        lang = lang_arr[1];
+//    }
+
+    if (table.indexOf("preguntas") > -1) {
+        var lang = table.split("preguntas").pop().toLowerCase();
+        if (!lang) {
+            lang = "es";
+        }
+        table = "q_" + lang;
+    }
+
+    return table;
 };

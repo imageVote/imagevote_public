@@ -27,10 +27,18 @@ var PollsGet = function (game, idQ) {
 };
 
 PollsGet.prototype.this = function (idQ) {
+    console.log("this(" + idQ + ")");
     var keysArray = this.keysArray();
-    var i = this.indexKey(idQ) + 1;
+    //var i = this.indexKey(idQ) + 1;
+    var i = 0;
+    if (idQ) {
+        i = this.indexKey(idQ);
+    }
     var key = keysArray[i];
-    return window.gamePolls[key];
+    var poll = window.gamePolls[key];
+    if ("object" === typeof poll) {
+        return poll;
+    }
 };
 
 PollsGet.prototype.next = function (idQ, anyone) {
@@ -45,10 +53,8 @@ PollsGet.prototype.next = function (idQ, anyone) {
     var arr_keys = this.keysArray();
 
     for (; i < arr_keys.length; i++) {
-        this.pollIndex = i;
-        this.idQ = +arr_keys[i];
-
-        var poll = storedPolls[this.idQ];
+        var idQ = arr_keys[i];
+        var poll = storedPolls[idQ];
         if (null === poll || "undefined" === typeof poll) {
             continue;
         }
@@ -56,6 +62,8 @@ PollsGet.prototype.next = function (idQ, anyone) {
         //get next poll
         var notVoted = "undefined" === typeof poll.a;
         if (anyone || notVoted) {
+            this.pollIndex = i;
+            this.idQ = +arr_keys[i];
             if (notVoted) {
                 this.update_pollIndex(this.pollIndex);
                 this.update_idQ(this.idQ);
@@ -65,7 +73,7 @@ PollsGet.prototype.next = function (idQ, anyone) {
     }
 
     //update new poll loaded on next()    
-    flash(transl("polls_noMoreFound"));
+    flash(transl("polls_noMoreFound") + " (1)");
 };
 
 PollsGet.prototype.previous = function (idQ) {
@@ -80,6 +88,7 @@ PollsGet.prototype.previous = function (idQ) {
 
     var arr_keys = this.keysArray();
     if (!arr_keys) {
+        console.log("!arr_keys");
         return;
     }
 
@@ -110,14 +119,14 @@ PollsGet.prototype.keysArray = function () {
         console.log("!gameDB() in keysArray()");
         return false;
     }
-    var lang = table.split("_").pop();
+    var lang = table.split("_").pop().toLowerCase();
     var local_key = "keysArray_" + lang;
     var local_data = localStorage.getItem(local_key);
 
     if (!local_data) {
         loading(null, "keysArray !local_data"); //w8 poll from servers
         console.log("!local_data in keysArray: " + local_key);
-        return false;
+        return [];
     }
 
     return local_data.split(",");
@@ -158,7 +167,7 @@ PollsGet.prototype.add = function (arr) {
     }
 
     var table = this.game.gameDB();
-    var lang = table.split("_").pop();
+    var lang = table.split("_").pop().toLowerCase();
     localStorage.setItem("keysArray_" + lang, keysArray);
 };
 

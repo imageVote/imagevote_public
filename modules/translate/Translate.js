@@ -2,7 +2,7 @@
 window.languagePaths = {'~': 1};
 
 var Translate = function () {
-    this.loaded = [];    
+    this.loaded = [];
 };
 
 Translate.prototype.translateTags = function (refresh) {
@@ -40,12 +40,15 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
     if ("zh" == userLang) {
         userLang = "zh-cn";
     }
-    
+
     var file = path + "lang/" + userLang + ".js";
     if (this.loaded.indexOf(file) > -1) {
+        if (callback) {
+            callback();
+        }
         return;
     }
-    
+
     $.get(file).done(function () {
         console.log("LANG LOADED");
         _this.loadTranslations(where);
@@ -62,15 +65,16 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
             }
         });
     });
-    
+
     this.loaded.push(file);
 };
 
 Translate.prototype.loadTranslations = function (where) {
     console.log("loadTranslations() " + where);
-    if(!where){
+    if (!where) {
         where = "";
-    };
+    }
+    
     if (!window.lang) {
         console.log("!window.lang");
         return;
