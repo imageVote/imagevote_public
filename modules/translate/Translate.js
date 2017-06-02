@@ -38,8 +38,8 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
 
     var userLang = getUserLang().toLowerCase();
     console.log("userLang: " + userLang + " - " + path);
-
-    if ("zh" == userLang) {
+    
+    if ("zh" == userLang || "cn" == userLang || "tw" == userLang) {
         userLang = "zh-cn";
     }
 

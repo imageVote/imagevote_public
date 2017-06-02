@@ -1,5 +1,7 @@
 
 var Config = function () {
+    var _this = this;
+    
     //SAVE GLOBAL
     var global = "config";
     window[global] = this;
@@ -12,7 +14,7 @@ var Config = function () {
         } else {
             //$.post returns error:412 in ios with '.json' !!
             $.getJSON("core/" + file, function (data) {
-                this.callback(data);
+                _this.callback(data);
             });
         }
     });

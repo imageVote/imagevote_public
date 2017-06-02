@@ -155,12 +155,12 @@ input[type=color]{
     float: right;          
     margin-right: 10px;
 }
-.link{
+.link a{
     cursor: pointer;
     font-size: 14px;
     font-weight: normal;
 }
-.link:hover{
+.link a:hover{
     text-decoration: underline;
 }
 
