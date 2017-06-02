@@ -25,6 +25,9 @@
         color: rgb(50,50,50);
         font-size: 14px;
     }
+    #rate .rate_buttons{
+        margin: 0 15px;
+    }
     #rate .rate_buttons button{
         font-size: 12px;
     }
@@ -51,8 +54,14 @@
         font-size: 13px;
     }
 
-    #rate button{
+    /*MIN WIDTH*/
+    #rate #rate_SUBMITLATER, #rate #rate_NOSUBMIT{
         min-width: inherit !important;  
+        font-weight: normal;
+        color: rgb(90,90,90);
+    }
+    #rate #rate_SUBMIT{
+        background: rgb(200,200,200);
     }
 
 </style>
@@ -72,9 +81,9 @@
     <br><br><br>
     <div class="rate_buttons">
         <button id="rate_SUBMITLATER" data-lang="rate_SUBMITLATER" style="float:left"></button>
-        <div style="float:right">
-            <button id="rate_NOSUBMIT" data-lang="rate_NOSUBMIT" style="margin-right:5px;"></button>
-            <button id="rate_SUBMIT" data-lang="rate_SUBMIT" class="disabled"></button>
+        <div class="right" style="float:right">
+            <button id="rate_NOSUBMIT" data-lang="rate_NOSUBMIT" style="margin-right:5px; float:left"></button>
+            <button id="rate_SUBMIT" data-lang="rate_SUBMIT" class="disabled" style="float:right"></button>
         </div>
     </div>
 </div>
@@ -82,7 +91,8 @@
 <script>
 
     var Rate = function () {
-        if (localStorage.getItem("rate")) {
+        var rate = localStorage.getItem("rate");
+        if ("done" == rate) {
             console.log("already rated");
             return;
         }
@@ -93,6 +103,15 @@
             var dom = $("#rate");
             _this.modal = modalBox.modal(dom);
             _this.events();
+
+            //FORCE ASK TWICE TO VOTE
+            if (!rate) {
+                $("#rate #rate_SUBMITLATER").hide();
+                $("#rate .right").css({
+                    float: "none",
+                    margin: "0 40px"
+                });
+            }
             dom.show();
         });
     };
@@ -144,11 +163,11 @@
             if (_this.index == 5) { //rates of 4 decreases overall!
                 modalBox.remove(_this.modal);
                 setTimeout(function () {
-                    if(Device.rate){
+                    if (Device.rate) {
                         Device.rate();
                         return;
                     }
-                    
+
                     if (window.isAndroid) {
                         //location.href = "market://details?id=" + settings.app_package;
                         window.open("http://play.google.com/store/apps/details?id=" + settings.app_package); //not work properly :(
@@ -167,7 +186,11 @@
         });
 
         $("#rate #rate_NOSUBMIT").click(function () {
-            localStorage.setItem("rate", "done");
+            if (localStorage.getItem("rate")) {
+                localStorage.setItem("rate", "done");
+            } else {
+                localStorage.setItem("rate", "later");
+            }
             modalBox.remove(_this.modal);
         });
         $("#rate #rate_SUBMITLATER").click(function () {
@@ -181,7 +204,7 @@
 //            //TODO: send bad rate message
 //        }, "rate_FINISH");
         modalBox.remove(this.modal);
-        
+
         var $message_dom = $("<div id='rate_message'>"
                 + "<span style='line-height:50px; font-size: 18px;'>" + transl("rate_messageTitle") + "</span>"
                 + "<br><br>"
