@@ -15,8 +15,8 @@ var Language = function (query) {
         'it': ["it", "IT", "Italiano", "preguntasIT"],
         'pt': ["pt", "PT", "Português", "preguntasPT"]
     };
-    
-    this.languages = this.languages.concat(window.languages);
+
+    this.languages = $.extend(this.languages, window.languages);
 
     //urls:
     this.languageURL = {

@@ -1,5 +1,5 @@
 
-window.languagePaths = {'~': 1};
+window.languagePaths = {'~': "body"};
 
 var Translate = function () {
     this.loaded = [];
@@ -19,7 +19,8 @@ Translate.prototype.translateTags = function (refresh) {
     console.log("translateTags() " + obj_size(window.languagePaths));
     var loaded = 0;
     for (var path in window.languagePaths) {
-        this.loadLanguage(path, null, function () {
+        var where = window.languagePaths[path];
+        this.loadLanguage(path, where, function () {
             loaded++;
             console.log("loaded " + loaded);
             if (obj_size(window.languagePaths) == loaded) {
@@ -34,7 +35,7 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
     if (!window.lang) {
         window.lang = {};
     }
-    window.languagePaths[path] = 1;
+    window.languagePaths[path] = where;
 
     var userLang = getUserLang().toLowerCase();
     console.log("userLang: " + userLang + " - " + path);
@@ -106,7 +107,7 @@ Translate.prototype.loadTranslations = function (where) {
     var _this = this;
 
     if (!where || !window.lang) {
-        console.log("!window.lang");
+        console.log("!!where || window.lang");
         return;
     }
 
