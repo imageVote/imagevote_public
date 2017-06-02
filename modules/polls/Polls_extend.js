@@ -525,18 +525,7 @@ Polls.prototype.parseTable = function (table) {
         return "q_" + this.gameDB().split("_").pop().toLowerCase();
     }
 
-//    var lang_arr = table.split("_");
-//    var lang = "";
-//    if (lang_arr.length == 2) {
-////        var lang = lang_arr[1];
-////        if ("es" == lang) {
-////            lang = "";
-////        }
-////        table = "preguntas" + lang.toUpperCase();
-//        lang = lang_arr[1];
-//    }
     table = this.repairTable(table);
-
     return table;
 };
 
