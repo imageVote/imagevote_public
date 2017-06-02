@@ -173,12 +173,6 @@ PollsRequest.prototype.requestCallback = function (json) {
 };
 
 PollsRequest.prototype._loadRequest = function (polls) {
-    var game_db = this.game.gameDB();
-    var polls_idQ = localStorage.getItem("idQ_" + game_db);
-    if (null === polls_idQ) { //if not idQ saved, get first loaded poll idQ
-        polls_idQ = 0;
-    }
-
     console.log(polls);
     for (var i = 0; i < polls.length; i++) {
         var idQ = polls[i].id;

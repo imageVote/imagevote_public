@@ -48,9 +48,9 @@ Polls.prototype.construct = function (query, idQ) {
         fontSize(); //TODO: stydy where call this
 
         _this.nextPoll = window.gamePolls[_this.get.idQ];
-        if ("object" === typeof(_this.nextPoll) && !_this.get.individual) { //if individual, force request
+        if ("object" === typeof (_this.nextPoll) && !_this.get.individual) { //if individual, force request
             _this.load(_this.nextPoll, _this.get.individual);
-            
+
         } else {
             console.log("request.poll " + _this.get.idQ);
             _this.pollsRequest = new PollsRequest(_this, window.gamePolls).poll(_this.get.idQ, _this.get.individual);
@@ -156,7 +156,7 @@ Polls.prototype.load = function (poll, individual, back) {
 //        }
         return false;
     }
-    if(!poll.id){
+    if (!poll.id) {
         console.log("!poll.id: " + JSON.stringify(poll));
         return false;
     }
@@ -196,7 +196,7 @@ Polls.prototype.load = function (poll, individual, back) {
 
     var original = this.loadAnimation(back);
     original.attr("data-idQ", poll.id);
-    
+
     var lang = this.gameDB().split("_").pop().toLowerCase();
     var key = lang + "_" + poll.id;
     var objPoll = {
@@ -505,20 +505,18 @@ Polls.prototype.gameDB = function () {
     if (!table) {
         table = localStorage.getItem("game_db");
     }
-    //console.log("gameDB: " + table);
+    //REPAIR OLD APP VERSIONS (DEPRECATED)
+    if (table.indexOf("preguntas") > -1) {
+        this.repairLocalStorage();
+        table = this.repairTable(table);
+    }
+
     return table;
 };
 
 Polls.prototype.parseLang = function (table) {
     //MIX (ON TRANSITION):
-    if (table.indexOf("preguntas") > -1) {
-        var lang = table.replace("preguntas", "");
-        if (!lang) {
-            lang = "es";
-        }
-        //table = "q_" + lang.toLowerCase();
-        table = lang.toLowerCase();
-    }
+    table = this.repairTable(table);
     return table.split("_").pop(); //like q_es
 };
 
@@ -526,9 +524,9 @@ Polls.prototype.parseTable = function (table) {
     if (!table) {
         return "q_" + this.gameDB().split("_").pop().toLowerCase();
     }
-    
+
 //    var lang_arr = table.split("_");
-    var lang = "";
+//    var lang = "";
 //    if (lang_arr.length == 2) {
 ////        var lang = lang_arr[1];
 ////        if ("es" == lang) {
@@ -537,7 +535,13 @@ Polls.prototype.parseTable = function (table) {
 ////        table = "preguntas" + lang.toUpperCase();
 //        lang = lang_arr[1];
 //    }
+    table = this.repairTable(table);
 
+    return table;
+};
+
+//DEPRECATED
+Polls.prototype.repairTable = function (table) {
     if (table.indexOf("preguntas") > -1) {
         var lang = table.split("preguntas").pop().toLowerCase();
         if (!lang) {
@@ -545,6 +549,21 @@ Polls.prototype.parseTable = function (table) {
         }
         table = "q_" + lang;
     }
-
     return table;
 };
+
+//DEPRECATED
+Polls.prototype.repairLocalStorage = function () {
+    for (var key in localStorage) {
+        if (key.indexOf("preguntas") > -1) {
+            var keyArr = key.split("preguntas");
+            var lang = keyArr[1].toLowerCase();
+            if (!lang) {
+                lang = "es";
+            }
+            localStorage[keyArr[0] + lang] = localStorage[key];
+            localStorage.removeItem(key);
+        }
+    }
+};
+
