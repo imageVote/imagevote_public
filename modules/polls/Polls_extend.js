@@ -565,5 +565,13 @@ Polls.prototype.repairLocalStorage = function () {
             localStorage.removeItem(key);
         }
     }
+    var gameDB = localStorage.getItem("game_db");
+    if (gameDB.indexOf("preguntas") > -1) {
+        var lang = gameDB.split("preguntas").pop().toLowerCase();
+        if (!lang) {
+            lang = "es";
+        }
+        localStorage.setItem("game_db", "q_" + lang);
+    }
 };
 
