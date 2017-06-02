@@ -15,10 +15,8 @@ var Language = function (query) {
         'it': ["it", "IT", "Italiano", "preguntasIT"],
         'pt': ["pt", "PT", "Português", "preguntasPT"]
     };
-
-//    if ("localhost" == location.hostname) {
-    this.languages['in'] = ["hi", "IN", "हिंदी (अल्फा)"];
-//    }
+    
+    this.languages = this.languages.concat(window.languages);
 
     //urls:
     this.languageURL = {
