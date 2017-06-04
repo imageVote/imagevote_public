@@ -1,14 +1,15 @@
 
-var Tutorial = function (actions) {
+var Tutorial = function (actions, where) {
     this.helperPosition = 0;
     this.helps = actions;
+    this.where = where;
     this.start();
 };
 
 Tutorial.prototype.start = function () {
     var _this = this;
 
-    var helpStop = $("<div id='helpStop'>").appendTo("body")
+    var helpStop = $("<div id='helpStop'>").appendTo(this.where);
     var stop = $("<span style='display:inline-block' data-lang='helpStop'>" + transl("helpStop") + "</span>").appendTo(helpStop);   
     var left = $("<div style='float:left;padding: 0 25px'><</div>").appendTo(helpStop);
     left.click(function (e) {
@@ -83,7 +84,7 @@ Tutorial.prototype.locateHelper = function (queryDiv, value, target, func, extra
 
     $("#tutorial_helpFilter").remove();
 
-    $("body").append(helpContainer);
+    $(this.where).append(helpContainer);
     this.placeHelper(queryDiv);
 
     this.targetEvent(target, help, func);
