@@ -23,7 +23,7 @@ window.languages = {
 //    'ga': ["ga", "IE", "Gaeilge"], //Irish
 //    'gl': ["gl", "ES-GA", "Galego"], //Galician
 //    'gu': ["gu", "IN", "ગુજરાતી"], //Gujarati
-//    'hi': ["hi", "IN", "हिंदी"], //Hindi
+    'hi': ["hi", "IN", "हिंदी"], //Hindi
 //    'hr': ["hr", "HR", "Hrvatski"], //Croatian
 //    'ht': ["ht", "HT", "Kreyòl Ayisyen"], //Haitian Creole
 //    'hu': ["hu", "HU", "Magyar"], //Hungarian
