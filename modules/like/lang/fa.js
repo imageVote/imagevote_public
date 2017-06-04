@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'favouritesAdded': "اضافه شده به رأی دادند نظرسنجی ها!",
+"favouritesAdded": "اضافه شده به رأی دادند نظرسنجی ها!",
 });

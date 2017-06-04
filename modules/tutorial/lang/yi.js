@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'helpStop': "האַלטן טוטאָריאַל",
+"helpStop": "האַלטן טוטאָריאַל",
 });

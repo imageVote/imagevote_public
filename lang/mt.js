@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'MakePublic': "Żid mal Game",
+"MakePublic": "Żid mal Game",
 });

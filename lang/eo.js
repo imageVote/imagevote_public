@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'MakePublic': "Aldoni al Game",
+"MakePublic": "Aldoni al Game",
 });

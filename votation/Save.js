@@ -135,7 +135,9 @@ Save.prototype.post = function (sendJson, add) {
     var table;
     if (this.$imageDOM.find(".publicCheckbox.publicCheck").length) {
         table = localStorage.getItem("userLang");
+        flash(transl("pollWillVisible"));
     }
+    
     //on update:    
     if (this.poll.key) {
         params += "&key=" + this.poll.key;

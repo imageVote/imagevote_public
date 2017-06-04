@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'MakePublic': "ಆಟಕ್ಕೆ ಸೇರಿಸಿ",
+"MakePublic": "ಆಟಕ್ಕೆ ಸೇರಿಸಿ",
 });

@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'favouritesAdded': "મતદાનો મતદાનમાં ઉમેરાયો!",
+"favouritesAdded": "મતદાનો મતદાનમાં ઉમેરાયો!",
 });

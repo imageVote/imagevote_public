@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'helpStop': "سٹاپ ٹیوٹوریل",
+"helpStop": "سٹاپ ٹیوٹوریل",
 });

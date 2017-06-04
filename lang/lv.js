@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'MakePublic': "Pievienot Game",
+"MakePublic": "Pievienot Game",
 });

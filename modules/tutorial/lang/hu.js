@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'helpStop': "Állítsa le a bemutatót",
+"helpStop": "Állítsa le a bemutatót",
 });

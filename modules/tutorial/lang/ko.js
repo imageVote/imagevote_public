@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'helpStop': "튜토리얼 중지",
+"helpStop": "튜토리얼 중지",
 });

@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'MakePublic': "Toevoegen aan spel",
+"MakePublic": "Toevoegen aan spel",
 });

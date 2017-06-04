@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'favouritesAdded': "Tillagt rösta omröstningar!",
+"favouritesAdded": "Tillagt rösta omröstningar!",
 });

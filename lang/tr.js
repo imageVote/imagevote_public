@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'MakePublic': "Oyununa Ekle",
+"MakePublic": "Oyununa Ekle",
 });

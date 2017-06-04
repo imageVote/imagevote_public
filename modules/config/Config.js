@@ -1,7 +1,10 @@
 
-var Config = function () {
+var Config = function (debug) {
     var _this = this;
-    
+    if (debug) {
+        this.debug();
+    }
+
     //SAVE GLOBAL
     var global = "config";
     window[global] = this;
@@ -22,11 +25,15 @@ var Config = function () {
 
 Config.prototype.callback = function (json) {
     var config;
-    try {
-        config = JSON.parse(json);
-    } catch (e) {
-        console.log("error parsing config: " + json);
-        return;
+    if ("object" == typeof json) {
+        config = json;
+    } else {
+        try {
+            config = JSON.parse(json);
+        } catch (e) {
+            console.log("error parsing config: " + json);
+            return;
+        }
     }
 
     this.appVersion(config);
@@ -41,7 +48,7 @@ Config.prototype.appVersion = function (config) {
         var lastWorkingVersion = config.last_working_version_android;
         var currentVersion = Device.version();
 
-        if (lastWorkingVersion > currentVersion) {
+        if (currentVersion && lastWorkingVersion > currentVersion) {
             modalBox.ask(transl("updateApp"), transl("updateApp_comment"), function () {
                 window.open("http://play.google.com/store/apps/details?id=" + settings.app_package);
             }, function () {
@@ -49,4 +56,11 @@ Config.prototype.appVersion = function (config) {
             });
         }
     }
+};
+
+Config.prototype.debug = function () {
+    Device = {};
+    Device.version = function () {
+        return 0;
+    };
 };

@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'MakePublic': "Ajoute sou Jwèt",
+"MakePublic": "Ajoute sou Jwèt",
 });

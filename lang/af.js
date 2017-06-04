@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'MakePublic': "Voeg by speletjie",
+"MakePublic": "Voeg by speletjie",
 });

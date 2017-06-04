@@ -6,7 +6,7 @@ var LoadKeyPoll = function (poll) {
     this.poll = window.screenPoll = poll;
 
     if (this.poll.key.indexOf("_") > -1) {
-        console.log("w8 auto.load from GamePoll/ServrPoll classes");
+        console.log("w8 auto.load from GamePoll classes");
         return;
     }
 

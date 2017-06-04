@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'MakePublic': "Hozzáadás a játékhoz",
+"MakePublic": "Hozzáadás a játékhoz",
 });

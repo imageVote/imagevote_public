@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'helpStop': "Öğreticiyi durdur",
+"helpStop": "Öğreticiyi durdur",
 });

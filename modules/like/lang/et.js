@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'favouritesAdded': "Lisatud hääletas küsitlused!",
+"favouritesAdded": "Lisatud hääletas küsitlused!",
 });

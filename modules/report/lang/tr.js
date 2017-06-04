@@ -1,7 +1,7 @@
 $.extend(window.lang, {
-'Feedback': "Görüşleriniz konusunda bize yardım edin!",
-'niceQuestion': "Güzel soru!",
-'badGrammar': "Kötü dilbilgisi",
-'vulgarWords': "Yalancı sözler",
-'thanksFeedback': "Geri dönüşünüz için teşekkür ederiz!",
+"Feedback": "Görüşleriniz konusunda bize yardım edin!",
+"niceQuestion": "Güzel soru!",
+"badGrammar": "Kötü dilbilgisi",
+"vulgarWords": "Yalancı sözler",
+"thanksFeedback": "Geri dönüşünüz için teşekkür ederiz!",
 });

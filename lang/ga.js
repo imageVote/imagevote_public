@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'MakePublic': "Cuir Cluiche",
+"MakePublic": "Cuir Cluiche",
 });

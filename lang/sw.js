@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'MakePublic': "Kuongeza kwa Aina za Michezo",
+"MakePublic": "Kuongeza kwa Aina za Michezo",
 });

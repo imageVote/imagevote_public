@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'favouritesAdded': "Tilføjet til afstemte afstemninger!",
+"favouritesAdded": "Tilføjet til afstemte afstemninger!",
 });

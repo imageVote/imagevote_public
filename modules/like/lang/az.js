@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'favouritesAdded': "əlavə sandıq səs!",
+"favouritesAdded": "əlavə sandıq səs!",
 });

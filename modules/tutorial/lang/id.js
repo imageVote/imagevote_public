@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'helpStop': "Hentikan tutorial",
+"helpStop": "Hentikan tutorial",
 });

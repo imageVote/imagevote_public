@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'MakePublic': "રમતમાં ઉમેરો",
+"MakePublic": "રમતમાં ઉમેરો",
 });

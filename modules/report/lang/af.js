@@ -1,7 +1,7 @@
 $.extend(window.lang, {
-'Feedback': "Help ons met jou terugvoer!",
-'niceQuestion': "Mooie vraag!",
-'badGrammar': "Slegte grammatika",
-'vulgarWords': "Vulgêre woorde",
-'thanksFeedback': "Dankie vir die terugvoer!",
+"Feedback": "Help ons met jou terugvoer!",
+"niceQuestion": "Mooie vraag!",
+"badGrammar": "Slegte grammatika",
+"vulgarWords": "Vulgêre woorde",
+"thanksFeedback": "Dankie vir die terugvoer!",
 });
