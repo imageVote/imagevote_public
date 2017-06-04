@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'favouritesAdded': "Bygevoeg by gestemde stembusse!",
+"favouritesAdded": "Bygevoeg by gestemde stembusse!",
 });

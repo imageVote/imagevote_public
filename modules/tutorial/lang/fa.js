@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'helpStop': "آموزش ایست",
+"helpStop": "آموزش ایست",
 });

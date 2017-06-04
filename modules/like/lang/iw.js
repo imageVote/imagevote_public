@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'favouritesAdded': "נוסף לסקרים שהצביעו!",
+"favouritesAdded": "נוסף לסקרים שהצביעו!",
 });

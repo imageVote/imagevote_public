@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'favouritesAdded': "Idinagdag sa bumoto polls!",
+"favouritesAdded": "Idinagdag sa bumoto polls!",
 });

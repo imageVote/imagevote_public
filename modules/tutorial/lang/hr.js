@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'helpStop': "Zaustavi udžbenik",
+"helpStop": "Zaustavi udžbenik",
 });

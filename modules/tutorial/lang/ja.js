@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'helpStop': "チュートリアルの停止",
+"helpStop": "チュートリアルの停止",
 });

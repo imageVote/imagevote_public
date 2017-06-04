@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'helpStop': "Pysäytä opetusohjelma",
+"helpStop": "Pysäytä opetusohjelma",
 });

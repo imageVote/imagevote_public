@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'favouritesAdded': "ووٹ دیا انتخابات میں شامل کردیا گیا!",
+"favouritesAdded": "ووٹ دیا انتخابات میں شامل کردیا گیا!",
 });

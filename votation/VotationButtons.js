@@ -9,7 +9,7 @@ var VotationButtons = function (poll, $dom) {
     this.key_waiting = 0;
     
     this.$sendButton = $("<button id='send' class='share'><em></em><span data-lang='Share'>" + transl('Share') + "</span></button>");
-    this.$cancelButton = $("<button id='cancel' data-lang='Cancel'>" + transl('Cancel') + "</button>");
+    this.$cancelButton = $("<button id='cancel' data-lang='Return'>" + transl('Return') + "</button>");
     this.$usersButton = $("<button id='usersButton' data-lang='Voters'>" + transl('Voters') + "</button>");
 
     this.$votation = $dom.parent();

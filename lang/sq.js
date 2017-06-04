@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'MakePublic': "Shtoni në lojë",
+"MakePublic": "Shtoni në lojë",
 });

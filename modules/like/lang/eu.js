@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'favouritesAdded': "gehitu bozkatu inkestetan!",
+"favouritesAdded": "gehitu bozkatu inkestetan!",
 });

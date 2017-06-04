@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'MakePublic': "Engadir ao XOGO",
+"MakePublic": "Engadir ao XOGO",
 });

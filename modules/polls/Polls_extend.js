@@ -3,7 +3,7 @@ var Polls = function () {
     //EMPTY! ONLT FOR PROTOTYPE EXTENDS CLASS
 };
 
-Polls.prototype.construct = function (query, idQ) {
+Polls.prototype.construct = function (query, keyId) {
     var _this = this;
     //not load if sharing!
     if (location.href.indexOf("share=") > -1) {
@@ -11,12 +11,21 @@ Polls.prototype.construct = function (query, idQ) {
         loading();
         return;
     }
-    console.log("new Poll " + idQ);
+    console.log("new Poll " + keyId);
 
     //default (in case server data failed)
     window.interstitial_start = window.interstitial_start || 2;
     window.interstitial_frequency = window.interstitial_frequency || 4;
     window.stars_frequency = window.stars_frequency || 8;
+
+    var idQ = null;
+    if (keyId) {
+        var keyArr = keyId.split("_");
+        idQ = keyArr[keyArr.length - 1];
+        if (keyArr.length > 1) {
+            this.game_db = "q_" + keyArr[0];
+        }
+    }
 
     this.get = new PollsGet(this, idQ);
     this.query = query; //#pollsPageContainer
@@ -84,7 +93,8 @@ Polls.prototype.navigationEvents = function () {
 
     var gameSwipeButtons = $("<div id='gameSwipeButtons'>");
 
-    var back = $("<button id='gameBack'><em style='height:15px'></em><span data-lang='back_symbol'>" + transl("back_symbol") + "</span></button>");
+    //var back = $("<button id='gameBack'><em style='height:15px'></em><span data-lang='back_symbol'>" + transl("back_symbol") + "</span></button>");
+    var back = $("<button id='gameBack'><em style='height:15px'></em><span><</span></button>");
     gameSwipeButtons.append(back);
     back.on("click", function () {
         var previousPoll = _this.get.previous();
@@ -95,7 +105,8 @@ Polls.prototype.navigationEvents = function () {
         }
     });
 
-    var next = $("<button id='gameNext'><em style='height:15px'></em><span data-lang='next_symbol'>" + transl("next_symbol") + "</span></button>");
+    //var next = $("<button id='gameNext'><em style='height:15px'></em><span data-lang='next_symbol'>" + transl("next_symbol") + "</span></button>");
+    var next = $("<button id='gameNext'><em style='height:15px'></em><span>></span></button>");
     gameSwipeButtons.append(next);
     next.on("click", function () {
         var anyone = true;
@@ -501,10 +512,13 @@ Polls.prototype.loaded = function (where) {
 };
 
 Polls.prototype.gameDB = function () {
-    var table = this.lang;
-    if (!table) {
-        table = localStorage.getItem("game_db");
+    //if overrided
+    if (this.game_db) {
+        return this.game_db;
     }
+
+    var table = localStorage.getItem("game_db");
+
     //REPAIR OLD APP VERSIONS (DEPRECATED)
     if (table.indexOf("preguntas") > -1) {
         this.repairLocalStorage();

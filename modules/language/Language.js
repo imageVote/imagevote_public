@@ -121,12 +121,7 @@ Language.prototype.sortLanguages = function (languages) {
 Language.prototype.loadLanguage = function (lang) {
     var userLang = lang[0].toLowerCase();
 
-    //if selected same
-    if (this.userLang() == userLang) {
-        this.remove();
-        this.redirection();
-        return;
-    }
+    //DEPRECATED 'if(this.userLang() == userLang)' -> NOT WORKS IF I LOADED OTHER LANGUAGE POLL BY KEY
 
     localStorage.setItem("userLang", lang[0].toLowerCase());
     //localStorage.setItem("game_db", lang[3]);
@@ -147,10 +142,14 @@ Language.prototype.loadLanguage = function (lang) {
 };
 
 Language.prototype.redirection = function () {
+    console.log("redirection()");
     //FORCE GAME RELOAD ??
-    if (location.pathname && "/" != location.pathname && (!location.hash || "polls" == location.hash)) {
-        hashManager.href("#polls");
+    //if (location.pathname && "/" != location.pathname && (!location.hash || "polls" == location.hash)) {
+    if (!location.pathname || "/" == location.pathname || (location.hash && "polls" != location.hash)) {
+        console.log('!location.pathname || "/" == location.pathname || (location.hash && "polls" != location.hash)');
+        return;
     }
+    hashManager.href("#polls");
 };
 
 Language.prototype.userLang = function () {

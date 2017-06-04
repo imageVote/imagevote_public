@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'favouritesAdded': "Miżjud ma 'ivvota stħarriġ!",
+"favouritesAdded": "Miżjud ma 'ivvota stħarriġ!",
 });

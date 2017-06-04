@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'MakePublic': "Gehitzeko joko",
+"MakePublic": "Gehitzeko joko",
 });

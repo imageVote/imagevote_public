@@ -168,7 +168,7 @@ PollsRequest.prototype.requestCallback = function (json) {
         return;
     }
 
-    var polls = this.game.parsePolls(obj); //from GamePoll || ServerPoll
+    var polls = this.game.parsePolls(obj); //from GamePoll
     this._loadRequest(polls);
 };
 

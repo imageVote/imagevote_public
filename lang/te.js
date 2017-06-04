@@ -1,3 +1,3 @@
 $.extend(window.lang, {
-'MakePublic': "ఆటకి జోడించు",
+"MakePublic": "ఆటకి జోడించు",
 });
