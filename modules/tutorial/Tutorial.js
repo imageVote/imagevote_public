@@ -83,7 +83,10 @@ Tutorial.prototype.locateHelper = function (queryDiv, value, target, func, extra
     //help.html(text);
 
     $("#tutorial_helpFilter").remove();
-
+    
+    console.log(this.where)
+    console.log($(this.where))
+    console.log($(this.where)[0])
     $(this.where).append(helpContainer);
     this.placeHelper(queryDiv);
 
