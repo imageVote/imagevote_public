@@ -218,8 +218,9 @@ HashManager.prototype.publicCheckbox = function ($div) {
         console.log("ignore.indexOf(" + lang + ") > -1")
         return;
     }
-
-    var makePublic = $("<div class='button publicCheckbox'>"
+    
+    var makePublic = $("<div class='publicCheckbox'>"
+//    var makePublic = $("<div class='publicCheckbox'>"
             + "<input type='checkbox'><span data-lang='MakePublic'>" + transl("MakePublic") + "</span>"
             + "</div>");
     $div.prepend(makePublic);

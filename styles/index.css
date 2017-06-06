@@ -244,6 +244,10 @@ td{
     line-height: 22px;
 }
 
+.button{
+    display: inline-block;
+    text-align: center;
+}
 button, input, select, .button{
     font: 13px Arial;
     height: 44px;
@@ -912,12 +916,15 @@ body > .option > *{
 }
 
 .publicCheckbox{
-    position: absolute; 
+    /*position: absolute;*/ 
     color:gainsboro; 
     font-weight:bold;
     /*color: rgb(150,150,150);*/
     opacity: 0.4;
     cursor: pointer;
+    float: left;
+    font: 13px Arial;
+    line-height: 44px;
 }
 .publicCheckbox input{
     pointer-events:none;    
@@ -925,7 +932,7 @@ body > .option > *{
 
 .publicCheckbox.publicCheck{
     opacity: 1;
-    color: gold;
+    color: gold !important;
 }
 .publicCheckbox > *{
     vertical-align: middle;

@@ -94,7 +94,7 @@ Polls.prototype.navigationEvents = function () {
     var gameSwipeButtons = $("<div id='gameSwipeButtons'>");
 
     //var back = $("<button id='gameBack'><em style='height:15px'></em><span data-lang='back_symbol'>" + transl("back_symbol") + "</span></button>");
-    var back = $("<button id='gameBack'><em style='height:15px'></em><span><</span></button>");
+    var back = $("<a is='pushstate-anchor' class='button' id='gameBack'><em style='height:15px'></em><span><</span></a>");
     gameSwipeButtons.append(back);
     back.on("click", function () {
         var previousPoll = _this.get.previous();
@@ -103,15 +103,18 @@ Polls.prototype.navigationEvents = function () {
         } else {
             flash(transl("polls_noMoreFound") + " (3)");
         }
+        _this.navigationButtons(previousPoll);
     });
 
     //var next = $("<button id='gameNext'><em style='height:15px'></em><span data-lang='next_symbol'>" + transl("next_symbol") + "</span></button>");
-    var next = $("<button id='gameNext'><em style='height:15px'></em><span>></span></button>");
+    var next = $("<a is='pushstate-anchor' class='button' id='gameNext'><em style='height:15px'></em><span>></span></a>");
     gameSwipeButtons.append(next);
+    var anyone = true;
     next.on("click", function () {
-        var anyone = true;
         var nextPoll = _this.next(null, anyone);
         _this.load(nextPoll, true);
+        console.log(nextPoll)
+        _this.navigationButtons(nextPoll);
     });
 
     this.buttons.find(".votationButtons").append(gameSwipeButtons);
@@ -120,6 +123,38 @@ Polls.prototype.navigationEvents = function () {
 //    if (is_touch_device()) {
 //        gameSwipeButtons.hide();
 //    }
+};
+
+Polls.prototype.navigationButtons = function (poll) {
+    var _this = this;
+    
+    //w8 button link pushstate url
+    setTimeout(function () {
+        if (!poll) {
+            return;
+        }
+
+        var prefix = "";
+        var gameDB = _this.gameDB();
+        if (gameDB && gameDB.split("_").length > 1) {
+            prefix = gameDB.split("_").pop() + "_";
+        }
+
+        var keysArr = _this.get.keysArray();
+        var index = keysArr.indexOf("" + poll.id);
+        if (!(index > -1)) {
+            return;
+        }
+
+        if (index - 1 >= 0) {
+            var keyBack = keysArr[index - 1];
+            _this.buttons.find("#gameBack").attr("href", prefix + keyBack);
+        }
+        if (index + 1 < keysArr.length) {
+            var keyNext = keysArr[index + 1];
+            _this.buttons.find("#gameNext").attr("href", prefix + keyNext);
+        }
+    }, 1);
 };
 
 Polls.prototype.game_config = function () {
@@ -520,7 +555,7 @@ Polls.prototype.gameDB = function () {
     var table = localStorage.getItem("game_db");
 
     //REPAIR OLD APP VERSIONS (DEPRECATED)
-    if (table.indexOf("preguntas") > -1) {
+    if (table && table.indexOf("preguntas") > -1) {
         this.repairLocalStorage();
         table = this.repairTable(table);
     }
@@ -536,7 +571,11 @@ Polls.prototype.parseLang = function (table) {
 
 Polls.prototype.parseTable = function (table) {
     if (!table) {
-        return "q_" + this.gameDB().split("_").pop().toLowerCase();
+        var gameDB = this.gameDB();
+        if (gameDB) {
+            return "q_" + gameDB.split("_").pop().toLowerCase();
+        }
+        //
     }
 
     table = this.repairTable(table);
@@ -545,7 +584,7 @@ Polls.prototype.parseTable = function (table) {
 
 //DEPRECATED
 Polls.prototype.repairTable = function (table) {
-    if (table.indexOf("preguntas") > -1) {
+    if (table && table.indexOf("preguntas") > -1) {
         var lang = table.split("preguntas").pop().toLowerCase();
         if (!lang) {
             lang = "es";
