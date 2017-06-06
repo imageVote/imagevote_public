@@ -113,9 +113,9 @@ PollsRequest.prototype._pollsByKeys = function (json_arr) {
         this._getSortedPolls(table);
         return;
     }
-    
+
     //PREVENT BUGS LOOPS!
-    if(json_arr == this.game.last_polls_request){
+    if (json_arr == this.game.last_polls_request) {
         console.log("loop bug prevention!");
         return;
     }
