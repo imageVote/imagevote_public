@@ -196,6 +196,8 @@ PollsRequest.prototype._loadRequest = function (polls) {
             this.gamePolls[idQ].a = userVotes;
         }
     }
+    //DEPRECATED!
+    window.gamePolls = this.gamePolls;
 
     var table = this.game.parseTable(table);
     localStorage.setItem(table, JSON.stringify(this.gamePolls));
@@ -211,8 +213,8 @@ PollsRequest.prototype._loadRequest = function (polls) {
     if (!nextPoll) {
         var previous = this.game.get.previous(idQ);
         if (previous && idQ !== previous[1]) {
-            console.log("previous: " + JSON.stringify(previous))
-            this.game.load(previous, true, false); //FALSE totally removes animation
+            console.log("previous: " + JSON.stringify(previous));
+            this.game.load(previous, true, false); //FALSE must totally removes animation
         }
         console.log(JSON.stringify(this.gamePolls));
         console.log("!nextPoll " + idQ);
