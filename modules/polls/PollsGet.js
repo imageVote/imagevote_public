@@ -38,7 +38,7 @@ PollsGet.prototype.this = function (idQ) {
     var key = keysArray[i];
     var poll = window.gamePolls[key];
     if ("object" !== typeof poll) {
-        console.log('"object" !== typeof ' + JSON.stringify(poll) + " with idQ: " + idQ);
+        console.log('"object" !== typeof ' + JSON.stringify(poll) + " with key:" + key + "(" + i + ")");
         return;        
     }
     return poll;
