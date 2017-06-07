@@ -32,13 +32,16 @@ PollsGet.prototype.this = function (idQ) {
     //var i = this.indexKey(idQ) + 1;
     var i = 0;
     if (idQ) {
+        console.log("idQ: " + idQ);
         i = this.indexKey(idQ);
     }
     var key = keysArray[i];
     var poll = window.gamePolls[key];
-    if ("object" === typeof poll) {
-        return poll;
+    if ("object" !== typeof poll) {
+        console.log('"object" !== typeof ' + JSON.stringify(poll) + " with key:" + key + "(" + i + ")");
+        return this.next(key, true);
     }
+    return poll;
 };
 
 PollsGet.prototype.next = function (idQ, anyone) {
