@@ -216,7 +216,7 @@ PollsRequest.prototype._loadRequest = function (polls) {
             console.log("previous: " + JSON.stringify(previous));
             this.game.load(previous, true, false); //FALSE must totally removes animation
         }
-        console.log(JSON.stringify(this.gamePolls));
+        //console.log(JSON.stringify(this.gamePolls));
         console.log("!nextPoll " + idQ);
         return;
     }
