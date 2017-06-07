@@ -17,9 +17,6 @@
         width: 70%;
     }
 
-    .votationBox, #pollsPage .gameContainer{
-        padding-bottom: 30% !important;
-    }
     .buttons{
         margin: 20px 0;
     }
