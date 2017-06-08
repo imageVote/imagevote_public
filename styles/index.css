@@ -204,6 +204,9 @@ a:hover{
     /*display: block;*/
     margin-bottom: 10px;
 }
+#createPoll{
+    font-size:13px;
+}
 
 #users table{
     margin-bottom: 10px;
@@ -213,6 +216,11 @@ canvas{
     vertical-align: bottom;
 }
 
+@media all and (orientation:portrait) {
+    .buttons{
+        margin-top: 14px;
+    }
+}
 input[type="text"], input[type="button"], input[type="submit"], input[type=color], textarea{
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -438,26 +446,10 @@ input{
 }
 
 .option{
-    /*overflow: hidden;*/
-    /*padding-left: 5px;*/
-    /*this breaks word only if only 1 large word like 'aaa+bbb+ccc'*/
-    word-break: break-word;
-    /*text-shadow: 1px 1px rgba(0,0,0,0.5);*/
     text-shadow: 1px 1px rgb(70,70,70);
-
-    width: 50%;
-    display: inline-block;
-    height: 100%;
-    /*margin:0 1.7%*/
-    width: 49%;
-    margin: 0 0.5%;
-    box-shadow: 1px 1px 0 rgba(0,0,0,0.35), inset 1px 1px 0 rgba(255,255,255,0.35), 0 3px 6px black;
     cursor: pointer;
     /*prevent wrong touch area (like overflowing margin symbols inside)*/
     overflow: hidden;
-}
-.option.clickable:hover{
-    box-shadow: 1px 1px 0 rgba(0,0,0,0.35), inset 1px 1px 0 rgba(255,255,255,0.35), 3px 6px 12px black;
 }
 
 .option table{    
@@ -471,6 +463,18 @@ input{
     width: 100%; 
     height: 100%; 
     border-collapse: collapse;
+}
+.options_container .background{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 0 !important;    
+    pointer-events: none;
+
+    -webkit-transition: all 200ms;
+    -moz-transition: all 200ms;
+    -o-transition:all 200ms;
+    transition: all 200ms;
 }
 
 .votation table .result{
@@ -877,8 +881,6 @@ body > .option > *{
     font-family: "LeagueGothic";
     margin: 0 5px;
     outline: none;
-    /*game SKIP margin:*/
-    padding: 0 7%;
 }
 /*continue in index_not_ie*/
 
