@@ -164,7 +164,7 @@ FillTable.prototype.trEvents = function (option_div, option) {
         //w8 finish animation
         setTimeout(function () {
             var poll = _this.poll;
-            var share = new Share(poll, _this.$div.parent());
+            var share = new Share(poll, _this.$div.parent().parent());
 
             console.log(poll.buttons);
             var adds = [option];
