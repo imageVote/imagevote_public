@@ -340,18 +340,18 @@ Polls.prototype.load = function (poll, individual, back) {
 Polls.prototype.loadModules = function (table, poll) {
     var _this = this;
     
-    // ENABLE WHEN GAME POLLS COMES FROM SERVER!! 
-    //LIKE
-    require(["text!~commons/modules/like/like.html"], function (html) {
-        poll.find(".like").remove();
-        poll.append(html);
-
-        var keyId = _this.lang + "_" + poll.id;
-        var like = new Like(keyId, "");
-        like.click(function (type) {
-
-        });
-    });
+//    // ENABLE WHEN GAME POLLS COMES FROM SERVER!! 
+//    //LIKE
+//    require(["text!~commons/modules/like/like.html"], function (html) {
+//        poll.find(".like").remove();
+//        poll.append(html);
+//
+//        var keyId = _this.lang + "_" + poll.id;
+//        var like = new Like(keyId, "");
+//        like.click(function (type) {
+//
+//        });
+//    });
 
     //REPORT
     require(["text!~commons/modules/report/report.html"], function (html) {
