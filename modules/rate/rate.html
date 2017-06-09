@@ -90,11 +90,13 @@
 
 <script>
 
-    var Rate = function () {
-        var rate = localStorage.getItem("rate");
-        if ("done" == rate) {
-            console.log("already rated");
-            return;
+    var Rate = function (debug) {
+        if (!debug) {
+            var rate = localStorage.getItem("rate");
+            if ("done" == rate) {
+                console.log("already rated");
+                return;
+            }
         }
         console.log("RATE");
 
@@ -221,8 +223,8 @@
             flash(transl("rate_thanks"));
         });
     };
-    
-    Rate.prototype.send = function (stars) {        
+
+    Rate.prototype.send = function (stars) {
         var file = "sendmail.php";
         var params = {
             title: stars,
