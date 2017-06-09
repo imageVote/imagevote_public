@@ -11,11 +11,16 @@ function FillTable(divQuery, poll, conf, callback) {
     this.$div.removeClass("show");
 
     //ADD HTML
-    this.$div.html("");
-    var options = $("<div class='options'>");
+    this.$div.html("");    
 
-    var options_container = $("<div class='options_container'>");
+    var options_container = $("<div class='options_container'>");    
+    
+    var title = $("<div class='title'>");
+    options_container.append(title);
+    
+    var options = $("<div class='options'>");
     options_container.append(options);
+
     //$(divQuery).attr("class", 'votation').append(options_container);
     this.$div.append(options_container);
 
@@ -45,6 +50,10 @@ function FillTable(divQuery, poll, conf, callback) {
     }
 
     //FILL TABLE WITH RESULTS
+    var titleResult = obj.title;
+    title.text(titleResult);
+    //title.text("titleResult");
+    
     var optionsResult = obj.options;
 
     for (var i = 0; i < optionsResult.length; i++) {
