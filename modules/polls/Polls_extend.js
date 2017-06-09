@@ -127,7 +127,7 @@ Polls.prototype.navigationEvents = function () {
 
 Polls.prototype.navigationButtons = function (poll) {
     var _this = this;
-    
+
     //w8 button link pushstate url
     setTimeout(function () {
         if (!poll) {
@@ -321,26 +321,44 @@ Polls.prototype.load = function (poll, individual, back) {
     if (this.voted[poll.id]) {
         original.find(".option").css("pointer-events", "none");
     }
+    
+    //DEPENDS ON GAME
+    this.loadModules(original, poll);
 
+    //SHARE
+    this.votationButtons.$sendButton.off(".gameShare");
+    this.votationButtons.$sendButton.on("click.gameShare", function () {
+        _this.share(obj, poll.id);
+    });
+
+    if (!window.Device) {
+        //add sharing in browser:
+        shareIntent.checkShareEnvirontment(this.votationButtons.$sendButton, obj.options);
+    }
+};
+
+Polls.prototype.loadModules = function (table, poll) {
+    var _this = this;
+    
     // ENABLE WHEN GAME POLLS COMES FROM SERVER!! 
-//    //LIKE
-//    require(["text!~commons/modules/like/like.html"], function (html) {
-//        original.find(".like").remove();
-//        original.append(html);
-//
-//        var keyId = _this.lang + "_" + poll.id;
-//        var like = new Like(keyId, "");
-//        like.click(function (type) {
-//
-//        });
-//    });
+    //LIKE
+    require(["text!~commons/modules/like/like.html"], function (html) {
+        poll.find(".like").remove();
+        poll.append(html);
+
+        var keyId = _this.lang + "_" + poll.id;
+        var like = new Like(keyId, "");
+        like.click(function (type) {
+
+        });
+    });
 
     //REPORT
     require(["text!~commons/modules/report/report.html"], function (html) {
-        original.find(".report").remove();
+        table.find(".report").remove();
 
         //w8 Report var initializes
-        original.append(html);
+        table.append(html);
 
         setTimeout(function () {
             var report = new Report();
@@ -357,18 +375,6 @@ Polls.prototype.load = function (poll, individual, back) {
             });
         }, 10);
     });
-
-    //SHARE
-    this.votationButtons.$sendButton.off(".gameShare");
-
-    this.votationButtons.$sendButton.on("click.gameShare", function () {
-        _this.share(obj, poll.id);
-    });
-
-    if (!window.Device) {
-        //add sharing in browser:
-        shareIntent.checkShareEnvirontment(this.votationButtons.$sendButton, obj.options);
-    }
 };
 
 Polls.prototype.share = function (obj, idQ) {
