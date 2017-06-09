@@ -169,8 +169,7 @@ Save.prototype.post = function (sendJson, add) {
 };
 
 Save.prototype.ajaxError = function (res) {
-    console.log(res);
-    console.log("can't connect with ajax");
+    error(res + " (can't connect with ajax)", true);
     error("votationNotSaved");
 };
 

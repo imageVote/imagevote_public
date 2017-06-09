@@ -301,11 +301,11 @@ linksLink:hover{
     }
 }
 
-.report{
-    /*position: relative !important;*/
+/*.report{
+    position: relative !important;
     top: inherit;
 
     -webkit-transform: translateX(-50%); 
     -ms-transform: translateX(-50%); 
     transform: translateX(-50%); 
-}
+}*/

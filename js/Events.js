@@ -194,15 +194,17 @@ Events.prototype.errorEvents = function () {
         console.log(e.error.message, "from", e.error.stack);
     });
 
-    window.error = function (txt, f) {
+    window.error = function (txt, log_only) {
         console.log(txt + " - in error function");
         //try transation
 
         //if number
         txt += "";
 
-        var text = transl(txt).replace(/["']/g, "");
-        notice("error: " + text, true);
+        if (!log_only) {
+            var text = transl(txt).replace(/["']/g, "");
+            notice("error: " + text, true);
+        }
 
         if ($("#loading:visible").length) {
             //console.log("load defaultPage after error");
