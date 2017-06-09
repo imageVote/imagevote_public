@@ -1,6 +1,7 @@
 
 var Share = function (poll, $imageDOM) {
     console.log("Share " + $imageDOM);
+    console.log($imageDOM);
     this.poll = poll;
     this.$imageDOM = $imageDOM;
 
