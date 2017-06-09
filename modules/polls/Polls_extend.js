@@ -321,7 +321,7 @@ Polls.prototype.load = function (poll, individual, back) {
     if (this.voted[poll.id]) {
         original.find(".option").css("pointer-events", "none");
     }
-    
+
     //DEPENDS ON GAME
     this.loadModules(original, poll);
 
@@ -339,7 +339,7 @@ Polls.prototype.load = function (poll, individual, back) {
 
 Polls.prototype.loadModules = function (table, poll) {
     var _this = this;
-    
+
 //    // ENABLE WHEN GAME POLLS COMES FROM SERVER!! 
 //    //LIKE
 //    require(["text!~commons/modules/like/like.html"], function (html) {
@@ -390,7 +390,8 @@ Polls.prototype.share = function (obj, idQ) {
         divQuery: ".gameContainer"
     };
 
-    new Share(_this.votationButtons.poll, $("#pollsPage")).do(function () {
+//    new Share(_this.votationButtons.poll, $("#pollsPage")).do(function () {
+    new Share(_this.votationButtons.poll, $("#pollsPageContainer")).do(function () {
         if (!window.Device) {
             setTimeout(function () {
                 $(_this.query).after($("#image"));
