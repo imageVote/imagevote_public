@@ -298,7 +298,6 @@ input{
 }
 #image img, #image canvas{
     max-width: 100% !important;
-    box-shadow: 1px 1px 8px black;
 }
 
 #creator table{
@@ -441,9 +440,9 @@ input{
     margin: 0 auto;    
     overflow: hidden;
 }*/
-.votation .question{
+/*.votation .question{
     font-weight: bold;
-}
+}*/
 
 .option{
     text-shadow: 1px 1px rgb(70,70,70);
@@ -463,6 +462,9 @@ input{
     width: 100%; 
     height: 100%; 
     border-collapse: collapse;
+}
+.options_container .option{
+    color: white;
 }
 .options_container .background{
     position: absolute;
@@ -548,11 +550,11 @@ input{
     height: 44px;
     outline: none;
 
-    background: #346392;
+/*    background: #346392;
     background: -webkit-linear-gradient(top, #6496c8, #346392);
     background: -o-linear-gradient(top, #6496c8, #346392);
     background: -moz-linear-gradient(top, #6496c8, #346392);
-    background: linear-gradient(top, #6496c8, #346392);
+    background: linear-gradient(top, #6496c8, #346392);*/
 }
 
 #send{

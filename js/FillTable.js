@@ -15,8 +15,8 @@ function FillTable(divQuery, poll, conf, callback) {
 
     var options_container = $("<div class='options_container'>");    
     
-    var title = $("<div class='title'>");
-    options_container.append(title);
+    var question = $("<div class='question'>");
+    options_container.append(question);
     
     var options = $("<div class='options'>");
     options_container.append(options);
@@ -50,8 +50,7 @@ function FillTable(divQuery, poll, conf, callback) {
     }
 
     //FILL TABLE WITH RESULTS
-    var titleResult = obj.title;
-    title.text(titleResult);
+    question.text(obj.question);
     //title.text("titleResult");
     
     var optionsResult = obj.options;
@@ -65,11 +64,11 @@ function FillTable(divQuery, poll, conf, callback) {
         var answer = this.addCell(n, text, votes);
         options.append(answer);
 
-        if (window.queryTranslation) {
-            var query = this.$div.find(".option_" + n + " .option_text .text");
-            var decodeOption = decode_uri(text);
-            queryTranslation(query, decodeOption);
-        }
+//        if (window.queryTranslation) {
+//            var query = this.$div.find(".option_" + n + " .option_text .text");
+//            var decodeOption = decode_uri(text);
+//            queryTranslation(query, decodeOption);
+//        }
 
         this.trEvents(answer, n);
     }
@@ -313,7 +312,6 @@ FillTable.prototype.countVotes = function () {
 };
 
 FillTable.prototype.emptyPoll = function () {
-    var _this = this;
     console.log("empty poll");
 
     var answer1 = this.addCell(0);
@@ -328,16 +326,9 @@ FillTable.prototype.emptyPoll = function () {
         $(this).find(".text").focus();
     });
 
-    //view
-//        $("#buttons").show();
-//        $("#showPolls").show();
-
     //try to prevent scroll move on focus:
     this.$div.find(".option_text").on('focusin focus', function (e) {
         e.preventDefault();
-    });
-    this.$div.find(".option_text").keyup(function () {
-        _this.checkTextLength(this);
     });
 };
 

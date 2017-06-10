@@ -221,7 +221,7 @@ Polls.prototype.load = function (poll, individual, back) {
 
     //this for device manipulation for browser share
     var obj = this.obj = {
-        question: "",
+        question: poll.q || "",
         options: [
             [0, poll.a0, poll.v0],
             [1, poll.a1, poll.v1]
