@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_sv, {
 "rate_title": "Betygsätt denna app",
 "rate_star1": "Hatade det",
 "rate_star2": "Ogillar det",

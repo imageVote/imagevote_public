@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_gu, {
 "updateApp": "એપ અપડેટ કરો!",
 "updateApp_comment": "તમારું વર્તમાન સંસ્કરણ અપ્રચલિત છે અને તેમાં ભૂલો હોઈ શકે છે <br> છેલ્લા સંસ્કરણ પર એપ્લિકેશન અપડેટ કરો!",
 });

@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_yi, {
 "rate_title": "קורס דעם אַפּ",
 "rate_star1": "געהאסט עס",
 "rate_star2": "דיסלייקט עס",

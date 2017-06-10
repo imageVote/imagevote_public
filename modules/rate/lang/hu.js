@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_hu, {
 "rate_title": "Értékeld ezt az alkalmazást",
 "rate_star1": "Utálta",
 "rate_star2": "Nem tetszett",

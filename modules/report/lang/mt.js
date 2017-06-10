@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_mt, {
 "Feedback": "Għinna ma Feedback tiegħek!",
 "niceQuestion": "Nizza Mistoqsija!",
 "badGrammar": "Bad grammatika",

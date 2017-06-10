@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_gl, {
 "rate_title": "Vote esta aplicación",
 "rate_star1": "odiado",
 "rate_star2": "non lles gustou",

@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_te, {
 "rate_title": "ఈ అనువర్తనాన్ని రేట్ చేయండి",
 "rate_star1": "అది అసహ్యించుకుంది",
 "rate_star2": "దీన్ని ఇష్టపడలేదు",

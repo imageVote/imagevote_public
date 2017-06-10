@@ -1,3 +1,3 @@
-$.extend(window.lang, {
+$.extend(window.lang_la, {
 "helpStop": "Nullam subsisto",
 });

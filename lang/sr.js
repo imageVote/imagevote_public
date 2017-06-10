@@ -1,3 +1,3 @@
-$.extend(window.lang, {
+$.extend(window.lang_sr, {
 "MakePublic": "Адд то Гаме",
 });

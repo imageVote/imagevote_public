@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_ur, {
 "rate_title": "اس ایپ کی درجہ بندی کریں",
 "rate_star1": "یہ نفرت تھی",
 "rate_star2": "یہ ناپسند کیا",

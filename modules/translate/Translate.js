@@ -3,7 +3,7 @@ window.languagePaths = {'~': "body"};
 
 var Translate = function () {
     this.loaded = [];
-    
+
     this.textFormat = new TextFormat();
 };
 
@@ -32,72 +32,36 @@ Translate.prototype.translateTags = function (refresh) {
 
 Translate.prototype.loadLanguage = function (path, where, callback) {
     var _this = this;
-    if (!window.lang) {
-        window.lang = {};
-    }
     window.languagePaths[path] = where;
 
     var userLang = getUserLang().toLowerCase();
     console.log("userLang: " + userLang + " - " + path);
-    
+
+    //INIT
+    if (!window["lang_" + userLang]) {
+        window["lang_" + userLang] = {};
+    }
+
     if ("zh" == userLang || "cn" == userLang || "tw" == userLang) {
         userLang = "zh-cn";
     }
 
     var file = path + "lang/" + userLang + ".js";
-    //THIS PREVENTS RELOAD ALREADY LOADED LANGUAGE!
-//    if (this.loaded.indexOf(file) > -1) {
-//        if (callback) {
-//            callback();
-//        }
-//        return;
-//    }
 
-//    $.get(file).done(function () {
-//        console.log("LANG LOADED");
-//        _this.loadTranslations(where);
-//        if (callback) {
-//            callback();
-//        }
-//    }).fail(function () {
-//        $.get(path + "lang/en.js", function () {
-//            console.log("EN LANG LOADED");
-//            _this.loadTranslations(where);
-//            if (callback) {
-//                callback();
-//            }
-//        });
-//    });
-    
-    //NOT LOAD WITH JQUERY GET - NOT WORK ON ANDROID
-    var head = document.getElementsByTagName("head")[0];
-    var script = document.createElement('script');    
-    script.type = 'text/javascript';
-    script.charset = "UTF-8";
-    script.onload = function () {
-        console.log("LANG LOADED");
-        _this.loadTranslations(where);
-        if (callback) {
-            callback();
-        }
-    };
-    script.onerror = function (msg) {
-        console.log(msg);
-        var scriptEN = document.createElement('script');
-        scriptEN.type = 'text/javascript';
-        script.charset = "UTF-8";
-        scriptEN.onload = function () {
-            console.log("EN LANG LOADED");
-            _this.loadTranslations(where);
+    try {
+        require([file], function () {
             if (callback) {
                 callback();
             }
-        };
-        scriptEN.src = path + "lang/en.js";
-        head.appendChild(scriptEN);
-    };
-    script.src = file;
-    head.appendChild(script);
+        });
+    } catch (e) {
+        //english if fail
+        require([path + "lang/en.js"], function () {
+            if (callback) {
+                callback();
+            }
+        });
+    }
 
     this.loaded.push(file);
 };

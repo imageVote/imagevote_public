@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_mt, {
 "rate_title": "Rata dan app",
 "rate_star1": "hated it",
 "rate_star2": "disliked dan",

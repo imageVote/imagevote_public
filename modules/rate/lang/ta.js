@@ -1,7 +1,7 @@
-$.extend(window.lang, {
+$.extend(window.lang_ta, {
 "rate_title": "இந்த பயன்பாட்டை மதிப்பிடுக",
 "rate_star1": "அதை வெறுத்தேன்",
-"rate_star2": "அதை வெறுத்தேன்",
+"rate_star2": "அதை விரும்பவில்லை",
 "rate_star3": "அது பரவாயில்லை",
 "rate_star4": "அது விரும்பப்பட்டது",
 "rate_star5": "அதை நேசித்தேன்",

@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_sw, {
 "Feedback": "Kutusaidia na Maoni yako!",
 "niceQuestion": "Nice Swali!",
 "badGrammar": "Bad sarufi",

@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_iw, {
 "Feedback": "עזור לנו עם המשוב שלך!",
 "niceQuestion": "שאלה נחמדה!",
 "badGrammar": "דקדוק רע",

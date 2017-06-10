@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_eo, {
 "rate_title": "Taksu tiu app",
 "rate_star1": "malamis lin",
 "rate_star2": "malŝatis ŝin",

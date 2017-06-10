@@ -1,3 +1,3 @@
-$.extend(window.lang, {
+$.extend(window.lang_sv, {
 "helpStop": "Sluta handledning",
 });

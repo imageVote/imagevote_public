@@ -1,6 +1,6 @@
-$.extend(window.lang, {
+$.extend(window.lang_gu, {
 "rate_title": "આ એપ્લિકેશનને રેટ કરો",
-"rate_star1": "તે નફરત",
+"rate_star1": "તેને નફરત",
 "rate_star2": "તે ગમ્યું",
 "rate_star3": "ઠીક છે",
 "rate_star4": "તે ગમ્યું",

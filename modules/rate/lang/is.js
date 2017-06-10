@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_is, {
 "rate_title": "Meta þessa app",
 "rate_star1": "Hataði það",
 "rate_star2": "Mislíkaði það ekki",

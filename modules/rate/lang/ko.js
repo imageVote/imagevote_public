@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_ko, {
 "rate_title": "이 앱을 평가 해주세요",
 "rate_star1": "그것을 싫어했다.",
 "rate_star2": "싫어함",

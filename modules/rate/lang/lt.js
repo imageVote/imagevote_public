@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_lt, {
 "rate_title": "Įvertink šią aplikaciją",
 "rate_star1": "Hated ją",
 "rate_star2": "nepatiko",
