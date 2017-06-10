@@ -168,7 +168,8 @@ html.translucent #modal_box{
 }
 
 #body > div > div{
-    margin: 0 10px; 
+    /*margin: 0 10px;*/ 
+    margin: auto
     /*overflow-x: hidden;*/
 }
 
