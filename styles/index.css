@@ -216,6 +216,10 @@ canvas{
     vertical-align: bottom;
 }
 
+.buttons{
+    margin-top: 8px;
+    text-align: right;
+}
 @media all and (orientation:portrait) {
     .buttons{
         margin-top: 14px;

@@ -39,7 +39,7 @@ Polls.prototype.construct = function (query, keyId) {
     $("#pollsHeader").show();
 
     //share button
-    this.buttons = $("<div id='gameButtons'>");
+    this.buttons = $("<div id='gameButtons' class='buttons'>");
     $(this.query).append(this.buttons);
     this.votationButtons = new VotationButtons(screenPoll, this.buttons);
     this.votationButtons.$usersButton.remove();

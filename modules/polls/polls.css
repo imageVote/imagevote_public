@@ -242,7 +242,6 @@ linksLink:hover{
 
 #pollsPage  #gameButtons{
     text-align: right;
-    margin-top: 5px;
 }
 #gameButtons{
     /*prevent touch area bug on devices*/
