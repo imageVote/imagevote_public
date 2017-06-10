@@ -163,10 +163,10 @@
                 obj.style = this.style;
 
                 if (!obj.question) {
-                    obj.question = lang["ExampleQuestion"];
+                    obj.question = transl("ExampleQuestion");
                 }
                 if (!obj.options) {
-                    obj.options = [[0, lang["OptionExample1"], 3], [1, lang["OptionExample2"], 1]];
+                    obj.options = [[0, transl("OptionExample1"), 3], [1, transl("OptionExample2"), 1]];
                 }
 
                 console.log(JSON.stringify(obj));
@@ -211,7 +211,7 @@
                 var a = $("<a id='deleteStyle' class='link'>delete style</a>");
                 a.click(function () {
                     $("#confirmDeletion").show();
-                    $("#confirmDeletion > div").html(lang["Delete"] + " <b>" + name + "</b>?");
+                    $("#confirmDeletion > div").html(transl("Delete") + " <b>" + name + "</b>?");
 
                     $("#confirmDeletion .ok").one("click.deletion", function () {
                         localStorage.removeItem("style_" + name);
@@ -228,7 +228,7 @@
             restoreDefault: function () {
                 screenPoll.style = $.extend({}, window.defaultStyle);
                 customStyles.updatePickers(screenPoll.style);
-                $("#p_head .p_title").text(lang["CustomStyles"]);
+                $("#p_head .p_title").text(transl("CustomStyles"));
                 $("#savedStyles .selected").removeClass("selected");
             }
             ,
