@@ -35,7 +35,7 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
 
     var userLang = getUserLang().toLowerCase();
     console.log("userLang: " + userLang + " - " + path);
-    
+
     //INIT
     if (!window["lang_" + userLang]) {
         window["lang_" + userLang] = {};
@@ -66,14 +66,15 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
 };
 
 Translate.prototype.loadTranslations = function (where) {
-    console.log("loadTranslations() " + where);
     var _this = this;
     var userLang = getUserLang().toLowerCase();
+    console.log("loadTranslations() " + where + ": lang_" + userLang);
     var lang = window["lang_" + userLang];
 
-    if (!where || !window.lang) {
-        console.log("!!where || window.lang");
-        return;
+    if (!where) {
+        console.log("!!where");
+//        return;
+        where = "";
     }
 
     $(where + " [data-lang]").each(function () {
@@ -107,7 +108,7 @@ Translate.prototype.loadTranslations = function (where) {
 //utils
 function transl(txt) {
     var userLang = getUserLang().toLowerCase();
-    var lang = window["lang_" + userLang]
+    var lang = window["lang_" + userLang];
     if (!lang) {
         //$("#errorLog").append("<div>lang function missing with: '" + txt + "'</div>");
         return txt;
