@@ -168,7 +168,7 @@ html.translucent #modal_box{
 }
 
 #body > div > div{
-    padding: 0 10px; 
+    margin: 0 10px; 
     /*overflow-x: hidden;*/
 }
 
@@ -856,7 +856,8 @@ input{
 #pollsPage{
     position: relative;
     margin: auto;
-    padding: 5px;
+    /*padding: 5px;*/
+    margin: 5px;
     /*height: 100%;*/
 }
 
