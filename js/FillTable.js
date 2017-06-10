@@ -11,12 +11,9 @@ function FillTable(divQuery, poll, conf, callback) {
     this.$div.removeClass("show");
 
     //ADD HTML
-    this.$div.html("");    
+    this.$div.html("");
 
     var options_container = $("<div class='options_container'>");    
-    
-    var title = $("<div class='title'>");
-    options_container.append(title);
     
     var options = $("<div class='options'>");
     options_container.append(options);
@@ -313,7 +310,6 @@ FillTable.prototype.countVotes = function () {
 };
 
 FillTable.prototype.emptyPoll = function () {
-    var _this = this;
     console.log("empty poll");
 
     var answer1 = this.addCell(0);
@@ -328,26 +324,11 @@ FillTable.prototype.emptyPoll = function () {
         $(this).find(".text").focus();
     });
 
-    //view
-//        $("#buttons").show();
-//        $("#showPolls").show();
-
     //try to prevent scroll move on focus:
     this.$div.find(".option_text").on('focusin focus', function (e) {
         e.preventDefault();
     });
-    this.$div.find(".option_text").keyup(function () {
-        _this.checkTextLength(this);
-    });
-};
 
-FillTable.prototype.checkTextLength = function (div) {
-    var rows = textDivRows(div);
-    if (rows > 10) {
-        var str = $(div).text();
-        $(div).text(str.substring(0, str.length - 1));
-        this.checkTextLength(div);
-    }
 };
 
 FillTable.prototype.addCell = function (i, text, votes) {
