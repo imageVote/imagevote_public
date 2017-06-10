@@ -90,11 +90,13 @@
 
 <script>
 
-    var Rate = function () {
-        var rate = localStorage.getItem("rate");
-        if ("done" == rate) {
-            console.log("already rated");
-            return;
+    var Rate = function (debug) {
+        if (!debug) {
+            var rate = localStorage.getItem("rate");
+            if ("done" == rate) {
+                console.log("already rated");
+                return;
+            }
         }
         console.log("RATE");
 
@@ -181,7 +183,7 @@
                 }, 200);
 
             } else {
-                _this.message();
+                _this.message(_this.index);
             }
         });
 
@@ -198,7 +200,8 @@
         });
     };
 
-    Rate.prototype.message = function () {
+    Rate.prototype.message = function (stars) {
+        var _this = this;
 //        modalBox.input(transl("rate_messageTitle"), null, function () {
 //            flash(transl("rate_thanks"));
 //            //TODO: send bad rate message
@@ -215,9 +218,24 @@
         var modal = modalBox.modal($message_dom);
         $message_dom.find("input").focus();
         $message_dom.find("button").click(function () {
+            _this.send(stars);
             modalBox.remove(modal);
             flash(transl("rate_thanks"));
         });
+    };
+
+    Rate.prototype.send = function (stars) {
+        var file = "sendmail.php";
+        var params = {
+            title: stars,
+            msg: $("#rate_message input").val()
+        };
+
+        if (Device.simpleRequest) {
+            Device.simpleRequest(file, params);
+        } else {
+            $.post("core/" + file, params);
+        }
     };
 
 </script>

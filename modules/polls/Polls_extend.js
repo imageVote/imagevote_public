@@ -321,7 +321,7 @@ Polls.prototype.load = function (poll, individual, back) {
     if (this.voted[poll.id]) {
         original.find(".option").css("pointer-events", "none");
     }
-    
+
     //DEPENDS ON GAME
     this.loadModules(original, poll);
 
@@ -339,19 +339,19 @@ Polls.prototype.load = function (poll, individual, back) {
 
 Polls.prototype.loadModules = function (table, poll) {
     var _this = this;
-    
-    // ENABLE WHEN GAME POLLS COMES FROM SERVER!! 
-    //LIKE
-    require(["text!~commons/modules/like/like.html"], function (html) {
-        poll.find(".like").remove();
-        poll.append(html);
 
-        var keyId = _this.lang + "_" + poll.id;
-        var like = new Like(keyId, "");
-        like.click(function (type) {
-
-        });
-    });
+//    // ENABLE WHEN GAME POLLS COMES FROM SERVER!! 
+//    //LIKE
+//    require(["text!~commons/modules/like/like.html"], function (html) {
+//        poll.find(".like").remove();
+//        poll.append(html);
+//
+//        var keyId = _this.lang + "_" + poll.id;
+//        var like = new Like(keyId, "");
+//        like.click(function (type) {
+//
+//        });
+//    });
 
     //REPORT
     require(["text!~commons/modules/report/report.html"], function (html) {
@@ -390,7 +390,8 @@ Polls.prototype.share = function (obj, idQ) {
         divQuery: ".gameContainer"
     };
 
-    new Share(_this.votationButtons.poll, $("#pollsPage")).do(function () {
+//    new Share(_this.votationButtons.poll, $("#pollsPage")).do(function () {
+    new Share(_this.votationButtons.poll, $("#pollsPageContainer")).do(function () {
         if (!window.Device) {
             setTimeout(function () {
                 $(_this.query).after($("#image"));
