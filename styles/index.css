@@ -856,7 +856,8 @@ input{
 #pollsPage{
     position: relative;
     margin: auto;
-    padding: 5px;
+    /*padding: 5px;*/
+    margin: 5px;
     /*height: 100%;*/
 }
 
