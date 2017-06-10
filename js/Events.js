@@ -145,7 +145,7 @@ Events.prototype.homeEvents = function () {
 //            if (len > maxRows) {
 //                console.log(len + " > " + maxRows)
 //                rowsOverflow = true;
-//                $("#errorLog").html(lang["onlyMostVotedShows"]).show();
+//                $("#errorLog").html(transl("onlyMostVotedShows")).show();
 //            }
 //        }
 //    });

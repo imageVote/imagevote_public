@@ -106,18 +106,6 @@ function getPathsFromRealKey(key, _public, country) {
     return res;
 }
 
-function transl(txt) {
-    if (!window.lang) {
-        //$("#errorLog").append("<div>lang function missing with: '" + txt + "'</div>");
-        return txt;
-    }
-    var res = (new TextFormat).decode(lang[txt]);
-    if (!res) {
-        res = txt;
-    }
-    return res;
-}
-
 //COUNTRY
 
 function getCountryArray(callback) {

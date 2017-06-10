@@ -31,12 +31,11 @@ Translate.prototype.translateTags = function (refresh) {
 };
 
 Translate.prototype.loadLanguage = function (path, where, callback) {
-    var _this = this;
     window.languagePaths[path] = where;
 
     var userLang = getUserLang().toLowerCase();
     console.log("userLang: " + userLang + " - " + path);
-
+    
     //INIT
     if (!window["lang_" + userLang]) {
         window["lang_" + userLang] = {};
@@ -69,6 +68,8 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
 Translate.prototype.loadTranslations = function (where) {
     console.log("loadTranslations() " + where);
     var _this = this;
+    var userLang = getUserLang().toLowerCase();
+    var lang = window["lang_" + userLang];
 
     if (!where || !window.lang) {
         console.log("!!where || window.lang");
@@ -78,7 +79,7 @@ Translate.prototype.loadTranslations = function (where) {
     $(where + " [data-lang]").each(function () {
         var textKey = $(this).attr("data-lang");
 
-        var translation = window.lang[textKey];
+        var translation = lang[textKey];
         if (translation) {
             $(this).html(_this.textFormat.decode(translation));
         } else {
@@ -91,7 +92,7 @@ Translate.prototype.loadTranslations = function (where) {
 
     $(where + " [data-placeholder]").each(function () {
         var textKey = $(this).attr("data-placeholder");
-        var translation = window.lang[textKey];
+        var translation = lang[textKey];
         if (translation) {
             $(this).attr("placeholder", translation);
         } else {
@@ -102,3 +103,18 @@ Translate.prototype.loadTranslations = function (where) {
         $(this).removeAttr("data-placeholder");
     });
 };
+
+//utils
+function transl(txt) {
+    var userLang = getUserLang().toLowerCase();
+    var lang = window["lang_" + userLang]
+    if (!lang) {
+        //$("#errorLog").append("<div>lang function missing with: '" + txt + "'</div>");
+        return txt;
+    }
+    var res = (new TextFormat).decode(lang[txt]);
+    if (!res) {
+        res = txt;
+    }
+    return res;
+}

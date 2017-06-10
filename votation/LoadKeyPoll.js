@@ -216,7 +216,7 @@ LoadKeyPoll.prototype.checkCountry = function (keyId) {
         } else {
             //only say country disponibility if not errors or notices ¿?
             if ($("#linksLink").html() == "") {
-                notice(lang["PollOnlyAvailableIn"] + countryName + ".");
+                notice(transl("PollOnlyAvailableIn") + countryName + ".");
             }
         }
     }
