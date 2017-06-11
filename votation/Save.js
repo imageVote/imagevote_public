@@ -15,10 +15,10 @@ Save.prototype.do = function (callback, andShare, add) {
     var poll = this.poll;
     console.log(this.poll);
 
-    //save before to solve any current bug:
-    this.saveLocally();
+    //save before to solve any bug: (this can lost user vote)
+    _this.saveLocally(add);
 
-    //STORE FRIENDS DATA
+    //STORE PRIVATE DATA
     if (!poll.key || !poll.key.split("_").length) { //if private poll
         //name is mandatory for prevent troll's confusion votes, and disagree results
         var inputName = $("#userNamePoll").val() || localStorage.getItem("userName");
@@ -130,26 +130,26 @@ Save.prototype.post = function (sendJson, add) {
 
     var params = "userId=" + window.user.id
             + "&data=" + sendJson;
-        
+
     //on create:
     var table;
     if (this.$imageDOM.find(".publicCheckbox.publicCheck").length) {
         table = localStorage.getItem("userLang");
         flash(transl("pollWillVisible"));
     }
-    
+
     //on update:    
     if (this.poll.key) {
         params += "&key=" + this.poll.key;
         if (this.poll.key.split("_").length > 1) {
-            table = this.poll.key.split("_")[0];            
+            table = this.poll.key.split("_")[0];
         }
     }
     if (add) {
         params += "&add=" + JSON.stringify(add);
     }
-    
-    if(table){
+
+    if (table) {
         params += "&table=" + table.toLowerCase();
     }
 
@@ -181,7 +181,7 @@ Save.prototype.notSave = function (why) {
     }
 };
 
-Save.prototype.saveLocally = function () {
+Save.prototype.saveLocally = function (votes) {
     var key = this.poll.key;
     if (!key) {
         console.log("!key yet");
@@ -193,6 +193,16 @@ Save.prototype.saveLocally = function () {
     }
 
     var obj = this.poll.obj;
+
+    //DEPRECATED (if users is array and not object): WARNING WHEN REMOVE THIS!
+    if ($.isEmptyObject()) {
+        obj.users = {};
+        //re-fill users
+        if (votes) {
+            obj.users[window.user.id] = getUserArray();
+            obj.users[window.user.id][1] = votes;
+        }
+    }
 
     console.log("saveLocally " + key + ": " + JSON.stringify(obj));
     if (!key) { //check is correct stores query     
