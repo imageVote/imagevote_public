@@ -167,6 +167,7 @@ FillTable.prototype.trEvents = function (option_div, option) {
 
             console.log(poll.buttons);
             var adds = [option];
+            console.log("!adds.equals(unVote): " + !adds.equals(unVote));            
             if (!adds.equals(unVote)) {
                 var andShare = poll.buttons.$sendButton.hasClass("saveAndShare");
                 poll.buttons.save.do(function () {
