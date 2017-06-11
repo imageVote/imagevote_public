@@ -237,7 +237,8 @@ linksLink:hover{
 }
 
 #pollsPage > div > *, #mainPage > *{
-    margin: 0 12px;
+    margin-left: 12px;
+    margin-right: 12px;
 }
 
 #pollsPage  #gameButtons{
