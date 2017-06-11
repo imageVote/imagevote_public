@@ -13,11 +13,11 @@ function FillTable(divQuery, poll, conf, callback) {
     //ADD HTML
     this.$div.html("");
 
-    var options_container = $("<div class='options_container'>");    
-    
+    var options_container = $("<div class='options_container'>");
+
     var question = $("<div class='question'>");
     options_container.append(question);
-    
+
     var options = $("<div class='options'>");
     options_container.append(options);
 
@@ -52,7 +52,7 @@ function FillTable(divQuery, poll, conf, callback) {
     //FILL TABLE WITH RESULTS
     question.text(obj.question);
     //title.text("titleResult");
-    
+
     var optionsResult = obj.options;
 
     for (var i = 0; i < optionsResult.length; i++) {
@@ -121,10 +121,10 @@ FillTable.prototype.trEvents = function (option_div, option) {
 
     //click table to prevent :hover bugs in device click:
     option_div.on("click.filltable", function () {
-//        if ($(this).hasClass("checked")) {
-//            console.log("already checked!");
+        if ($(this).hasClass("checked")) {
+            console.log("already checked!");
 //            return;
-//        }
+        }
         console.log("click " + option);
 
         //remove user votes
@@ -167,7 +167,7 @@ FillTable.prototype.trEvents = function (option_div, option) {
 
             //console.log(poll.buttons);
             var adds = [option];
-            console.log("!adds.equals(unVote): " + !adds.equals(unVote));            
+            console.log("!adds.equals(unVote): " + !adds.equals(unVote));
             if (!adds.equals(unVote)) {
                 var andShare = poll.buttons.$sendButton.hasClass("saveAndShare");
                 new Save(poll).do(function () {
