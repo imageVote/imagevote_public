@@ -38,11 +38,19 @@ Events.prototype.headerEvents = function () {
             });
 
     //SWIPE:
-    if (is_touch_device() && !$(".translucent").length) {
+    if (is_touch_device()) {
         $(document).on("swiperight", function (e) {
+            if ($(".translucent").length) {
+                return;
+            }
+            
             hashManager.update("home");
 
         }).on("swipeleft", function () {
+            if ($(".translucent").length) {
+                return;
+            }
+            
             if (!$("#p_menu").hasClass("p_show") && !$("#body").hasClass("swiping")) {
                 hashManager.update("polls");
             }
