@@ -69,11 +69,10 @@ html.translucent #modal_box{
     -o-transition: all 300ms;
     transition: all 300ms;
 }
-.translucent #body{
-    /*margin-top: 0;*/
+/*WIDTH TITLE + BUTTONS MARGIN MAKES OVERFLOW*/
+/*.translucent #body{
     margin-top: 33px !important;
-    /*top: 35px !important;*/
-}
+}*/
 
 /*.translucent #mainPage > div{
     display: none !important;

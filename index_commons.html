@@ -146,7 +146,6 @@
         window.translate = new Translate();
         window.modalBox = new ModalBox();
         window.settings = new Settings();
-        window.events = new Events();
 
         if (!window.Device) {
             window.shareIntent = new ShareIntent();
@@ -193,6 +192,9 @@
         } else {
             keyLoad();
         }
+        
+        //w8 all dom loaded to choose correct events
+        window.events = new Events();
     }
 
     //window.fromDeviceTranslucent

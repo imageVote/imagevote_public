@@ -40,12 +40,10 @@ Events.prototype.headerEvents = function () {
     //SWIPE:
     if (is_touch_device() && !$(".translucent").length) {
         $(document).on("swiperight", function (e) {
-//            hashManager.newPollView();
             hashManager.update("home");
 
         }).on("swipeleft", function () {
             if (!$("#p_menu").hasClass("p_show") && !$("#body").hasClass("swiping")) {
-//                pollsView();
                 hashManager.update("polls");
             }
         });
