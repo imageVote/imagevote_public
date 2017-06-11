@@ -121,10 +121,10 @@ FillTable.prototype.trEvents = function (option_div, option) {
 
     //click table to prevent :hover bugs in device click:
     option_div.on("click.filltable", function () {
-        if ($(this).hasClass("checked")) {
-            console.log("already checked!");
-            return;
-        }
+//        if ($(this).hasClass("checked")) {
+//            console.log("already checked!");
+//            return;
+//        }
         console.log("click " + option);
 
         //remove user votes
