@@ -85,20 +85,20 @@ window.PIXEL_RATIO = (function () {
 //DRAW CANVAS //////////////////////////////////////////////////////////////
 
 function Draw(width) {
-    this.canvas = this.newCanvas(width);
+    this.width = width;
+    this.height = width / 2.39;
+    this.canvas = this.newCanvas(this.width, this.height);
     this.ctx = this.canvas.getContext("2d");
-    this.width = this.canvas.width;
-    this.height = this.canvas.height;
 }
 
-Draw.prototype.newCanvas = function (width) {
+Draw.prototype.newCanvas = function (width, height) {
     var PIXEL_RATIO = window.PIXEL_RATIO;
     var w = width * PIXEL_RATIO;
+    var h = height * PIXEL_RATIO;
 
     var canvas = document.createElement("canvas");
     canvas.width = w;
-    //canvas.height = w / 2;
-    canvas.height = w / 2.39;
+    canvas.height = h;
 
     //canvas.style.maxWidth = "100%"; //case when scroll appears and modifies screen width
     //let max-width 100% (2.3 bug)
@@ -244,14 +244,14 @@ Draw.prototype.footer = function (url, left, bottom, country, callback) {
     var ctx = this.ctx;
     ctx.beginPath();
     ctx.textBaseline = "bottom";
-            
+
     var w = this.width;
     console.log(this.height + " - " + bottom)
     var footerHeight = this.height - bottom;
-    
+
     //link
     if (url) {
-        ctx.textAlign = "left";        
+        ctx.textAlign = "left";
         ctx.fillStyle = "rgba(0,0,0,0.4)";
         ctx.font = parseInt(w / 37) + "px Verdana";
         ctx.fillText(url, left, footerHeight);
