@@ -133,7 +133,7 @@ Save.prototype.post = function (sendJson, add) {
 
     //on create:
     var table;
-    if (this.$imageDOM.find(".publicCheckbox.publicCheck").length) {
+    if (this.$imageDOM && this.$imageDOM.find(".publicCheckbox.publicCheck").length) {
         table = localStorage.getItem("userLang");
         flash(transl("pollWillVisible"));
     }

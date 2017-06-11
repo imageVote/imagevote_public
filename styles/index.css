@@ -169,7 +169,7 @@ html.translucent #modal_box{
 #body > div > div{
     /*margin: 0 10px;*/ 
     margin: auto
-    /*overflow-x: hidden;*/
+        /*overflow-x: hidden;*/
 }
 
 /*'a' style when no href:*/
@@ -290,6 +290,7 @@ input{
     position: relative;
     margin-bottom: 15px;
     text-align: center;
+    clear: both;
 }
 #image .link{
     /*margin-top: 5px;*/
@@ -554,11 +555,11 @@ input{
     height: 44px;
     outline: none;
 
-/*    background: #346392;
-    background: -webkit-linear-gradient(top, #6496c8, #346392);
-    background: -o-linear-gradient(top, #6496c8, #346392);
-    background: -moz-linear-gradient(top, #6496c8, #346392);
-    background: linear-gradient(top, #6496c8, #346392);*/
+    /*    background: #346392;
+        background: -webkit-linear-gradient(top, #6496c8, #346392);
+        background: -o-linear-gradient(top, #6496c8, #346392);
+        background: -moz-linear-gradient(top, #6496c8, #346392);
+        background: linear-gradient(top, #6496c8, #346392);*/
 }
 
 #send{

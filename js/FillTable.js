@@ -5,6 +5,7 @@ function FillTable(divQuery, poll, conf, callback) {
     console.log(JSON.stringify(poll));
     this.$div = $(divQuery);
     this.callback = callback;
+    this.poll = poll;
     var obj = this.obj = poll.obj;
 
     //usefull on next poll game
@@ -132,7 +133,7 @@ FillTable.prototype.trEvents = function (option_div, option) {
         var unVote = [];
         if (!obj.style || !obj.style.multipleChoice) {
             var votes = _this.userVotes();
-            unVote = voteArray(votes);
+            unVote = voteArray(votes).slice(); //clone
             console.log("arr = " + JSON.stringify(unVote));
             _this.unCheckOptions();
             for (var i = 0; i < unVote.length; i++) {
@@ -163,6 +164,7 @@ FillTable.prototype.trEvents = function (option_div, option) {
         //w8 finish animation
         setTimeout(function () {
             var poll = _this.poll;
+            console.log(poll);
             var share = new Share(poll, _this.$div.parent());
 
             //console.log(poll.buttons);
