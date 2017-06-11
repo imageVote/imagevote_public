@@ -4,7 +4,7 @@
 //});
 
 var Events = function () {
-    this.headerEvents();
+    //this.headerEvents(); //on document ready
     this.homeEvents();
     //this.pollsEvents();
     this.errorEvents();
