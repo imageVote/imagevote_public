@@ -115,6 +115,7 @@ function transl(txt) {
     }
     var res = (new TextFormat).decode(lang[txt]);
     if (!res) {
+        console.log("!transl " + txt);
         res = txt;
     }
     return res;
