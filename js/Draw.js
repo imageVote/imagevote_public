@@ -358,18 +358,22 @@ Draw.prototype.clickHere = function (family) {
     var w = this.width;
     var string1, string2;
 
-    var index;
     var mid = parseInt(txt.length / 2) + 1;
-    for (var i = 0; i < mid; i++) {
-        index = mid + i;
-        if (" " == txt[index]) {
-            break;
-        }
-        index = mid - i;
-        if (" " == txt[index]) {
-            break;
+    var index = mid;
+    if (" " !== txt[index]) {
+        for (var i = 0; i < mid + 1; i++) {
+            index = mid + i;
+            if (" " === txt[index]) {
+                break;
+            }
+
+            index = mid - i;
+            if (" " === txt[index]) {
+                break;
+            }
         }
     }
+    console.log("index: " + index);
 
     string1 = txt.substring(0, index);
     string2 = txt.substring(index, txt.length);
@@ -384,17 +388,18 @@ Draw.prototype.clickHere = function (family) {
     ctx.fillStyle = "rgba(255,255,255,0.5)";
     ctx.fillStyle = "black";
 //    ctx.fillStyle = "black";
-    ctx.fillText(string1, parseInt(w * 0.49) + 1, parseInt(marginTop + w * 0.31) + 1);
-    ctx.fillText(string2, parseInt(w * 0.49) + 1, parseInt(marginTop + w * 0.39) + 1);
+    ctx.fillText(string1, parseInt(w * 0.47) + 1, parseInt(marginTop + w * 0.31) + 1);
+    ctx.fillText(string2, parseInt(w * 0.47) + 1, parseInt(marginTop + w * 0.39) + 1);
     ctx.fillStyle = "rgba(0,0,0,0.9)";
     ctx.fillStyle = "rgb(255, 215, 0)";
 //    ctx.fillStyle = "yellow";
-    ctx.fillText(string1, parseInt(w * 0.49), parseInt(marginTop + w * 0.31));
-    ctx.fillText(string2, parseInt(w * 0.49), parseInt(marginTop + w * 0.39));
+    ctx.fillText(string1, parseInt(w * 0.47), parseInt(marginTop + w * 0.31));
+    ctx.fillText(string2, parseInt(w * 0.47), parseInt(marginTop + w * 0.39));
     ctx.rotate(0.1);
 
     ctx.lineWidth = 1;
 
+    //ARROW
     var oX = parseInt(w * 0.089);
     var oY = parseInt(marginTop + w * 0.36);
     var f1X = parseInt(w * 0.079);
