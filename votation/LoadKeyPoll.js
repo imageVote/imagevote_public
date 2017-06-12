@@ -106,11 +106,9 @@ LoadKeyPoll.prototype.requestPollByKeyCallback = function (json) {
     }
 
     console.log(this);
-//    window.loadedTable = new FillTable(this.query, this.poll, null, function (option) {
-//        //SAVE:
-//        //new Save(_this.poll, $("#mainPage")).do(null, true, [option]);
-//    });
+    //save on change option included
     window.loadedTable = new FillTable(this.query, this.poll);
+    
     if (!window.Device) {
         //add sharing in browser:
         shareIntent.checkShareEnvirontment(loadedTable.$div.find(".option"), this.poll.obj.options);
