@@ -236,7 +236,7 @@ linksLink:hover{
     font-size: 20px;
 }
 
-#pollsPage > div > *{
+#pollsPage > div > *, #image > *{
     margin: 0 8px;
 }
 
@@ -256,10 +256,7 @@ linksLink:hover{
 }
 
 @media screen and (max-width: 480px) {
-    #pollsPage, .loadKeyPoll #mainPage #votation{
-        height: 100%;
-        padding: 0;
-    }
+
     #pollsPage #polls, #pollsPage .gameContainer, .loadKeyPoll #mainPage #votation .votationBox {
         /*28 x 4*/ 
         /*padding-bottom: 128% !important;*/      
@@ -277,11 +274,6 @@ linksLink:hover{
     }
     #votationOwner{
         margin: 5px 10px; /*4 votationBox votation needed*/
-    }
-    #pollsPage .option, .loadKeyPoll #mainPage #votation .option {
-        width: 99%;
-        /*margin-bottom: 2% !important;*/
-        height: 48%;
     }
 
     #pollsPage table, .loadKeyPoll #mainPage #votation table {

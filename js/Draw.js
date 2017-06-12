@@ -132,48 +132,49 @@ Draw.prototype.title = function (txt, left, top, color) {
     var ctx = this.ctx;
     left = parseInt(left);
     top = parseInt(top);
+    var maxWidth = this.width - 16;
 
     //http://stackoverflow.com/questions/8952909/letter-spacing-in-canvas-element
     var title = txt.split("").join(String.fromCharCode(8202)); //add space between letters
     if ("0,0,0" != color) {
         ctx.fillStyle = "rgb(0,0,0)";
-        ctx.fillText(title, left + 1, top + 1);
+        ctx.fillText(title, left + 1, top + 1, maxWidth);
     }
     ctx.fillStyle = "rgb(" + color + ")";
-    ctx.fillText(title, left, top);
+    ctx.fillText(title, left, top, maxWidth);
 };
 
-Draw.prototype.optionSquare = function (x, y, width_all, height_all, color) {
+Draw.prototype.optionSquare = function (x, y, width, height, color) {
     var ctx = this.ctx;
     x = parseInt(x);
     y = parseInt(y);
-    width_all = parseInt(width_all);
-    height_all = parseInt(height_all);
+    width = parseInt(width);
+    height = parseInt(height);
 
     ctx.beginPath();
     ctx.fillStyle = "rgb(" + color + ")";
-    ctx.rect(x, y, width_all, height_all);
+    ctx.rect(x, y, width, height);
     ctx.fill();
 
     ctx.beginPath();
-    var grd = ctx.createLinearGradient(x, y, x + width_all, y + width_all);
+    var grd = ctx.createLinearGradient(x, y, x + width, y + width);
     grd.addColorStop(0, "rgba(255,255,255, 0)");
     grd.addColorStop(1, "rgba(255,255,255, 0.35)");
     ctx.fillStyle = grd;
-    ctx.rect(x, y, width_all, height_all);
+    ctx.rect(x, y, width, height);
     ctx.fill();
 
     //BORDERS:
     ctx.beginPath();
     ctx.fillStyle = "rgba(255,255,255,0.5)";
-    ctx.rect(x + 1, y + 1, width_all - 1, 1);
-    ctx.rect(x + 1, y + 1, 1, height_all - 1);
+    ctx.rect(x + 1, y + 1, width - 1, 1);
+    ctx.rect(x + 1, y + 1, 1, height - 1);
     ctx.fill();
 
     ctx.beginPath();
     ctx.fillStyle = "rgba(0,0,0,0.4)";
-    ctx.rect(x, y + height_all, width_all, 1);
-    ctx.rect(x + width_all, y, 1, height_all);
+    ctx.rect(x, y + height, width, 1);
+    ctx.rect(x + width, y, 1, height);
     ctx.fill();
 };
 
@@ -190,10 +191,6 @@ Draw.prototype.option = function (optionName, left, top, color1, maxWidth) {
     console.log("lineHeight: " + lineHeight);
     var h = top - lines * lineHeight / 2;
 
-    ctx.textAlign = "left";
-    if (maxWidth) {
-        ctx.textAlign = "center";
-    }
     ctx.textBaseline = "middle";
 
     ctx.fillStyle = "black"; //black shadow
@@ -244,14 +241,14 @@ Draw.prototype.footer = function (url, left, bottom, country, callback) {
     var ctx = this.ctx;
     ctx.beginPath();
     ctx.textBaseline = "bottom";
-            
+
     var w = this.width;
     console.log(this.height + " - " + bottom)
     var footerHeight = this.height - bottom;
-    
+
     //link
     if (url) {
-        ctx.textAlign = "left";        
+        ctx.textAlign = "left";
         ctx.fillStyle = "rgba(0,0,0,0.4)";
         ctx.font = parseInt(w / 37) + "px Verdana";
         ctx.fillText(url, left, footerHeight);
@@ -358,6 +355,7 @@ Draw.prototype.wrapText = function (context, text, x, y, maxWidth, lineHeight, i
 
 Draw.prototype.clickHere = function (family) {
     var txt = transl("ClickTheLink");
+    var w = this.width;
     var string1, string2;
 
     var index;
@@ -375,38 +373,40 @@ Draw.prototype.clickHere = function (family) {
 
     string1 = txt.substring(0, index);
     string2 = txt.substring(index, txt.length);
-    var marginTop = this.y_all;
+    var marginTop = 12;
 
     var ctx = this.ctx;
-    ctx.font = parseInt(this.width / 13) + "px " + family;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "bottom";
+    ctx.font = parseInt(w / 13) + "px " + family;
     ctx.rotate(-0.1);
 
     ctx.fillStyle = "rgba(255,255,255,0.5)";
     ctx.fillStyle = "black";
 //    ctx.fillStyle = "black";
-    ctx.fillText(string1, parseInt(this.width * 0.49) + 1, parseInt(marginTop + this.width * 0.31) + 1);
-    ctx.fillText(string2, parseInt(this.width * 0.49) + 1, parseInt(marginTop + this.width * 0.39) + 1);
+    ctx.fillText(string1, parseInt(w * 0.49) + 1, parseInt(marginTop + w * 0.31) + 1);
+    ctx.fillText(string2, parseInt(w * 0.49) + 1, parseInt(marginTop + w * 0.39) + 1);
     ctx.fillStyle = "rgba(0,0,0,0.9)";
     ctx.fillStyle = "rgb(255, 215, 0)";
 //    ctx.fillStyle = "yellow";
-    ctx.fillText(string1, parseInt(this.width * 0.49), parseInt(marginTop + this.width * 0.31));
-    ctx.fillText(string2, parseInt(this.width * 0.49), parseInt(marginTop + this.width * 0.39));
+    ctx.fillText(string1, parseInt(w * 0.49), parseInt(marginTop + w * 0.31));
+    ctx.fillText(string2, parseInt(w * 0.49), parseInt(marginTop + w * 0.39));
     ctx.rotate(0.1);
 
     ctx.lineWidth = 1;
 
-    var oX = parseInt(this.width * 0.089);
-    var oY = parseInt(marginTop + this.width * 0.36);
-    var f1X = parseInt(this.width * 0.079);
-    var f1Y = parseInt(marginTop + this.width * 0.325);
-    var f2X = parseInt(this.width * 0.123);
-    var f2Y = parseInt(marginTop + this.width * 0.34);
-    var l1 = parseInt(this.width * 0.119);
-    var l2 = parseInt(marginTop + this.width * 0.256);
-    var l3 = parseInt(this.width * 0.198);
-    var l4 = parseInt(marginTop + this.width * 0.285);
-    var l5 = parseInt(this.width * 0.306);
-    var l6 = parseInt(marginTop + this.width * 0.275);
+    var oX = parseInt(w * 0.089);
+    var oY = parseInt(marginTop + w * 0.36);
+    var f1X = parseInt(w * 0.079);
+    var f1Y = parseInt(marginTop + w * 0.325);
+    var f2X = parseInt(w * 0.123);
+    var f2Y = parseInt(marginTop + w * 0.34);
+    var l1 = parseInt(w * 0.119);
+    var l2 = parseInt(marginTop + w * 0.256);
+    var l3 = parseInt(w * 0.198);
+    var l4 = parseInt(marginTop + w * 0.285);
+    var l5 = parseInt(w * 0.306);
+    var l6 = parseInt(marginTop + w * 0.275);
 
     ctx.strokeStyle = "rgba(255,255,255,0.5)";
     ctx.strokeStyle = "black";

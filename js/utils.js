@@ -484,10 +484,12 @@ var CSV = {
         res.push(arr[0]); //0.  question
 
         var answers;
-        var styles;
+        var styles = "";
         try {
             answers = JSON.parse(arr[1]);
-            styles = JSON.parse(arr[2]);
+            if (arr[2]) {
+                styles = JSON.parse(arr[2]);
+            }
         } catch (e) {
             console.log("can't parse " + arr[1] + " and " + arr[2]);
             return false;
