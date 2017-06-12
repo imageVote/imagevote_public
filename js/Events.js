@@ -4,7 +4,7 @@
 //});
 
 var Events = function () {
-    this.headerEvents();
+    //this.headerEvents(); //on document ready
     this.homeEvents();
     //this.pollsEvents();
     this.errorEvents();
@@ -38,14 +38,20 @@ Events.prototype.headerEvents = function () {
             });
 
     //SWIPE:
-    if (is_touch_device() && !$(".translucent").length) {
+    if (is_touch_device()) {
         $(document).on("swiperight", function (e) {
-//            hashManager.newPollView();
+            if ($(".translucent").length) {
+                return;
+            }
+            
             hashManager.update("home");
 
         }).on("swipeleft", function () {
+            if ($(".translucent").length) {
+                return;
+            }
+            
             if (!$("#p_menu").hasClass("p_show") && !$("#body").hasClass("swiping")) {
-//                pollsView();
                 hashManager.update("polls");
             }
         });
@@ -145,7 +151,7 @@ Events.prototype.homeEvents = function () {
 //            if (len > maxRows) {
 //                console.log(len + " > " + maxRows)
 //                rowsOverflow = true;
-//                $("#errorLog").html(lang["onlyMostVotedShows"]).show();
+//                $("#errorLog").html(transl("onlyMostVotedShows")).show();
 //            }
 //        }
 //    });

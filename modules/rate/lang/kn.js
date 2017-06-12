@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_kn, {
 "rate_title": "ಈ ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ರೇಟ್ ಮಾಡಿ",
 "rate_star1": "ಅದನ್ನು ದ್ವೇಷಿಸಲಾಗಿದೆ",
 "rate_star2": "ಅದನ್ನು ಇಷ್ಟಪಡಲಿಲ್ಲ",

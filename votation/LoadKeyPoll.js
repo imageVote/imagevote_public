@@ -106,10 +106,11 @@ LoadKeyPoll.prototype.requestPollByKeyCallback = function (json) {
     }
 
     console.log(this);
-    window.loadedTable = new FillTable(this.query, this.poll, null, function (option) {
-        //SAVE:
-        new Save(_this.poll, $("#mainPage")).do(null, true, [option]);
-    });
+//    window.loadedTable = new FillTable(this.query, this.poll, null, function (option) {
+//        //SAVE:
+//        //new Save(_this.poll, $("#mainPage")).do(null, true, [option]);
+//    });
+    window.loadedTable = new FillTable(this.query, this.poll);
     if (!window.Device) {
         //add sharing in browser:
         shareIntent.checkShareEnvirontment(loadedTable.$div.find(".option"), this.poll.obj.options);
@@ -216,7 +217,7 @@ LoadKeyPoll.prototype.checkCountry = function (keyId) {
         } else {
             //only say country disponibility if not errors or notices ¿?
             if ($("#linksLink").html() == "") {
-                notice(lang["PollOnlyAvailableIn"] + countryName + ".");
+                notice(transl("PollOnlyAvailableIn") + countryName + ".");
             }
         }
     }

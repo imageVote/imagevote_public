@@ -118,14 +118,14 @@ Language.prototype.sortLanguages = function (languages) {
     return sorted;
 };
 
-Language.prototype.loadLanguage = function (lang) {
-    var userLang = lang[0].toLowerCase();
+Language.prototype.loadLanguage = function (langArr) {
+    var userLang = langArr[0].toLowerCase();
 
     //DEPRECATED 'if(this.userLang() == userLang)' -> NOT WORKS IF I LOADED OTHER LANGUAGE POLL BY KEY
 
-    localStorage.setItem("userLang", lang[0].toLowerCase());
-    //localStorage.setItem("game_db", lang[3]);
-    localStorage.setItem("game_db", "q_" + lang[0]);
+    localStorage.setItem("userLang", langArr[0].toLowerCase());
+    //localStorage.setItem("game_db", langArr[3]);
+    localStorage.setItem("game_db", "q_" + langArr[0]);
     translate.translateTags(true);
 
     this.remove();

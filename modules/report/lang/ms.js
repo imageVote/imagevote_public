@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_ms, {
 "Feedback": "Membantu kami dengan maklum balas anda!",
 "niceQuestion": "Soalan yang bagus!",
 "badGrammar": "tatabahasa yang buruk",

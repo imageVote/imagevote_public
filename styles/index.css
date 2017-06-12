@@ -69,11 +69,10 @@ html.translucent #modal_box{
     -o-transition: all 300ms;
     transition: all 300ms;
 }
-.translucent #body{
-    /*margin-top: 0;*/
+/*WIDTH TITLE + BUTTONS MARGIN MAKES OVERFLOW*/
+/*.translucent #body{
     margin-top: 33px !important;
-    /*top: 35px !important;*/
-}
+}*/
 
 /*.translucent #mainPage > div{
     display: none !important;
@@ -221,11 +220,11 @@ canvas{
     margin-top: 8px;
     text-align: right;
 }
-@media all and (orientation:portrait) {
+/*@media all and (orientation:portrait) {
     .buttons{
         margin-top: 14px;
     }
-}
+}*/
 input[type="text"], input[type="button"], input[type="submit"], input[type=color], textarea{
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -291,6 +290,7 @@ input{
     position: relative;
     margin-bottom: 15px;
     text-align: center;
+    clear: both;
 }
 #image .link{
     /*margin-top: 5px;*/
@@ -555,11 +555,11 @@ input{
     height: 44px;
     outline: none;
 
-/*    background: #346392;
-    background: -webkit-linear-gradient(top, #6496c8, #346392);
-    background: -o-linear-gradient(top, #6496c8, #346392);
-    background: -moz-linear-gradient(top, #6496c8, #346392);
-    background: linear-gradient(top, #6496c8, #346392);*/
+    /*    background: #346392;
+        background: -webkit-linear-gradient(top, #6496c8, #346392);
+        background: -o-linear-gradient(top, #6496c8, #346392);
+        background: -moz-linear-gradient(top, #6496c8, #346392);
+        background: linear-gradient(top, #6496c8, #346392);*/
 }
 
 #send{

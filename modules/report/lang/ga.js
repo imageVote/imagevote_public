@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_ga, {
 "Feedback": "Cabhraigh linn le do Aiseolas!",
 "niceQuestion": "Nice Ceist!",
 "badGrammar": "Droch gramadach",

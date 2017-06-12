@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_et, {
 "rate_title": "Hinda seda äppi",
 "rate_star1": "Üldse ei",
 "rate_star2": "ei meeldinud",

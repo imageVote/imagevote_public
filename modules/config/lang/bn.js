@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_bn, {
 "updateApp": "অ্যাপ আপডেট করুন!",
 "updateApp_comment": "আপনার বর্তমান সংস্করণ অপ্রচলিত এবং ত্রুটি থাকতে পারে। <br> সর্বশেষ সংস্করণটি অ্যাপটি আপডেট করুন!",
 });

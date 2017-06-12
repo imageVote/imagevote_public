@@ -85,20 +85,20 @@ window.PIXEL_RATIO = (function () {
 //DRAW CANVAS //////////////////////////////////////////////////////////////
 
 function Draw(width) {
-    this.canvas = this.newCanvas(width);
+    this.width = width;
+    this.height = width / 2.39;
+    this.canvas = this.newCanvas(this.width, this.height);
     this.ctx = this.canvas.getContext("2d");
-    this.width = this.canvas.width;
-    this.height = this.canvas.height;
 }
 
-Draw.prototype.newCanvas = function (width) {
+Draw.prototype.newCanvas = function (width, height) {
     var PIXEL_RATIO = window.PIXEL_RATIO;
     var w = width * PIXEL_RATIO;
+    var h = height * PIXEL_RATIO;
 
     var canvas = document.createElement("canvas");
     canvas.width = w;
-    //canvas.height = w / 2;
-    canvas.height = w / 2.39;
+    canvas.height = h;
 
     //canvas.style.maxWidth = "100%"; //case when scroll appears and modifies screen width
     //let max-width 100% (2.3 bug)

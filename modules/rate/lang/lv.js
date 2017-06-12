@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_lv, {
 "rate_title": "Novērtēt šo lietotni",
 "rate_star1": "ienīda to",
 "rate_star2": "nepatika",

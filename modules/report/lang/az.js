@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_az, {
 "Feedback": "Sizin Əlaqə bizə kömək!",
 "niceQuestion": "Nice Sual!",
 "badGrammar": "Bad qrammatika",

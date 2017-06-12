@@ -5,6 +5,7 @@ function FillTable(divQuery, poll, conf, callback) {
     console.log(JSON.stringify(poll));
     this.$div = $(divQuery);
     this.callback = callback;
+    this.poll = poll;
     var obj = this.obj = poll.obj;
 
     //usefull on next poll game
@@ -13,11 +14,11 @@ function FillTable(divQuery, poll, conf, callback) {
     //ADD HTML
     this.$div.html("");
 
-    var options_container = $("<div class='options_container'>");    
-    
+    var options_container = $("<div class='options_container'>");
+
     var question = $("<div class='question'>");
     options_container.append(question);
-    
+
     var options = $("<div class='options'>");
     options_container.append(options);
 
@@ -52,7 +53,7 @@ function FillTable(divQuery, poll, conf, callback) {
     //FILL TABLE WITH RESULTS
     question.text(obj.question);
     //title.text("titleResult");
-    
+
     var optionsResult = obj.options;
 
     for (var i = 0; i < optionsResult.length; i++) {
@@ -123,7 +124,7 @@ FillTable.prototype.trEvents = function (option_div, option) {
     option_div.on("click.filltable", function () {
         if ($(this).hasClass("checked")) {
             console.log("already checked!");
-            return;
+//            return;
         }
         console.log("click " + option);
 
@@ -132,7 +133,7 @@ FillTable.prototype.trEvents = function (option_div, option) {
         var unVote = [];
         if (!obj.style || !obj.style.multipleChoice) {
             var votes = _this.userVotes();
-            unVote = voteArray(votes);
+            unVote = voteArray(votes).slice(); //clone
             console.log("arr = " + JSON.stringify(unVote));
             _this.unCheckOptions();
             for (var i = 0; i < unVote.length; i++) {
@@ -163,13 +164,15 @@ FillTable.prototype.trEvents = function (option_div, option) {
         //w8 finish animation
         setTimeout(function () {
             var poll = _this.poll;
+            console.log(poll);
             var share = new Share(poll, _this.$div.parent());
 
-            console.log(poll.buttons);
+            //console.log(poll.buttons);
             var adds = [option];
+            console.log("!adds.equals(unVote): " + !adds.equals(unVote));
             if (!adds.equals(unVote)) {
                 var andShare = poll.buttons.$sendButton.hasClass("saveAndShare");
-                poll.buttons.save.do(function () {
+                new Save(poll).do(function () {
                     //poll.buttons.share();                        
                     share.do();
                 }, andShare, adds);

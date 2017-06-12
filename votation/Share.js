@@ -52,7 +52,7 @@ Share.prototype.do = function (callback, forceShow) {
 
     var width = null;
     getCanvasImage(image, poll.obj, this.keyId, width, type, function (imgData) {
-        _this.onCanvasImage(imgData, function(){
+        _this.onCanvasImage(imgData, function () {
             loaded();
         });
     });

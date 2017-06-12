@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_hr, {
 "Feedback": "Pomozite nam s vašim povratnim informacijama!",
 "niceQuestion": "Lijepo pitanje!",
 "badGrammar": "Loša gramatika",

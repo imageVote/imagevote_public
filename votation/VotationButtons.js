@@ -234,7 +234,7 @@ VotationButtons.prototype.saveToShare = function () {
         this.$sendButton.removeAttr("disabled");
     }
     this.$sendButton.attr("class", "share");
-    this.$sendButton.find("span").text(lang["Share"]);
+    this.$sendButton.find("span").text(transl("Share"));
 
     //hide public options to show share image?
     $("#publicMessage").hide();

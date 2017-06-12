@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_hu, {
 "Feedback": "Segítsen nekünk visszajelzésével!",
 "niceQuestion": "Jó kérdés!",
 "badGrammar": "Rossz nyelvtan",

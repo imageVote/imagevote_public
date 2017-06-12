@@ -53,7 +53,7 @@ function loadStoredPolls() {
         console.log(obj);
         //remove wrong parse        
         if (!obj) {
-            $(query + " .loader").text(lang["error"]);
+            $(query + " .loader").text(transl("error"));
             localStorage.removeItem(storedKey);
             continue;
         }
@@ -223,7 +223,7 @@ function storedPolls_init() {
 
             //$("#undo").remove();
             stored.find(".undo").remove();
-            var undo = $("<div class='undo' class='hoverUnderline'>" + lang["UNDO"] + "</div>");
+            var undo = $("<div class='undo' class='hoverUnderline'>" + transl("UNDO") + "</div>");
             stored.append(undo);
 
             $(document).off(".undo");

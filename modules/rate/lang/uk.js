@@ -1,4 +1,4 @@
-$.extend(window.lang, {
+$.extend(window.lang_uk, {
 "rate_title": "Оцініть цей додаток",
 "rate_star1": "ненавидів його",
 "rate_star2": "Чи не сподобалося це",
