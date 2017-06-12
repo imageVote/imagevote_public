@@ -110,11 +110,11 @@ function transl(txt) {
     var userLang = getUserLang().toLowerCase();
     var lang = window["lang_" + userLang];
     if (!lang) {
-        //$("#errorLog").append("<div>lang function missing with: '" + txt + "'</div>");
+                //$("#errorLog").append("<div>lang function missing with: '" + txt + "'</div>");
         return txt;
     }
     var res = (new TextFormat).decode(lang[txt]);
-    if (!res) {
+    if (!res) {        
         res = txt;
     }
     return res;
