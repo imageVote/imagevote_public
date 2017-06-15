@@ -89,8 +89,8 @@
 //    }
 
     //before js imports
-    window.LoadedPoll = function () {
-        console.log("new LoadedPoll");
+    window.LoadedPoll = function (from) {
+        console.log("new LoadedPoll " + from);
         var _this = this;
         this.key = null;
         this.realKey = null;
@@ -123,7 +123,7 @@
             return _this._public;
         };
     };
-    window.screenPoll = new LoadedPoll();
+    window.screenPoll = new LoadedPoll("index_commons");
 
     ////////////////////////////////////////////////////////////////////            
 
@@ -260,7 +260,7 @@
     function resetData() {
         console.log("resetData newUser");
         window.user = new User();
-        screenPoll = new LoadedPoll();
+        screenPoll = new LoadedPoll("resetData");
     }
 
     //device function too!

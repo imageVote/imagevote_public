@@ -567,27 +567,85 @@ function toBase(x) {
     return methodInOriginalQuestion(x, radix, A); // else not a power of 2, slower method
 }
 
-window.base10 = "0123456789".split('');
-window.base62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split('');
+(function () {
+    var base10 = "0123456789".split('');
+    var base62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split('');
 
-function convertBase(value, from_range, to_range) {
+    function convertBase(value, from_range, to_range) {
 //    var from_range = "0123456789".split('');
 //    var to_range = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
-    var from_base = from_range.length;
-    var to_base = to_range.length;
+        var from_base = from_range.length;
+        var to_base = to_range.length;
 
-    value = value + "";
+        value = value + "";
 
-    var dec_value = value.split('').reverse().reduce(function (carry, digit, index) {
-        if (from_range.indexOf(digit) === -1)
-            throw new Error('Invalid digit `' + digit + '` for base ' + from_base + ' in ' + value);
-        return carry += from_range.indexOf(digit) * (Math.pow(from_base, index));
-    }, 0);
+        var dec_value = value.split('').reverse().reduce(function (carry, digit, index) {
+            if (from_range.indexOf(digit) === -1)
+                throw new Error('Invalid digit `' + digit + '` for base ' + from_base + ' in ' + value);
+            return carry += from_range.indexOf(digit) * (Math.pow(from_base, index));
+        }, 0);
 
-    var new_value = '';
-    while (dec_value > 0) {
-        new_value = to_range[dec_value % to_base] + new_value;
-        dec_value = (dec_value - (dec_value % to_base)) / to_base;
+        var new_value = '';
+        while (dec_value > 0) {
+            new_value = to_range[dec_value % to_base] + new_value;
+            dec_value = (dec_value - (dec_value % to_base)) / to_base;
+        }
+        console.log(value + " to " + new_value);
+        return new_value || '0';
     }
-    return new_value || '0';
-}
+
+    window.keyId = function (id, lang) {
+        console.log("keyId(): " + id);
+
+        var key = convertBase(id, base10, base62);
+        if (lang) {
+            return lang + "_" + key;
+        }
+        //else
+        var base64 = btoa(key).replace("=", "");
+        var last = base64[base64.length - 1];
+        return "-" + key + last;
+    };
+
+    window.idKey = function (key, from) {
+        console.log(from)
+        var cleanKey = "";
+        if (!(key.indexOf("-") > -1)) {
+            cleanKey = key.split("_").pop();
+
+        } else {
+            var arr = key.split("-");
+            var country = arr[0];
+            var str = arr.pop();
+            var last = str[str.length - 1];
+            cleanKey = str.slice(0, -1);
+
+            //CHECK 
+            var base64 = btoa(cleanKey).replace("=", "");
+            if (last != base64[base64.length - 1]) {
+                console.log("wrong key");
+                return false;
+            }
+        }
+
+        return convertBase(cleanKey, base62, base10);
+    };
+
+//    var key64 = keyId;
+//    if (keyId.indexOf("_") > -1) {
+//        var arr = keyId.split("_");
+//        table = arr[0];
+//        key64 = arr[1];
+//    }
+//    if (keyId.indexOf("-") > -1) {
+//        var arr = keyId.split("-");
+//        table = arr[0];
+//        key64 = arr[1];
+//        //remove last
+//        if (keyId.indexOf("-") === 0) {
+//            key64 = key64.substring(0, key64.length - 1);
+//        }
+//    }
+//    console.log("key64: " + key64);
+
+})();

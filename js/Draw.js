@@ -384,7 +384,8 @@ Draw.prototype.clickHere = function (family) {
     ctx.textBaseline = "bottom";
     ctx.font = parseInt(w / 13) + "px " + family;
     ctx.rotate(-0.1);
-
+    
+    //move to the left to compensate rotation
     ctx.fillStyle = "rgba(255,255,255,0.5)";
     ctx.fillStyle = "black";
 //    ctx.fillStyle = "black";

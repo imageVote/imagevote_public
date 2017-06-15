@@ -20,7 +20,7 @@ var HashManager = function () {
             console.log("HOME");
             //else wrong/old hashes
 
-            var poll = new LoadedPoll();
+            var poll = new LoadedPoll("HashManager");
             
             var creator = $("#creator");
             var poll_div = creator.find(".options");

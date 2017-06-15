@@ -52,7 +52,9 @@ var Language = function (query) {
             return;
         }
     }
-
+    
+    //if first time
+    this.firstTime = true;
     this.loadHtml();
 };
 
@@ -138,18 +140,26 @@ Language.prototype.loadLanguage = function (langArr) {
         this.shareUrl = this.languageURL[userLang];
     }
 
-    this.redirection();
+    this.reload();
 };
 
-Language.prototype.redirection = function () {
-    console.log("redirection()");
+Language.prototype.reload = function () {
+    if(this.firstTime){
+        this.firstTime = false;
+        return;
+    }
+    
+    console.log("reload()");
     //FORCE GAME RELOAD ??
     //if (location.pathname && "/" != location.pathname && (!location.hash || "polls" == location.hash)) {
-    if (!location.pathname || "/" == location.pathname || (location.hash && "polls" != location.hash)) {
+    if (!location.pathname || "/" == location.pathname || (location.hash && "#polls" != location.hash)) {
         console.log('!location.pathname || "/" == location.pathname || (location.hash && "polls" != location.hash)');
         return;
     }
-    hashManager.href("#polls");
+    
+    //force reload
+    history.replaceState(undefined, undefined, "#polls");
+    location.reload();
 };
 
 Language.prototype.userLang = function () {

@@ -10,15 +10,10 @@ var Save = function (poll, $imageDOM, doneCallback, failCallback) {
 
 Save.prototype.do = function (callback, andShare, add) {
     var _this = this;
-    this.andShare = andShare;
-
     var poll = this.poll;
     console.log(this.poll);
 
-    //save before to solve any bug: (this can lost user vote)
-    _this.saveLocally(add);
-
-    //STORE PRIVATE DATA
+    //CHECK USER NAME
     if (!poll.key || !poll.key.split("_").length) { //if private poll
         //name is mandatory for prevent troll's confusion votes, and disagree results
         var inputName = $("#userNamePoll").val() || localStorage.getItem("userName");
@@ -34,6 +29,10 @@ Save.prototype.do = function (callback, andShare, add) {
             return;
         }
     }
+
+    //save before to solve any bug: (this can lost user vote)
+    _this.saveLocally(add);
+    this.andShare = andShare;
 
     //before change anything
     //if existing votation is public
@@ -77,7 +76,7 @@ Save.prototype.do = function (callback, andShare, add) {
 
     //is shared before
     if (this.lastSendJson == sendJson) {
-        _this.saveCallback(this.poll.key);
+        _this.saveCallback();
         return;
     }
 
@@ -93,14 +92,14 @@ Save.prototype.do = function (callback, andShare, add) {
 };
 
 //device calls:
-Save.prototype.saveCallback = function (res) {
-    console.log("saveCallback " + res);
-    if (!res) {
-        error("errorAjaxResponse");
-        return;
-    }
+Save.prototype.saveCallback = function (id) {
+    console.log("saveCallback " + id);
 
-    this.poll.key = res;
+    if (id) {
+        var lang = this.lang();
+        var key = keyId(id, lang);
+        this.poll.key = key;
+    }
 
     //remove any stored cache
     if (this.poll.key) {
@@ -126,34 +125,26 @@ Save.prototype.saveCallback = function (res) {
 
 Save.prototype.post = function (sendJson, add) {
     var _this = this;
-    var callback = "saveCallback";
 
     var params = "userId=" + window.user.id
             + "&data=" + sendJson;
 
-    //on create:
-    var table;
-    if (this.$imageDOM && this.$imageDOM.find(".publicCheckbox.publicCheck").length) {
-        table = localStorage.getItem("userLang");
-        flash(transl("pollWillVisible"));
-    }
-
     //on update:    
     if (this.poll.key) {
-        params += "&key=" + this.poll.key;
-        if (this.poll.key.split("_").length > 1) {
-            table = this.poll.key.split("_")[0];
-        }
+        var id = idKey(this.poll.key, "Save.post");
+        params += "&id=" + id;
     }
     if (add) {
         params += "&add=" + JSON.stringify(add);
     }
 
+    var table = this.lang();
     if (table) {
         params += "&table=" + table.toLowerCase();
     }
 
     var request = "add.php";
+    var callback = "saveCallback";
     if (!Device.simpleRequest) {
         $.post(settings.corePath + request, params, function (res) {
             _this[callback](res);
@@ -166,6 +157,20 @@ Save.prototype.post = function (sendJson, add) {
         window[global] = this;
         Device.simpleRequest(request, params, global + "." + callback);
     }
+};
+
+Save.prototype.lang = function () {
+    var lang;
+    if (this.$imageDOM && this.$imageDOM.find(".publicCheckbox.publicCheck").length) {
+        lang = localStorage.getItem("userLang");
+        flash(transl("pollWillVisible")); //tell user has to wait for next 'sql_sort'
+    }
+
+    if (this.poll.key && this.poll.key.split("_").length > 1) {
+        lang = this.poll.key.split("_")[0];
+    }
+
+    return lang;
 };
 
 Save.prototype.ajaxError = function (res) {

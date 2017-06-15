@@ -22,7 +22,7 @@ Translate.prototype.translateTags = function (refresh) {
         var where = window.languagePaths[path];
         this.loadLanguage(path, where, function () {
             loaded++;
-            console.log("loaded " + loaded);
+            console.log("lang file loaded " + loaded);
             if (obj_size(window.languagePaths) == loaded) {
                 _this.loadTranslations();
             }
@@ -47,20 +47,22 @@ Translate.prototype.loadLanguage = function (path, where, callback) {
 
     var file = path + "lang/" + userLang + ".js";
 
-    try {
-        require([file], function () {
-            if (callback) {
-                callback();
-            }
-        });
-    } catch (e) {
-        //english if fail
-        require([path + "lang/en.js"], function () {
-            if (callback) {
-                callback();
-            }
-        });
-    }
+    require(["text!~commons/modules/blacklist/json/" + userLang + ".json"], function (blacklist) {
+        try {
+            require([file], function () {
+                if (callback) {
+                    callback(blacklist);
+                }
+            });
+        } catch (e) {
+            //english if fail
+            require([path + "lang/en.js"], function () {
+                if (callback) {
+                    callback(blacklist);
+                }
+            });
+        }
+    });
 
     this.loaded.push(file);
 };
@@ -70,6 +72,10 @@ Translate.prototype.loadTranslations = function (where) {
     var userLang = getUserLang().toLowerCase();
     console.log("loadTranslations() " + where + ": lang_" + userLang);
     var lang = window["lang_" + userLang];
+    if (!lang) {
+        console.log("!lang");
+        return;
+    }
 
     if (!where) {
         console.log("!!where");
@@ -110,7 +116,7 @@ function transl(txt) {
     var userLang = getUserLang().toLowerCase();
     var lang = window["lang_" + userLang];
     if (!lang) {
-                //$("#errorLog").append("<div>lang function missing with: '" + txt + "'</div>");
+        //$("#errorLog").append("<div>lang function missing with: '" + txt + "'</div>");
         return txt;
     }
     var res = (new TextFormat).decode(lang[txt]);

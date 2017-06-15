@@ -6,9 +6,9 @@ var PollsRequest = function (game, gamePolls) {
     this.file = 1;
 };
 
-PollsRequest.prototype.poll = function (idQ, individual) {
+PollsRequest.prototype.poll = function (id, individual) {
     loading(null, "PollsRequest.poll");
-    console.log("idQ: " + idQ + ", individual: " + individual);
+    console.log("id: " + id + ", individual: " + individual);
 
     var _this = this;
     var table = this.game.gameDB();
@@ -27,8 +27,8 @@ PollsRequest.prototype.poll = function (idQ, individual) {
     var lang = table.split(/(_|-)/).pop().toLowerCase();
 
     //INDIVIDUAL POLL ONLY
-    var params = "table=" + lang + "&id=" + idQ;
-    this.game.idQ = idQ;
+    var params = "table=" + lang + "&id=" + id;
+    this.game.id = id;
 
     console.log("post select " + params);
     this.game.loading();
@@ -77,12 +77,12 @@ PollsRequest.prototype._pollsByKeys = function (json_arr) {
     console.log("ARR");
     console.log(arr);
 
-    //SOLVE ANY BUG WITH MISSING keysArray()
-    if (!this.game.get.keysArray().length) {
-        console.log("reparing bug: add keysArray in _pollsByKeys");
+    //SOLVE ANY BUG WITH MISSING idsArray()
+    if (!this.game.get.idsArray().length) {
+        console.log("reparing bug: add idsArray in _pollsByKeys");
         this.game.get.add(json_arr.split(",").filter(String));
     }
-
+    
     //IF YET DOWNLOADED KEY, REMOVE FROM LIST
     var response_length = arr.length;
     for (var key in this.gamePolls) {
@@ -92,14 +92,14 @@ PollsRequest.prototype._pollsByKeys = function (json_arr) {
             continue;
         }
     }
-
+    
     //IF NOT NEW KEYS, GET NEXT FILE KEYS
     if (!arr.length) {
         console.log("!arr.length");
         loaded();
         //if request was under 100, "no more polls"
         if (!response_length) {
-            //NOT POLLS WITH THS PARAMETERS:
+            //NOT POLLS WITH THIS PARAMETERS:
             var styles = "position:absolute; text-align:center; top:10px; width:100%";
             $(this.game.query).find(".polls_emptyLanguage").remove();
             $(this.game.query).append("<p class='polls_emptyLanguage' style='" + styles + "'>" + transl("polls_emptyLanguage") + "</p>");
@@ -116,7 +116,7 @@ PollsRequest.prototype._pollsByKeys = function (json_arr) {
     
     //STORE KEYS ARRAY (PollsGet.php)
     this.game.get.add(arr);
-
+    
     //REQUEST NEW ARRAY POLLS
     var lang = table.split("_").pop().toLowerCase();
     var params = "table=" + lang + "&arrIds=" + arr.join(",");
@@ -148,8 +148,8 @@ PollsRequest.prototype.requestCallback = function (json) {
     this.game.loaded("requestCallback");
     if (!json) {
         flash(transl("polls_noMoreFound") + " (2)");
-        var idQ = this.game.lastIdQ();
-        this.game.load(this.gamePolls[idQ], null, false);
+        var id = this.game.lastIdQ();
+        this.game.load(this.gamePolls[id], null, false);
         return;
     }
 
@@ -173,44 +173,45 @@ PollsRequest.prototype.requestCallback = function (json) {
 };
 
 PollsRequest.prototype._loadRequest = function (polls) {
-    console.log(polls);
+    console.log(JSON.stringify(polls));
     for (var i = 0; i < polls.length; i++) {
-        var idQ = polls[i].id;
+        var id = polls[i].id;
 
         //get votes:
         var userVotes = null;
-        if (this.gamePolls[idQ]) {
-            userVotes = this.gamePolls[idQ].a;
+        if (this.gamePolls[id]) {
+            userVotes = this.gamePolls[id].a;
         }
 
-        this.gamePolls[idQ] = polls[i];
+        this.gamePolls[id] = polls[i];
         //put own votes:
         if (userVotes || 0 === userVotes) {
-            this.gamePolls[idQ].a = userVotes;
+            this.gamePolls[id].a = userVotes;
         }
     }
     //DEPRECATED!
     window.gamePolls = this.gamePolls;
 
     var table = this.game.parseTable(table);
+    console.log("saving " + table);
     localStorage.setItem(table, JSON.stringify(this.gamePolls));
 
-    var idQ = this.game.idQ;
+    var id = this.game.id;
     if (1 == polls.length) {
-        console.log("this.gamePolls[" + idQ + "]");
-        this.game.load(this.gamePolls[idQ], true);
+        console.log("this.gamePolls[" + id + "]");
+        this.game.load(this.gamePolls[id], true);
         return;
     }
 
-    var nextPoll = this.game.get.this(idQ);
+    var nextPoll = this.game.get.this(id);
     if (!nextPoll) {
-        var previous = this.game.get.previous(idQ);
-        if (previous && idQ !== previous[1]) {
+        var previous = this.game.get.previous(id);
+        if (previous && id !== previous[1]) {
             console.log("previous: " + JSON.stringify(previous));
             this.game.load(previous, true, false); //FALSE must totally removes animation
         }
         //console.log(JSON.stringify(this.gamePolls));
-        console.log("!nextPoll " + idQ);
+        console.log("!nextPoll " + id);
         return;
     }
     this.game.load(nextPoll);

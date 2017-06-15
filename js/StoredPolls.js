@@ -76,8 +76,6 @@ function loadStoredPolls() {
         //TRY LOAD NOW FROM INTERNET
         //StoredPolls._loadWebPoll(keyId); //load from internet ??
         $("#stored_" + keyId + " .loader").hide();
-
-        fontSize(query);
     }
 }
 

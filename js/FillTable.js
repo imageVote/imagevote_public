@@ -13,17 +13,18 @@ function FillTable(divQuery, poll, conf, callback) {
 
     //ADD HTML
     this.$div.html("");
-
-    var options_container = $("<div class='options_container'>");
+    
+    //take this unique dom reference
+    this.options_container = $("<div class='options_container'>");
 
     var question = $("<div class='question'>");
-    options_container.append(question);
+    this.options_container.append(question);
 
     var options = $("<div class='options'>");
-    options_container.append(options);
+    this.options_container.append(options);
 
     //$(divQuery).attr("class", 'votation').append(options_container);
-    this.$div.append(options_container);
+    this.$div.append(this.options_container);
 
     //EXTRAS
     if (conf) {
@@ -89,6 +90,8 @@ function FillTable(divQuery, poll, conf, callback) {
 
 FillTable.prototype.addUserVotes = function (votes) {
     console.log("addUserVotes() " + votes);
+    var _this = this;
+
     if ("undefined" == typeof votes || null === votes) {
         votes = this.userVotes();
     } else {
@@ -108,7 +111,9 @@ FillTable.prototype.addUserVotes = function (votes) {
 
         var _this = this;
         clearTimeout(this.updateOptionsTimeout);
-        this.updateOptionsTimeout = setTimeout(function () {
+
+        //define dom before timeout
+        _this.updateOptionsTimeout = setTimeout(function () {
             _this.updateOptions();
         }, 300);
     }
@@ -215,7 +220,7 @@ FillTable.prototype.selectOption = function (option) {
     }
     votes.text(text_value);
 
-    this.$div.addClass("show");
+    this.options_container.addClass("show");
     return element;
 };
 
@@ -251,7 +256,7 @@ FillTable.prototype.updateOptions = function () {
     for (var i = 0; i < options.length; i++) {
         this.updateOption(options[i]);
     }
-    this.$div.addClass("show");
+    this.options_container.addClass("show");
 };
 
 FillTable.prototype.updateOption = function (option) {
@@ -275,7 +280,7 @@ FillTable.prototype.updateOption = function (option) {
 };
 
 FillTable.prototype.updateOptionStyle = function (option, perc) {
-    var option_div = this.$div.find(".option_" + option[0]);
+    var option_div = this.options_container.find(".option_" + option[0]);
     option_div.find(".percentage").text(perc);
     option_div.find(".background").css("height", perc + "%");
 };

@@ -87,7 +87,7 @@ VotationButtons.prototype.cancelButtonEvent = function () {
     var _this = this;
 
     this.$cancelButton.click(function () {
-        _this.poll = new LoadedPoll();
+        _this.poll = new LoadedPoll("VotationButtons");
 
         if (window.isTranslucent) {
             if (Device.close) {

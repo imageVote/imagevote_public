@@ -131,6 +131,9 @@ html.translucent #modal_box{
     /*max-width: 0;*/
     overflow: hidden;
     text-overflow: ellipsis;
+    /*prevent different dialects change header height*/
+    line-height:0; 
+    vertical-align:inherit;
 }
 #header .title > *{
     white-space: nowrap;

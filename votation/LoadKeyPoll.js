@@ -46,7 +46,7 @@ LoadKeyPoll.prototype.requestPollByKeyCallback = function (json) {
     this.user = window.user;
 
     if (!this.poll) {
-        this.poll = new LoadedPoll();
+        this.poll = new LoadedPoll("requestPollByKeyCallback");
     }
     console.log(this.poll);
 
@@ -306,23 +306,11 @@ function loadPollByKey(keyId, callback, obj) {
 
 //    TODO: FROM SELECT.PHP
     var table = "";
-    var key64 = keyId;
-    if (keyId.indexOf("_") > -1) {
-        var arr = keyId.split("_");
+    var arr = keyId.split("_");
+    if(arr.length > 1){
         table = arr[0];
-        key64 = arr[1];
     }
-    if (keyId.indexOf("-") > -1) {
-        var arr = keyId.split("-");
-        table = arr[0];
-        key64 = arr[1];
-        //remove last
-        if (keyId.indexOf("-") === 0) {
-            key64 = key64.substring(0, key64.length - 1);
-        }
-    }
-    console.log("key64: " + key64);
-    var id = convertBase(key64, window.base62, window.base10);
+    var id = idKey(keyId);
 
     var url = "select.php";
     var params = {
@@ -331,25 +319,25 @@ function loadPollByKey(keyId, callback, obj) {
     };
 
     //LANGUAGE KEY_ID parseSelect GAME CASE:
-    var parseLanguages = ["en", "es", "pt", "it", "fr", "de"];
-//    if (keyId.indexOf("_") > -1) {
-    if (parseLanguages.indexOf(keyId + "_") > -1) {
-        url = "parseSelect.php";
-        var lang = keyId.split("_")[0];
-        params.table = "preguntas" + lang.toUpperCase();
-
-        params.id = keyId.split("_")[1];
-        var local = localStorage.getItem("q_" + lang);
-        if (local) {
-            var poll = JSON.parse(local)[params.id];
-            if (poll) {
-                params = {
-                    table: table,
-                    objectId: poll.key
-                };
-            }
-        }
-    }
+//    var parseLanguages = ["en", "es", "pt", "it", "fr", "de"];
+////    if (keyId.indexOf("_") > -1) {
+//    if (parseLanguages.indexOf(keyId + "_") > -1) {
+//        url = "parseSelect.php";
+//        var lang = keyId.split("_")[0];
+//        params.table = "preguntas" + lang.toUpperCase();
+//
+//        params.id = keyId.split("_")[1];
+//        var local = localStorage.getItem("q_" + lang);
+//        if (local) {
+//            var poll = JSON.parse(local)[params.id];
+//            if (poll) {
+//                params = {
+//                    table: table,
+//                    objectId: poll.key
+//                };
+//            }
+//        }
+//    }
 
     if (Device.simpleRequest) {
         var string_params = "";
@@ -405,7 +393,7 @@ function parseKeyPoll(json, keyId) {
         if (!saved && table) {
             var local = JSON.parse(localStorage.getItem(table));
             if (local) {
-                var poll = local[data.idQ];
+                var poll = local[data.id];
                 if (poll) {
                     console.log("votes?: " + poll.a);
                     users[window.user.id] = poll.a;

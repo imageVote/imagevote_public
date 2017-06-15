@@ -18,11 +18,14 @@ ModalBox.prototype.modal = function ($html, cancelCallback) {
         $(document).on("click.modal", function (e) {
             var target = $(e.target);
             if ("modal_box_note" != target.attr("id") && !target.closest("#modal_box_note").length) {
-                _this.remove(divBackground);
-                $(document).off(".modal");
                 if (cancelCallback) {
                     cancelCallback();
+                }else if(false === cancelCallback){
+                    //can't close
+                    return;
                 }
+                _this.remove(divBackground);
+                $(document).off(".modal");                
             }
             //else nothing!;
         });
@@ -68,7 +71,7 @@ ModalBox.prototype.input = function (txt, nameValue, callback, buttonText) {
     var divContainer = $("<div>");
     divContainer.append("<b style='line-height:50px; font-size: 18px;'>" + txt + "</b>");
 
-    var input = $("<input style='width:100%; text-align: center;' type='text' data-placeholder='myName' />");
+    var input = $("<input style='width:100%; text-align: center;' type='text'/>");
     if (nameValue) {
         input.attr("value", nameValue);
     }
@@ -84,7 +87,7 @@ ModalBox.prototype.input = function (txt, nameValue, callback, buttonText) {
     divContainer.append("<br><br><br>");
     divContainer.append(button);
 
-    var html_modal = this.modal(divContainer);
+    var html_modal = this.modal(divContainer, false);
     html_modal.addClass("modal_input");
     input.focus();
         
