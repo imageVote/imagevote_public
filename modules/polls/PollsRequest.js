@@ -189,7 +189,7 @@ PollsRequest.prototype._loadRequest = function (polls) {
             this.gamePolls[id].a = userVotes;
         }
     }
-    //DEPRECATED!
+    //will DEPRECATED!
     window.gamePolls = this.gamePolls;
 
     var table = this.game.parseTable(table);
@@ -208,6 +208,8 @@ PollsRequest.prototype._loadRequest = function (polls) {
         console.log("!nextPoll " + id);
         return;
     }
+    
+    //LOAD REQUESTED POLL
     this.game.load(nextPoll);
 };
 

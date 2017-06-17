@@ -590,7 +590,7 @@ function toBase(x) {
             new_value = to_range[dec_value % to_base] + new_value;
             dec_value = (dec_value - (dec_value % to_base)) / to_base;
         }
-        console.log(value + " to " + new_value);
+        //console.log(value + " to " + new_value);
         return new_value || '0';
     }
 

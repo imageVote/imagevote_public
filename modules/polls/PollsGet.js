@@ -51,7 +51,7 @@ PollsGet.prototype.next = function (id, anyone) {
     if (!i > -1) {
         i = this.pollIndex;
         anyone = false;
-        console.log(anyone = false + " !i > -1")
+        console.log(anyone = false + " !i > -1");
     }
     i++;
 
@@ -75,13 +75,11 @@ PollsGet.prototype.next = function (id, anyone) {
             this.pollIndex = i;
             this.id = +arr_ids[i];
             if (notVoted) {
-                this.update_pollIndex(this.pollIndex);
                 this.update_id(this.id);
             }
             return poll;
         }
     }
-
 
     //update new poll loaded on next()
     flash(transl("polls_noMoreFound") + " (1)");
@@ -95,9 +93,6 @@ PollsGet.prototype.next = function (id, anyone) {
 PollsGet.prototype.previous = function (id) {
     if (!id) {
         id = this.id;
-        if (!id) {
-            id = this.lastId();
-        }
     }
     console.log("previous. attr id " + id);
     var storedPolls = window.gamePolls;
@@ -214,21 +209,12 @@ PollsGet.prototype.lastId = function () {
     return ids_array[ids_array.length - 1];
 };
 
-PollsGet.prototype.update_pollIndex = function (index) {
-    console.log("local pollIndex changed to " + index);
-    var lang = this.gameLang();
-    if (this.individual) {
-        console.log("this.individual");
-        return;
-    }
-    localStorage.setItem("pollIndex_" + lang, index);
-};
-
 PollsGet.prototype.update_id = function (id) {
     var lang = this.gameLang();
     if (!this.individual) {
         localStorage.setItem("id_" + lang, id);
     }
+    this.id = id;
 };
 
 PollsGet.prototype.gameLang = function () {
@@ -247,4 +233,4 @@ PollsGet.prototype.blacklisted = function (poll) {
             return true;
         }
     }
-}
+};
