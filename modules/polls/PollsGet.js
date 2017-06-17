@@ -81,9 +81,12 @@ PollsGet.prototype.next = function (id, anyone) {
             return poll;
         }
     }
-
+    
+    
     //update new poll loaded on next()    
     flash(transl("polls_noMoreFound") + " (1)");
+    var id = this.lastId();
+    return storedPolls[id];
 };
 
 PollsGet.prototype.previous = function (id) {
@@ -211,9 +214,11 @@ PollsGet.prototype.lastId = function () {
 PollsGet.prototype.update_pollIndex = function (index) {
     console.log("local pollIndex changed to " + index);
     var lang = this.gameLang();
-    if (!this.individual) {
-        localStorage.setItem("pollIndex_" + lang, index);
+    if (this.individual) {
+        console.log("this.individual");
+        return;
     }
+    localStorage.setItem("pollIndex_" + lang, index);
 };
 
 PollsGet.prototype.update_id = function (id) {
