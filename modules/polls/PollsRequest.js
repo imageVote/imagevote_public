@@ -210,6 +210,7 @@ PollsRequest.prototype._loadRequest = function (polls) {
     }
     
     //LOAD REQUESTED POLL
+    this.game.get.update_id(nextPoll.id);
     this.game.load(nextPoll);
 };
 
