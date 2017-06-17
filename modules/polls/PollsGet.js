@@ -81,12 +81,15 @@ PollsGet.prototype.next = function (id, anyone) {
             return poll;
         }
     }
-    
-    
-    //update new poll loaded on next()    
+
+
+    //update new poll loaded on next()
     flash(transl("polls_noMoreFound") + " (1)");
+    
+    //LOAD WITHOUT ANIMATION!
     var id = this.lastId();
-    return storedPolls[id];
+    poll = storedPolls[id];
+    this.game.load(poll, false, false);
 };
 
 PollsGet.prototype.previous = function (id) {

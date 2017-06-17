@@ -17,11 +17,11 @@ Save.prototype.do = function (callback, andShare, add) {
     if (!poll.key || !poll.key.split("_").length) { //if private poll
         //name is mandatory for prevent troll's confusion votes, and disagree results
         var inputName = $("#userNamePoll").val() || localStorage.getItem("userName");
-
+        
         if (inputName) {
             updateUserName(inputName);
 
-        } else {
+        } else if (!this.$imageDOM.find(".publicCheckbox.publicCheck").length) {
             modalBox.input(transl("myName"), "", function (val) {
                 updateUserName(val);
                 _this.do(callback, andShare, add);
