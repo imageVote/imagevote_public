@@ -943,10 +943,6 @@ body > .option > *{
     pointer-events:none;    
 }
 
-.publicCheckbox.publicCheck{
-    opacity: 1;
-    color: gold !important;
-}
 .publicCheckbox > *{
     vertical-align: middle;
 }
