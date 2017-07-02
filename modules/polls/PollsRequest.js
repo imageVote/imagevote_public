@@ -147,7 +147,7 @@ PollsRequest.prototype.requestCallback = function (json) {
     this.game.loaded("requestCallback");
     if (!json) {
         flash(transl("polls_noMoreFound") + " (2)");
-        var id = this.game.lastIdQ();
+        var id = this.game.get.lastId();
         this.game.load(this.gamePolls[id], null, false);
         return;
     }
@@ -188,7 +188,7 @@ PollsRequest.prototype._loadRequest = function (polls) {
             this.gamePolls[id].a = userVotes;
         }
     }
-    //DEPRECATED!
+    //will DEPRECATED!
     window.gamePolls = this.gamePolls;
 
     var table = this.game.parseTable(table);
@@ -196,12 +196,6 @@ PollsRequest.prototype._loadRequest = function (polls) {
     localStorage.setItem(table, JSON.stringify(this.gamePolls));
 
     var id = this.game.id;
-    if (1 == polls.length) {
-        console.log("this.gamePolls[" + id + "]");
-        this.game.load(this.gamePolls[id], true);
-        return;
-    }
-
     var nextPoll = this.game.get.this(id);
     if (!nextPoll) {
         var previous = this.game.get.previous(id);
@@ -213,6 +207,9 @@ PollsRequest.prototype._loadRequest = function (polls) {
         console.log("!nextPoll " + id);
         return;
     }
+    
+    //LOAD REQUESTED POLL
+    this.game.get.update_id(nextPoll.id);
     this.game.load(nextPoll);
 };
 

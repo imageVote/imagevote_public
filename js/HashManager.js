@@ -215,19 +215,22 @@ HashManager.prototype.publicCheckbox = function ($div) {
 
     var ignore = ["en", "es", "fr", "de", "it", "pt"];
     if (lang && ignore.indexOf(lang.toLowerCase()) > -1) {
-        console.log("ignore.indexOf(" + lang + ") > -1")
+        console.log("ignore.indexOf(" + lang + ") > -1");
         return;
     }
     
     var makePublic = $("<div class='publicCheckbox'>"
-//    var makePublic = $("<div class='publicCheckbox'>"
-            + "<input type='checkbox'><span data-lang='MakePublic'>" + transl("MakePublic") + "</span>"
+            + "<span data-lang='MakePublic'>" + transl("MakePublic") + "</span>"
             + "</div>");
+    var checkbox = $("<input type='checkbox'>").prependTo(makePublic);
+    
     $div.prepend(makePublic);
     makePublic.click(function () {
-        var checkbox = $(this).parent().find("input");
         checkbox.prop("checked", !checkbox.prop("checked"));
         screenPoll._public = checkbox.prop("checked");
         checkbox.parent().toggleClass("publicCheck", screenPoll._public);
     });
+    
+    //CHECKED NOW COSE APP IS STARTING TO GROW!
+    makePublic.click();
 };
