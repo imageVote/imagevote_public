@@ -2,8 +2,7 @@
 
 function getCanvasImage(divQuery, obj, keyId, width, type, callback) {
     console.log("getCanvasImage: " + divQuery + " " + JSON.stringify(obj));
-    //var url = settings.appPath + "/" + keyId;
-    var url = language.shareUrl + "/" + keyId.toLowerCase();
+    var url = language.shareUrl + "/" + keyId;
 
     var country = "";
     if ("undefined" !== typeof obj.style && obj.style) {
