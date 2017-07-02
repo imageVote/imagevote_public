@@ -602,8 +602,11 @@ function toBase(x) {
             return lang + "_" + key;
         }
         //else
-        var base64 = btoa(key).replace("=", "");
+        console.log(key)
+        var base64 = btoa(key).replace(/=/g, "");
+        console.log(base64)
         var last = base64[base64.length - 1];
+        console.log(last)
         return "-" + key + last;
     };
 
@@ -621,7 +624,7 @@ function toBase(x) {
             cleanKey = str.slice(0, -1);
 
             //CHECK 
-            var base64 = btoa(cleanKey).replace("=", "");
+            var base64 = btoa(cleanKey).replace(/=/g, "");
             if (last != base64[base64.length - 1]) {
                 console.log("wrong key");
                 return false;

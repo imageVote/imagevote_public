@@ -100,9 +100,8 @@ PollsRequest.prototype._pollsByKeys = function (json_arr) {
         //if request was under 100, "no more polls"
         if (!response_length) {
             //NOT POLLS WITH THIS PARAMETERS:
-            var styles = "position:absolute; text-align:center; top:10px; width:100%";
             $(this.game.query).find(".polls_emptyLanguage").remove();
-            $(this.game.query).append("<p class='polls_emptyLanguage' style='" + styles + "'>" + transl("polls_emptyLanguage") + "</p>");
+            $(this.game.query).append("<p class='polls_emptyLanguage'>" + transl("polls_emptyLanguage") + "</p>");
             return false;
 
         } else if (response_length < 99) {
