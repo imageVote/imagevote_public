@@ -220,7 +220,7 @@ FillTable.prototype.selectOption = function (option) {
     }
     votes.text(text_value);
 
-    this.options_container.addClass("show");
+    this.$div.addClass("show");
     return element;
 };
 
@@ -256,7 +256,7 @@ FillTable.prototype.updateOptions = function () {
     for (var i = 0; i < options.length; i++) {
         this.updateOption(options[i]);
     }
-    this.options_container.addClass("show");
+    this.$div.addClass("show");
 };
 
 FillTable.prototype.updateOption = function (option) {
