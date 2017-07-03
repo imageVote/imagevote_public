@@ -1,3 +1,4 @@
-$.extend(window.lang_cy, {
+$.extend(window.lang_en, {
+
 "helpStop": "tiwtorial stop",
 });

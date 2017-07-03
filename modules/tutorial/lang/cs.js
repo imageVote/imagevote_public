@@ -1,3 +1,4 @@
-$.extend(window.lang_cs, {
+$.extend(window.lang_en, {
+
 "helpStop": "Zastavte tutoriál",
 });

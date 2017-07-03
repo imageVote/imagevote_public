@@ -1,3 +1,4 @@
-$.extend(window.lang_az, {
-"helpStop": "Stop tutorial",
+$.extend(window.lang_en, {
+
+"helpStop": "Tutorial oxuyun",
 });

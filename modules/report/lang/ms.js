@@ -1,7 +1,8 @@
-$.extend(window.lang_ms, {
-"Feedback": "Membantu kami dengan maklum balas anda!",
+$.extend(window.lang_en, {
+
+"Feedback": "Bantu kami dengan Maklum Balas anda!",
 "niceQuestion": "Soalan yang bagus!",
-"badGrammar": "tatabahasa yang buruk",
-"vulgarWords": "kata-kata kesat",
-"thanksFeedback": "Terima kasih kerana Maklumbalas!",
+"badGrammar": "Tatabahasa yang buruk",
+"vulgarWords": "Kata-kata vulgar",
+"thanksFeedback": "Terima kasih atas Maklum Balas!",
 });

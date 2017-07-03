@@ -1,3 +1,4 @@
-$.extend(window.lang_pl, {
+$.extend(window.lang_en, {
+
 "helpStop": "Zatrzymaj samouczek",
 });

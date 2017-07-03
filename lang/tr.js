@@ -1,6 +1,5 @@
 $.extend(window.lang_en, {
 
-"MakePublic": "Oyununa Ekle",
 "installApp": "Bu anketi paylaşmak için Uygulamayı kullanın!",
 "installAppComments": "Bedava indirin.",
 "haveApp": "Ben App aldım!",

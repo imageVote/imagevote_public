@@ -1,4 +1,5 @@
-$.extend(window.lang_te, {
+$.extend(window.lang_en, {
+
 "Feedback": "మీ అభిప్రాయంతో మాకు సహాయపడండి!",
 "niceQuestion": "నైస్ ప్రశ్న!",
 "badGrammar": "బాడ్ వ్యాకరణం",

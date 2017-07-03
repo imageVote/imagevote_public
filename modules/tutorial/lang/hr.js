@@ -1,3 +1,4 @@
-$.extend(window.lang_hr, {
+$.extend(window.lang_en, {
+
 "helpStop": "Zaustavi udžbenik",
 });

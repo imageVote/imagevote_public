@@ -1,4 +1,5 @@
-$.extend(window.lang_az, {
-"updateApp": "App Update!",
-"updateApp_comment": "Cari versiya köhnəlmiş və səhvlər ola bilər. br son versiyası üçün app yeniləmə edin!",
+$.extend(window.lang_en, {
+
+"updateApp": "App yeniləyin!",
+"updateApp_comment": "Mövcud sürümünüz köhnəlmiş və səhvlər ola bilər. <br> Son versiyanı tətbiq edin!",
 });

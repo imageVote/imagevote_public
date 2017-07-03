@@ -1,4 +1,5 @@
-$.extend(window.lang_mt, {
+$.extend(window.lang_en, {
+
 "updateApp": "Aġġorna l-App!",
-"updateApp_comment": "verżjoni attwali tiegħek hija skaduta u jista 'jkun fihom żbalji. Dizzjunarju Jekk jogħġbok aġġorna l-app għall-aħħar verżjoni!",
+"updateApp_comment": "Il-verżjoni attwali tiegħek hija skaduta u jista 'jkun fiha żbalji. <br> Jekk jogħġbok aġġorna l-app sa l-aħħar verżjoni!",
 });

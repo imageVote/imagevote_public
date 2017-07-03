@@ -1,3 +1,4 @@
-$.extend(window.lang_bg, {
-"helpStop": "Спрете настойнически",
+$.extend(window.lang_en, {
+
+"helpStop": "Спрете урока",
 });

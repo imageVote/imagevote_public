@@ -1,3 +1,4 @@
-$.extend(window.lang_zh-TW, {
+$.extend(window.lang_en, {
+
 "helpStop": "停止教程",
 });

@@ -1,4 +1,5 @@
-$.extend(window.lang_yi, {
+$.extend(window.lang_en, {
+
 "Feedback": "הילף אונדז מיט דיין באַמערקונגען!",
 "niceQuestion": "פייַן קשיא!",
 "badGrammar": "שלעכט גראַמאַטיק",

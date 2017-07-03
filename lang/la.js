@@ -1,6 +1,5 @@
 $.extend(window.lang_en, {
 
-"MakePublic": "Add to Game",
 "installApp": "App uti participes ad suffragium!",
 "installAppComments": "Download ea liberos.",
 "haveApp": "Quia commune aut inmundum app?",

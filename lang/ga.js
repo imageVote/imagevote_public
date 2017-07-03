@@ -1,6 +1,5 @@
 $.extend(window.lang_en, {
 
-"MakePublic": "Cuir Cluiche",
 "installApp": "Bain úsáid as an App seo a roinnt vótaíocht!",
 "installAppComments": "Íosluchtaigh sé saor in aisce.",
 "haveApp": "Tá mé an App!",

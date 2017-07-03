@@ -1,3 +1,4 @@
-$.extend(window.lang_vi, {
+$.extend(window.lang_en, {
+
 "helpStop": "Dừng hướng dẫn",
 });

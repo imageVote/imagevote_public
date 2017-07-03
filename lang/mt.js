@@ -1,6 +1,5 @@
 $.extend(window.lang_en, {
 
-"MakePublic": "Żid mal-Logħba",
 "installApp": "Uża l-App biex taqsam din l-istħarriġ!",
 "installAppComments": "Niżżlu b'xejn.",
 "haveApp": "Stajt l-App!",

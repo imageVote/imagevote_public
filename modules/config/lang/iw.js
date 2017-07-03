@@ -1,4 +1,5 @@
-$.extend(window.lang_iw, {
+$.extend(window.lang_en, {
+
 "updateApp": "עדכן את האפליקציה!",
 "updateApp_comment": "הגרסה הנוכחית שלך מיושנת ועשויה להכיל שגיאות. <br> עדכן את האפליקציה לגרסה האחרונה!",
 });

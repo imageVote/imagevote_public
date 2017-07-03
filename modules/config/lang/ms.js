@@ -1,4 +1,5 @@
-$.extend(window.lang_ms, {
-"updateApp": "Mengemaskini App!",
-"updateApp_comment": "versi semasa adalah usang dan mungkin mengandungi kesilapan. Malaysia Sila kemas kini aplikasi untuk versi terakhir!",
+$.extend(window.lang_en, {
+
+"updateApp": "Kemas kini App!",
+"updateApp_comment": "Versi semasa anda sudah usang dan mungkin mengandungi ralat. <br> Sila kemas kini aplikasi ke versi terakhir!",
 });

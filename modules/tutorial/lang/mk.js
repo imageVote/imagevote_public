@@ -1,3 +1,4 @@
-$.extend(window.lang_mk, {
+$.extend(window.lang_en, {
+
 "helpStop": "Стоп туториал",
 });

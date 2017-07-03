@@ -1,3 +1,4 @@
-$.extend(window.lang_ru, {
+$.extend(window.lang_en, {
+
 "helpStop": "Остановить учебник",
 });

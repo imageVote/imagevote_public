@@ -1,3 +1,4 @@
-$.extend(window.lang_gl, {
-"helpStop": "deixar tutorial",
+$.extend(window.lang_en, {
+
+"helpStop": "Deter o tutorial",
 });

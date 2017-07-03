@@ -1,3 +1,4 @@
-$.extend(window.lang_hu, {
+$.extend(window.lang_en, {
+
 "helpStop": "Állítsa le a bemutatót",
 });

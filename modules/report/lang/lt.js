@@ -1,7 +1,8 @@
-$.extend(window.lang_lt, {
-"Feedback": "Padėkite mums savo atsiliepimą!",
-"niceQuestion": "Nice klausimas!",
-"badGrammar": "blogas gramatikos",
-"vulgarWords": "vulgarių žodžių",
-"thanksFeedback": "Ačiū už atsiliepimus!",
+$.extend(window.lang_en, {
+
+"Feedback": "Padėkite mums su savo atsiliepimu!",
+"niceQuestion": "Grazus klausimas!",
+"badGrammar": "Bloga gramatika",
+"vulgarWords": "Vulgarus žodžiai",
+"thanksFeedback": "Dėkojame už atsiliepimą!",
 });

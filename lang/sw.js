@@ -1,6 +1,5 @@
 $.extend(window.lang_en, {
 
-"MakePublic": "Ongeza kwenye Game",
 "installApp": "Tumia App ili kushiriki kura hii!",
 "installAppComments": "Pakua huru.",
 "haveApp": "Nina programu!",

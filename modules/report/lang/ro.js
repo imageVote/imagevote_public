@@ -1,4 +1,5 @@
-$.extend(window.lang_ro, {
+$.extend(window.lang_en, {
+
 "Feedback": "Ajutați-ne cu Feedback!",
 "niceQuestion": "Întrebare plăcută!",
 "badGrammar": "Bad gramatica",

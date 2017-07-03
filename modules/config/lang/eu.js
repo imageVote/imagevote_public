@@ -1,4 +1,5 @@
-$.extend(window.lang_eu, {
+$.extend(window.lang_en, {
+
 "updateApp": "Eguneratu aplikazioa!",
-"updateApp_comment": "Zure uneko bertsioan zaharkitua dago eta akatsak izan ditzake. Kaixo, Egunera aplikazioa azken bertsiora!",
+"updateApp_comment": "Uneko bertsioa zaharkituta dago eta erroreak izan ditzake. <br> Eguneratu aplikazioa azken bertsiora!",
 });

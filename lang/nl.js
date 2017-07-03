@@ -1,6 +1,5 @@
 $.extend(window.lang_en, {
 
-"MakePublic": "Toevoegen aan spel",
 "installApp": "Gebruik de App om deze poll te delen!",
 "installAppComments": "Download het gratis.",
 "haveApp": "Ik heb de app!",

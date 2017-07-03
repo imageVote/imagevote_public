@@ -1,3 +1,4 @@
-$.extend(window.lang_ja, {
+$.extend(window.lang_en, {
+
 "helpStop": "チュートリアルの停止",
 });

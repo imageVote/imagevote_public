@@ -1,6 +1,5 @@
 $.extend(window.lang_en, {
 
-"MakePublic": "गेम में जोड़ें",
 "installApp": "इस सर्वेक्षण को साझा करने के लिए ऐप का उपयोग करें!",
 "installAppComments": "इसे मुफ्त में डाउनलोड करें",
 "haveApp": "मेरे पास ऐप है!",

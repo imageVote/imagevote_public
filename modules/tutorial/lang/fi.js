@@ -1,3 +1,4 @@
-$.extend(window.lang_fi, {
+$.extend(window.lang_en, {
+
 "helpStop": "Pysäytä opetusohjelma",
 });

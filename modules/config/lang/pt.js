@@ -1,4 +1,5 @@
-$.extend(window.lang_pt, {
+$.extend(window.lang_en, {
+
 "updateApp": "Atualize o aplicativo!",
 "updateApp_comment": "Sua versão atual é obsoleta e pode conter erros. <br> Por favor, atualize o aplicativo para a última versão!",
 });

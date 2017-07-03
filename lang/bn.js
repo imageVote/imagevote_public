@@ -1,6 +1,5 @@
 $.extend(window.lang_en, {
 
-"MakePublic": "খেলা যোগ করুন",
 "installApp": "এই জরিপ শেয়ার অ্যাপ্লিকেশন ব্যবহার করুন!",
 "installAppComments": "এটি বিনামূল্যে ডাউনলোড করুন।",
 "haveApp": "আমি অ্যাপ!",

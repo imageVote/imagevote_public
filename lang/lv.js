@@ -1,6 +1,5 @@
 $.extend(window.lang_en, {
 
-"MakePublic": "Pievienot spēlē",
 "installApp": "Izmantojiet lietotni, lai kopīgotu šo aptauju!",
 "installAppComments": "Lejupielādēt bez maksas.",
 "haveApp": "Es esmu lietotne!",

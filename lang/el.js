@@ -1,6 +1,5 @@
 $.extend(window.lang_en, {
 
-"MakePublic": "Προσθήκη στο παιχνίδι",
 "installApp": "Χρησιμοποιήστε την εφαρμογή για να μοιραστείτε αυτήν τη δημοσκόπηση!",
 "installAppComments": "Κατεβάστε το δωρεάν.",
 "haveApp": "Έχω την App!",

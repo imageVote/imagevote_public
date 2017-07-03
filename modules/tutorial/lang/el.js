@@ -1,3 +1,4 @@
-$.extend(window.lang_el, {
+$.extend(window.lang_en, {
+
 "helpStop": "Σταματήστε το σεμινάριο",
 });

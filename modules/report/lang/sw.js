@@ -1,7 +1,8 @@
-$.extend(window.lang_sw, {
-"Feedback": "Kutusaidia na Maoni yako!",
-"niceQuestion": "Nice Swali!",
-"badGrammar": "Bad sarufi",
-"vulgarWords": "maneno chafu",
-"thanksFeedback": "Shukrani kwa ajili ya Maoni!",
+$.extend(window.lang_en, {
+
+"Feedback": "Tusaidie kwa Maoni yako!",
+"niceQuestion": "Swali la Nzuri!",
+"badGrammar": "Sarufi mbaya",
+"vulgarWords": "Maneno ya vuli",
+"thanksFeedback": "Shukrani kwa Maoni!",
 });

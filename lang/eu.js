@@ -1,6 +1,5 @@
 $.extend(window.lang_en, {
 
-"MakePublic": "Gehitu jokoan",
 "installApp": "Erabili aplikazioa inkesta hau partekatzeko!",
 "installAppComments": "Deskargatu dohainik.",
 "haveApp": "Aplikazioa dut!",

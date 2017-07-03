@@ -1,3 +1,4 @@
-$.extend(window.lang_th, {
+$.extend(window.lang_en, {
+
 "helpStop": "หยุดการสอน",
 });
