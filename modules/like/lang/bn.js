@@ -1,3 +1,4 @@
-$.extend(window.lang_bn, {
-"favouritesAdded": "ভোটের ভোটে যোগ হয়েছে!",
+$.extend(window.lang_en, {
+
+"favouritesAdded": "ভোট দিয়েছেন ভোটে যোগদান!",
 });

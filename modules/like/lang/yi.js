@@ -1,3 +1,4 @@
-$.extend(window.lang_yi, {
+$.extend(window.lang_en, {
+
 "favouritesAdded": "אַדדעד צו וואָוטאַד פּאָללס!",
 });

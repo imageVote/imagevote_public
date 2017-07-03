@@ -1,7 +1,8 @@
-$.extend(window.lang_it, {
+$.extend(window.lang_en, {
+
 "rate_title": "Valuta questa applicazione",
-"rate_star1": "Oddio",
-"rate_star2": "Non mi è piaciuto",
+"rate_star1": "Odiava",
+"rate_star2": "Mi è piaciuto molto",
 "rate_star3": "Va bene",
 "rate_star4": "Mi è piaciuto",
 "rate_star5": "Lo amo",

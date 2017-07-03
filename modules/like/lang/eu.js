@@ -1,3 +1,4 @@
-$.extend(window.lang_eu, {
-"favouritesAdded": "gehitu bozkatu inkestetan!",
+$.extend(window.lang_en, {
+
+"favouritesAdded": "Bozkatu inkestak gehituta!",
 });

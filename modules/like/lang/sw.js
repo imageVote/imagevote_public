@@ -1,3 +1,4 @@
-$.extend(window.lang_sw, {
-"favouritesAdded": "Aliongeza kwa kura uchaguzi!",
+$.extend(window.lang_en, {
+
+"favouritesAdded": "Imeongeza kwenye uchaguzi wa kura!",
 });

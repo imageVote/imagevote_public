@@ -1,4 +1,5 @@
-$.extend(window.lang_ht, {
+$.extend(window.lang_en, {
+
 "MakePublic": "Ajoute sou Jwèt",
 "installApp": "Sèvi ak App a yo pataje biwo vòt sa a!",
 "installAppComments": "Download li pou gratis.",

@@ -1,3 +1,4 @@
-$.extend(window.lang_ur, {
-"favouritesAdded": "ووٹ دیا انتخابات میں شامل کردیا گیا!",
+$.extend(window.lang_en, {
+
+"favouritesAdded": "ووٹ ڈالے گئے انتخابات میں شامل",
 });

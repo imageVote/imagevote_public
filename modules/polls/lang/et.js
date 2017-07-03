@@ -1,5 +1,6 @@
-$.extend(window.lang_et, {
-"polls_noMorePrevious": "Ei Eelmised küsitlused leitud",
-"polls_noMoreFound": "Enam küsitlused leitud",
-"polls_emptyLanguage": "Puuduvad küsitlustes selles keeles veel, Unitedcats alustada luues uus!",
+$.extend(window.lang_en, {
+
+"polls_noMorePrevious": "Mitte eelmisi küsitlusi ei leitud",
+"polls_noMoreFound": "Rohkem küsitlusi ei leitud",
+"polls_emptyLanguage": "Selles keeles ei ole veel küsitlusi, <br> alustades uue loomisega!",
 });

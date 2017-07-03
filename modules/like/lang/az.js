@@ -1,3 +1,4 @@
-$.extend(window.lang_az, {
-"favouritesAdded": "əlavə sandıq səs!",
+$.extend(window.lang_en, {
+
+"favouritesAdded": "Səsvermələrə əlavə olundu!",
 });

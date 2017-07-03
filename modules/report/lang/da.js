@@ -1,4 +1,5 @@
-$.extend(window.lang_da, {
+$.extend(window.lang_en, {
+
 "Feedback": "Hjælp os med din feedback!",
 "niceQuestion": "Nice spørgsmål!",
 "badGrammar": "Dårlig grammatik",

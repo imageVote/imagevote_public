@@ -1,3 +1,4 @@
-$.extend(window.lang_tl, {
-"favouritesAdded": "Idinagdag sa bumoto polls!",
+$.extend(window.lang_en, {
+
+"favouritesAdded": "Idinagdag sa binotohang mga botohan!",
 });

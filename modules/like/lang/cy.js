@@ -1,3 +1,4 @@
-$.extend(window.lang_cy, {
+$.extend(window.lang_en, {
+
 "favouritesAdded": "Yn ychwanegol at y polau wedi pleidleisio!",
 });

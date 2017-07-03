@@ -1,3 +1,4 @@
-$.extend(window.lang_et, {
-"favouritesAdded": "Lisatud hääletas küsitlused!",
+$.extend(window.lang_en, {
+
+"favouritesAdded": "Lisatud hääletatud küsitluste juurde!",
 });

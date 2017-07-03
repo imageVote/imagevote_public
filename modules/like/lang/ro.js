@@ -1,3 +1,4 @@
-$.extend(window.lang_ro, {
-"favouritesAdded": "Adăugat la voturi!",
+$.extend(window.lang_en, {
+
+"favouritesAdded": "Adăugat la voturile votate!",
 });

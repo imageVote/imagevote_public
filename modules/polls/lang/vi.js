@@ -1,5 +1,6 @@
-$.extend(window.lang_vi, {
+$.extend(window.lang_en, {
+
 "polls_noMorePrevious": "Không tìm thấy cuộc thăm dò nào trước",
 "polls_noMoreFound": "Không tìm thấy nhiều cuộc thăm dò",
-"polls_emptyLanguage": "Chưa có cuộc thăm dò nào bằng ngôn ngữ này, nhưng bắt đầu bằng cách tạo mới!",
+"polls_emptyLanguage": "Chưa có cuộc thăm dò nào ở ngôn ngữ này, <br> bắt đầu bằng cách tạo mới!",
 });

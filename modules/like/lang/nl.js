@@ -1,3 +1,4 @@
-$.extend(window.lang_nl, {
+$.extend(window.lang_en, {
+
 "favouritesAdded": "Toegevoegd aan gestemd polls!",
 });

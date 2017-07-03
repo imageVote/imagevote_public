@@ -1,7 +1,8 @@
-$.extend(window.lang_et, {
-"Feedback": "Aita meil oma tagasiside!",
-"niceQuestion": "Nice Küsimus!",
-"badGrammar": "grammatika-",
-"vulgarWords": "vulgaarne sõnad",
+$.extend(window.lang_en, {
+
+"Feedback": "Aidake meid oma tagasisidega!",
+"niceQuestion": "Tore küsimus!",
+"badGrammar": "Halb grammatika",
+"vulgarWords": "Vulgad sõnad",
 "thanksFeedback": "Täname tagasiside eest!",
 });

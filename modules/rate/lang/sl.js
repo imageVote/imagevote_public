@@ -1,15 +1,16 @@
-$.extend(window.lang_sl, {
+$.extend(window.lang_en, {
+
 "rate_title": "Oceni aplikacijo",
-"rate_star1": "je sovražil",
+"rate_star1": "Sovražil ga je",
 "rate_star2": "Ni mi všeč",
-"rate_star3": "To je v redu",
-"rate_star4": "je bilo všeč",
-"rate_star5": "jo ljubil",
+"rate_star3": "V redu je",
+"rate_star4": "Všeč mi je",
+"rate_star5": "Ljubil ga je",
 "rate_NOSUBMIT": "NE HVALA",
-"rate_SUBMIT": "POŠLJI",
-"rate_SUBMITLATER": "KASNEJE",
+"rate_SUBMIT": "SUBMIT",
+"rate_SUBMITLATER": "LATER",
 "rate_messageTitle": "Napišite kratek pregled",
-"rate_thanks": "Zahvaljujemo se vam za povratne informacije",
-"rate_FINISH": "CILJ",
+"rate_thanks": "Hvala za povratne informacije",
+"rate_FINISH": "FINISH",
 "rate_placeholder": "Povej nam kaj misliš",
 });

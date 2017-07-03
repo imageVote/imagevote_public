@@ -1,4 +1,5 @@
-$.extend(window.lang_cy, {
+$.extend(window.lang_en, {
+
 "rate_title": "Cyfradd app",
 "rate_star1": "gas",
 "rate_star2": "casáu ei",

@@ -1,3 +1,4 @@
-$.extend(window.lang_be, {
+$.extend(window.lang_en, {
+
 "favouritesAdded": "Паведамленні ў галасавала апытанні!",
 });

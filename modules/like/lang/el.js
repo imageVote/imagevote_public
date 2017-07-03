@@ -1,3 +1,4 @@
-$.extend(window.lang_el, {
-"favouritesAdded": "Προστέθηκε στις ψηφοφορίες!",
+$.extend(window.lang_en, {
+
+"favouritesAdded": "Προστέθηκαν στις ψηφοφορίες!",
 });

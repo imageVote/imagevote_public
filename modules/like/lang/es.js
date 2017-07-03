@@ -1,3 +1,4 @@
-$.extend(window.lang_es, {
+$.extend(window.lang_en, {
+
 "favouritesAdded": "¡Añadido a las encuestas votadas!",
 });

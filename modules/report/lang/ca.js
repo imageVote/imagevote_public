@@ -1,7 +1,8 @@
-$.extend(window.lang_ca, {
-"Feedback": "Ajuda'ns amb la teva opinió!",
-"niceQuestion": "Niça pregunta!",
-"badGrammar": "La mala gramàtica",
-"vulgarWords": "paraules vulgars",
+$.extend(window.lang_en, {
+
+"Feedback": "Ajudeu-nos amb els vostres comentaris.",
+"niceQuestion": "Pregunta bona",
+"badGrammar": "Mala gramàtica",
+"vulgarWords": "Paraules vulgars",
 "thanksFeedback": "Gràcies pels comentaris!",
 });

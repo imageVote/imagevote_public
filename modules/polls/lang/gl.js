@@ -1,5 +1,6 @@
-$.extend(window.lang_gl, {
-"polls_noMorePrevious": "Non votacións anteriores atopados",
-"polls_noMoreFound": "Non hai máis votacións atopou",
-"polls_emptyLanguage": "Non hai enquisas nesta lingua aínda, para comezar creando novo!",
+$.extend(window.lang_en, {
+
+"polls_noMorePrevious": "Non se atoparon enquisas anteriores",
+"polls_noMoreFound": "Non se atoparon máis enquisas",
+"polls_emptyLanguage": "Aínda non hai enquisas neste idioma, ¡comeza a crear un novo!",
 });
