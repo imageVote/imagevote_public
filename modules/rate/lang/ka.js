@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_ka, {
 "rate_title": "შეაფასეთ ეს აპლიკაცია",
 "rate_star1": "სძულდა იგი",
 "rate_star2": "არ მოეწონა იგი",

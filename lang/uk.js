@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_uk, {
 "installApp": "Використовуйте додаток, щоб поділитися цим опитуванням!",
 "installAppComments": "Завантажте його безкоштовно.",
 "haveApp": "Я додаток!",

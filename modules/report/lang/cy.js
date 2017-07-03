@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_cy, {
 "Feedback": "Helpwch ni gyda'ch adborth!",
 "niceQuestion": "Nice Cwestiwn!",
 "badGrammar": "gramadeg gwael",

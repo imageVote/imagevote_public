@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_de, {
 "installApp": "Verwenden Sie die App, um diese Umfrage zu teilen!",
 "installAppComments": "Laden Sie es kostenlos herunter.",
 "haveApp": "Ich habe die App!",

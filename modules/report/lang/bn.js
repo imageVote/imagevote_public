@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_bn, {
 "Feedback": "আপনার প্রতিক্রিয়া আমাদের সাহায্য করুন!",
 "niceQuestion": "চমৎকার প্রশ্ন!",
 "badGrammar": "খারাপ ব্যাকরণ",

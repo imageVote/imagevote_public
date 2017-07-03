@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_sw, {
 "rate_title": "Linganisha programu hii",
 "rate_star1": "Imeipenda",
 "rate_star2": "Haikupenda",

@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_ur, {
 "rate_title": "اس اپلی کیشن کی شرح",
 "rate_star1": "یہ نفرت ہے",
 "rate_star2": "ناپسندی",

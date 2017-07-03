@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_ja, {
 "Feedback": "ご意見をお寄せください！",
 "niceQuestion": "ニースの質問！",
 "badGrammar": "悪い文法",

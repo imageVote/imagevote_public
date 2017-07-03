@@ -1,4 +1,3 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_de, {
 "helpStop": "Stoppen Sie das Tutorial",
 });

@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_fa, {
 "installApp": "از این برنامه برای به اشتراک گذاشتن این نظرسنجی استفاده کنید!",
 "installAppComments": "دانلود آن رایگان است.",
 "haveApp": "من برنامه را دارم",

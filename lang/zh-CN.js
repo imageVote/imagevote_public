@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_zh-CN, {
 "installApp": "使用App分享此投票！",
 "installAppComments": "免费下载",
 "haveApp": "我有应用程序！",

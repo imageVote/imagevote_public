@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_la, {
 "Feedback": "Auxilium tuum nobis videre?",
 "niceQuestion": "Quaestio delicatus!",
 "badGrammar": "grammatica malum",

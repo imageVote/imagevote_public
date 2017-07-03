@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_ja, {
 "rate_title": "このアプリを評価する",
 "rate_star1": "それを憎んだ",
 "rate_star2": "気に入らなかった点",

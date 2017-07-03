@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_ga, {
 "installApp": "Bain úsáid as an App seo a roinnt vótaíocht!",
 "installAppComments": "Íosluchtaigh sé saor in aisce.",
 "haveApp": "Tá mé an App!",

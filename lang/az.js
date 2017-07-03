@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_az, {
 "installApp": "Bu sorğuyu bölüşmək üçün App istifadə edin!",
 "installAppComments": "Pulsuz yükləyin.",
 "haveApp": "Mən App oldum!",

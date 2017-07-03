@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_lt, {
 "Feedback": "Padėkite mums su savo atsiliepimu!",
 "niceQuestion": "Grazus klausimas!",
 "badGrammar": "Bloga gramatika",

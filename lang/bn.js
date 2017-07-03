@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_bn, {
 "installApp": "এই জরিপ শেয়ার অ্যাপ্লিকেশন ব্যবহার করুন!",
 "installAppComments": "এটি বিনামূল্যে ডাউনলোড করুন।",
 "haveApp": "আমি অ্যাপ!",

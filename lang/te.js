@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_te, {
 "installApp": "ఈ పోల్ను భాగస్వామ్యం చేయడానికి అనువర్తనాన్ని ఉపయోగించండి!",
 "installAppComments": "దీన్ని ఉచితంగా డౌన్లోడ్ చేయండి.",
 "haveApp": "నేను అనువర్తనం ఉంది!",

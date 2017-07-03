@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_sk, {
 "Feedback": "Pomôžte nám s vašou spätnou väzbou!",
 "niceQuestion": "Pekná otázka!",
 "badGrammar": "Zlá gramatika",

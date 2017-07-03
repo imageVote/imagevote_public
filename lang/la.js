@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_la, {
 "installApp": "App uti participes ad suffragium!",
 "installAppComments": "Download ea liberos.",
 "haveApp": "Quia commune aut inmundum app?",

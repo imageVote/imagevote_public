@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_gu, {
 "installApp": "આ મતદાન શેર કરવા માટે એપ્લિકેશનનો ઉપયોગ કરો!",
 "installAppComments": "તે મફત ડાઉનલોડ કરો.",
 "haveApp": "હું એપ્લિકેશન છે!",

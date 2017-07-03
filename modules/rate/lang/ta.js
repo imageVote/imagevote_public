@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_ta, {
 "rate_title": "இந்த பயன்பாட்டை மதிப்பிடுக",
 "rate_star1": "அதை வெறுத்தேன்",
 "rate_star2": "அதை விரும்பவில்லை",

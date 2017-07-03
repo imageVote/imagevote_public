@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_sw, {
 "installApp": "Tumia App ili kushiriki kura hii!",
 "installAppComments": "Pakua huru.",
 "haveApp": "Nina programu!",

@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_az, {
 "rate_title": "Bu tətbiqə qiymət verin",
 "rate_star1": "Nifrət etdi",
 "rate_star2": "Bəyənmədim",

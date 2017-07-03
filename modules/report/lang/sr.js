@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_sr, {
 "Feedback": "Помозите нам са вашим повратним информацијама!",
 "niceQuestion": "Лепо питање!",
 "badGrammar": "Лака граматика",

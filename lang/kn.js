@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_kn, {
 "installApp": "ಈ ಸಮೀಕ್ಷೆಯನ್ನು ಹಂಚಿಕೊಳ್ಳಲು ಅಪ್ಲಿಕೇಶನ್ ಬಳಸಿ!",
 "installAppComments": "ಅದನ್ನು ಉಚಿತವಾಗಿ ಡೌನ್ಲೋಡ್ ಮಾಡಿ.",
 "haveApp": "ನಾನು ಅಪ್ಲಿಕೇಶನ್ ಮಾಡಿದ್ದೇನೆ!",

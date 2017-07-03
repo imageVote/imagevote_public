@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_is, {
 "Feedback": "Hjálpaðu okkur við athugasemdir þínar!",
 "niceQuestion": "Ágætur spurning!",
 "badGrammar": "Slæm málfræði",

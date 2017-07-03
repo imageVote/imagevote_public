@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_fa, {
 "rate_title": "امتیاز دهی به این برنامه",
 "rate_star1": "از آن متنفرم",
 "rate_star2": "آن را دوست نداشت",

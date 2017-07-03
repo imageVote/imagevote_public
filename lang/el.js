@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_el, {
 "installApp": "Χρησιμοποιήστε την εφαρμογή για να μοιραστείτε αυτήν τη δημοσκόπηση!",
 "installAppComments": "Κατεβάστε το δωρεάν.",
 "haveApp": "Έχω την App!",

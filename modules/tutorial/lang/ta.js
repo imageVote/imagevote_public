@@ -1,4 +1,3 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_ta, {
 "helpStop": "பயிற்சி நிறுத்து",
 });

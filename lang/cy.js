@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_cy, {
 "installApp": "Defnyddiwch y App i rannu arolwg hwn!",
 "installAppComments": "Gallwch ei lawrlwytho am ddim.",
 "haveApp": "Rydw i wedi y App!",

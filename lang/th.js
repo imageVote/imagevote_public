@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_th, {
 "installApp": "ใช้ App เพื่อแชร์โพลนี้!",
 "installAppComments": "ดาวน์โหลดได้ฟรี",
 "haveApp": "ฉันเป็น App!",

@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_eu, {
 "rate_title": "Baloratu aplikazioa",
 "rate_star1": "Gorrotoa",
 "rate_star2": "Ez zait gustatzen",

@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_ja, {
 "installApp": "この投票を共有するには、アプリケーションを使用してください！",
 "installAppComments": "それを無料でダウンロードしてください。",
 "haveApp": "私はアプリを持っています！",

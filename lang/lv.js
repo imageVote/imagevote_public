@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_lv, {
 "installApp": "Izmantojiet lietotni, lai kopīgotu šo aptauju!",
 "installAppComments": "Lejupielādēt bez maksas.",
 "haveApp": "Es esmu lietotne!",

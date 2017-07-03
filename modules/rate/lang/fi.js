@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_fi, {
 "rate_title": "Arvostele tämä sovellus",
 "rate_star1": "Vihaa sitä",
 "rate_star2": "Pidin siitä",

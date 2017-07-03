@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_af, {
 "rate_title": "Gradeer hierdie inligting",
 "rate_star1": "Het dit gehaat",
 "rate_star2": "Hekel dit nie",

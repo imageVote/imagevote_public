@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_ht, {
 "installApp": "Sèvi ak App a yo pataje biwo vòt sa a!",
 "installAppComments": "Download li pou gratis.",
 "haveApp": "Mwen te App a!",

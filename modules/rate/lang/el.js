@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_el, {
 "rate_title": "Βαθμολόγησε αυτήν την εφαρμογή",
 "rate_star1": "Μισούσε το",
 "rate_star2": "Δεν το άρεσε",

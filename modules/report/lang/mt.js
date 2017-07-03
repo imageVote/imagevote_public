@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_mt, {
 "Feedback": "Għinna bil-Feedback tiegħek!",
 "niceQuestion": "Mistoqsija Tajba!",
 "badGrammar": "Grammatika ħażina",

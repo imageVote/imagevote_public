@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_fa, {
 "updateApp": "به روز رسانی برنامه!",
 "updateApp_comment": "نسخه فعلی منسوخ شده است و ممکن است حاوی خطاهای باشد. <br> لطفا برنامه را به آخرین نسخه به روز رسانی کنید!",
 });

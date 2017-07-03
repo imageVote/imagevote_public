@@ -1,5 +1,4 @@
-$.extend(window.lang_en, {
-
+$.extend(window.lang_mk, {
 "rate_title": "Оцени ја оваа апликација",
 "rate_star1": "Го мразеше",
 "rate_star2": "Тоа не му се допадна",
