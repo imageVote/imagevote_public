@@ -1,7 +1,8 @@
-$.extend(window.lang_cs, {
+$.extend(window.lang_en, {
+
 "rate_title": "Ohodnoťte tuto aplikaci",
 "rate_star1": "Nenáviděl to",
-"rate_star2": "Nepáčilo se jí",
+"rate_star2": "Nesouhlasil",
 "rate_star3": "To je v pořádku",
 "rate_star4": "Libilo se mi to",
 "rate_star5": "Miloval to",

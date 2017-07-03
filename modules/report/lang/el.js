@@ -1,4 +1,5 @@
-$.extend(window.lang_el, {
+$.extend(window.lang_en, {
+
 "Feedback": "Βοηθήστε μας με τα σχόλιά σας!",
 "niceQuestion": "Ωραία ερώτηση!",
 "badGrammar": "Κακή γραμματική",

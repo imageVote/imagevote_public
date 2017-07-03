@@ -1,3 +1,4 @@
-$.extend(window.lang_gl, {
-"favouritesAdded": "Engadido ao votou votacións!",
+$.extend(window.lang_en, {
+
+"favouritesAdded": "Engadido ás enquisas votado!",
 });

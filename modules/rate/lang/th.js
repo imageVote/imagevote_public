@@ -1,5 +1,6 @@
-$.extend(window.lang_th, {
-"rate_title": "ให้คะแนน app นี้",
+$.extend(window.lang_en, {
+
+"rate_title": "ให้คะแนนแอปนี้",
 "rate_star1": "เกลียดมัน",
 "rate_star2": "ไม่ชอบมัน",
 "rate_star3": "ไม่เป็นไร",

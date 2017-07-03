@@ -1,4 +1,5 @@
-$.extend(window.lang_bg, {
+$.extend(window.lang_en, {
+
 "rate_title": "Оценете това приложение",
 "rate_star1": "Мразех го",
 "rate_star2": "Не го хареса",
@@ -9,7 +10,7 @@ $.extend(window.lang_bg, {
 "rate_SUBMIT": "ИЗПРАТИ",
 "rate_SUBMITLATER": "ПО КЪСНО",
 "rate_messageTitle": "Напишете кратък преглед",
-"rate_thanks": "Благодарим ви за обратната връзка",
+"rate_thanks": "Благодарим Ви за обратната връзка",
 "rate_FINISH": "ЗАВЪРШЕК",
 "rate_placeholder": "Кажи ни какво мислиш",
 });

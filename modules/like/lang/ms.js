@@ -1,3 +1,4 @@
-$.extend(window.lang_ms, {
-"favouritesAdded": "Ditambah kepada mengundi polls!",
+$.extend(window.lang_en, {
+
+"favouritesAdded": "Ditambah untuk mengundi!",
 });

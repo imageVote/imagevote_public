@@ -1,7 +1,8 @@
-$.extend(window.lang_eu, {
-"Feedback": "Lagundu zure iritzia batera!",
+$.extend(window.lang_en, {
+
+"Feedback": "Lagundu gaitzazu zure iradokizunekin!",
 "niceQuestion": "Nice Galdera!",
-"badGrammar": "Bad gramatika",
-"vulgarWords": "vulgar hitzak",
-"thanksFeedback": "Feedback esker!",
+"badGrammar": "Gramatika txarra",
+"vulgarWords": "Hitz arruntak",
+"thanksFeedback": "Eskerrik asko iritzira!",
 });

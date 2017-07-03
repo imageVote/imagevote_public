@@ -1,4 +1,5 @@
-$.extend(window.lang_id, {
+$.extend(window.lang_en, {
+
 "rate_title": "Nilai aplikasi ini",
 "rate_star1": "Benci itu",
 "rate_star2": "Bukan dari TripAdvisor LLC",

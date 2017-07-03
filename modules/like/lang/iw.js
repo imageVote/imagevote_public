@@ -1,3 +1,4 @@
-$.extend(window.lang_iw, {
+$.extend(window.lang_en, {
+
 "favouritesAdded": "נוסף לסקרים שהצביעו!",
 });

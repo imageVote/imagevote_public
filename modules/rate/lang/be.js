@@ -1,4 +1,5 @@
-$.extend(window.lang_be, {
+$.extend(window.lang_en, {
+
 "rate_title": "Ацаніць гэта дадатак",
 "rate_star1": "ненавідзеў яго",
 "rate_star2": "Не спадабалася гэта",

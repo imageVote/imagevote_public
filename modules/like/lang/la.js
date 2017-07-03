@@ -1,3 +1,4 @@
-$.extend(window.lang_la, {
+$.extend(window.lang_en, {
+
 "favouritesAdded": "Addidit Dominus Moysi voted!",
 });

@@ -1,3 +1,4 @@
-$.extend(window.lang_ca, {
-"favouritesAdded": "Afegit a urnes van votar!",
+$.extend(window.lang_en, {
+
+"favouritesAdded": "S'ha afegit a les enquestes votades.",
 });

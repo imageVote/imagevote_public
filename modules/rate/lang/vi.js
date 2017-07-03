@@ -1,4 +1,5 @@
-$.extend(window.lang_vi, {
+$.extend(window.lang_en, {
+
 "rate_title": "Đánh giá ứng dụng này",
 "rate_star1": "Ghét nó",
 "rate_star2": "Không thích nó",

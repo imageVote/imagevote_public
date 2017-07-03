@@ -1,4 +1,5 @@
-$.extend(window.lang_ka, {
+$.extend(window.lang_en, {
+
 "rate_title": "შეაფასეთ ეს აპლიკაცია",
 "rate_star1": "სძულდა იგი",
 "rate_star2": "არ მოეწონა იგი",
@@ -10,6 +11,6 @@ $.extend(window.lang_ka, {
 "rate_SUBMITLATER": "მოგვიანებით",
 "rate_messageTitle": "დაწერე მოკლე მიმოხილვა",
 "rate_thanks": "გმადლობთ კავშირი",
-"rate_FINISH": "ჩაწერე",
+"rate_FINISH": "ფინიშ",
 "rate_placeholder": "გვითხარი რას ფიქრობ",
 });

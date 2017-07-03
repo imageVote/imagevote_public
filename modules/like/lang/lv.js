@@ -1,3 +1,4 @@
-$.extend(window.lang_lv, {
-"favouritesAdded": "Pievienots balsoja aptaujas!",
+$.extend(window.lang_en, {
+
+"favouritesAdded": "Pievienots aptaujātajiem!",
 });

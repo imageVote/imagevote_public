@@ -1,3 +1,4 @@
-$.extend(window.lang_da, {
+$.extend(window.lang_en, {
+
 "favouritesAdded": "Tilføjet til afstemte afstemninger!",
 });

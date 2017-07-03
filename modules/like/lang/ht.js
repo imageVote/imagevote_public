@@ -1,3 +1,4 @@
-$.extend(window.lang_ht, {
+$.extend(window.lang_en, {
+
 "favouritesAdded": "Ajoute nan te vote biwo vòt!",
 });

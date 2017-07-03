@@ -1,3 +1,4 @@
-$.extend(window.lang_kn, {
-"favouritesAdded": "ಮತದಾನಕ್ಕೆ ಮತ ಹಾಕಲಾಗಿದೆ!",
+$.extend(window.lang_en, {
+
+"favouritesAdded": "ಮತದಾನ ಮತಗಳಿಗೆ ಸೇರಿಸಲಾಗಿದೆ!",
 });

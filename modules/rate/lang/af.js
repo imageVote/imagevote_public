@@ -1,4 +1,5 @@
-$.extend(window.lang_af, {
+$.extend(window.lang_en, {
+
 "rate_title": "Gradeer hierdie inligting",
 "rate_star1": "Het dit gehaat",
 "rate_star2": "Hekel dit nie",
@@ -8,7 +9,7 @@ $.extend(window.lang_af, {
 "rate_NOSUBMIT": "NEE DANKIE",
 "rate_SUBMIT": "INDIEN",
 "rate_SUBMITLATER": "LATER",
-"rate_messageTitle": "Skryf 'n kort resensie",
+"rate_messageTitle": "Skryf 'n kort oorsig",
 "rate_thanks": "Dankie vir die terugvoer",
 "rate_FINISH": "VOLTOOI",
 "rate_placeholder": "Sê vir ons wat U dink",

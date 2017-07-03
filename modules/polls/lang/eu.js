@@ -1,5 +1,6 @@
-$.extend(window.lang_eu, {
-"polls_noMorePrevious": "Aurreko inkestetan Ez da aurkitu",
-"polls_noMoreFound": "Ez dago inkestetan gehiago aurkitu",
-"polls_emptyLanguage": "Badira inkestetan ez hizkuntza horretan oraindik, <br> berri sortuz hasteko!",
+$.extend(window.lang_en, {
+
+"polls_noMorePrevious": "Ez da aurreko inkestarik aurkitu",
+"polls_noMoreFound": "Ez da inkesta gehiago aurkitu",
+"polls_emptyLanguage": "Oraindik ez dago hizkuntzatan inongo inkestarik, eta hasi beste bat sortzeko!",
 });

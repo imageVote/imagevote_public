@@ -1,4 +1,5 @@
-$.extend(window.lang_ka, {
+$.extend(window.lang_en, {
+
 "Feedback": "დაგვეხმარეთ თქვენი კავშირი!",
 "niceQuestion": "კარგი კითხვა!",
 "badGrammar": "ცუდი გრამატიკა",

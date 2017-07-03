@@ -1,7 +1,8 @@
-$.extend(window.lang_ro, {
+$.extend(window.lang_en, {
+
 "rate_title": "Evalueaza aceasta aplicatie",
 "rate_star1": "Îl urau",
-"rate_star2": "Nu a plăcut",
+"rate_star2": "Nu i-a plăcut",
 "rate_star3": "E bine",
 "rate_star4": "Mi-a placut",
 "rate_star5": "Mi-a plăcut",

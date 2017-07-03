@@ -1,4 +1,5 @@
-$.extend(window.lang_cy, {
+$.extend(window.lang_en, {
+
 "MakePublic": "Ychwanegu at Gêm",
 "installApp": "Defnyddiwch y App i rannu arolwg hwn!",
 "installAppComments": "Gallwch ei lawrlwytho am ddim.",

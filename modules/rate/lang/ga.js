@@ -1,4 +1,5 @@
-$.extend(window.lang_ga, {
+$.extend(window.lang_en, {
+
 "rate_title": "Mheas an app",
 "rate_star1": "fuath sé",
 "rate_star2": "carachtair sé",

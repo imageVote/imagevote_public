@@ -1,3 +1,4 @@
-$.extend(window.lang_is, {
-"favouritesAdded": "Bætt við kosið könnunum!",
+$.extend(window.lang_en, {
+
+"favouritesAdded": "Bætt við kosið kosningar!",
 });

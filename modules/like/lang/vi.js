@@ -1,3 +1,4 @@
-$.extend(window.lang_vi, {
+$.extend(window.lang_en, {
+
 "favouritesAdded": "Đã thêm phiếu bình chọn!",
 });

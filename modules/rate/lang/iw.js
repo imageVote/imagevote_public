@@ -1,4 +1,5 @@
-$.extend(window.lang_iw, {
+$.extend(window.lang_en, {
+
 "rate_title": "דרג את האפליקציה הזו",
 "rate_star1": "שנאתי את זה",
 "rate_star2": "לא אהב את זה",

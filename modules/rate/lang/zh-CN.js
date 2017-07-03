@@ -1,4 +1,5 @@
-$.extend(window.lang_zh-CN, {
+$.extend(window.lang_en, {
+
 "rate_title": "为这个应用软件评分",
 "rate_star1": "讨厌它",
 "rate_star2": "不喜欢它",

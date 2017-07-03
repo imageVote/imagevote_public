@@ -1,4 +1,5 @@
-$.extend(window.lang_el, {
+$.extend(window.lang_en, {
+
 "polls_noMorePrevious": "Δεν βρέθηκαν προηγούμενες δημοσκοπήσεις",
 "polls_noMoreFound": "Δεν βρέθηκαν περισσότερες δημοσκοπήσεις",
 "polls_emptyLanguage": "Δεν υπάρχουν δημοσκοπήσεις σε αυτή τη γλώσσα ακόμα, <br> αρχίστε με τη δημιουργία νέου!",

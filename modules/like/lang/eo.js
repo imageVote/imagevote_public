@@ -1,3 +1,4 @@
-$.extend(window.lang_eo, {
+$.extend(window.lang_en, {
+
 "favouritesAdded": "Aldonita al voĉdonis balotado!",
 });

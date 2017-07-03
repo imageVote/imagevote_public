@@ -1,4 +1,5 @@
-$.extend(window.lang_zh-CN, {
+$.extend(window.lang_en, {
+
 "Feedback": "帮助我们您的反馈！",
 "niceQuestion": "好问题！",
 "badGrammar": "糟糕的语法",

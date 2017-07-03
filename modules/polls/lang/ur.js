@@ -1,5 +1,6 @@
-$.extend(window.lang_ur, {
-"polls_noMorePrevious": "نہیں پچھلے انتخابات پایا",
-"polls_noMoreFound": "مزید کوئی انتخابات نہیں ملا",
-"polls_emptyLanguage": "کوئی انتخابات کو ابھی تک اس زبان میں موجود ہیں، نیا بنانے کی طرف سے شروع ڈی!",
+$.extend(window.lang_en, {
+
+"polls_noMorePrevious": "پچھلے انتخابات نہیں ملے",
+"polls_noMoreFound": "مزید انتخابات نہیں ملے",
+"polls_emptyLanguage": "اس زبان میں ابھی تک کوئی بھی انتخاب نہیں ہے، <br> <br> <br> <br> <br>",
 });

@@ -1,3 +1,4 @@
-$.extend(window.lang_sl, {
-"favouritesAdded": "Dodano na glasovalo ankete!",
+$.extend(window.lang_en, {
+
+"favouritesAdded": "Dodano na glasovane ankete!",
 });
