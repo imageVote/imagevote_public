@@ -332,6 +332,9 @@ Polls.prototype.load = function (poll, individual, back) {
             console.log("Device.loadAd()");
             if (Device.loadAd) {
                 Device.loadAd();
+            } else if (window.chartboost) {
+                //window.chartboost.preloadInterstitialAd('Default');//option, download ad previously for fast show
+                window.chartboost.showInterstitialAd('Default');
             }
         }
 
