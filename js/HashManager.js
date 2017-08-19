@@ -214,7 +214,7 @@ HashManager.prototype.publicCheckbox = function ($div) {
     var lang = localStorage.getItem("userLang");
 
     var ignore = ["en", "es", "fr", "de", "it", "pt"];
-    if (lang && ignore.indexOf(lang.toLowerCase()) > -1) {
+    if (lang && ignore.indexOf(lang.toLowerCase()) > -1 && location.href.replace(/-/g, "").indexOf("wouldyourather") > -1) {
         console.log("ignore.indexOf(" + lang + ") > -1");
         return;
     }

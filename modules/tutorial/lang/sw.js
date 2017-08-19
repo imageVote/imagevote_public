@@ -1,3 +1,3 @@
 $.extend(window.lang_sw, {
-"helpStop": "Stop mafunzo",
+"helpStop": "Acha mafunzo",
 });

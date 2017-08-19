@@ -1,7 +1,7 @@
 $.extend(window.lang_az, {
-"Feedback": "Sizin Əlaqə bizə kömək!",
-"niceQuestion": "Nice Sual!",
-"badGrammar": "Bad qrammatika",
-"vulgarWords": "vulqar sözlər",
+"Feedback": "Əlaqə üçün bizə kömək edin!",
+"niceQuestion": "Gözəl sual!",
+"badGrammar": "Kötü qrammatika",
+"vulgarWords": "Vulqar sözlər",
 "thanksFeedback": "Əlaqə üçün təşəkkür edirik!",
 });

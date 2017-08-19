@@ -1,3 +1,3 @@
 $.extend(window.lang_bg, {
-"favouritesAdded": "Добавени към гласувани анкети!",
+"favouritesAdded": "Добавени към гласували анкети!",
 });

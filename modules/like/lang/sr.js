@@ -1,3 +1,3 @@
 $.extend(window.lang_sr, {
-"favouritesAdded": "Додао да су гласали гласања!",
+"favouritesAdded": "Додато на анкетиране гласове!",
 });

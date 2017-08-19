@@ -1,7 +1,7 @@
 $.extend(window.lang_uk, {
-"Feedback": "Допоможіть нам зі зворотним зв'язком!",
-"niceQuestion": "Хороше питання!",
-"badGrammar": "Bad граматика",
-"vulgarWords": "вульгарні слова",
-"thanksFeedback": "Спасибі за зворотній зв'язок!",
+"Feedback": "Допоможіть нам з Вашим відгуком!",
+"niceQuestion": "Красивий питання!",
+"badGrammar": "Погана граматика",
+"vulgarWords": "Вульгарні слова",
+"thanksFeedback": "Дякую за відгук!",
 });

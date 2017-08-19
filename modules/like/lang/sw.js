@@ -1,3 +1,3 @@
 $.extend(window.lang_sw, {
-"favouritesAdded": "Aliongeza kwa kura uchaguzi!",
+"favouritesAdded": "Imeongeza kwenye uchaguzi wa kura!",
 });

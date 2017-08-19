@@ -1,6 +1,6 @@
 $.extend(window.lang_gu, {
 "rate_title": "આ એપ્લિકેશનને રેટ કરો",
-"rate_star1": "તેને નફરત",
+"rate_star1": "તે નફરત",
 "rate_star2": "તે ગમ્યું",
 "rate_star3": "ઠીક છે",
 "rate_star4": "તે ગમ્યું",
@@ -11,5 +11,5 @@ $.extend(window.lang_gu, {
 "rate_messageTitle": "ટૂંકી સમીક્ષા લખો",
 "rate_thanks": "પ્રતિસાદ બદલ આભાર",
 "rate_FINISH": "પૂર્ણાહુતિ",
-"rate_placeholder": "અમને જણાવો કે તમે શું વિચારો છો",
+"rate_placeholder": "તમે શું વિચારો છો તે અમને જણાવો",
 });

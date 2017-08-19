@@ -1,7 +1,7 @@
 $.extend(window.lang_sl, {
-"Feedback": "Pomagajte nam svoje mnenje!",
+"Feedback": "Pomagajte nam z vašimi povratnimi informacijami!",
 "niceQuestion": "Lepo vprašanje!",
-"badGrammar": "slaba slovnica",
-"vulgarWords": "prostaške besede",
+"badGrammar": "Slaba slovnica",
+"vulgarWords": "Vulgarske besede",
 "thanksFeedback": "Hvala za povratne informacije!",
 });

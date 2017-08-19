@@ -1,5 +1,5 @@
 $.extend(window.lang_fa, {
-"polls_noMorePrevious": "نه انتخابات گذشته پیدا شده است",
-"polls_noMoreFound": "بدون نظرسنجی های دیگر پیدا شده است",
-"polls_emptyLanguage": "هیچ رأی گیری وجود دارد به این زبان حال، <br> با ایجاد یکی از جدید را آغاز کنید!",
+"polls_noMorePrevious": "نظرسنجی های قبلی یافت نشد",
+"polls_noMoreFound": "نظرسنجی های بیشتری یافت نشد",
+"polls_emptyLanguage": "هیچ نظرسنجی در این زبان وجود ندارد، <br> شروع با ایجاد یک جدید!",
 });

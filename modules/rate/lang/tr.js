@@ -4,7 +4,7 @@ $.extend(window.lang_tr, {
 "rate_star2": "Beğenmedim",
 "rate_star3": "Tamam",
 "rate_star4": "Beğendim",
-"rate_star5": "Sevdim",
+"rate_star5": "Sevdi",
 "rate_NOSUBMIT": "HAYIR TEŞEKKÜRLER",
 "rate_SUBMIT": "GÖNDER",
 "rate_SUBMITLATER": "SONRA",

@@ -10,6 +10,6 @@ $.extend(window.lang_ka, {
 "rate_SUBMITLATER": "მოგვიანებით",
 "rate_messageTitle": "დაწერე მოკლე მიმოხილვა",
 "rate_thanks": "გმადლობთ კავშირი",
-"rate_FINISH": "ჩაწერე",
+"rate_FINISH": "ფინიშ",
 "rate_placeholder": "გვითხარი რას ფიქრობ",
 });

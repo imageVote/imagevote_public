@@ -1,5 +1,5 @@
 $.extend(window.lang_sl, {
-"polls_noMorePrevious": "Ni bilo mogoče najti prejšnje ankete",
-"polls_noMoreFound": "Ni več anket",
-"polls_emptyLanguage": "Ni ankete v tem jeziku še <br> začnite z ustvarjanjem novega!",
+"polls_noMorePrevious": "Niso našli prejšnjih anket",
+"polls_noMoreFound": "Ni več iskanih anket",
+"polls_emptyLanguage": "Trenutno ni nobenega anketa v tem jeziku, začnite z ustvarjanjem novega!",
 });

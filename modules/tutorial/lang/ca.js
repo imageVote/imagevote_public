@@ -1,3 +1,3 @@
 $.extend(window.lang_ca, {
-"helpStop": "aturar tutorial",
+"helpStop": "Atureu el tutorial",
 });

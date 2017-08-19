@@ -1,3 +1,3 @@
 $.extend(window.lang_pt, {
-"helpStop": "Parar o tutorial",
+"helpStop": "Pare o tutorial",
 });

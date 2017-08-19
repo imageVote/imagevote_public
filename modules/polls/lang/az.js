@@ -1,5 +1,5 @@
 $.extend(window.lang_az, {
-"polls_noMorePrevious": "əvvəlki sorğular tapılmadı",
-"polls_noMoreFound": "No daha Sorğu tapılmadı",
-"polls_emptyLanguage": "heç bir sandıq hələ bu dildə var, yeni bir yaradılması ilə başlamaq <br>!",
+"polls_noMorePrevious": "Əvvəlki anketlər tapılmadı",
+"polls_noMoreFound": "Daha çox anket yoxdur",
+"polls_emptyLanguage": "Bu dildə hələ heç bir anket yoxdur, yeni bir yaratmaqla başlayın!",
 });

@@ -1,5 +1,5 @@
 $.extend(window.lang_hr, {
-"polls_noMorePrevious": "Nisu pronađene prethodne ankete",
-"polls_noMoreFound": "Nema više anketa pronađenih",
-"polls_emptyLanguage": "Trenutno nema anketa na ovom jeziku, počevši od stvaranja novog!",
+"polls_noMorePrevious": "Nije pronađeno prethodnih anketa",
+"polls_noMoreFound": "Nisu pronađeni više anketa",
+"polls_emptyLanguage": "Na ovom jeziku još nema anketa, počevši od stvaranja novog!",
 });

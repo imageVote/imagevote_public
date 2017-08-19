@@ -11,5 +11,5 @@ $.extend(window.lang_kn, {
 "rate_messageTitle": "ಸಣ್ಣ ವಿಮರ್ಶೆಯನ್ನು ಬರೆಯಿರಿ",
 "rate_thanks": "ಪ್ರತಿಕ್ರಿಯೆಗಾಗಿ ಧನ್ಯವಾದಗಳು",
 "rate_FINISH": "ಮುಕ್ತಾಯ",
-"rate_placeholder": "ನೀವು ಏನು ಆಲೋಚಿಸುತ್ತೀರಿ ಎಂದು ನಮಗೆ ಹೇಳಿ",
+"rate_placeholder": "ನೀವು ಏನನ್ನು ಯೋಚಿಸುತ್ತೀರಿ ಎಂದು ನಮಗೆ ಹೇಳಿ",
 });

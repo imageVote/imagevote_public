@@ -1,7 +1,7 @@
 $.extend(window.lang_mt, {
-"Feedback": "Għinna ma Feedback tiegħek!",
-"niceQuestion": "Nizza Mistoqsija!",
-"badGrammar": "Bad grammatika",
-"vulgarWords": "kliem vulgari",
-"thanksFeedback": "Grazzi għall-Feedback!",
+"Feedback": "Għinna bil-Feedback tiegħek!",
+"niceQuestion": "Mistoqsija Tajba!",
+"badGrammar": "Grammatika ħażina",
+"vulgarWords": "Kliem vulgari",
+"thanksFeedback": "Grazzi għar-Rispons!",
 });

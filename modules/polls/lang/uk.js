@@ -1,5 +1,5 @@
 $.extend(window.lang_uk, {
-"polls_noMorePrevious": "Чи не знайдено попередні опитування",
-"polls_noMoreFound": "Не знайдено інші опитування",
-"polls_emptyLanguage": "Там немає опитувань на цій мові ще, <br> почати зі створення нового!",
+"polls_noMorePrevious": "Не знайдено попередніх опитувань",
+"polls_noMoreFound": "Не знайдено жодного опитування",
+"polls_emptyLanguage": "Поки ще не існує опитування в цій мові, <br> почати з створення нового!",
 });

@@ -1,4 +1,4 @@
 $.extend(window.lang_gl, {
-"updateApp": "Actualiza o App!",
-"updateApp_comment": "A súa versión actual é obsoleto e poden conter erros. <br> Por favor, actualiza a aplicación para a última versión!",
+"updateApp": "Actualiza a aplicación!",
+"updateApp_comment": "A súa versión actual está obsoleta e pode conter erros. <br> Actualice a aplicación á última versión.",
 });

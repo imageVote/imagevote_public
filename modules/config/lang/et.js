@@ -1,4 +1,4 @@
 $.extend(window.lang_et, {
-"updateApp": "Uuenda App!",
-"updateApp_comment": "Teie praegune versioon on aegunud ja võib sisaldada vigu. <br> Uuendage rakendus viimase versiooni!",
+"updateApp": "Rakenduse värskendamine!",
+"updateApp_comment": "Teie praegune versioon on vananenud ja võib sisaldada vigu. <br> Palun värskendage rakendust viimase versiooniga!",
 });

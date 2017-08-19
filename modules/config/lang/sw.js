@@ -1,4 +1,4 @@
 $.extend(window.lang_sw, {
-"updateApp": "Mwisho App!",
-"updateApp_comment": "toleo la sasa umepitwa na wakati na inaweza kuwa na hitilafu. <br> Tafadhali sasisha programu na toleo ya mwisho!",
+"updateApp": "Sasisha App!",
+"updateApp_comment": "Toleo lako la sasa ni la kawaida na linaweza kuwa na makosa. <br> Tafadhali sasisha programu kwenye toleo la mwisho!",
 });

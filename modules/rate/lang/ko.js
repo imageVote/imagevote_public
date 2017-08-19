@@ -11,5 +11,5 @@ $.extend(window.lang_ko, {
 "rate_messageTitle": "짧은 리뷰 쓰기",
 "rate_thanks": "의견에 감사드립니다.",
 "rate_FINISH": "끝",
-"rate_placeholder": "당신 생각을 말해줘.",
+"rate_placeholder": "당신이 생각하는 것을 말해줘.",
 });

@@ -1,3 +1,3 @@
 $.extend(window.lang_az, {
-"favouritesAdded": "əlavə sandıq səs!",
+"favouritesAdded": "Səsvermələrə əlavə olundu!",
 });

@@ -1,10 +1,10 @@
 $.extend(window.lang_fr, {
 "rate_title": "Évaluer l'application",
-"rate_star1": "Je l'avais détesté",
+"rate_star1": "Je l'ai détesté",
 "rate_star2": "N'a pas aimé",
 "rate_star3": "C'est bon",
 "rate_star4": "Aimé",
-"rate_star5": "Aimé",
+"rate_star5": "J'ai adoré",
 "rate_NOSUBMIT": "NON MERCI",
 "rate_SUBMIT": "SOUMETTRE",
 "rate_SUBMITLATER": "PLUS TARD",

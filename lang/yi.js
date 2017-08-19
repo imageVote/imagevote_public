@@ -1,5 +1,4 @@
 $.extend(window.lang_yi, {
-"MakePublic": "לייג צו שפּיל",
 "installApp": "ניצן די אַפּ צו טיילן דעם אַנקעטע!",
 "installAppComments": "אָפּלאָדירן עס פּאָטער.",
 "haveApp": "איך 'ווע די אַפּ!",

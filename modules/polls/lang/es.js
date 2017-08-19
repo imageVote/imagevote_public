@@ -1,5 +1,5 @@
 $.extend(window.lang_es, {
-"polls_noMorePrevious": "No se encontraron encuestas anteriores",
+"polls_noMorePrevious": "No se han encontrado encuestas anteriores",
 "polls_noMoreFound": "No se han encontrado más encuestas",
 "polls_emptyLanguage": "Aún no hay encuestas en este idioma, ¡comience creando uno nuevo!",
 });

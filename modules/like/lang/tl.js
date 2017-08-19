@@ -1,3 +1,3 @@
 $.extend(window.lang_tl, {
-"favouritesAdded": "Idinagdag sa bumoto polls!",
+"favouritesAdded": "Idinagdag sa binotohang mga botohan!",
 });

@@ -1,3 +1,3 @@
 $.extend(window.lang_ro, {
-"favouritesAdded": "Adăugat la voturi!",
+"favouritesAdded": "Adăugat la voturile votate!",
 });

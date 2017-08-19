@@ -1,7 +1,7 @@
 $.extend(window.lang_bg, {
 "Feedback": "Помогнете ни с Вашата Обратна връзка!",
-"niceQuestion": "Добър въпрос!",
+"niceQuestion": "Хубав въпрос!",
 "badGrammar": "Лоша граматика",
-"vulgarWords": "Пурпурни думи",
+"vulgarWords": "Слаба думи",
 "thanksFeedback": "Благодаря за обратната връзка!",
 });

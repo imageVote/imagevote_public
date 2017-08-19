@@ -1,7 +1,7 @@
 $.extend(window.lang_fa, {
-"Feedback": "به ما کمک کنید با نظرات شما!",
-"niceQuestion": "سوال خوبی!",
+"Feedback": "با بازخورد خود به ما کمک کنید",
+"niceQuestion": "پرسش خوب",
 "badGrammar": "دستور زبان بد",
-"vulgarWords": "کلمات مبتذل",
+"vulgarWords": "کلمات با شکوه",
 "thanksFeedback": "از نظر شما متشکریم!",
 });

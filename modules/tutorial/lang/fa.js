@@ -1,3 +1,3 @@
 $.extend(window.lang_fa, {
-"helpStop": "آموزش ایست",
+"helpStop": "متوقف کردن آموزش",
 });

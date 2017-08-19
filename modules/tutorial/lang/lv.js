@@ -1,3 +1,3 @@
 $.extend(window.lang_lv, {
-"helpStop": "Stop pamācību",
+"helpStop": "Pietura apmācība",
 });

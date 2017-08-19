@@ -8,7 +8,7 @@ $.extend(window.lang_af, {
 "rate_NOSUBMIT": "NEE DANKIE",
 "rate_SUBMIT": "INDIEN",
 "rate_SUBMITLATER": "LATER",
-"rate_messageTitle": "Skryf 'n kort resensie",
+"rate_messageTitle": "Skryf 'n kort oorsig",
 "rate_thanks": "Dankie vir die terugvoer",
 "rate_FINISH": "VOLTOOI",
 "rate_placeholder": "Sê vir ons wat U dink",

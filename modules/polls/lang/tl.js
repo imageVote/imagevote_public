@@ -1,5 +1,5 @@
 $.extend(window.lang_tl, {
-"polls_noMorePrevious": "Hindi nakaraang botohan natagpuan",
-"polls_noMoreFound": "Wala nang mga poll na natagpuan",
-"polls_emptyLanguage": "Walang mga polls sa wikang ito pa, <br> magsimula sa pamamagitan ng paglikha ng mga bagong isa!",
+"polls_noMorePrevious": "Hindi natagpuang nakaraang mga botohan",
+"polls_noMoreFound": "Wala nang mga botohan na natagpuan",
+"polls_emptyLanguage": "Walang mga botohan sa wikang ito pa, magsimula sa pamamagitan ng paglikha ng bago!",
 });

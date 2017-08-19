@@ -1,3 +1,3 @@
 $.extend(window.lang_ur, {
-"helpStop": "سٹاپ ٹیوٹوریل",
+"helpStop": "سبق بند کرو",
 });
